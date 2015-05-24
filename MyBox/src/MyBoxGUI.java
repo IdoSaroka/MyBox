@@ -11,10 +11,11 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import java.awt.Toolkit;
 
 public class MyBoxGUI {
 	private Mtds mtd;
-	private JFrame frame;
+	private JFrame frmMybox;
 	private JTextField UserName;
 	private JTextField port;
 	private JTextField IP;
@@ -30,7 +31,7 @@ public class MyBoxGUI {
 			public void run() {
 				try {
 					MyBoxGUI window = new MyBoxGUI();
-					window.frame.setVisible(true);
+					window.frmMybox.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,12 +50,14 @@ public class MyBoxGUI {
 	 * Initialize the contents of the frame.
 	 */
 		private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new CardLayout(0, 0));
-		frame.setTitle("Login");
-		frame.getContentPane().add(Login, "name_124671031353011");
+		frmMybox = new JFrame();
+		frmMybox.setFont(new Font("Tempus Sans ITC", Font.BOLD, 15));
+		frmMybox.setIconImage(Toolkit.getDefaultToolkit().getImage(MyBoxGUI.class.getResource("/images/gift-ideas-gift-card-bridal-gift-baby-shower-gift-gift-box-groom-gift-christmas-gift-party-gift-gift-for-wedding-friend-gift-birthday-gift-baby-gift-good-gift-box-ideas-for-friend-necklace-gift-box.jpg")));
+		frmMybox.setBounds(100, 100, 450, 300);
+		frmMybox.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmMybox.getContentPane().setLayout(new CardLayout(0, 0));
+		frmMybox.setTitle("MyBox");
+		frmMybox.getContentPane().add(Login, "name_124671031353011");
 		Login.setLayout(null);
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -72,18 +75,18 @@ public class MyBoxGUI {
 				else
 				{
 					if(!mtd.isUserValid(UName) || UName.equals(""))
-						JOptionPane.showMessageDialog(frame,"User Name Can Contain Only The Following Characters: ( 0-9 , a-z , A-Z , _ )"
+						JOptionPane.showMessageDialog(frmMybox,"User Name Can Contain Only The Following Characters: ( 0-9 , a-z , A-Z , _ )"
 								+ " ","Invalid characters",JOptionPane.WARNING_MESSAGE);
 					else if(!mtd.isPasswordValid(Pass) || Pass.equals(""))
-						JOptionPane.showMessageDialog(frame,"Invalid characters","Error Message",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(frmMybox,"Invalid characters","Error Message",JOptionPane.WARNING_MESSAGE);
 					else if(!mtd.isPortValid(Prt) || Prt.equals(""))
-						JOptionPane.showMessageDialog(frame,"Port Can Contain Only Numbers","Invalid characters",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(frmMybox,"Port Can Contain Only Numbers","Invalid characters",JOptionPane.WARNING_MESSAGE);
 					else if(!mtd.isIPValid(SIP) || SIP.equals(""))
-						JOptionPane.showMessageDialog(frame,"IP Address Can Contain Only Numbers seperated By Dots '.' ","Invalid characters",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(frmMybox,"IP Address Can Contain Only Numbers seperated By Dots '.' ","Invalid characters",JOptionPane.WARNING_MESSAGE);
 				}
 				if(ok)
 				{
-					frame.setTitle("Menu");
+					frmMybox.setTitle("Menu");
 					MainPage.setVisible(true);
 					Login.setVisible(false);
 				}
@@ -134,7 +137,7 @@ public class MyBoxGUI {
 		Login.add(passwordField);
 		
 		
-		frame.getContentPane().add(MainPage, "name_124673255185302");
+		frmMybox.getContentPane().add(MainPage, "name_124673255185302");
 		MainPage.setLayout(null);
 		
 		JButton LeaveGOI = new JButton("Leave a GOI");
