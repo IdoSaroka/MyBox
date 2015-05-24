@@ -142,23 +142,23 @@ public class MyBoxGUI {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		LeaveGOI.setBounds(282, 11, 131, 23);
+		LeaveGOI.setBounds(10, 66, 153, 23);
 		MainPage.add(LeaveGOI);
 		
 		JButton btnJoinAGoi = new JButton("Join a GOI");
-		btnJoinAGoi.setBounds(282, 45, 131, 23);
+		btnJoinAGoi.setBounds(10, 100, 153, 23);
 		MainPage.add(btnJoinAGoi);
 		
 		JButton btnSearchForA = new JButton("Search for a GOI");
-		btnSearchForA.setBounds(282, 79, 131, 23);
+		btnSearchForA.setBounds(10, 134, 153, 23);
 		MainPage.add(btnSearchForA);
 		
 		JButton btnCreateAGoi = new JButton("Create a GOI");
-		btnCreateAGoi.setBounds(282, 113, 131, 23);
+		btnCreateAGoi.setBounds(10, 32, 153, 23);
 		MainPage.add(btnCreateAGoi);
 		
 		JButton btnFilesSharedWith = new JButton("Files shared with you");
-		btnFilesSharedWith.setBounds(26, 45, 153, 23);
+		btnFilesSharedWith.setBounds(271, 66, 153, 23);
 		MainPage.add(btnFilesSharedWith);
 		
 		JButton btnUploadAFile = new JButton("Upload a file");
@@ -166,19 +166,19 @@ public class MyBoxGUI {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnUploadAFile.setBounds(26, 113, 153, 23);
+		btnUploadAFile.setBounds(271, 32, 153, 23);
 		MainPage.add(btnUploadAFile);
 		
 		JButton btnSignout = new JButton("Sign-Out");
-		btnSignout.setBounds(301, 199, 89, 23);
+		btnSignout.setBounds(293, 227, 131, 23);
 		MainPage.add(btnSignout);
 		
 		JButton btnHelpme = new JButton("Help-Me");
-		btnHelpme.setBounds(301, 227, 89, 23);
+		btnHelpme.setBounds(152, 227, 131, 23);
 		MainPage.add(btnHelpme);
 		
 		JButton btnExtractInformation = new JButton("Extract information");
-		btnExtractInformation.setBounds(26, 227, 153, 23);
+		btnExtractInformation.setBounds(10, 227, 131, 23);
 		MainPage.add(btnExtractInformation);
 	}
 }
