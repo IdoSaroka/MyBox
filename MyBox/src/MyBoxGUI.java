@@ -86,7 +86,7 @@ public class MyBoxGUI {
 				}
 				if(ok)
 				{
-					frmMybox.setTitle("Menu");
+					frmMybox.setTitle("MyBox");
 					MainPage.setVisible(true);
 					Login.setVisible(false);
 				}
