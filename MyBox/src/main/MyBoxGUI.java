@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import java.awt.CardLayout;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -24,6 +25,8 @@ import javax.swing.JPasswordField;
 import controllers.*;
 
 import java.awt.Toolkit;
+
+import ocsf.client.*;
 
 
 public class MyBoxGUI {
@@ -184,12 +187,20 @@ public class MyBoxGUI {
 		JButton btnUploadAFile = new JButton("Upload a file");
 		btnUploadAFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 			}
 		});
 		btnUploadAFile.setBounds(271, 32, 153, 23);
 		MainPage.add(btnUploadAFile);
 		
 		JButton btnSignout = new JButton("Sign-Out");
+		btnSignout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int dialog=JOptionPane.showConfirmDialog(Login, getUserName()+", are you sure you wants to leave?", "Do you want to leave?", JOptionPane.YES_NO_OPTION);
+				if(dialog==0)//we got yes
+					System.out.print("yes");
+			}
+		});
 		btnSignout.setBounds(293, 227, 131, 23);
 		MainPage.add(btnSignout);
 		
@@ -199,8 +210,8 @@ public class MyBoxGUI {
 				JOptionPane.showMessageDialog(Login, getUserName()+", wellcom to Mybox!\n"
 						+ "Inside GOIs buttons you can ask to join, leave and even create a GOI.\n"
 						+ "Inside Files buttons you can check and edit files people shared with you.\n"
-						+ "you can even become an uploader and share files you own\n"
-						+ "We wish you good luck");
+						+ "you can even become an uploader and share files you own.\n"
+						+ "We wish you good luck and have fun using MyBox!");
 			}
 		});
 		btnHelpme.setBounds(10, 227, 131, 23);
