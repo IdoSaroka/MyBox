@@ -1,25 +1,38 @@
+package Main;
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
+
 import java.awt.CardLayout;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.Color;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+
+import controllers.*;
+
 import java.awt.Toolkit;
+
 
 public class MyBoxGUI {
 	private Mtds mtd;
 	private JFrame frmMybox;
-	private JTextField UserName;
-	private JTextField port;
-	private JTextField IP;
-	private JPasswordField passwordField;
+	private static JTextField UserName;
+	private static JTextField port;
+	private static JTextField IP;
+	private static JPasswordField passwordField;
+	private LoginController user;
 	
 	final JPanel MainPage = new JPanel();
 	final JPanel Login = new JPanel();
@@ -61,6 +74,7 @@ public class MyBoxGUI {
 		Login.setLayout(null);
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				Boolean ok = false;
@@ -86,6 +100,7 @@ public class MyBoxGUI {
 				}
 				if(ok)
 				{
+					LoginController user = new LoginController();
 					frmMybox.setTitle("MyBox");
 					MainPage.setVisible(true);
 					Login.setVisible(false);
@@ -177,11 +192,23 @@ public class MyBoxGUI {
 		MainPage.add(btnSignout);
 		
 		JButton btnHelpme = new JButton("Help-Me");
-		btnHelpme.setBounds(152, 227, 131, 23);
+		btnHelpme.setBounds(10, 227, 131, 23);
 		MainPage.add(btnHelpme);
-		
-		JButton btnExtractInformation = new JButton("Extract information");
-		btnExtractInformation.setBounds(10, 227, 131, 23);
-		MainPage.add(btnExtractInformation);
 	}
+		
+	
+		public static String getUserName(){
+			return UserName.getText();
+		}
+		@SuppressWarnings("deprecation")
+		public static String getPassword(){
+			return passwordField.getText();
+		}
+		public static String getIP(){
+			return IP.getText();
+		}
+		public static String getPort(){
+			return port.getText();
+		}
+		
 }
