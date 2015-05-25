@@ -36,7 +36,8 @@ public class MyBoxGUI {
 	private static JTextField port;
 	private static JTextField IP;
 	private static JPasswordField passwordField;
-	private LoginController user;
+	private static LoginController user;
+	private static msg temp;
 	
 	final JPanel MainPage = new JPanel();
 	final JPanel Login = new JPanel();
@@ -197,8 +198,11 @@ public class MyBoxGUI {
 		btnSignout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int dialog=JOptionPane.showConfirmDialog(Login, getUserName()+", are you sure you wants to leave?", "Do you want to leave?", JOptionPane.YES_NO_OPTION);
-				if(dialog==0)//we got yes
-					System.out.print("yes");
+				if(dialog==0){//we got yes
+					temp = new msg("q",null);
+					System.exit(0);
+					
+				}
 			}
 		});
 		btnSignout.setBounds(293, 227, 131, 23);
@@ -207,10 +211,10 @@ public class MyBoxGUI {
 		JButton btnHelpme = new JButton("Help-Me");
 		btnHelpme.addActionListener(new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				JOptionPane.showMessageDialog(Login, getUserName()+", wellcom to Mybox!\n"
+				JOptionPane.showMessageDialog(Login,"Hello "+ getUserName()+", wellcom to Mybox!\n"
 						+ "Inside GOIs buttons you can ask to join, leave and even create a GOI.\n"
 						+ "Inside Files buttons you can check and edit files people shared with you.\n"
-						+ "you can even become an uploader and share files you own.\n"
+						+ "You can even become an uploader and share files you own.\n"
 						+ "We wish you good luck and have fun using MyBox!");
 			}
 		});
@@ -232,8 +236,11 @@ public class MyBoxGUI {
 		public static   String getPort(){
 			return port.getText();
 		}
-		public  LoginController getLoginInfo(){
+		public static LoginController getLoginInfo(){
 			return user;
+		}
+		public static msg getMsg(){
+			return temp;
 		}
 		
 }

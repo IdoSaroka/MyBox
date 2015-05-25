@@ -19,7 +19,7 @@ public class LoginController {
 		port=MyBoxGUI.getPort();
 		password=MyBoxGUI.getPassword();
 		userName=MyBoxGUI.getUserName();
-		System.out.println(userName + " " +password + " " + port+ " " + IP);
+		//System.out.println(userName + " " +password + " " + port+ " " + IP);
 	}
 	
 	
