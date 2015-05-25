@@ -1,4 +1,5 @@
-package Main;
+package main;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -101,12 +102,13 @@ public class MyBoxGUI {
 				if(ok)
 				{
 					LoginController user = new LoginController();
-					frmMybox.setTitle("MyBox");
 					MainPage.setVisible(true);
 					Login.setVisible(false);
 				}
 			}
 		});
+		
+		
 		btnNewButton.setBounds(180, 204, 60, 34);
 		Login.add(btnNewButton);
 		
@@ -192,23 +194,35 @@ public class MyBoxGUI {
 		MainPage.add(btnSignout);
 		
 		JButton btnHelpme = new JButton("Help-Me");
+		btnHelpme.addActionListener(new ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				JOptionPane.showMessageDialog(Login, getUserName()+", wellcom to Mybox!\n"
+						+ "Inside GOIs buttons you can ask to join, leave and even create a GOI.\n"
+						+ "Inside Files buttons you can check and edit files people shared with you.\n"
+						+ "you can even become an uploader and share files you own\n"
+						+ "We wish you good luck");
+			}
+		});
 		btnHelpme.setBounds(10, 227, 131, 23);
 		MainPage.add(btnHelpme);
 	}
 		
 	
-		public static String getUserName(){
+		public static  String getUserName(){
 			return UserName.getText();
 		}
 		@SuppressWarnings("deprecation")
-		public static String getPassword(){
+		public static  String getPassword(){
 			return passwordField.getText();
 		}
-		public static String getIP(){
+		public static   String getIP(){
 			return IP.getText();
 		}
-		public static String getPort(){
+		public static   String getPort(){
 			return port.getText();
+		}
+		public  LoginController getLoginInfo(){
+			return user;
 		}
 		
 }

@@ -3,8 +3,8 @@ package controllers;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import main.MyBoxGUI;
 import ocsf.client.*;
-import Main.*;
 
 
 public class LoginController {
@@ -14,12 +14,12 @@ public class LoginController {
 	private String IP;
 	private String password;
 	
-	public LoginController(){
-		this.IP=MyBoxGUI.getIP();
-		this.port=MyBoxGUI.getPort();
-		this.password=MyBoxGUI.getPassword();
-		this.userName=MyBoxGUI.getUserName();
-		System.out.println(IP + " " + port + " " + password + " " + userName);
+	public  LoginController(){
+		IP=MyBoxGUI.getIP();
+		port=MyBoxGUI.getPort();
+		password=MyBoxGUI.getPassword();
+		userName=MyBoxGUI.getUserName();
+		System.out.println(userName + " " +password + " " + port+ " " + IP);
 	}
 	
 	

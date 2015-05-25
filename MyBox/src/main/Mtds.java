@@ -1,4 +1,5 @@
-package Main;
+package main;
+
 public class Mtds 
 {
 	public Boolean isUserValid(String str)
