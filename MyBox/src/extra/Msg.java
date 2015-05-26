@@ -1,11 +1,11 @@
-package main;
+package extra;
 
 public class Msg {
 
 	String id;
 	Object message;
 	
-	Msg(String id,Object message){
+	public Msg(String id,Object message){
 		this.id=id;
 		this.message=message;
 	}

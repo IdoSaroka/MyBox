@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import java.awt.CardLayout;
 
+
 //import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,6 +26,7 @@ import javax.swing.JPasswordField;
 import client.ChatClient;
 import client.ClientGUI;
 import controllers.*;
+import extra.Msg;
 
 import java.awt.Toolkit;
 

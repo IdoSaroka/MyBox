@@ -17,6 +17,8 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.List;*/
 
+import extra.Msg;
+
 /**
  * This class overrides some of the methods defined in the abstract
  * superclass in order to give more functionality to the client.
