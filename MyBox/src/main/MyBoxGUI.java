@@ -28,12 +28,13 @@ import client.ClientGUI;
 import controllers.*;
 
 import java.awt.Toolkit;
-
+import GUIs.*;
 //import ocsf.client.*;
 
 //yes
 
-public class MyBoxGUI {
+public class MyBoxGUI 
+{
 	private Mtds mtd;
 	private JFrame frmMybox;
 	private static JTextField UserName;
@@ -73,18 +74,20 @@ public class MyBoxGUI {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-		private void initialize() {
+		private void initialize() 
+		{
 		frmMybox = new JFrame();
 		frmMybox.setFont(new Font("Tempus Sans ITC", Font.BOLD, 15));
 		frmMybox.setIconImage(Toolkit.getDefaultToolkit().getImage(MyBoxGUI.class.getResource("/images/gift-ideas-gift-card-bridal-gift-baby-shower-gift-gift-box-groom-gift-christmas-gift-party-gift-gift-for-wedding-friend-gift-birthday-gift-baby-gift-good-gift-box-ideas-for-friend-necklace-gift-box.jpg")));
-		frmMybox.setBounds(100, 100, 450, 300);
+		frmMybox.setBounds(100, 100, 800, 500);
 		frmMybox.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMybox.getContentPane().setLayout(new CardLayout(0, 0));
 		frmMybox.setTitle("MyBox");
 		frmMybox.getContentPane().add(Login, "name_124671031353011");
 		Login.setLayout(null);
 		JButton btnNewButton = new JButton("OK");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnNewButton.addActionListener(new ActionListener() 
+		{
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -124,48 +127,52 @@ public class MyBoxGUI {
 		});
 		
 		
-		btnNewButton.setBounds(180, 204, 60, 34);
+		btnNewButton.setBounds(344, 313, 82, 48);
 		Login.add(btnNewButton);
 		
 		JLabel lblWellcomeToMybox = new JLabel("Wellcome to MyBox");
 		lblWellcomeToMybox.setForeground(new Color(51, 204, 255));
-		lblWellcomeToMybox.setFont(new Font("Arial", Font.PLAIN, 18));
-		lblWellcomeToMybox.setBounds(119, 23, 179, 20);
+		lblWellcomeToMybox.setFont(new Font("Arial", Font.PLAIN, 36));
+		lblWellcomeToMybox.setBounds(224, 23, 327, 42);
 		Login.add(lblWellcomeToMybox);
 		
 		JLabel lblUserName = new JLabel("User Name:");
-		lblUserName.setBounds(34, 66, 69, 14);
+		lblUserName.setBounds(268, 109, 89, 14);
+		lblUserName.setFont(new Font("Arial", Font.PLAIN, 14));
 		Login.add(lblUserName);
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setBounds(34, 91, 69, 14);
+		lblPassword.setBounds(268, 139, 69, 14);
+		lblPassword.setFont(new Font("Arial", Font.PLAIN, 14));
 		Login.add(lblPassword);
 		
 		JLabel lblServerPort = new JLabel("Server port:");
-		lblServerPort.setBounds(34, 140, 69, 14);
+		lblServerPort.setBounds(268, 197, 82, 14);
+		lblServerPort.setFont(new Font("Arial", Font.PLAIN, 14));
 		Login.add(lblServerPort);
 		
 		JLabel lblServerIp = new JLabel("Server IP:");
-		lblServerIp.setBounds(34, 165, 69, 14);
+		lblServerIp.setBounds(266, 222, 71, 14);
+		lblServerIp.setFont(new Font("Arial", Font.PLAIN, 14));
 		Login.add(lblServerIp);
 		
 		UserName = new JTextField();
-		UserName.setBounds(119, 63, 96, 20);
+		UserName.setBounds(406, 107, 96, 20);
 		Login.add(UserName);
 		UserName.setColumns(10);
 		
 		port = new JTextField();
-		port.setBounds(119, 137, 96, 20);
+		port.setBounds(406, 195, 96, 20);
 		Login.add(port);
 		port.setColumns(10);
 		
 		IP = new JTextField();
-		IP.setBounds(119, 162, 96, 20);
+		IP.setBounds(406, 220, 96, 20);
 		Login.add(IP);
 		IP.setColumns(10);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(119, 88, 96, 20);
+		passwordField.setBounds(406, 137, 96, 20);
 		Login.add(passwordField);
 		
 		
