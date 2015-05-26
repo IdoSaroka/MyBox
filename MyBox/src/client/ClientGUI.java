@@ -11,30 +11,34 @@ public class ClientGUI implements ChatIF {
 
 	
 	public static int port;
-	ChatClient client;
+	public static ChatClient client;
 	
-	  public void ClientConsole(String host, int port) 
-	  {
+	
+	public ClientGUI( String host, String port) 
+	{
 	    try 
 	    {
-	      client= new ChatClient(host, port, this);
+	      client= new ChatClient(host, Integer.parseInt(port), this);
 	    } 
 	    catch(IOException exception) 
 	    {
 	      System.out.println("Error: Can't setup connection!" + " Terminating client.");
 	      System.exit(1);
 	    }
-	  }
-	  
+	}
+	public static ChatClient getClient(){
+		return client;
+	}
 	  
 	  
 	  public void accept() 
 	  {
+		  System.out.println(MyBoxGUI.getMsg().toString());
 	    try
 	    {
 	      while (true) 
 	      {
-	        client.handleMessageFromClientUI(MyBoxGUI.getMsg());
+	    	  MyBoxGUI.getClient().handleMessageFromClientUI(MyBoxGUI.getMsg());
 	      }
 	    } 
 	    catch (Exception ex) 

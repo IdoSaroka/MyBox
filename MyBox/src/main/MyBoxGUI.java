@@ -22,6 +22,8 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 
+import client.ChatClient;
+import client.ClientGUI;
 import controllers.*;
 
 import java.awt.Toolkit;
@@ -37,7 +39,9 @@ public class MyBoxGUI {
 	private static JTextField IP;
 	private static JPasswordField passwordField;
 	private static LoginController user;
-	private static msg temp;
+	private static Msg temp;
+	private static ClientGUI chat;
+	private static ChatClient client;
 	
 	final JPanel MainPage = new JPanel();
 	final JPanel Login = new JPanel();
@@ -105,7 +109,12 @@ public class MyBoxGUI {
 				}
 				if(ok)
 				{
+					
 					LoginController user = new LoginController();
+					chat= new ClientGUI(IP.getText(),port.getText());
+					client = chat.getClient();
+					Msg msg=new Msg("login",user);
+					chat.accept();
 					MainPage.setVisible(true);
 					Login.setVisible(false);
 				}
@@ -199,7 +208,7 @@ public class MyBoxGUI {
 			public void actionPerformed(ActionEvent e) {
 				int dialog=JOptionPane.showConfirmDialog(Login, getUserName()+", are you sure you wants to leave?", "Do you want to leave?", JOptionPane.YES_NO_OPTION);
 				if(dialog==0){//we got yes
-					temp = new msg("q",null);
+					temp = new Msg("q",null);
 					System.exit(0);
 					
 				}
@@ -239,8 +248,14 @@ public class MyBoxGUI {
 		public static LoginController getLoginInfo(){
 			return user;
 		}
-		public static msg getMsg(){
+		public static Msg getMsg(){
 			return temp;
+		}
+		public static ChatClient getClient(){
+			return client;
+		}
+		public static ClientGUI getChat(){
+			return chat;
 		}
 		
 }

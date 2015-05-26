@@ -72,7 +72,8 @@ public class ChatClient extends AbstractClient
  * @return 
    */
   
-  public void handleMessageFromClientUI(msg message){
+  public void handleMessageFromClientUI(Msg message){
+	  
     try
     {
     	sendToServer(message);
