@@ -26,7 +26,6 @@ import javax.swing.JPasswordField;
 import client.ChatClient;
 import client.ClientGUI;
 import controllers.*;
-import extra.Msg;
 
 import java.awt.Toolkit;
 
@@ -42,7 +41,7 @@ public class MyBoxGUI {
 	private static JTextField IP;
 	private static JPasswordField passwordField;
 	private static LoginController user;
-	private static  Msg msg;
+	//private static  Msg msg;
 	private static ClientGUI chat;
 	private static ChatClient client;
 	
@@ -250,9 +249,9 @@ public class MyBoxGUI {
 		public static LoginController getLoginInfo(){
 			return user;
 		}
-		public static  Msg getMsg(){
+		/*public static  Msg getMsg(){
 			return msg;
-		}
+		}*/
 		public static ChatClient getClient(){
 			return client;
 		}
