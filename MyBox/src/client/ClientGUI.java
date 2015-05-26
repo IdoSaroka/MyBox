@@ -3,7 +3,7 @@ package client;
 import java.io.*;
 import java.util.ArrayList;
 
-import main.*;
+//import main.*;
 //import client.*;
 import common.*;
 
@@ -31,7 +31,7 @@ public class ClientGUI implements ChatIF {
 	}
 	  
 	  
-	  public void accept() 
+	  /*public void accept() 
 	  {
 		  
 	    try
@@ -46,7 +46,7 @@ public class ClientGUI implements ChatIF {
 	      System.out.println
 	        ("Unexpected error while reading from console!");
 	    }
-	  }
+	  }*/
 	  
 	  
 	  public void display(String message) 

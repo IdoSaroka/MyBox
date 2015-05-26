@@ -10,7 +10,7 @@ public class Msg {
 		this.message=message;
 	}
 	
-	//@Override
+	@Override
 	public String toString() { 
 	    return "This is your msg: " +id;
 	} 

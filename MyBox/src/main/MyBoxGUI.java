@@ -112,10 +112,10 @@ public class MyBoxGUI {
 				{
 					
 					LoginController user = new LoginController();
-					chat= new ClientGUI(IP.getText(),port.getText());
-					client = ClientGUI.getClient();
-					msg=new Msg("login",user);
-					chat.accept();
+					//chat= new ClientGUI(IP.getText(),port.getText());
+					//client = ClientGUI.getClient();
+					//msg=new Msg("login",user);
+					//client.handleMessageFromClientUI(msg);
 					MainPage.setVisible(true);
 					Login.setVisible(false);
 				}
@@ -209,7 +209,7 @@ public class MyBoxGUI {
 			public void actionPerformed(ActionEvent e) {
 				int dialog=JOptionPane.showConfirmDialog(Login, getUserName()+", are you sure you wants to leave?", "Do you want to leave?", JOptionPane.YES_NO_OPTION);
 				if(dialog==0){
-					client.quit();
+					//client.quit();
 					
 				}
 			}
