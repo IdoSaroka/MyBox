@@ -9,9 +9,8 @@ public class Msg {
 		this.id=id;
 		this.message=message;
 	}
-
+	@Override
 	public String toString() { 
 	    return "This is your msg: " +id;
 	} 
 }
-////ain!

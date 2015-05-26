@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 import java.awt.CardLayout;
 
-import javax.swing.JDialog;
+//import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -28,7 +28,8 @@ import controllers.*;
 
 import java.awt.Toolkit;
 
-import ocsf.client.*;
+//import ocsf.client.*;
+
 
 
 public class MyBoxGUI {
@@ -39,7 +40,7 @@ public class MyBoxGUI {
 	private static JTextField IP;
 	private static JPasswordField passwordField;
 	private static LoginController user;
-	private static Msg temp;
+	private static  Msg msg;
 	private static ClientGUI chat;
 	private static ChatClient client;
 	
@@ -112,8 +113,8 @@ public class MyBoxGUI {
 					
 					LoginController user = new LoginController();
 					chat= new ClientGUI(IP.getText(),port.getText());
-					client = chat.getClient();
-					Msg msg=new Msg("login",user);
+					client = ClientGUI.getClient();
+					msg=new Msg("login",user);
 					chat.accept();
 					MainPage.setVisible(true);
 					Login.setVisible(false);
@@ -207,9 +208,8 @@ public class MyBoxGUI {
 		btnSignout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int dialog=JOptionPane.showConfirmDialog(Login, getUserName()+", are you sure you wants to leave?", "Do you want to leave?", JOptionPane.YES_NO_OPTION);
-				if(dialog==0){//we got yes
-					temp = new Msg("q",null);
-					System.exit(0);
+				if(dialog==0){
+					client.quit();
 					
 				}
 			}
@@ -248,8 +248,8 @@ public class MyBoxGUI {
 		public static LoginController getLoginInfo(){
 			return user;
 		}
-		public static Msg getMsg(){
-			return temp;
+		public static  Msg getMsg(){
+			return msg;
 		}
 		public static ChatClient getClient(){
 			return client;

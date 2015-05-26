@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 import main.*;
-import client.*;
+//import client.*;
 import common.*;
 
 public class ClientGUI implements ChatIF {
@@ -33,13 +33,13 @@ public class ClientGUI implements ChatIF {
 	  
 	  public void accept() 
 	  {
-		  System.out.println(MyBoxGUI.getMsg().toString());
+		  
 	    try
 	    {
-	      while (true) 
-	      {
+	     // while (true) 
+	     // {
 	    	  MyBoxGUI.getClient().handleMessageFromClientUI(MyBoxGUI.getMsg());
-	      }
+	     // }
 	    } 
 	    catch (Exception ex) 
 	    {

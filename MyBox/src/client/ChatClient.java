@@ -13,9 +13,9 @@ import ocsf.client.*;
 import common.*;
 
 import java.io.*;
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.List;*/
 
 /**
  * This class overrides some of the methods defined in the abstract
@@ -73,7 +73,7 @@ public class ChatClient extends AbstractClient
    */
   
   public void handleMessageFromClientUI(Msg message){
-	  
+	  System.out.println(message.toString());
     try
     {
     	sendToServer(message);

@@ -1,21 +1,19 @@
 
 package controllers;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
 import main.MyBoxGUI;
 
 
 
 public class LoginController {
 	
+	@SuppressWarnings("unused")
 	private String userName;
+	@SuppressWarnings("unused")
 	private String password;
 	
 	public  LoginController(){
 		password=MyBoxGUI.getPassword();
 		userName=MyBoxGUI.getUserName();
-		//System.out.println(userName + " " +password + " " + port+ " " + IP);
 	}
 	
 	
