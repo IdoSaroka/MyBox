@@ -5,7 +5,6 @@ package entities;
 	* Ran Azard 300819190
 	* Sagi Sulimani 300338878
 	* Shimon Ben Alol 201231818
-	* jkhkjh
 */
 
 /**
@@ -20,7 +19,7 @@ public class User
 	private String UserName;
 	private String UserID;
 	private String Email;
-	private String Password;		// להוסיף בקלאס!!!!!!!!
+	private String Password;
 	
 /**
 	* Constructor of the User class
