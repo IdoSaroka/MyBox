@@ -31,7 +31,7 @@ import java.awt.Toolkit;
 
 //import ocsf.client.*;
 
-
+//do you want to suck my balls?
 
 public class MyBoxGUI {
 	private Mtds mtd;
