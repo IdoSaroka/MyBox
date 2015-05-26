@@ -6,9 +6,9 @@ import main.MyBoxGUI;
 
 public class LoginController {
 	
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private String userName;
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private String password;
 	
 	public  LoginController(){
