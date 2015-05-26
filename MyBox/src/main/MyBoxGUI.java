@@ -7,6 +7,11 @@ import javax.swing.JFrame;
 import java.awt.CardLayout;
 
 
+
+import java.awt.Component;
+
+
+
 //import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,15 +33,16 @@ import client.ClientGUI;
 import controllers.*;
 
 import java.awt.Toolkit;
+
 import GUIs.*;
 //import ocsf.client.*;
 
-//yujhjhgj
+
 
 public class MyBoxGUI 
 {
 	private Mtds mtd;
-	private JFrame frmMybox;
+	public JFrame frmMybox;
 	private static JTextField UserName;
 	private static JTextField port;
 	private static JTextField IP;
@@ -45,16 +51,22 @@ public class MyBoxGUI
 	//private static  Msg msg;
 	private static ClientGUI chat;
 	private static ChatClient client;
-	
-	final JPanel MainPage = new JPanel();
 	final JPanel Login = new JPanel();
+	final JPanel UserMenu = new JPanel();
+	
+	
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args) 
+	{
+		EventQueue.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				try 
+				{
 					MyBoxGUI window = new MyBoxGUI();
 					window.frmMybox.setVisible(true);
 				} catch (Exception e) {
@@ -69,6 +81,7 @@ public class MyBoxGUI
 	public MyBoxGUI() 
 	{
 		mtd = new Mtds();
+		
 		initialize();
 	}
 	/**
@@ -83,14 +96,14 @@ public class MyBoxGUI
 		frmMybox.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMybox.getContentPane().setLayout(new CardLayout(0, 0));
 		frmMybox.setTitle("MyBox");
-		frmMybox.getContentPane().add(Login, "name_124671031353011");
+		frmMybox.getContentPane().add(Login, "Login Page");
 		Login.setLayout(null);
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addActionListener(new ActionListener() 
 		{
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) 
-			{
+			{				
 				Boolean ok = false;
 				String UName, Pass, Prt, SIP;
 				UName = UserName.getText();
@@ -120,7 +133,9 @@ public class MyBoxGUI
 					//client = ClientGUI.getClient();
 					//msg=new Msg("login",user);
 					//client.handleMessageFromClientUI(msg);
-					MainPage.setVisible(true);
+					
+					frmMybox.getContentPane().add(UserMenu, "UserMenu");
+					UserMenu.setVisible(true);
 					Login.setVisible(false);
 				}
 			}
@@ -175,9 +190,8 @@ public class MyBoxGUI
 		passwordField.setBounds(406, 137, 96, 20);
 		Login.add(passwordField);
 		
-		
-		frmMybox.getContentPane().add(MainPage, "name_124673255185302");
-		MainPage.setLayout(null);
+		frmMybox.getContentPane().add(UserMenu, "User Menu");
+		UserMenu.setLayout(null);
 		
 		JButton LeaveGOI = new JButton("Leave a GOI");
 		LeaveGOI.addActionListener(new ActionListener() {
@@ -185,32 +199,48 @@ public class MyBoxGUI
 			}
 		});
 		LeaveGOI.setBounds(10, 66, 153, 23);
-		MainPage.add(LeaveGOI);
+		UserMenu.add(LeaveGOI);
 		
 		JButton btnJoinAGoi = new JButton("Join a GOI");
+		btnJoinAGoi.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+	/*			DeleteGOI DG = new DeleteGOI();
+				frmMybox.getContentPane().add(DG, "SG");
+				UserMenu.setVisible(false);
+				DG.setVisible(true);
+	*/
+			}
+		});
 		btnJoinAGoi.setBounds(10, 100, 153, 23);
-		MainPage.add(btnJoinAGoi);
+		UserMenu.add(btnJoinAGoi);
 		
 		JButton btnSearchForA = new JButton("Search for a GOI");
 		btnSearchForA.setBounds(10, 134, 153, 23);
-		MainPage.add(btnSearchForA);
+		UserMenu.add(btnSearchForA);
 		
 		JButton btnCreateAGoi = new JButton("Create a GOI");
 		btnCreateAGoi.setBounds(10, 32, 153, 23);
-		MainPage.add(btnCreateAGoi);
+		UserMenu.add(btnCreateAGoi);
 		
 		JButton btnFilesSharedWith = new JButton("Files shared with you");
 		btnFilesSharedWith.setBounds(271, 66, 153, 23);
-		MainPage.add(btnFilesSharedWith);
+		UserMenu.add(btnFilesSharedWith);
 		
 		JButton btnUploadAFile = new JButton("Upload a file");
-		btnUploadAFile.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
+		btnUploadAFile.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				UploadFile UpLoad = new UploadFile();
+				frmMybox.getContentPane().add(UpLoad, "SG");
+				UserMenu.setVisible(false);
+				UpLoad.setVisible(true);
 			}
 		});
 		btnUploadAFile.setBounds(271, 32, 153, 23);
-		MainPage.add(btnUploadAFile);
+		UserMenu.add(btnUploadAFile);
 		
 		JButton btnSignout = new JButton("Sign-Out");
 		btnSignout.addActionListener(new ActionListener() {
@@ -223,7 +253,7 @@ public class MyBoxGUI
 			}
 		});
 		btnSignout.setBounds(293, 227, 131, 23);
-		MainPage.add(btnSignout);
+		UserMenu.add(btnSignout);
 		
 		JButton btnHelpme = new JButton("Help-Me");
 		btnHelpme.addActionListener(new ActionListener() {
@@ -236,10 +266,11 @@ public class MyBoxGUI
 			}
 		});
 		btnHelpme.setBounds(10, 227, 131, 23);
-		MainPage.add(btnHelpme);
+		UserMenu.add(btnHelpme);
+		
+		
 	}
 		
-	
 		public static  String getUserName(){
 			return UserName.getText();
 		}
@@ -265,5 +296,6 @@ public class MyBoxGUI
 		public static ClientGUI getChat(){
 			return chat;
 		}
+		
 		
 }
