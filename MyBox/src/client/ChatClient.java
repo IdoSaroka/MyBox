@@ -17,7 +17,7 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.List;*/
 
-import extra.Msg;
+//import extra.Msg;
 
 /**
  * This class overrides some of the methods defined in the abstract
@@ -74,7 +74,7 @@ public class ChatClient extends AbstractClient
  * @return 
    */
   
-  public void handleMessageFromClientUI(Msg message){
+  public void handleMessageFromClientUI(String message){
 	  System.out.println(message.toString());
     try
     {
