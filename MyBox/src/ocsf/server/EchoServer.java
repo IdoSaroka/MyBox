@@ -21,10 +21,11 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import database.dbAdapter;
 
-/**This Class establish the server 
- * @author Ido Saroka 300830973**/
-
-
+/**This Class establish the connection to the DB and creates the server 
+ * @author Ido Saroka 300830973
+ * @param port - the port issued by the user to be opened and receive connections
+ * @param DBConn - the connection to the Database
+ * **/
 public class EchoServer
   extends AbstractServer
 {
@@ -38,7 +39,7 @@ public class EchoServer
     this.DBConn = DBConn;
   }
   
-  public Connection getFilesConn()
+  public Connection getDBConn()
   {
     return this.DBConn;
   }
@@ -49,79 +50,21 @@ public class EchoServer
     Scanner sc = new Scanner(System.in);
     ArrayList<String> message = (ArrayList)msg;
     
-    Connection filesconn = getFilesConn();
+    Connection conn = getDBConn();
     
     String str = (String)message.get(0);
-    char letter = str.charAt(0);
-   /* switch (letter)
-    {
-    case 'p': 
-      printFiles(filesconn, client);
-      break;
-    case 'a': 
-      addNewValue(filesconn, (String)message.get(1), (String)message.get(2), client);
-      break;
-    case 'q': 
-      System.out.println("Thank you and goodbye!");
-      break;
-    default: 
-      System.out.println("invalid selection");
-    }*/
+    //char letter = str.charAt(0);
+    switch(str){
+    /**
+     * check the case the user wish to perform a login operation
+     * **/
+    case "Login": // <-- check the java can receive strings as cases
+    	checkLogin((String)message.get(1),(String)message.get(2),conn,client);
+    	break;
+    }
   }
   
- /* public void printFiles(Connection conn, ConnectionToClient client)
-  {
-    ArrayList<String> returnMsg = new ArrayList();
-    try
-    {
-      Statement stmt = conn.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM files;");
-      returnMsg.add("------------------------Current files in the system:--------------------------");
-      while (rs.next()) {
-        returnMsg.add("File Name: " + rs.getString(1) + "\t\t" + "File Path: " + rs.getString(2));
-      }
-      rs.close();
-      returnMsg.add("------------------------------------------------------------------------------\n");
-      client.sendToClient(returnMsg);
-    }
-    catch (SQLException|IOException e)
-    {
-      e.printStackTrace();
-    }
-  }*/
-  
-  /*public static void addNewValue(Connection conn, String fileName, String filePath, ConnectionToClient client)
-  {
-    Statement stmt = null;
-    ArrayList<String> returnMsg = new ArrayList();
-    PreparedStatement preparedStatement = null;
-    String insertTableRecored = "INSERT INTO files (fileName,path) VALUES (?,?)";
-    try
-    {
-      stmt = conn.createStatement();
-      
-      ResultSet rs = stmt.executeQuery("SELECT fileName,path From files");
-      while (rs.next()) {
-        if ((fileName.equals(rs.getString(1))) && 
-          (filePath.equals(rs.getString(2))))
-        {
-          returnMsg.add("Error: file allready exists in this folder");
-          client.sendToClient(returnMsg);
-        }
-      }
-      preparedStatement = conn.prepareStatement(insertTableRecored);
-      preparedStatement.setString(1, fileName);
-      preparedStatement.setString(2, filePath);
-      preparedStatement.executeUpdate();
-      returnMsg.add("File " + fileName + " was Successfully added!");
-      client.sendToClient(returnMsg);
-    }
-    catch (SQLException|IOException e)
-    {
-      e.printStackTrace();
-    }
-  }*/
-  
+ 
   protected void serverStarted()
   {
     System.out.println(
@@ -130,8 +73,7 @@ public class EchoServer
   
   protected void serverStopped()
   {
-    System.out.println(
-      "Server has stopped listening for connections.");
+    System.out.println("Server has stopped listening for connections.");
   }
   
   public static void main(String[] args)
@@ -139,8 +81,7 @@ public class EchoServer
     Connection conn = null;
     int port = 0;
     dbAdapter adapter = new dbAdapter();
-    String dbUserName, dbPassword, dbName;
-    
+
     try
     {
       Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -149,8 +90,9 @@ public class EchoServer
     try
     {
       conn = DriverManager.getConnection("jdbc:mysql://localhost/myboxdatabase", "root", "Braude");
+      //conn = DriverManager.getConnection("jdbc:mysql://localhost/myboxdatabase", "root", "123456"); <- need to remove connection to Ido's DataBase
       
-      /**insert GUI OBJECT**/
+      /**insert GUI OBJECT that recives user name and password for a DataBase**/
       //conn = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName + '"',dbUserName,dbPassword);
       
       System.out.println("SQL connection succeed\n");
@@ -163,7 +105,9 @@ public class EchoServer
     }
     try
     {
-      //add a reciver for the port from the GUI	
+    	
+      /**add a GUI elemnet that recives a port from the user**/
+    	
       port = Integer.parseInt(args[0]);
     }
     catch (Throwable t)
@@ -180,4 +124,74 @@ public class EchoServer
       System.out.println("ERROR - Could not listen for clients!");
     }
   }
+  
+  
+  /**checkLogin - will check the that details (user name and password) inputed by  
+   * the users corresponds with the one found inside MyBox Database
+   * @author Ido Saroka 300830973
+   * @param login - 
+   * @param password -
+   * @param conn -
+   * @param client -
+   * <p>
+   * @exception SQLException e -
+   * @exception IOException e -
+   * **/   
+  public static void checkLogin(String login, String password, Connection conn, ConnectionToClient client){
+	    Statement stmt = null;
+	    ArrayList<String> returnMsg = new ArrayList();
+	    PreparedStatement preparedStatement = null;
+	    
+	    String query = "Update users set loggedIn = ? where userName = ?";
+	    try
+	    {
+	      stmt = conn.createStatement();
+	   
+	      ResultSet rs = stmt.executeQuery("SELECT userName,password,loggedIn From users");
+	      
+	      while (rs.next()) { /**search the current users in the system**/
+	        if ((login.equals(rs.getString(1)))){
+	        	if(rs.getBoolean(3)== false){ /**loggedIn == false -> user is not logged in**/
+	        	if(password.equals(rs.getString(2))){
+	        		
+	        		/**add the data to the log file**/
+	        	
+	        		preparedStatement = conn.prepareStatement(query);
+	        		preparedStatement.setInt(1, 1);
+	        		preparedStatement.setString(2, login);
+	        		preparedStatement.executeUpdate();
+	        		//System.out.println("User Successfully logged in");
+	        		returnMsg.add("you have Successfully logged in");
+	        		rs.close();
+	        		client.sendToClient(returnMsg);
+	        		//logging();
+	        		return;
+	            	}
+	        	else{
+	        		returnMsg.add("Error:The password you have entered is incorrect");
+	        		rs.close();
+	        		client.sendToClient(returnMsg);
+	        		return;
+	        	}
+	        	}
+	        	else{ /**loggedIn == true -> user is already logged in**/
+	        		returnMsg.add("Error:User is allready logged in to the system");
+	        		rs.close();
+	        		client.sendToClient(returnMsg);
+	        		return;
+	        	}
+	        }     
+	      }
+	      returnMsg.add("Error:No Such User Exist");
+	      rs.close();
+  		  client.sendToClient(returnMsg);
+	      return;
+	    }
+	    catch (SQLException | IOException e)
+	    {
+	      e.printStackTrace();
+	    }
+}
+  
+  
 }
