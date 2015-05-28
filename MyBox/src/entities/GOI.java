@@ -87,6 +87,24 @@ public class GOI
 		NumberOfUsers = numberOfUsers;
 	}
 	
-	//ìäòúé÷ îFILE DB
+/**
+	* @return 'true' if checking some data in the DataBase succeeded, else return 'false'.
+*/
+	public boolean checkDB()
+	{
+		return true; 
+		
+		//return false;
+	}
+	
+/**
+	* @return 'true' if saving the data in the DataBase succeeded, else return 'false'.
+*/
+	public boolean saveInDB()
+	{		
+		return true; 
+		
+		//return false;
+	}
 }
 	

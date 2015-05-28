@@ -45,7 +45,7 @@ public class File extends Entity
 	}
 	
 /**
-	* @return 
+	* @return long Size: The size of the file in bytes
 */
 	public long getSize()
 	{
@@ -53,7 +53,7 @@ public class File extends Entity
 	}
 	
 /**
-	* @return 
+	* @return int PermissionLevel: The Permission Level of the file: 1/2/3
 */
 	public int getLevelOfPermission(Object GOI)
 	{
@@ -61,7 +61,7 @@ public class File extends Entity
 	}
 	
 /**
-	* @return 
+	* @return String Suffix: The suffix (type) of the file
 */
 	public String getSuffix()
 	{
@@ -69,7 +69,7 @@ public class File extends Entity
 	}
 	
 /**
-	* @return 
+	* @return boolean isFileDeleted: 'true' if deletion the file succeeded, else return 'false'.
 */
 	public boolean isFileDeleted(String Path)
 	{
@@ -77,23 +77,23 @@ public class File extends Entity
 	}
 
 /**
-	* @return 
+	* Notify the Observer
 */
-	public void notifyObservesr()
-	{
-		return ;
-	}
-	
-/**
-	* @return 
-*/
-//	public void notify()	// <<<<<<<<<<<<<<<< Error: Cannot override the final method from Object
+	public void notifyObserver()
 	{
 		
 	}
 	
 /**
 	* @return 
+*/
+//	public void notify()	// <<<<<<<<<<<<<<<<<<<<<<<<<<< Error: Cannot override the final method from Object
+	{
+		
+	}
+	
+/**
+	* @return 'true' if checking some data in the DataBase succeeded, else return 'false'.
 */
 	public boolean checkDB()
 	{
@@ -103,7 +103,7 @@ public class File extends Entity
 	}
 	
 /**
-	* @return 'true' if saving the data succeeded, else return 'false'.
+	* @return 'true' if saving the data in the DataBase succeeded, else return 'false'.
 */
 	public boolean saveInDB()
 	{		

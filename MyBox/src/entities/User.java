@@ -64,7 +64,7 @@ public class User
 	{
 		return Email;
 	}
-/////////////////////////////////////////////////////////////////////////// מכאן צריך לערוך	
+
 /**
 	* @param String UserName
 	* @return 'true' if the user is logged in, else return 'false'
@@ -77,8 +77,6 @@ public class User
 		//return false; 
 	}
 
-
-	
 /**
 	* @return 'true' if saving the data succeeded, else return 'false'.
 */
@@ -89,5 +87,4 @@ public class User
 		
 		//return false;
 	}
-///////////////////////////////////////////////////////////////////////////
 }
