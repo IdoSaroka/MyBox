@@ -13,6 +13,7 @@ package entities;
     *@author Sagi Sulimani 300338878
 */
 
+
 public class Folder extends Entity
 {
 	private int NumberOfFiles;
