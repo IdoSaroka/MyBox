@@ -5,7 +5,6 @@ package entities;
 	* Ran Azard 300819190
 	* Sagi Sulimani 300338878
 	* Shimon Ben Alol 201231818
-	* jkhkjh
 */
 
 /**
@@ -13,14 +12,12 @@ package entities;
     *@author Sagi Sulimani 300338878
 */
 
-import java.util.*;
-
 public class User
 {
 	private String UserName;
 	private String UserID;
 	private String Email;
-	private String Password;		// להוסיף בקלאס!!!!!!!!
+	private String Password;
 	
 /**
 	* Constructor of the User class
@@ -32,7 +29,6 @@ public class User
 	public User(String userName, String userID, String email, String password)
 	{
 		UserName = userName;
-		UserID = userID;
 		Email = email;
 		Password = password;
 	}
@@ -46,27 +42,11 @@ public class User
 	}
 	
 /**
-	* @param String UserID
-*/
-	public void setUserID(String userID)
-	{
-		UserID = userID;
-	}
-	
-/**
 	* @return String of UserName
 */
 	public String getUserName()
 	{
 		return UserName;
-	}
-	
-/**
-	* @param String UserName
-*/
-	public void setUserName(String userName)
-	{
-		UserName = userName;
 	}
 
 /**
@@ -77,10 +57,17 @@ public class User
 		return Password;
 	}
 
+/**
+	* @return String of Email
+*/	
+	public String getEmaild()
+	{
+		return Email;
+	}
 /////////////////////////////////////////////////////////////////////////// מכאן צריך לערוך	
 /**
 	* @param String UserName
-	* @return 'true' is the user is logged in, else return 'false'
+	* @return 'true' if the user is logged in, else return 'false'
 */
 	public boolean isLoggedIn(String UserName)
 	{
@@ -90,19 +77,10 @@ public class User
 		//return false; 
 	}
 
-/**
-	* Creates folder in a specific GOI
-*/
-	public void createFolder()
-	{
-		String path = null;
-		
-		//path = getCurrentPath();// לממש ולהוסיף לקלאס
-		// לברר איך יוצרים תיקיה בג'אווה
-	}
+
 	
 /**
-	* @return 'true' if saving the data succeded, else return 'false'.
+	* @return 'true' if saving the data succeeded, else return 'false'.
 */
 	public boolean saveInDB()
 	{
