@@ -12,8 +12,6 @@ package entities;
     *@author Sagi Sulimani 300338878
 */
 
-import java.util.*;
-
 public class User
 {
 	private String UserName;
@@ -59,6 +57,13 @@ public class User
 		return Password;
 	}
 
+/**
+	* @return String of Email
+*/	
+	public String getEmaild()
+	{
+		return Email;
+	}
 /////////////////////////////////////////////////////////////////////////// מכאן צריך לערוך	
 /**
 	* @param String UserName
