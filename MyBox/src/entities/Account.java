@@ -69,7 +69,7 @@ public class Account
 	}
 
 /**
-	* @return String of Max GOI
+	* @return String of Max GOI 
 */
 	public int getMaxGOI()
 	{
