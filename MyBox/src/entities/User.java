@@ -15,7 +15,7 @@ package entities;
 public class User
 {
 	private String UserName;
-	private String UserID;
+	//private String UserID;
 	private String Email;
 	private String Password;
 	
@@ -26,13 +26,14 @@ public class User
 	* @param String email
 	* @param String password
 */
-	public User(String userName, String userID, String email, String password)
+	public User(String userName, String email, String password)
 	{
 		UserName = userName;
 		Email = email;
 		Password = password;
 	}
 	
+<<<<<<< HEAD
 /**
 	* @return String of UserID
 */
@@ -40,6 +41,9 @@ public class User
 	{
 		return UserID;
 	}
+=======
+
+>>>>>>> origin/master
 	
 /**
 	* @return String of UserName

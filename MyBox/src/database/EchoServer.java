@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -63,6 +64,7 @@ public class EchoServer
     case "Login": 
     	checkLogin((String)message.get(1),(String)message.get(2),conn,client);
     	break;
+<<<<<<< HEAD:MyBox/src/database/EchoServer.java
     	
     case "SignOut":
     	break;
@@ -76,6 +78,12 @@ public class EchoServer
 		}
     	break;
     	
+=======
+    
+    default:
+    	System.out.println();
+    	break;
+>>>>>>> origin/master:MyBox/src/ocsf/server/EchoServer.java
     }
   }
   

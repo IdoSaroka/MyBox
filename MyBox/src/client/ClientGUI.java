@@ -3,6 +3,7 @@ package client;
 import java.io.*;
 import java.util.ArrayList;
 
+
 //import main.*;
 //import client.*;
 import common.*;
@@ -53,13 +54,19 @@ public class ClientGUI implements ChatIF {
 	  {
 	    System.out.println(message);
 	  }
-
-
-
 	@Override
-	public void display(ArrayList<String> message) {
+	public void display(Object msg) {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void display(ArrayList<Object> message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
 	  
 }
