@@ -4,6 +4,11 @@ import java.io.*;
 import java.util.ArrayList;
 
 
+
+
+
+
+
 //import main.*;
 //import client.*;
 import common.*;
@@ -50,8 +55,7 @@ public class ClientGUI implements ChatIF {
 	  }*/
 	  
 	  
-	  public void display(String message) 
-	  {
+	  public void display(String message) {
 	    System.out.println(message);
 	  }
 	@Override
@@ -68,5 +72,7 @@ public class ClientGUI implements ChatIF {
 
 
 
+
 	  
 }
+

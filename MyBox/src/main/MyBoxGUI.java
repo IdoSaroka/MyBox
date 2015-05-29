@@ -98,7 +98,7 @@ public class MyBoxGUI
 		{
 		frmMybox = new JFrame();
 		frmMybox.setFont(new Font("Tempus Sans ITC", Font.BOLD, 15));
-		frmMybox.setIconImage(Toolkit.getDefaultToolkit().getImage(MyBoxGUI.class.getResource("/images/gift-ideas-gift-card-bridal-gift-baby-shower-gift-gift-box-groom-gift-christmas-gift-party-gift-gift-for-wedding-friend-gift-birthday-gift-baby-gift-good-gift-box-ideas-for-friend-necklace-gift-box.jpg")));
+		//frmMybox.setIconImage(Toolkit.getDefaultToolkit().getImage(MyBoxGUI.class.getResource("/images/gift-ideas-gift-card-bridal-gift-baby-shower-gift-gift-box-groom-gift-christmas-gift-party-gift-gift-for-wedding-friend-gift-birthday-gift-baby-gift-good-gift-box-ideas-for-friend-necklace-gift-box.jpg")));
 		frmMybox.setBounds(100, 100, 800, 500);
 		frmMybox.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMybox.getContentPane().setLayout(new CardLayout(0, 0));

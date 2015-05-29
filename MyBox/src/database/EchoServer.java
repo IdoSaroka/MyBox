@@ -64,7 +64,7 @@ public class EchoServer
     case "Login": 
     	checkLogin((String)message.get(1),(String)message.get(2),conn,client);
     	break;
-<<<<<<< HEAD:MyBox/src/database/EchoServer.java
+//<<<<<<< HEAD:MyBox/src/database/EchoServer.java
     	
     case "SignOut":
     	break;
@@ -78,12 +78,12 @@ public class EchoServer
 		}
     	break;
     	
-=======
+//=======
     
     default:
     	System.out.println();
     	break;
->>>>>>> origin/master:MyBox/src/ocsf/server/EchoServer.java
+//>>>>>>> origin/master:MyBox/src/ocsf/server/EchoServer.java
     }
   }
   

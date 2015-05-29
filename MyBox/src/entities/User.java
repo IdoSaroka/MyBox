@@ -15,7 +15,6 @@ package entities;
 public class User
 {
 	private String UserName;
-	//private String UserID;
 	private String Email;
 	private String Password;
 	
@@ -33,17 +32,7 @@ public class User
 		Password = password;
 	}
 	
-<<<<<<< HEAD
-/**
-	* @return String of UserID
-*/
-	public String getUserID()
-	{
-		return UserID;
-	}
-=======
 
->>>>>>> origin/master
 	
 /**
 	* @return String of UserName
