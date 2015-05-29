@@ -1,4 +1,4 @@
-package ocsf.server;
+package database;
 /**
  *Project MyBox - Software Engineering Lab 2015
  *@author Ido Saroka 300830973
@@ -19,12 +19,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-import database.dbAdapter;
 
 /**This Class establish the connection to the DB and creates the server 
  * @author Ido Saroka 300830973
  * @param port - the port issued by the user to be opened and receive connections
  * @param DBConn - the connection to the Database
+ * <p>
+ * @exception IOException -
  * **/
 public class EchoServer
   extends AbstractServer
@@ -49,18 +50,32 @@ public class EchoServer
     int check = 0;
     Scanner sc = new Scanner(System.in);
     ArrayList<String> message = (ArrayList)msg;
+    ArrayList<String> returnMsg = (ArrayList)msg;
     
     Connection conn = getDBConn();
     
     String str = (String)message.get(0);
-    //char letter = str.charAt(0);
+    
     switch(str){
     /**
      * check the case the user wish to perform a login operation
      * **/
-    case "Login": // <-- check the java can receive strings as cases
+    case "Login": 
     	checkLogin((String)message.get(1),(String)message.get(2),conn,client);
     	break;
+    	
+    case "SignOut":
+    	break;
+    	
+    case "defult":
+    	try {
+    		returnMsg.add("you have Successfully logged in");
+			client.sendToClient(returnMsg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	break;
+    	
     }
   }
   
@@ -78,6 +93,7 @@ public class EchoServer
   
   public static void main(String[] args)
   {
+	ArrayList<String> returnMsg = new ArrayList();
     Connection conn = null;
     int port = 0;
     dbAdapter adapter = new dbAdapter();
@@ -96,6 +112,8 @@ public class EchoServer
       //conn = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName + '"',dbUserName,dbPassword);
       
       System.out.println("SQL connection succeed\n");
+      
+      
     }
     catch (SQLException ex)
     {
@@ -152,27 +170,31 @@ public class EchoServer
 	      while (rs.next()) { /**search the current users in the system**/
 	        if ((login.equals(rs.getString(1)))){
 	        	if(rs.getBoolean(3)== false){ /**loggedIn == false -> user is not logged in**/
-	        	if(password.equals(rs.getString(2))){
+	            	if(password.equals(rs.getString(2))){
 	        		
-	        		/**add the data to the log file**/
-	        	
-	        		preparedStatement = conn.prepareStatement(query);
-	        		preparedStatement.setInt(1, 1);
-	        		preparedStatement.setString(2, login);
-	        		preparedStatement.executeUpdate();
-	        		//System.out.println("User Successfully logged in");
-	        		returnMsg.add("you have Successfully logged in");
-	        		rs.close();
-	        		client.sendToClient(returnMsg);
-	        		//logging();
-	        		return;
-	            	}
-	        	else{
-	        		returnMsg.add("Error:The password you have entered is incorrect");
-	        		rs.close();
-	        		client.sendToClient(returnMsg);
-	        		return;
-	        	}
+	        		    /**add the data to the log file**/
+	      
+	        		    preparedStatement = conn.prepareStatement(query);
+	        		    preparedStatement.setInt(1, 1);
+	        	    	preparedStatement.setString(2, login);
+	        		    preparedStatement.executeUpdate();
+	        		    
+	        	    	//System.out.println("User Successfully logged in");
+	        		    
+	        	    	returnMsg.add("you have Successfully logged in");
+	        	      	rs.close();
+	        		    client.sendToClient(returnMsg);
+	        		    
+	        	    	//logging();
+	        		    
+	        		     return;
+	                	}
+	            	else{
+	        		    returnMsg.add("Error:The password you have entered is incorrect");
+	        		    rs.close();
+	        		    client.sendToClient(returnMsg);
+	        		    return;
+	        	     }
 	        	}
 	        	else{ /**loggedIn == true -> user is already logged in**/
 	        		returnMsg.add("Error:User is allready logged in to the system");
