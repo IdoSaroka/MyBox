@@ -8,7 +8,6 @@ package client;
  *           Shimon Ben Alul 201231818
  * @Version 1.00
  */
-import main.*;
 import ocsf.client.*;
 import common.*;
 
@@ -32,6 +31,7 @@ public class ChatClient extends AbstractClient
    * the display method in the client.
    */
   ChatIF clientUI; 
+  Object msg;
 
   
   //Constructors ****************************************************
@@ -64,9 +64,14 @@ public class ChatClient extends AbstractClient
   
   public void handleMessageFromServer(Object msg) 
   {
-	  clientUI.display((String) msg);
+	   this.msg=msg;
   }
 
+  public Object getMSG() 
+  {
+	   return msg;
+  }
+  
   /**
    * This method handles all data coming from the UI            
    *

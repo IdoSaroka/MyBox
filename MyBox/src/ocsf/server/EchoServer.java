@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import database.dbAdapter;
@@ -60,6 +61,10 @@ public class EchoServer
      * **/
     case "Login": // <-- check the java can receive strings as cases
     	checkLogin((String)message.get(1),(String)message.get(2),conn,client);
+    	break;
+    
+    default:
+    	System.out.println();
     	break;
     }
   }

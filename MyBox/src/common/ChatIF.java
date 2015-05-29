@@ -20,6 +20,6 @@ public interface ChatIF
    * Method that when overriden is used to display objects onto
    * a UI.
    */
-  public abstract void display(String message);
-  public void display(ArrayList <String> message);
+  public abstract void display(Object msg);
+  public void display(ArrayList <Object> message);
 }

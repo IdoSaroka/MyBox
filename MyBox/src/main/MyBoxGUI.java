@@ -8,7 +8,12 @@ import java.awt.CardLayout;
 
 
 
-import java.awt.Component;
+//import java.awt.Component;
+
+
+
+
+
 
 
 
@@ -33,6 +38,7 @@ import client.ClientGUI;
 import controllers.*;
 
 import java.awt.Toolkit;
+import java.io.IOException;
 
 import GUIs.*;
 //import ocsf.client.*;
@@ -48,11 +54,12 @@ public class MyBoxGUI
 	private static JTextField IP;
 	private static JPasswordField passwordField;
 	private static LoginController user;
-	//private static  Msg msg;
 	private static ClientGUI chat;
 	private static ChatClient client;
+	private static Object msg;
 	final JPanel Login = new JPanel();
 	final JPanel UserMenu = new JPanel();
+	
 	
 	
 	
@@ -127,16 +134,38 @@ public class MyBoxGUI
 				}
 				if(ok)
 				{
+					chat= new ClientGUI(IP.getText(),port.getText());
+					try {
+						client= new ChatClient(IP.getText(),Integer.parseInt(port.getText()),chat);
+					} catch (NumberFormatException | IOException e1) {
+						JOptionPane.showMessageDialog(Login,"Unable to connect to server");
+						e1.printStackTrace();
+					}
+					LoginController user = new LoginController(UserName.getText(),passwordField.getText());
+					try {
+						System.out.println("sending: "+user.toString());
+						user.sendLogin();
+						String ne =(String)msg;
+						try {
+							client.wait();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						if( ne.equals("you have Successfully logged in")  )
+						{
+							frmMybox.getContentPane().add(UserMenu, "UserMenu");
+							UserMenu.setVisible(true);
+							Login.setVisible(false);
+						}
+						else{
+							JOptionPane.showMessageDialog(Login,ne);
+						}
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
-					LoginController user = new LoginController();
-					//chat= new ClientGUI(IP.getText(),port.getText());
-					//client = ClientGUI.getClient();
-					//msg=new Msg("login",user);
-					//client.handleMessageFromClientUI(msg);
-					
-					frmMybox.getContentPane().add(UserMenu, "UserMenu");
-					UserMenu.setVisible(true);
-					Login.setVisible(false);
 				}
 			}
 		});
@@ -287,15 +316,15 @@ public class MyBoxGUI
 		public static LoginController getLoginInfo(){
 			return user;
 		}
-		/*public static  Msg getMsg(){
-			return msg;
-		}*/
 		public static ChatClient getClient(){
 			return client;
 		}
 		public static ClientGUI getChat(){
 			return chat;
 		}
-		
+		public Object getMSG() 
+		{
+			   return msg;
+		}
 		
 }

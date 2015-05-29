@@ -18,7 +18,7 @@ import java.util.*;
 public class User
 {
 	private String UserName;
-	private String UserID;
+	//private String UserID;
 	private String Email;
 	private String Password;		// להוסיף בקלאס!!!!!!!!
 	
@@ -29,29 +29,14 @@ public class User
 	* @param String email
 	* @param String password
 */
-	public User(String userName, String userID, String email, String password)
+	public User(String userName, String email, String password)
 	{
 		UserName = userName;
-		UserID = userID;
 		Email = email;
 		Password = password;
 	}
 	
-/**
-	* @return String of UserID
-*/
-	public String getUserID()
-	{
-		return UserID;
-	}
-	
-/**
-	* @param String UserID
-*/
-	public void setUserID(String userID)
-	{
-		UserID = userID;
-	}
+
 	
 /**
 	* @return String of UserName
