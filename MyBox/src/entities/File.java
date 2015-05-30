@@ -16,6 +16,7 @@ public class File extends Entity
 {
 	private long Size;
 	private String Suffix;
+	private String ID;
 	private int PermissionLevel;
 	private boolean IsDeleted;
 	
@@ -42,6 +43,14 @@ public class File extends Entity
 		Suffix = suffix;
 		PermissionLevel = permissionLevel;
 		IsDeleted = false;
+	}
+	
+/**
+	* @return String of ID
+*/
+	public String getID()
+	{
+		return ID;
 	}
 	
 /**
