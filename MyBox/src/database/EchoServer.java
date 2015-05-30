@@ -59,31 +59,36 @@ public class EchoServer
     
     switch(str){
     /**
-     * check the case the user wish to perform a login operation
+     * Login - check the case the user wish to perform a login operation
      * **/
     case "Login": 
-    	checkLogin((String)message.get(1),(String)message.get(2),conn,client);
+    	try {
+			checkLogin((String)message.get(1),(String)message.get(2),conn,client);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     	break;
-//<<<<<<< HEAD:MyBox/src/database/EchoServer.java
-    	
+    	/**
+         * SignOut - used when a logged in user chooses to sign out
+         * **/
     case "SignOut":
     	break;
     	
-    case "defult":
+    case "userGOI":
+        break;
+        
+    	/**
+         * default - when the server receive a message the deviates from the expected input
+         * **/
+    default:
     	try {
-    		returnMsg.add("you have Successfully logged in");
+    		returnMsg.add("Error:Invalid selection");
 			client.sendToClient(returnMsg);
-		} catch (IOException e) {
+		}catch (IOException e) {
 			e.printStackTrace();
 		}
     	break;
-    	
-//=======
-    
-    default:
-    	System.out.println();
-    	break;
-//>>>>>>> origin/master:MyBox/src/ocsf/server/EchoServer.java
     }
   }
   
@@ -99,18 +104,32 @@ public class EchoServer
     System.out.println("Server has stopped listening for connections.");
   }
   
-  public static void main(String[] args)
+  
+  
+  /**main function - will establish a connection with MyBox Database and will open
+   * a listing port for the program's users
+   * @author Ido Saroka 300830973
+   * <p>
+   * @exception SQLException e -
+   * @exception IOException e -
+   * **/   
+  public static void main(String[] args) throws IOException
   {
 	ArrayList<String> returnMsg = new ArrayList();
     Connection conn = null;
     int port = 0;
     dbAdapter adapter = new dbAdapter();
-
+    /**
+     * setUp - create the necessary folders used by MyBox
+     * **/
+    logHandling.setUp(); 
     try
     {
       Class.forName("com.mysql.jdbc.Driver").newInstance();
     }
-    catch (Exception localException1) {}
+    catch (Exception localException1) {
+    	logHandling.logging(localException1.getMessage());
+    }
     try
     {
       conn = DriverManager.getConnection("jdbc:mysql://localhost/myboxdatabase", "root", "Braude");
@@ -119,16 +138,22 @@ public class EchoServer
       /**insert GUI OBJECT that recives user name and password for a DataBase**/
       //conn = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName + '"',dbUserName,dbPassword);
       
+      logHandling.logging("Successfully connected to MyBox Database");
       System.out.println("SQL connection succeed\n");
       
-      
+      //Successfully
     }
     catch (SQLException ex)
     {
+      logHandling.logging(ex.getMessage());
       System.out.println("SQLException: " + ex.getMessage());
       System.out.println("SQLState: " + ex.getSQLState());
       System.out.println("VendorError: " + ex.getErrorCode());
-    }
+    } catch (IOException e) {
+		// TODO Auto-generated catch block
+    	logHandling.logging(e.getMessage());
+		e.printStackTrace();
+	}
     try
     {
     	
@@ -163,7 +188,7 @@ public class EchoServer
    * @exception SQLException e -
    * @exception IOException e -
    * **/   
-  public static void checkLogin(String login, String password, Connection conn, ConnectionToClient client){
+  public static void checkLogin(String login, String password, Connection conn, ConnectionToClient client) throws IOException{
 	    Statement stmt = null;
 	    ArrayList<String> returnMsg = new ArrayList();
 	    PreparedStatement preparedStatement = null;
@@ -188,8 +213,9 @@ public class EchoServer
 	        		    preparedStatement.executeUpdate();
 	        		    
 	        	    	//System.out.println("User Successfully logged in");
-	        		    
+	        		    logHandling.logging("User: " + login +" logged in");
 	        	    	returnMsg.add("you have Successfully logged in");
+	        	    	
 	        	      	rs.close();
 	        		    client.sendToClient(returnMsg);
 	        		    
@@ -219,6 +245,7 @@ public class EchoServer
 	    }
 	    catch (SQLException | IOException e)
 	    {
+	      logHandling.logging(e.getMessage());
 	      e.printStackTrace();
 	    }
 }
