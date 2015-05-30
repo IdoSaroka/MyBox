@@ -15,13 +15,13 @@ package entities;
 
 public abstract class Entity
 {
-	private String ID;
-	private String Name;
-	private String CreationDate;
-	private String CreatedBy;
-	private String Path;
-	private String ModifiedAt;
-	private String ModifiedBy;
+	protected String ID;
+	protected String Name;
+	protected String CreationDate;
+	protected String CreatedBy;
+	protected String Path;
+	protected String ModifiedAt;
+	protected String ModifiedBy;
 	
 /**
 	* Constructor of the Entity class
