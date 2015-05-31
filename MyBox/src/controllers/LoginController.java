@@ -24,7 +24,6 @@ public class LoginController {
 	public LoginController(String userName, String password){
 		 
 		user=new Login(userName,password);
-		
 	}
 	
 	/**
@@ -33,8 +32,6 @@ public class LoginController {
 	 * @throws IOException 
 	 */
 	public void sendLogin() throws IOException{
-		
-		
 		message.clear();
 		message.add("Login");
 		message.add(user.getUserName());

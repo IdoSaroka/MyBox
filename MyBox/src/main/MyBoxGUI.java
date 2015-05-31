@@ -6,18 +6,6 @@ import javax.swing.JFrame;
 
 import java.awt.CardLayout;
 
-
-
-//import java.awt.Component;
-
-
-
-
-
-
-
-
-//import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -36,9 +24,10 @@ import javax.swing.JPasswordField;
 import client.ChatClient;
 import client.ClientGUI;
 import controllers.*;
+import entities.*;
 
-import java.awt.Toolkit;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import GUIs.*;
 //import ocsf.client.*;
@@ -53,12 +42,13 @@ public class MyBoxGUI
 	private static JTextField port;
 	private static JTextField IP;
 	private static JPasswordField passwordField;
-	private static LoginController user;
+	private static LoginController login;
 	private static ClientGUI chat;
 	private static ChatClient client;
-	private static Object msg;
+	private static ArrayList<Object> msg;
 	final JPanel Login = new JPanel();
 	final JPanel UserMenu = new JPanel();
+	private static User usr;
 	
 	
 	
@@ -98,7 +88,6 @@ public class MyBoxGUI
 		{
 		frmMybox = new JFrame();
 		frmMybox.setFont(new Font("Tempus Sans ITC", Font.BOLD, 15));
-		//frmMybox.setIconImage(Toolkit.getDefaultToolkit().getImage(MyBoxGUI.class.getResource("/images/gift-ideas-gift-card-bridal-gift-baby-shower-gift-gift-box-groom-gift-christmas-gift-party-gift-gift-for-wedding-friend-gift-birthday-gift-baby-gift-good-gift-box-ideas-for-friend-necklace-gift-box.jpg")));
 		frmMybox.setBounds(100, 100, 800, 500);
 		frmMybox.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMybox.getContentPane().setLayout(new CardLayout(0, 0));
@@ -134,38 +123,7 @@ public class MyBoxGUI
 				}
 				if(ok)
 				{
-					chat= new ClientGUI(IP.getText(),port.getText());
-					try {
-						client= new ChatClient(IP.getText(),Integer.parseInt(port.getText()),chat);
-					} catch (NumberFormatException | IOException e1) {
-						JOptionPane.showMessageDialog(Login,"Unable to connect to server");
-						e1.printStackTrace();
-					}
-					LoginController user = new LoginController(UserName.getText(),passwordField.getText());
-					try {
-						System.out.println("sending: "+user.toString());
-						user.sendLogin();
-						String ne =(String)msg;
-						try {
-							client.wait();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						if( ne.equals("you have Successfully logged in")  )
-						{
-							frmMybox.getContentPane().add(UserMenu, "UserMenu");
-							UserMenu.setVisible(true);
-							Login.setVisible(false);
-						}
-						else{
-							JOptionPane.showMessageDialog(Login,ne);
-						}
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
+					loginHandler();
 				}
 			}
 		});
@@ -173,7 +131,6 @@ public class MyBoxGUI
 		
 		btnNewButton.setBounds(344, 313, 82, 48);
 		Login.add(btnNewButton);
-		
 		JLabel lblWellcomeToMybox = new JLabel("Wellcome to MyBox");
 		lblWellcomeToMybox.setForeground(new Color(51, 204, 255));
 		lblWellcomeToMybox.setFont(new Font("Arial", Font.PLAIN, 36));
@@ -314,7 +271,7 @@ public class MyBoxGUI
 			return port.getText();
 		}
 		public static LoginController getLoginInfo(){
-			return user;
+			return login;
 		}
 		public static ChatClient getClient(){
 			return client;
@@ -322,9 +279,37 @@ public class MyBoxGUI
 		public static ClientGUI getChat(){
 			return chat;
 		}
-		public Object getMSG() 
-		{
+		public Object getMSG(){
 			   return msg;
+		}		
+		void loginHandler(){
+			chat= new ClientGUI(IP.getText(),port.getText());
+			try {
+				client= new ChatClient(IP.getText(),Integer.parseInt(port.getText()),chat);
+			} catch (NumberFormatException | IOException e1) {
+				JOptionPane.showMessageDialog(Login,"Unable to connect to server");
+				e1.printStackTrace();
+			}
+			login = new LoginController(UserName.getText(),passwordField.getText());
+			try {
+				login.sendLogin();
+				msg=(ArrayList<Object>) client.getMessage();
+				Object temp = msg.get(0);
+				String ne =(String)temp;
+				if( ne.equals("you have Successfully logged in")  )
+				{
+					//usr=(User)msg.get(1);
+					frmMybox.getContentPane().add(UserMenu, "UserMenu");
+					UserMenu.setVisible(true);
+					Login.setVisible(false);
+				}
+				else{
+					JOptionPane.showMessageDialog(Login,ne);
+				}
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(Login,"Unable to send to the server");
+				e.printStackTrace();
+			}
 		}
 		
 }

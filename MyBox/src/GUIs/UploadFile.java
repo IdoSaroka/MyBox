@@ -1,12 +1,22 @@
 package GUIs;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+
 import javax.swing.JTextField;
 
+import controllers.*;
+
 public class UploadFile extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 
 	/**
@@ -21,6 +31,13 @@ public class UploadFile extends JPanel {
 		JButton btnNewButton = new JButton("Click Here to upload a file");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				UserController temp = new UserController();
+				try {
+					temp.uploadFile();
+				} catch (IOException e) {
+					JOptionPane.showInputDialog("Unable to open browser");
+					e.printStackTrace();
+				}
 			}
 		});
 		btnNewButton.setBounds(126, 145, 205, 30);

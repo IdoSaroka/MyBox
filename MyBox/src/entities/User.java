@@ -14,24 +14,31 @@ package entities;
 
 public class User
 {
-	private String UserName;
-	private String Email;
-	private String Password;
+	private String userName;
+	private String email;
+	private String password;
+	private String role;
 	
 /**
 	* Constructor of the User class
 	* @param String userName
-	* @param String userID
 	* @param String email
 	* @param String password
 */
-	public User(String userName, String email, String password)
+	public User(String userName, String email, String password,String role)
 	{
-		UserName = userName;
-		Email = email;
-		Password = password;
+		this.userName = userName;
+		this.email = email;
+		this.password = password;
+		this.role=role;
 	}
 	
+	public User(User user){
+		userName = user.getUserName();
+		email = user.getEmail();
+		password = user.getPassword();
+		role=user.getrole();
+	}
 
 	
 /**
@@ -39,7 +46,7 @@ public class User
 */
 	public String getUserName()
 	{
-		return UserName;
+		return userName;
 	}
 
 /**
@@ -47,17 +54,24 @@ public class User
 */	
 	public String getPassword()
 	{
-		return Password;
+		return password;
 	}
 
 /**
 	* @return String of Email
 */	
-	public String getEmaild()
+	public String getEmail()
 	{
-		return Email;
+		return email;
 	}
 
+	/**
+	* @return String of Role
+*/	
+	public String getrole()
+	{
+		return role;
+	}
 /**
 	* @param String UserName
 	* @return 'true' if the user is logged in, else return 'false'

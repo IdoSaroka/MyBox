@@ -57,10 +57,10 @@ public class logHandling {
 		  FileHandler fh; 
 		 
 		   try{
-			   File file =new File("C:/Program Files/MyBox/logs/logFile.txt");
+			   File file =new File("C:\\MyBox\\logFile.txt");
 			   
 	    		//if file doesnt exists, then create it
-	    		if(!file.exists()){
+	    		if(file.exists()==false){
 	    			file.createNewFile();
 	    		}
 	    	    /**

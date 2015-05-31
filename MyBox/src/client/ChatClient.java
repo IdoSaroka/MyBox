@@ -14,6 +14,7 @@ import java.io.*;
 /*import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;*/
+import java.util.ArrayList;
 
 //import extra.Msg;
 
@@ -61,15 +62,32 @@ public class ChatClient extends AbstractClient
    */
   
   
-  public void handleMessageFromServer(Object msg) 
+  synchronized public void handleMessageFromServer(Object msg) 
   {
-	   this.msg=msg;
+	  this.msg = msg;
+	  notifyAll();
   }
 
-  public Object getMSG() 
-  {
-	   return msg;
-  }
+
+  
+  /**
+	 * This method waits to message from the server
+	 * 
+	 * @return the message Package
+	 */
+	synchronized public Object getMessage() {
+		while (msg == null) {
+			try {
+				wait();
+
+			} catch (InterruptedException e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
+		return msg;
+	}
   
   /**
    * This method handles all data coming from the UI            
@@ -78,8 +96,7 @@ public class ChatClient extends AbstractClient
  * @return 
    */
   
-  public void handleMessageFromClientUI(String message){
-	  System.out.println(message.toString());
+  public void handleMessageFromClientUI(Object message){
     try
     {
     	sendToServer(message);

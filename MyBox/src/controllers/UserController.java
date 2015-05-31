@@ -1,9 +1,12 @@
 package controllers;
-
 import java.io.IOException;
 import java.util.ArrayList;
+import java.io.File;
+
+
 
 import main.MyBoxGUI;
+import files.*;
 
 
 public class UserController {
@@ -17,10 +20,12 @@ public class UserController {
 	 * @throws IOException 
 	 */
 
-	public void serachSharedFiles(String filePath) throws IOException{
+	public UserController(){
+	}
+	public void serachSharedFiles(String FileName) throws IOException{
 		message.clear();
 		message.add("searchSharedFiles");
-		message.add(filePath);
+		message.add(FileName);
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 	
@@ -31,10 +36,10 @@ public class UserController {
 	 * 
 	 * 
 	 */
-	public void requestToJoinGOI(String GOI) throws IOException{
+	public void requestToJoinGOI(String GOIID) throws IOException{
 		message.clear();
 		message.add("requestToJoinGOI");
-		message.add(GOI);
+		message.add(GOIID);
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 	
@@ -53,15 +58,15 @@ public class UserController {
 	
 	
 	/**
-	 * user sends a request to search GOI by subject 
+	 * user sends a request to search GOI by name 
 	 * @param GOI is the subject of the GOI
 	 * @throws IOException 
 	 * 
 	 */
-	public void searchGOI(String GOI) throws IOException{
+	public void searchGOI(String GOIName) throws IOException{
 		message.clear();
 		message.add("searchGOI");
-		message.add(GOI);
+		message.add(GOIName);
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 
@@ -70,11 +75,23 @@ public class UserController {
 	 * @param filePath, Primary Key for files table
 	 * @throws IOException 
 	 */
-	/*////////////////////Will be in use when class file will be added
-	public void uploadFile(File file) throws IOException{
+	public void uploadFile() throws IOException{
 		message.clear();
+		Browse b = new Browse();
+		MyFile file = b.getFile();
 		message.add("uploadFile");
 		message.add(file);
 		MyBoxGUI.getClient().sendToServer(message);
-	}*/
+	}
+	/**
+	 * allow  user to download files
+	 * @param String file path to send the server
+	 * @throws IOException 
+	 */
+	public void getFile(String filePath) throws IOException{
+		message.clear();
+		message.add("getFile");
+		message.add(filePath);
+		MyBoxGUI.getClient().sendToServer(message);
+	}
 }
