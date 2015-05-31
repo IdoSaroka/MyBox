@@ -73,9 +73,12 @@ public class EchoServer
          * SignOut - used when a logged in user chooses to sign out
          * **/
     case "SignOut":
+    	signOutUser((String)message.get(1));
     	break;
     	
-    case "userGOI":
+    case "GOIBasic":
+    	goiBasic handler = new goiBasic(msg,client); 
+    	handler.options();
         break;
         
     	/**
@@ -93,7 +96,8 @@ public class EchoServer
   }
   
  
-  protected void serverStarted()
+
+protected void serverStarted()
   {
     System.out.println(
       "Server listening for connections on port " + getPort());
@@ -190,7 +194,7 @@ public class EchoServer
    * **/   
   public static void checkLogin(String login, String password, Connection conn, ConnectionToClient client) throws IOException{
 	    Statement stmt = null;
-	    ArrayList<String> returnMsg = new ArrayList();
+	    ArrayList<Object> returnMsg = new ArrayList();
 	    PreparedStatement preparedStatement = null;
 	    
 	    String query = "Update users set loggedIn = ? where userName = ?";
@@ -201,9 +205,9 @@ public class EchoServer
 	      ResultSet rs = stmt.executeQuery("SELECT userName,password,loggedIn From users");
 	      
 	      while (rs.next()) { /**search the current users in the system**/
-	        if ((login.equals(rs.getString(1)))){
-	        	if(rs.getBoolean(3)== false){ /**loggedIn == false -> user is not logged in**/
-	            	if(password.equals(rs.getString(2))){
+	        if ((login.equals(rs.getString(1)))){ /**User Name appears in the Database**/
+	        	if(password.equals(rs.getString(2))){/**Password is correct**/
+	        		if(rs.getBoolean(3)== false){  /**loggedIn == false -> user is not logged in**/
 	        		
 	        		    /**add the data to the log file**/
 	      
@@ -223,22 +227,27 @@ public class EchoServer
 	        		    
 	        		     return;
 	                	}
-	            	else{
+	            /*	else{
 	        		    returnMsg.add("Error:The password you have entered is incorrect");
 	        		    rs.close();
 	        		    client.sendToClient(returnMsg);
-	        		    return;
+	        		    return;*/
+	        	   else{ /**loggedIn == true -> user is already logged in**/
+		        		returnMsg.add("Error:User is allready logged in to the system");
+		        		rs.close();
+		        		client.sendToClient(returnMsg);
+		        		return;
 	        	     }
 	        	}
-	        	else{ /**loggedIn == true -> user is already logged in**/
-	        		returnMsg.add("Error:User is allready logged in to the system");
-	        		rs.close();
-	        		client.sendToClient(returnMsg);
-	        		return;
+	        	else{/**Password is incorrect**/
+        		    returnMsg.add("Error:The password you have entered is incorrect");
+        		    rs.close();
+        		    client.sendToClient(returnMsg);
+        		    return;
 	        	}
 	        }     
 	      }
-	      returnMsg.add("Error:No Such User Exist");
+	      returnMsg.add("Error:No Such User Exist"); /**User Name doesn't appears in the Database**/
 	      rs.close();
   		  client.sendToClient(returnMsg);
 	      return;
@@ -248,7 +257,19 @@ public class EchoServer
 	      logHandling.logging(e.getMessage());
 	      e.printStackTrace();
 	    }
-}
+    }
+   /**signOutUser - will be responsiable for handling the user's
+    * request to log out from the system
+   * @author Ido Saroka 300830973
+   * @param userName - 
+   * <p>
+   * @exception SQLException e -
+   * @exception IOException e -
+   * **/   
+    public static void signOutUser(String userName){
+    	
+    }
+    
   
   
 }
