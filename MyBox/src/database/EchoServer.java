@@ -9,6 +9,7 @@ package database;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,8 +29,7 @@ import ocsf.server.ConnectionToClient;
  * <p>
  * @exception IOException -
  * **/
-public class EchoServer
-  extends AbstractServer
+public class EchoServer extends AbstractServer implements Serializable
 {
   public static final int DEFAULT_PORT = 3306;
   
@@ -48,7 +48,7 @@ public class EchoServer
   
   public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
-    int check = 0;
+    
     Scanner sc = new Scanner(System.in);
     ArrayList<String> message = (ArrayList)msg;
     ArrayList<String> returnMsg = (ArrayList)msg;
@@ -69,6 +69,20 @@ public class EchoServer
 			e1.printStackTrace();
 		}
     	break;
+    	
+    case "GOIBasic":
+    	GoiBasic handler = new GoiBasic(msg,client); 
+    	handler.options();
+        break;
+        
+        /**
+         * File - used when a file owner chooses to access his files
+         * **/
+    case "File":
+    	FilesHandler fileHandler = new FilesHandler(msg,client,conn); 
+    	FilesHandler.options();
+        break;
+        
     	/**
          * SignOut - used when a logged in user chooses to sign out
          * **/
@@ -76,10 +90,7 @@ public class EchoServer
     	signOutUser((String)message.get(1));
     	break;
     	
-    case "GOIBasic":
-    	goiBasic handler = new goiBasic(msg,client); 
-    	handler.options();
-        break;
+   
         
     	/**
          * default - when the server receive a message the deviates from the expected input
@@ -122,17 +133,17 @@ protected void serverStarted()
 	ArrayList<String> returnMsg = new ArrayList();
     Connection conn = null;
     int port = 0;
-    dbAdapter adapter = new dbAdapter();
+    DbAdapter adapter = new DbAdapter();
     /**
      * setUp - create the necessary folders used by MyBox
      * **/
-    logHandling.setUp(); 
+    LogHandling.setUp(); 
     try
     {
       Class.forName("com.mysql.jdbc.Driver").newInstance();
     }
     catch (Exception localException1) {
-    	logHandling.logging(localException1.getMessage());
+    	LogHandling.logging(localException1.getMessage());
     }
     try
     {
@@ -142,20 +153,20 @@ protected void serverStarted()
       /**insert GUI OBJECT that recives user name and password for a DataBase**/
       //conn = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName + '"',dbUserName,dbPassword);
       
-      logHandling.logging("Successfully connected to MyBox Database");
+      LogHandling.logging("Successfully connected to MyBox Database");
       System.out.println("SQL connection succeed\n");
       
       //Successfully
     }
     catch (SQLException ex)
     {
-      logHandling.logging(ex.getMessage());
+      LogHandling.logging(ex.getMessage());
       System.out.println("SQLException: " + ex.getMessage());
       System.out.println("SQLState: " + ex.getSQLState());
       System.out.println("VendorError: " + ex.getErrorCode());
     } catch (IOException e) {
 		// TODO Auto-generated catch block
-    	logHandling.logging(e.getMessage());
+    	LogHandling.logging(e.getMessage());
 		e.printStackTrace();
 	}
     try
@@ -216,8 +227,10 @@ protected void serverStarted()
 	        	    	preparedStatement.setString(2, login);
 	        		    preparedStatement.executeUpdate();
 	        		    
+	        		    /*need to return a user object*/
+	        		    
 	        	    	//System.out.println("User Successfully logged in");
-	        		    logHandling.logging("User: " + login +" logged in");
+	        		    LogHandling.logging("User: " + login +" logged in");
 	        	    	returnMsg.add("you have Successfully logged in");
 	        	    	
 	        	      	rs.close();
@@ -254,7 +267,7 @@ protected void serverStarted()
 	    }
 	    catch (SQLException | IOException e)
 	    {
-	      logHandling.logging(e.getMessage());
+	      LogHandling.logging(e.getMessage());
 	      e.printStackTrace();
 	    }
     }
