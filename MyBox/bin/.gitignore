@@ -1,6 +1,9 @@
-/files/
-/main/
+/client/
+/common/
 /controllers/
-/GUIC/
+/database/
+/entities/
+/files/
 /guic/
-/GUIs/
+/main/
+/ocsf/
