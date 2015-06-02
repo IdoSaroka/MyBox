@@ -1,16 +1,21 @@
 package files;
+
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+
+import main.MyBoxGUI;
 
 /**
  * This class is the browse controller
  */
-public class Browse  extends JPanel {
+public class Browse  extends MyBoxGUI {
 	
 	/**
 	 * 
@@ -74,8 +79,10 @@ public class Browse  extends JPanel {
 		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		int returnVal = fc.showOpenDialog(this); 
 		if (returnVal == JFileChooser.APPROVE_OPTION){
-			File file = fc.getSelectedFile(); 
-			System.out.println("this is : " + file.toString());
+			File file = fc.getSelectedFile();
+			Path = file.toString();
+			txtPath.setText(Path);
+			System.out.println("this is : " + Path);
 			myFile = new MyFile(file.getName());
 			long length = file.length(); 
 			  if (length > Integer.MAX_VALUE)  

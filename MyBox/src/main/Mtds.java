@@ -34,9 +34,13 @@ public class Mtds
 	public Boolean isIPValid(String str)
 	{
 		for(int i = 0;i<str.length();i++)
-			if( !((str.charAt(i)>='0' && str.charAt(i)<='9') ||  str.charAt(i)=='.') )
+			if( !((str.charAt(i)>='0' && str.charAt(i)<='9')) )
 				return false;
 		return true;
 	}
 
+	public String Connecting(String str1, String str2, String str3, String str4)
+	{
+		return str1+str2+str3+str4;
+	}
 }
