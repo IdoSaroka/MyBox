@@ -22,14 +22,14 @@ import ocsf.server.ConnectionToClient;
 /**This Class contains MyBox basic functions that are responsible for
  * accessing and searching inside the "Groups Of Interests" in the system.
  * @author Ido Saroka 300830973**/
-public class goiBasic {
+public class GoiBasic {
 	
    ArrayList<Object> msg= new ArrayList<>();
    ArrayList<String> returnMsg = new ArrayList<>();
   
    ConnectionToClient connection;
  		
-   public goiBasic(Object message, ConnectionToClient client) {
+   public GoiBasic(Object message, ConnectionToClient client) {
 		this.msg =(ArrayList)message;
 		this.connection = client;
    }

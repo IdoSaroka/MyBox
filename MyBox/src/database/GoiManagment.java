@@ -22,11 +22,11 @@ import ocsf.server.ConnectionToClient;
 /**This Class contains MyBox functions that are responsible for
  * accessing and handling the "Groups Of Interests" in the system.
  * @author Ido Saroka 300830973**/
-public class goiManagment {
+public class GoiManagment {
 	ArrayList<Object> msg= new ArrayList<>();
 	ArrayList<String> returnMsg = new ArrayList<>();
 	
-	public goiManagment(Object message, ConnectionToClient client) {
+	public GoiManagment(Object message, ConnectionToClient client) {
 		this.msg =(ArrayList)message;
 	}
 

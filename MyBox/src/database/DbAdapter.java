@@ -23,9 +23,9 @@ import java.util.Scanner;
  * Database and performers the necessary communications
  * @author Ido Saroka 300830973**/
 
-public class dbAdapter {
+public class DbAdapter {
 
-	public dbAdapter() {
+	public DbAdapter() {
 		// TODO Auto-generated constructor stub
 	}
 

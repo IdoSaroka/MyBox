@@ -17,7 +17,7 @@ import java.util.logging.SimpleFormatter;
  * @author Ido Saroka 300830973
  **/
 
-public class logHandling {
+public class LogHandling {
 	
 	/**setUp - will run one time when the server establishes a connection with the database
 	 * in order to create the necessary locations in which to save the logs
