@@ -24,42 +24,138 @@ import ocsf.server.ConnectionToClient;
  * @author Ido Saroka 300830973**/
 public class GoiBasic {
 	
-   ArrayList<Object> msg= new ArrayList<>();
-   ArrayList<String> returnMsg = new ArrayList<>();
+   static ArrayList<Object> msg= new ArrayList<>();
+   static ArrayList<String> returnMsg = new ArrayList<>();
   
-   ConnectionToClient connection;
+   static ConnectionToClient client;
+   
+   static Connection conn;
  		
-   public GoiBasic(Object message, ConnectionToClient client) {
+   public GoiBasic(Object message, ConnectionToClient client,Connection con) {
 		this.msg =(ArrayList)message;
-		this.connection = client;
+		this.client = client;
+		this.conn = con;
    }
    
    
-   
-   public static void options(){
-	   
+   /**options - will direct the user's request to the appropriate function
+    * in the system
+    * @author Ido Saroka 300830973
+    * <p>
+    * @exception SQLException e -
+    * @exception IOException e -
+    * **/   
+   public static void options() throws IOException{
+	   Scanner sc = new Scanner(System.in);
+	   String str = (String)msg.get(1);
+	   switch(str){
+	              /****
+	               * Should the user chooses perform a search in the GOI database
+	               */
+	              case "Search":
+	            	  searchAGOI((String)msg.get(2),(String)msg.get(3));
+	              break;
+		          
+	              case "ShowGoiFiles":
+	            	  break;
+	              
+	              case "MakeARequestToJoin": 
+	            	  makeARequest();
+			      break; 
+	              
+			      
+			      default:
+			        LogHandling.logging("Error: User selected an invalid search option");
+				    returnMsg.add("Error: Invalid Selection");
+			      break;
+	   }
 	   
    }
    
-   public static void printGOIs(Connection conn){
-		 Statement stmt;
-		   try{
-		       stmt = conn.createStatement();
-		       ResultSet rs = stmt.executeQuery("SELECT * FROM goi;");
-			   System.out.println("-----------------------------------Current Gois in the system:-------------------------------------");
-		       while(rs.next()){
-		    	   System.out.println("GOI ID: "+rs.getString(1) +
-		    			               " GOI Name: "+rs.getString(2) +
-		    			                  " GOI Subject: "+rs.getString(3) +
-		    			                    " Created: "+rs.getString(4) +
-		    			                      " Created: "+rs.getString(5) +
-		    			                        " Current Number Of Users: " + rs.getString(6) );
-		       }
-		       rs.close();
-		       System.out.println("--------------------------------------------------------------------------------------------------\n");
-		   }catch(SQLException e) {e.printStackTrace(); }  
-	}
    
+   /**searchAGOI - will be responsible for all the search options in the GOI database
+    * @author Ido Saroka 300830973
+    * @param option - the search option the user wishes the search to be performed by
+    * @param searchParameter - the parameter by which to perform the search
+    * <p>
+    * @exception SQLException e -
+    * @exception IOException e - 
+    * **/   
+     public static void searchAGOI(String option,String searchParameter) throws IOException{
+		Statement stmt = null;
+		boolean flag = false;
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * From goi");	
+			switch(option){
+			/**
+	    	    * Columns Description:
+	    	    * rs.getString(1) - GOI ID
+	    	    * rs.getString(2) - GOI Name
+	    	    * rs.getString(3) - GOI Subject
+	    	    * rs.getString(4) - Date Created
+	    	    * rs.getString(5) - Total Number Of Users
+	    	    * rs.getString(6) - Current Number Of Users
+	    	    * **/
 	
+			  /**
+		       * Handles a search by name in the GOI database
+		       * **/
+			case "Name":
+			    while(rs.next()){ 
+				   if( searchParameter.equals(rs.getString(2)) ){ /**GOI Name**/
+                      returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
+			    			   " "+rs.getString(4)+" "+rs.getString(5)+ " "+rs.getString(6)); 
+				 	   return;
+				 }
+				 returnMsg.add("No Such GOI in the system");
+			    }
+			    System.out.println("No Such GOI in the system");
+			    /**
+			     * Handles a search by subject in the GOI database
+			     * **/
+			 case "Subject":
+				while(rs.next()){ 
+					if( searchParameter.equals(rs.getString(3)) ){ /**GOI Subject**/
+						 returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
+				    			   " "+rs.getString(4)+" "+rs.getString(5)+ " "+rs.getString(6)); 
+						 flag = true;
+					}
+				}
+				if(!flag)
+					returnMsg.add("There Are currentliy No Goi's with this subject in MyBox!");
+			 break;
+			  /**
+			    * Returns the user all the GOIs that currently exist in the system
+			    * **/
+			 case "All":
+				    while(rs.next()){	   
+				    	   returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
+				    			   " "+rs.getString(4)+" "+rs.getString(5)+ " "+rs.getString(6));
+				       }
+			 break;
+			 /**
+			  * Default case - handles all the invalid selections should they occur
+			  * **/
+			 default:
+				 LogHandling.logging("Error: User selected an invalid search option");
+				 returnMsg.add("Error: Invalid Selection");
+		     break;
+			}
+			
+		}
+		 catch (SQLException e) {
+			 LogHandling.logging("Error: Encountered a problem while searching in the GOI Database");
+			 LogHandling.logging("Serach Parmeter: " + option +"Serach Index: " + searchParameter);
+			 LogHandling.logging(e.getMessage());
+			 e.printStackTrace(); 
+			 returnMsg.add("MyBox Encounterd an Error!");
+		     returnMsg.add("Please Contact Technical Support");
+		}
+     }   
+     
+     public static void makeARequest(){
+    	 
+     }
 
 }
