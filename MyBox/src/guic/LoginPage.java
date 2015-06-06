@@ -175,5 +175,10 @@ public class LoginPage extends MyBoxGUI
         prtsight.setFont(new Font("Arial", Font.PLAIN, 11));
         prtsight.setBounds(254, 260, 56, 14);
         add(prtsight);
+        
+        JLabel label = new JLabel(".");
+        label.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\mbox.jpg"));
+        label.setBounds(10, 11, 780, 478);
+        add(label);
     }
 }

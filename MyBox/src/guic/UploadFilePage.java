@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 
 import files.Browse;
+import javax.swing.ImageIcon;
 
 public class UploadFilePage extends MyBoxGUI
 {
@@ -60,6 +61,11 @@ public class UploadFilePage extends MyBoxGUI
     	txtPath.setBounds(305, 185, 372, 20);
     	txtPath.setEditable(false);
     	add(txtPath);
+    	
+    	JLabel label = new JLabel(".");
+    	label.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\mbox.jpg"));
+    	label.setBounds(13, 11, 778, 479);
+    	add(label);
     	txtPath.setColumns(10);
     	
     	
