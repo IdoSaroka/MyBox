@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JFormattedTextField;
+import java.awt.Color;
 
 public class LoginPage extends MyBoxGUI
 {
@@ -43,13 +44,14 @@ public class LoginPage extends MyBoxGUI
 
     private void init() 
     {
-        final JButton btnOK = new JButton("OK");
-        btnOK.setBounds(333, 362, 79, 50);
+        final JButton btnLogin = new JButton("Login");
+        btnLogin.setFont(new Font("Forte", Font.PLAIN, 11));
+        btnLogin.setBounds(334, 308, 80, 36);
         action = new ActionListener()
         {
             public void actionPerformed(ActionEvent ae)
             {
-                if (ae.getSource() == btnOK)
+                if (ae.getSource() == btnLogin)
                 {
                 	IPAddressVaild = meth.Connecting(iptxt1.getText(), iptxt2.getText(), iptxt3.getText(), iptxt4.getText());
     				if( ( meth.isUserValid(userNametxt.getText()) && meth.isPasswordValid(passwordField.getText()) && meth.isPortValid(Porttxt.getText()) &&
@@ -88,96 +90,100 @@ public class LoginPage extends MyBoxGUI
             }
         };
 
-        btnOK.addActionListener(action);
+        btnLogin.addActionListener(action);
         setLayout(null);
 
-        add(btnOK);
+        add(btnLogin);
         
         JLabel lblWelcomeToMybox = new JLabel("Welcome To MyBox");
         lblWelcomeToMybox.setFont(new Font("Forte", Font.PLAIN, 54));
-        lblWelcomeToMybox.setBounds(156, 11, 501, 57);
+        lblWelcomeToMybox.setBounds(180, 24, 501, 57);
         add(lblWelcomeToMybox);
         
         JLabel lblUserName = new JLabel("User Name:");
-        lblUserName.setFont(new Font("Arial", Font.PLAIN, 18));
+        lblUserName.setFont(new Font("Forte", Font.PLAIN, 18));
         lblUserName.setBounds(233, 117, 102, 36);
         add(lblUserName);
         
         JLabel lblPassword = new JLabel("Password:");
-        lblPassword.setFont(new Font("Arial", Font.PLAIN, 18));
+        lblPassword.setFont(new Font("Forte", Font.PLAIN, 18));
         lblPassword.setBounds(233, 167, 100, 22);
         add(lblPassword);
         
         userNametxt = new JTextField();
+        userNametxt.setFont(new Font("Forte", Font.PLAIN, 18));
         userNametxt.setBounds(363, 127, 129, 20);
         add(userNametxt);
         userNametxt.setColumns(10);
         
         
         JLabel lblPortNumber = new JLabel("Port Number:");
-        lblPortNumber.setFont(new Font("Arial", Font.PLAIN, 18));
-        lblPortNumber.setBounds(233, 245, 120, 14);
+        lblPortNumber.setFont(new Font("Forte", Font.PLAIN, 18));
+        lblPortNumber.setBounds(233, 212, 120, 14);
         add(lblPortNumber);
         
         Porttxt = new JTextField();
-        Porttxt.setBounds(363, 244, 129, 20);
+        Porttxt.setFont(new Font("Forte", Font.PLAIN, 18));
+        Porttxt.setBounds(363, 211, 129, 20);
         add(Porttxt);
         Porttxt.setColumns(10);
         
         
         passwordField = new JPasswordField();
+        passwordField.setFont(new Font("Forte", Font.PLAIN, 18));
         passwordField.setBounds(363, 170, 129, 20);
         add(passwordField);
         
         
         JLabel lblIpAddress = new JLabel("IP Address:");
-        lblIpAddress.setFont(new Font("Arial", Font.PLAIN, 18));
-        lblIpAddress.setBounds(233, 297, 102, 14);
+        lblIpAddress.setFont(new Font("Forte", Font.PLAIN, 18));
+        lblIpAddress.setBounds(233, 264, 102, 14);
         add(lblIpAddress);
         
         iptxt1 = new JTextField();
-        iptxt1.setBounds(363, 296, 24, 20);
+        iptxt1.setBounds(363, 263, 24, 20);
         add(iptxt1);
         iptxt1.setColumns(10);
 
         
         iptxt2 = new JTextField();
-        iptxt2.setBounds(399, 296, 24, 20);
+        iptxt2.setBounds(399, 263, 24, 20);
         add(iptxt2);
         iptxt2.setColumns(10);
         
         iptxt3 = new JTextField();
-        iptxt3.setBounds(434, 296, 24, 20);
+        iptxt3.setBounds(434, 263, 24, 20);
         add(iptxt3);
         iptxt3.setColumns(10);
         
         iptxt4 = new JTextField();
-        iptxt4.setBounds(468, 296, 24, 20);
+        iptxt4.setBounds(468, 263, 24, 20);
         add(iptxt4);
         iptxt4.setColumns(10);
         
         lblpoint1 = new JLabel(".");
         lblpoint1.setFont(new Font("Arial", Font.PLAIN, 18));
-        lblpoint1.setBounds(390, 302, 12, 14);
+        lblpoint1.setBounds(390, 269, 12, 14);
         add(lblpoint1);
         
         lblpoint2 = new JLabel(".");
         lblpoint2.setFont(new Font("Arial", Font.PLAIN, 18));
-        lblpoint2.setBounds(425, 302, 12, 14);
+        lblpoint2.setBounds(425, 269, 12, 14);
         add(lblpoint2);
         
         lblpoint3 = new JLabel(".");
         lblpoint3.setFont(new Font("Arial", Font.PLAIN, 18));
-        lblpoint3.setBounds(460, 302, 12, 14);
+        lblpoint3.setBounds(460, 269, 12, 14);
         add(lblpoint3);
         
         prtsight = new JLabel("(0 - 9999)");
-        prtsight.setFont(new Font("Arial", Font.PLAIN, 11));
-        prtsight.setBounds(254, 260, 56, 14);
+        prtsight.setFont(new Font("Forte", Font.PLAIN, 11));
+        prtsight.setBounds(254, 227, 56, 14);
         add(prtsight);
         
-        JLabel label = new JLabel(".");
-        label.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\mbox.jpg"));
+        JLabel label = new JLabel("");
+        label.setBackground(Color.WHITE);
+        label.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\MyBox.jpg"));
         label.setBounds(10, 11, 780, 478);
         add(label);
     }

@@ -14,7 +14,7 @@ import main.MyBoxGUI;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 
-public class UserPage extends MyBoxGUI implements ActionListener 
+public class UserPage extends MyBoxGUI
 {
 
     public UserPage() 
@@ -96,20 +96,9 @@ public class UserPage extends MyBoxGUI implements ActionListener
     	add(lblFiles);
     	
     	JLabel label = new JLabel(".");
-    	label.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\mbox.jpg"));
+    	label.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\MyBox.jpg"));
     	label.setBounds(10, 11, 780, 478);
     	add(label);
-////////////////////////start delete////////////////// 
-        init();
-////////////////////////end delete////////////////// 
-    }
-////////////////////////start delete////////////////// 
-    private void init() 
-    {
     }
 
-    public void actionPerformed(ActionEvent e) 
-    {            
-    }
-////////////////////////end delete////////////////// 
 }

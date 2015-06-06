@@ -155,5 +155,10 @@ public class serverMainPage extends ServerGUI
 		textPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		textPassword.setBounds(413, 227, 224, 37);
 		add(textPassword);
+		
+		JLabel label_2 = new JLabel("");
+		label_2.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\MyBox.jpg"));
+		label_2.setBounds(10, 11, 780, 478);
+		add(label_2);
 	}
 }

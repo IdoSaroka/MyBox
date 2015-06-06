@@ -63,8 +63,8 @@ public class UploadFilePage extends MyBoxGUI
     	add(txtPath);
     	
     	JLabel label = new JLabel(".");
-    	label.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\mbox.jpg"));
-    	label.setBounds(13, 11, 778, 479);
+    	label.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\MyBox.jpg"));
+    	label.setBounds(10, 11, 780, 478);
     	add(label);
     	txtPath.setColumns(10);
     	
