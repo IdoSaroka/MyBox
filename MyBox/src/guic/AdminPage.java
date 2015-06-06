@@ -98,22 +98,7 @@ public class AdminPage extends MyBoxGUI
     	JButton btnCreateAFolder = new JButton("Create a Folder");
     	btnCreateAFolder.setBounds(552, 71, 123, 42);
     	add(btnCreateAFolder);
-        init();
     }
-////////////////////////start delete////////////////// 
-    public void init()
-    {
 
-        state = new ActionListener()
-        {
-            public void actionPerformed(ActionEvent ae)
-            {
-              //  if (maleBox == (JCheckBox) ae.getSource())
-                {
-                                           
-                }
-            }
-        };
-////////////////////////end delete////////////////// 
-    }
+
 }

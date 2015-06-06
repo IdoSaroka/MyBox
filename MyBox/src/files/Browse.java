@@ -15,7 +15,7 @@ import main.MyBoxGUI;
 /**
  * This class is the browse controller
  */
-public class Browse  extends MyBoxGUI {
+public class Browse extends MyBoxGUI {
 	
 	/**
 	 * 
