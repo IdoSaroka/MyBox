@@ -8,13 +8,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import main.MyBoxGUI;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JFormattedTextField;
+
+import controllers.LoginController;
+import client.ChatClient;
+import client.ClientGUI;
+import entities.User;
+
 import java.awt.Color;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class LoginPage extends MyBoxGUI
 {
@@ -83,8 +94,32 @@ public class LoginPage extends MyBoxGUI
     					txtUserName = userNametxt.getText();
     					txtPortNumber = Porttxt.getText();
     			        txtPassword = passwordField.getText();
-    					userpage.setVisible(true);
-    					loginpage.setVisible(false);
+    			        chat = new ClientGUI(IPAddress,txtPortNumber);
+    			        try {
+    						client= new ChatClient(IPAddress,Integer.parseInt(txtPortNumber),chat);
+    					} catch (NumberFormatException | IOException e1) {
+    						JOptionPane.showMessageDialog(loginpage,"Unable to connect to server");
+    						e1.printStackTrace();
+    					}
+    			        LoginController login = new LoginController(txtUserName,txtPassword);
+    			        try {
+    						System.out.println("sending: "+login.toString());
+    						login.sendLogin();
+    						ArrayList<Object> message = (ArrayList) client.getMessage();
+    						if(message.get(0) instanceof User){
+    							user=(User)message.get(0);
+    							System.out.println(user.toString());
+    							userpage.setVisible(true);
+    	    					loginpage.setVisible(false);
+    						}
+    						else{
+    							String str = (String)message.get(0);
+    							JOptionPane.showMessageDialog(loginpage,str);
+    						}
+    					} catch (IOException e) {
+    						e.printStackTrace();
+    					}
+    					
     				}
                 }
             }

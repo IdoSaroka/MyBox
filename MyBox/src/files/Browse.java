@@ -82,7 +82,6 @@ public class Browse extends MyBoxGUI {
 			File file = fc.getSelectedFile();
 			Path = file.toString();
 			txtPath.setText(Path);
-			System.out.println("this is : " + Path);
 			myFile = new MyFile(file.getName());
 			long length = file.length(); 
 			  if (length > Integer.MAX_VALUE)  

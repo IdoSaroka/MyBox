@@ -11,6 +11,7 @@ import javax.swing.*;
 import controllers.LoginController;
 import client.ChatClient;
 import client.ClientGUI;
+import entities.User;
 import files.Browse;
 
 /* Here we are first declaring our class that will act as the
@@ -41,10 +42,11 @@ public class MyBoxGUI extends JPanel
 	
 	protected static ClientGUI chat;
 	protected static ChatClient client;
-	protected static ArrayList<Object> msg;
 	protected static String txtPortNumber;
 	protected static String txtUserName;
 	protected static String txtPassword;
+	
+	protected static User user;
 	
     private static void createAndShowGUI()
     {
@@ -144,9 +146,10 @@ public class MyBoxGUI extends JPanel
 	public static ClientGUI getChat(){
 		return chat;
 	}
-	public Object getMSG(){
-		   return msg;
-	}	
+
+	public User getUser(){
+		   return user;
+	}
 } 
 
 

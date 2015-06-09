@@ -1,4 +1,7 @@
 package entities;
+
+import java.io.Serializable;
+
 /**
 	* Project MyBox - Software Engineering Lab 2015 - Group no.2
 	* Ido Saroka 300830973
@@ -12,8 +15,12 @@ package entities;
     *@author Sagi Sulimani 300338878
 */
 
-public class User
+public class User implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String userName;
 	private String email;
 	private String password;
@@ -89,9 +96,12 @@ public class User
 */
 	public boolean saveInDB()
 	{
-		
 		return true; 
-		
 		//return false;
+	}
+	
+	@Override
+	public String toString(){
+		return userName+" " +email+" " +password+" " +role;
 	}
 }

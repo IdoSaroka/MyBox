@@ -15,18 +15,23 @@ import javax.swing.JButton;
 import main.MyBoxGUI;
 
 import java.awt.Font;
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 
 import files.Browse;
+
 import javax.swing.ImageIcon;
+
+import controllers.UserController;
 
 public class UploadFilePage extends MyBoxGUI
 {
 	
-	private Browse browse;
+	//private Browse browse;
+	UserController local=new UserController();
 	
     public UploadFilePage() 
     {
@@ -47,13 +52,30 @@ public class UploadFilePage extends MyBoxGUI
     	btnBrowse.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent arg0) 
     		{
-    			browse = new Browse();
+    			try {
+					local.uploadFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     		}
     	});
     	btnBrowse.setBounds(181, 184, 89, 23);
     	add(btnBrowse);
     	
     	JButton btnDone = new JButton("Done");
+    	btnDone.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			try {
+					local.sendFile(uploadfilepage);
+					uploadfilepage.setVisible(false);
+	    			userpage.setVisible(true);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+    		}
+    	});
     	btnDone.setBounds(323, 255, 89, 38);
     	add(btnDone);
     	

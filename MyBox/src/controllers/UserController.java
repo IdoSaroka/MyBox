@@ -5,13 +5,21 @@ import java.io.File;
 
 
 
+
+
+
+
+import javax.swing.JOptionPane;
+
 import main.MyBoxGUI;
 import files.*;
+import guic.UploadFilePage;
 
 
 public class UserController {
 
 	ArrayList<Object> message = new ArrayList<>();
+	MyFile file;
 	
 
 	/**
@@ -76,12 +84,24 @@ public class UserController {
 	 * @throws IOException 
 	 */
 	public void uploadFile() throws IOException{
-		message.clear();
 		Browse b = new Browse();
-		MyFile file = b.getFile();
+		this.file = b.getFile();
+	}
+	
+	/**
+	 * allow  user to become a file owner
+	 * @param uploadfilepage 
+	 * @param filePath, Primary Key for files table
+	 * @throws IOException 
+	 */
+	public void sendFile(UploadFilePage uploadfilepage) throws IOException{
+		message.clear();
 		message.add("uploadFile");
 		message.add(file);
 		MyBoxGUI.getClient().sendToServer(message);
+		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+		String str = (String)msg.get(0);
+		JOptionPane.showMessageDialog(uploadfilepage,str);
 	}
 	/**
 	 * allow  user to download files
@@ -94,4 +114,5 @@ public class UserController {
 		message.add(filePath);
 		MyBoxGUI.getClient().sendToServer(message);
 	}
+
 }
