@@ -43,11 +43,6 @@ public class serverMainPage extends ServerGUI
 		lblEnterDatabasLocation.setBounds(138, 85, 207, 14);
 		add(lblEnterDatabasLocation);
 		
-		JLabel shellBluelbl1 = new JLabel("");
-		shellBluelbl1.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\blue.jpg"));
-		shellBluelbl1.setBounds(122, 75, 235, 43);
-		add(shellBluelbl1);
-		
 		JLabel lblEnterUserName = new JLabel("Enter User Name (for DB):");
 		lblEnterUserName.setFont(new Font("Arial", Font.PLAIN, 18));
 		lblEnterUserName.setBounds(138, 154, 217, 28);
@@ -63,25 +58,10 @@ public class serverMainPage extends ServerGUI
 		lblEnterDbPort.setBounds(138, 310, 207, 19);
 		add(lblEnterDbPort);
 		
-		JLabel shellBluelbl2 = new JLabel("");
-		shellBluelbl2.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\blue.jpg"));
-		shellBluelbl2.setBounds(122, 151, 235, 43);
-		add(shellBluelbl2);
-		
-		JLabel shellBluelbl3 = new JLabel("");
-		shellBluelbl3.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\blue.jpg"));
-		shellBluelbl3.setBounds(122, 225, 235, 43);
-		add(shellBluelbl3);
-		
 		JLabel label = new JLabel("(0-9999)");
 		label.setFont(new Font("Arial", Font.PLAIN, 11));
 		label.setBounds(213, 328, 46, 14);
 		add(label);
-		
-		JLabel label_1 = new JLabel("");
-		label_1.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\blue.jpg"));
-		label_1.setBounds(122, 302, 235, 42);
-		add(label_1);
 		
 		txtPath = new JTextField();
 		txtPath.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -157,7 +137,7 @@ public class serverMainPage extends ServerGUI
 		add(textPassword);
 		
 		JLabel label_2 = new JLabel("");
-		label_2.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\MyBox.jpg"));
+		label_2.setIcon(new ImageIcon(serverMainPage.class.getResource("/guis/MyBox.jpg")));
 		label_2.setBounds(10, 11, 780, 478);
 		add(label_2);
 	}
