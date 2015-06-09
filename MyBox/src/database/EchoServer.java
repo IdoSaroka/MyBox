@@ -236,7 +236,7 @@ protected void serverStarted()
 	      while (rs.next()) { /**search the current users in the system**/
 	        if ((login.equals(rs.getString(1)))){ /**User Name appears in the Database**/
 	        	if(password.equals(rs.getString(2))){/**Password is correct**/
-	        		//if(rs.getBoolean(3)== false){  /**loggedIn == false -> user is not logged in**/
+	        	
 	        		  if(rs.getBoolean(5)== false){  /**loggedIn == false -> user is not logged in**/
 	        		    /**add the data to the log file**/
 	      
@@ -246,26 +246,21 @@ protected void serverStarted()
 	        		    preparedStatement.executeUpdate();
 	        		    /**
 	        		     * The function will return a "User object" to the logged in user this is to better help with security issues 
+	        		     * Description:
+	        		     * rs.getString(1) - userName
+	        		     * rs.getString(2) - email
+	        		     * rs.getString(3) - password
+	        		     * rs.getString(4) - role
 	        		     * **/
 	        		    Object detailsToSend = new User(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
-	        		    /*need to return a user object*/
-	        			/*public User(String userName, String email, String password,String role)
-	        			{
-	        				this.userName = userName;
-	        				this.email = email;
-	        				this.password = password;
-	        				this.role=role;
-	        			}*/
 	        		    
-	        	    	//System.out.println("User Successfully logged in");
+		
 	        		    LogHandling.logging("User: " + login +" logged in");
-	        	    	//returnMsg.add("you have Successfully logged in");
+	        	    	returnMsg.add(detailsToSend);
 	        		    
 	        	    	
 	        	      	rs.close();
-	        		   // client.sendToClient(returnMsg);
-	        	      	client.sendToClient(detailsToSend);
-	    
+	        		    client.sendToClient(returnMsg);
 	        		     return;
 	                	}
 	        	   else{ /**loggedIn == true -> user is already logged in**/
@@ -303,10 +298,10 @@ protected void serverStarted()
     }
   
   
-   /**signOutUser - will be responsiable for handling the user's
+   /**signOutUser - will be responsible for handling the user's
     * request to log out from the system
    * @author Ido Saroka 300830973
-   * @param userName - the function will recive the user's name in the MyBox system
+   * @param userName - the function will receive the user's name in the MyBox system
    * @param conn - the function will receive a connection to the database
    * @param client - the function will receive a connection to the client
    * <p>

@@ -25,7 +25,7 @@ import ocsf.server.ConnectionToClient;
 public class GoiBasic {
 	
    static ArrayList<Object> msg= new ArrayList<>();
-   static ArrayList<String> returnMsg = new ArrayList<>();
+   static ArrayList<Object> returnMsg = new ArrayList<>();
   
    static ConnectionToClient client;
    
@@ -49,9 +49,9 @@ public class GoiBasic {
 	   Scanner sc = new Scanner(System.in);
 	   String str = (String)msg.get(1);
 	   switch(str){
-	              /****
+	              /**
 	               * Should the user chooses perform a search in the GOI database
-	               */
+	               **/
 	              case "Search":
 	              break;
 		          
@@ -196,6 +196,28 @@ public class GoiBasic {
 			 * AllFiles - will return all the files currently shared with the user from all the groups of interests he is a member in
 			 * **/
 			case "AllFiles":
+				/**
+				*This loop will print all the files currently associated will all of MyBox Users
+				(GOI_id = 0 -> file is associated with all users)
+				**/
+				statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE GOI_id = 0");
+				rs=statement.executeQuery();
+				while(rs.next()){
+					/**
+					 * Description:
+					 * rs.getString(1) - GOI ID
+					 * rs.getString(2) - File ID
+					 * rs.getString(3) - File Name
+					 * rs.getString(4) - File's Suffix
+					 * rs.getString(5) - File Owner
+					 * rs.getString(6) - Virtual Path (Where is the file located in the server)
+					 * rs.getString(7) - File's Description
+					 * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
+					 * **/
+				     returnMsg.add("GOI ID: "+rs.getString(1) + " "+rs.getString(2) +" "+rs.getString(3) +
+    			            " "+rs.getString(4) +" "+rs.getString(5) +" " + rs.getString(6) + 
+    			                       " " + rs.getString(7) +" " + rs.getString(8));
+				}
 				statement = conn.prepareStatement("SELECT GOI_id From usersingoi WHERE user_Name = ?");
 				statement.setString(1, userName); 
 				rs=statement.executeQuery();
@@ -219,12 +241,6 @@ public class GoiBasic {
 					statement = conn.prepareStatement("SELECT * From FilesInGOI Where GOI_id = ?");
 				    statement.setInt(1, var); 
 					rs=statement.executeQuery();
-					if(!rs.isBeforeFirst()){
-						rs.close();
-						returnMsg.add("The Groups of interset you are currentliy a member in have no files in them!\n");
-						client.sendToClient(returnMsg);
-						break;
-					 }
 					 while(rs.next()){
 							/**
 							 * Description:
@@ -240,8 +256,18 @@ public class GoiBasic {
 						     returnMsg.add("GOI ID: "+rs.getString(1) + " "+rs.getString(2) +" "+rs.getString(3) +
 		    			            " "+rs.getString(4) +" "+rs.getString(5) +" " + rs.getString(6) + 
 		    			                       " " + rs.getString(7) +" " + rs.getString(8));
+						     flag = true;
 						} 
 				 }
+				/**
+				 * If the groups of interest the user is a member in have no fies in them
+				 **/
+				 if(flag == false){
+					    rs.close();
+					    returnMsg.add("The Groups of intersets you are currentliy a member in have no files in them!\n");
+						client.sendToClient(returnMsg);
+						break;
+					 }
 				 rs.close();
 				 client.sendToClient(returnMsg);
 				 break;
@@ -302,7 +328,7 @@ public class GoiBasic {
 			    default:
 			    	LogHandling.logging("Error: User"+ userName +"selected an invalid search option");
 					returnMsg.add("Error: Invalid Selection");
-			    	System.out.println("Error: Invalid Selection");
+					client.sendToClient(returnMsg);
 			     break;
 			}
 	     }catch (SQLException e) {
@@ -312,6 +338,7 @@ public class GoiBasic {
 		 e.printStackTrace(); 
 		 returnMsg.add("MyBox Encounterd an Error!");
 	     returnMsg.add("Please Contact Technical Support");
+	     client.sendToClient(returnMsg);
 	    }
 	}
 
