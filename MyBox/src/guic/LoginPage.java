@@ -218,7 +218,7 @@ public class LoginPage extends MyBoxGUI
         
         JLabel label = new JLabel("");
         label.setBackground(Color.WHITE);
-        label.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\MyBox.jpg"));
+        label.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
         label.setBounds(10, 11, 780, 478);
         add(label);
     }

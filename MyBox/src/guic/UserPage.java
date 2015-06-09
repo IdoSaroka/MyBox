@@ -96,7 +96,7 @@ public class UserPage extends MyBoxGUI
     	add(lblFiles);
     	
     	JLabel label = new JLabel(".");
-    	label.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\MyBox.jpg"));
+    	label.setIcon(new ImageIcon("/guic/MyBox.jpg"));
     	label.setBounds(10, 11, 780, 478);
     	add(label);
     }

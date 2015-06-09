@@ -84,8 +84,8 @@ public class UploadFilePage extends MyBoxGUI
     	txtPath.setEditable(false);
     	add(txtPath);
     	
-    	JLabel label = new JLabel(".");
-    	label.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\MyBox.jpg"));
+    	JLabel label = new JLabel("");
+    	label.setIcon(new ImageIcon("/guic/MyBox.jpg"));
     	label.setBounds(10, 11, 780, 478);
     	add(label);
     	txtPath.setColumns(10);
