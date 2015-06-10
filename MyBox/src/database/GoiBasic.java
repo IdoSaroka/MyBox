@@ -9,6 +9,7 @@ package database;
 **/
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,7 +23,7 @@ import ocsf.server.ConnectionToClient;
 /**This Class contains MyBox basic functions that are responsible for
  * accessing and searching inside the "Groups Of Interests" in the system.
  * @author Ido Saroka 300830973**/
-public class GoiBasic {
+public class GoiBasic implements Serializable{
 	
    static ArrayList<Object> msg= new ArrayList<>();
    static ArrayList<Object> returnMsg = new ArrayList<>();
@@ -42,6 +43,7 @@ public class GoiBasic {
     * in the system
     * @author Ido Saroka 300830973
     * <p>
+    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
     * @exception SQLException e 
     * @exception IOException e 
     * **/   
@@ -50,14 +52,14 @@ public class GoiBasic {
 	   String str = (String)msg.get(1);
 	   switch(str){
 	              /**
-	               * Should the user chooses perform a search in the GOI database
+	               * "Search" - Should the user chooses perform a search in the GOI database
 	               **/
 	              case "Search":
 	            	  searchAGOI((String)msg.get(2),(String)msg.get(3),(String)msg.get(4));
 	              break;
 		          
 	              /**
-	               * ShowGoiFiles - will be used should the user wishes to search the shared files avilalbe in the system
+	               * ShowGoiFiles - will be used should the user wishes to search the shared files currently available in the system
 	               **/
 	              case "ShowGoiFiles":
 	            	  searchSharedFiles((String)msg.get(2),(String)msg.get(3),(String)msg.get(4));
@@ -70,10 +72,23 @@ public class GoiBasic {
 	            	  makeARequest((String)msg.get(2),(String)msg.get(3),(String)msg.get(4));
 			      break; 
 	              
+			      /**
+	               *DownloadSharedFile - Handles the case where the user wishes to download a shared file
+	               **/
+	              case "DownloadSharedFile":
+	            	  
+	              break;
+	              
+	              /**
+	               *EditSharedFile - Handles the case where the user wishes to edit a file shared with his GOI
+	               **/  
+	              case "EditSharedFile":
+	            	  break;
 			      
 			      default:
 			        LogHandling.logging("Error: User selected an invalid search option");
 				    returnMsg.add("Error: Invalid Selection");
+				    client.sendToClient(returnMsg);
 			      break;
 	   }
 	   
@@ -86,6 +101,7 @@ public class GoiBasic {
     * @param option - the search option the user wishes the search to be performed by
     * @param searchParameter - the parameter by which to perform the search
     * <p>
+    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
     * @exception SQLException e 
     * @exception IOException e  
     * **/   
@@ -107,7 +123,7 @@ public class GoiBasic {
 	    	    * **/
 	
 			  /**
-		       * Handles a search by name in the GOI database
+		       * "Name" - Handles a search by name in the GOI database
 		       * **/
 			case "Name":
 			    while(rs.next()){ 
@@ -124,7 +140,7 @@ public class GoiBasic {
 				client.sendToClient(returnMsg);
 				break;
 			    /**
-			     * Handles a search by subject in the GOI database
+			     * "Subject" - Handles a search by subject in the GOI database
 			     * **/
 			 case "Subject":
 				while(rs.next()){ 
@@ -140,7 +156,7 @@ public class GoiBasic {
 				client.sendToClient(returnMsg);
 			 break;
 			  /**
-			    * Returns the user all the GOIs that currently exist in the system
+			    * "All" - Returns the user all the GOIs that currently exist in the system
 			    * **/
 			 case "All":
 				    if(!rs.isBeforeFirst()){
@@ -178,6 +194,7 @@ public class GoiBasic {
 			 e.printStackTrace(); 
 			 returnMsg.add("MyBox Encounterd an Error!");
 		     returnMsg.add("Please Contact Technical Support");
+		     client.sendToClient(returnMsg);
 		}
      }   
      
@@ -189,11 +206,11 @@ public class GoiBasic {
       * @param description - optional -> if the user wishes to add a description as to why he thinks hi's request should be authorized 
       * otherwise this value will be set to NULL
       * <p>
+      * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
       * @exception SQLException e 
       * @exception IOException e  
       * **/  
      public static void makeARequest(String userName,String goiName,String description) throws IOException{
-    			Statement stmt = null;
     			PreparedStatement statement = null;
     			ResultSet rs = null;
     			try {
@@ -280,6 +297,7 @@ public class GoiBasic {
       * @param option - the search option the user wishes the search to be performed by
       * @param searchParameter - the parameter by which to perform the search
       * <p>
+      * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
       * @exception SQLException e 
       * @exception IOException e  
       * **/  
@@ -446,4 +464,7 @@ public class GoiBasic {
 	    }
 	}
 
+ 	public static void downloadSharedFile(){
+ 		
+ 	}
 }

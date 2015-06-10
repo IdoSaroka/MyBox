@@ -27,6 +27,7 @@ import ocsf.server.ConnectionToClient;
  * @param port - the port issued by the user to be opened and receive connections
  * @param DBConn - the connection to the Database
  * <p>
+ * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
  * @exception IOException -
  * **/
 public class EchoServer extends AbstractServer implements Serializable
@@ -71,6 +72,10 @@ public class EchoServer extends AbstractServer implements Serializable
 		}
     	break;
     	
+    	/**
+    	 * GOIBasic - is responsible for handling all of the GOI "Basic" functions (i.e. those that are available to all
+    	 * of MyBox users )
+    	 * **/
     case "GOIBasic":
     	GoiBasic handler = new GoiBasic(msg,client,conn); 
     	try { handler.options(); } 
@@ -81,6 +86,34 @@ public class EchoServer extends AbstractServer implements Serializable
 		}
         break;
         
+        
+        /**
+    	 * Admin - will contain all of MyBox Administrative functions - accessible only for the systems Admin
+    	 * **/
+        /*Expected message from Shimon: string(0) = Admin string(1) = SystemAdmin(user.role) , string(2) = Option String(3) = UserName
+         * String(4) = */
+    case "Admin":
+    	/**
+    	 * This condition is a security check in case a user which is not a admin tries to access the system
+    	 * **/
+    	if(("SystemAdmin").equals((String)message.get(1))){
+    		LogHandling.logging("Admin: " + (String)message.get(3) + " is logged in the system");
+    		GoiAdmin AdminHandler = new GoiAdmin(msg,client,conn); 
+    		try { AdminHandler.options(); } 
+        	catch (IOException e1) {
+        		LogHandling.logging(e1.getMessage());
+    			e1.printStackTrace();
+    			client.sendToClient("an error has occured while trying to Access Mybox!");
+    		}
+    	}
+    	/**If a unauthorized access was attempted the system will register the user's details**/
+    	else{ 		
+    		LogHandling.logging("Security Violation: User: " + (String)message.get(3) + "Tried to access the system!");
+    		client.sendToClient("an error has occured while trying to Access Mybox!");
+    	}	
+    	break;
+        
+    	
         /**
          * File - used when a file owner chooses to access his files
          * **/
@@ -89,11 +122,19 @@ public class EchoServer extends AbstractServer implements Serializable
     	FilesHandler.options();
         break;
         
+        /**
+         * Folder - will be used for the creation and deletion of folders by the users
+         * **/
+    case "Folder":
+    	
+    	break;
+    	
+    	
     	/**
          * SignOut - used when a logged in user chooses to sign out
          * **/
     case "SignOut":
-    	//need to recive the userName from the user
+    	 /*Expected message from Shimon: string(0) = SignOut , string(1) = userName String(2) = UserName */
     	try { signOutUser((String)message.get(2),conn,client); } 
     	catch (SQLException e1) {
     		LogHandling.logging("Error:System could not sign out User " + (String)message.get(2));
@@ -137,7 +178,8 @@ protected void serverStarted()
    * a listing port for the program's users
    * @author Ido Saroka 300830973
    * <p>
-   * @exception SQLException e -
+   * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+   * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
    * @exception IOException e -
    * **/   
   public static void main(String[] args) throws IOException
@@ -218,7 +260,8 @@ protected void serverStarted()
    * @param conn - the function will receive a connection to the database
    * @param client - the function will receive a connection to the client
    * <p>
-   * @exception SQLException e -
+   * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+   * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
    * @exception IOException e -
    * **/   
   public static void checkLogin(String login, String password, Connection conn, ConnectionToClient client) throws IOException{
@@ -231,7 +274,6 @@ protected void serverStarted()
 	    {
 	      stmt = conn.createStatement();
 	   
-	      //ResultSet rs = stmt.executeQuery("SELECT userName,password,loggedIn From users");
 	      ResultSet rs = stmt.executeQuery("SELECT * From users");
 	      while (rs.next()) { /**search the current users in the system**/
 	        if ((login.equals(rs.getString(1)))){ /**User Name appears in the Database**/
@@ -283,9 +325,12 @@ protected void serverStarted()
   		  client.sendToClient(returnMsg);
 	      return;
 	    }
-	    /****
-	     * Will return an error message and how to handle it to the user
-	     */
+	    /**
+		* Handling of the SQLException - 1.saving the appropriate data in the Log
+		*                                2. Sending a message to the user informing him of the problem and how to handle it
+		* 
+		* Handling of the IOException - 
+		* **/
 	    catch (SQLException | IOException e)
 	    {
 	      LogHandling.logging("User: " + login +" could not log in due to a system failure");
@@ -305,8 +350,10 @@ protected void serverStarted()
    * @param conn - the function will receive a connection to the database
    * @param client - the function will receive a connection to the client
    * <p>
-   * @exception SQLException e -
-   * @exception IOException e -
+   * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+   * @throws SQLException - the function will throw an IOException in case there will be a problem writing to the the Database: "Users"
+   * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
+   * @exception IOException e 
    * **/   
     public static void signOutUser(String userName,Connection conn, ConnectionToClient client) throws SQLException, IOException{
     	Statement stmt = null;
@@ -318,21 +365,32 @@ protected void serverStarted()
 			   while (rs.next()) { /**search the current users in the system**/
 				    if ((userName.equals(rs.getString(1)))){
 				    	if(rs.getBoolean(5)== false){
+				    		rs.close();
 				    		 LogHandling.logging("Error - User: " + userName +"Is not logged in yet tried to sign out");
 				    		 returnMsg.add("Error: Could not sign out from MyBox!");
 				    		 returnMsg.add("Please Contact Technical Support");
 				    		 client.sendToClient(returnMsg);
 				    	}
 				    	else{
+				    		/*----Impotent!------*/
+				    		/*Add a connection termination -> clinet.close()*/
 				    		preparedStatement = conn.prepareStatement(query);
 		        		    preparedStatement.setInt(1, 0);
 		        	    	preparedStatement.setString(2, userName);
 		        		    preparedStatement.executeUpdate();
 		        		    returnMsg.add("Successfully signed out of MyBox!");
+		        		    client.sendToClient(returnMsg);
 				    	}
 			         }    
 			 }
-		} catch (SQLException | IOException e) {
+		} 
+	      /**
+			* Handling of the SQLException - 1.saving the appropriate data in the Log
+			*                                2. Sending a message to the user informing him of the problem and how to handle it
+			* 
+			* Handling of the IOException - 
+			* **/
+	        catch (SQLException | IOException e) {
 			LogHandling.logging("Error: " + userName +"Is not logged in yet tried to sign out");
 			LogHandling.logging(e.getMessage());
 			returnMsg.add("Error: Could not sign out from MyBox!");
