@@ -42,8 +42,8 @@ public class GoiBasic {
     * in the system
     * @author Ido Saroka 300830973
     * <p>
-    * @exception SQLException e -
-    * @exception IOException e -
+    * @exception SQLException e 
+    * @exception IOException e 
     * **/   
    public static void options() throws IOException{
 	   Scanner sc = new Scanner(System.in);
@@ -53,14 +53,21 @@ public class GoiBasic {
 	               * Should the user chooses perform a search in the GOI database
 	               **/
 	              case "Search":
+	            	  searchAGOI((String)msg.get(2),(String)msg.get(3),(String)msg.get(4));
 	              break;
 		          
+	              /**
+	               * ShowGoiFiles - will be used should the user wishes to search the shared files avilalbe in the system
+	               **/
 	              case "ShowGoiFiles":
 	            	  searchSharedFiles((String)msg.get(2),(String)msg.get(3),(String)msg.get(4));
-	            	  break;
-	              
+	              break;
+	            	  
+	              /**
+	               *MakeARequestToJoin - Handles the case where the user wishes to make a request to join a GOI
+	               **/
 	              case "MakeARequestToJoin": 
-	            	  makeARequest();
+	            	  makeARequest((String)msg.get(2),(String)msg.get(3),(String)msg.get(4));
 			      break; 
 	              
 			      
@@ -79,8 +86,8 @@ public class GoiBasic {
     * @param option - the search option the user wishes the search to be performed by
     * @param searchParameter - the parameter by which to perform the search
     * <p>
-    * @exception SQLException e -
-    * @exception IOException e - 
+    * @exception SQLException e 
+    * @exception IOException e  
     * **/   
      public static void searchAGOI(String userName, String option,String searchParameter) throws IOException{
 		Statement stmt = null;
@@ -160,6 +167,10 @@ public class GoiBasic {
 			}
 			
 		}
+		/**
+		 * Handling of the SQLException - 1. Saving the appropriate data in the Log
+		 *                                2. Sending a message to the user informing him of the problem and how to handle it
+		 * **/
 		 catch (SQLException e) {
 			 LogHandling.logging("Error:"+userName +"Encountered a problem while searching in the GOI Database");
 			 LogHandling.logging("Serach Parmeter: " + option +"Serach Index: " + searchParameter);
@@ -170,9 +181,98 @@ public class GoiBasic {
 		}
      }   
      
-     public static void makeARequest(){
-    	 
+     
+     /**makeARequest - will be responsible for handling the users request's to join the GOI avilable in the system
+      * @author Ido Saroka 300830973
+      * @param userName - the user's user name in the MyBox system
+      * @param goiName - the name of the Group of interest the user wish to join to
+      * @param description - optional -> if the user wishes to add a description as to why he thinks hi's request should be authorized 
+      * otherwise this value will be set to NULL
+      * <p>
+      * @exception SQLException e 
+      * @exception IOException e  
+      * **/  
+     public static void makeARequest(String userName,String goiName,String description) throws IOException{
+    			Statement stmt = null;
+    			PreparedStatement statement = null;
+    			ResultSet rs = null;
+    			try {
+    				/**
+    				 * The following statement checks if the GOI that the user is requesting to join actually exist, if
+    				 * not an appropriate message will be sent to the user
+    				 * **/
+    				 statement = conn.prepareStatement("SELECT GOI_id,GOI_Name From GOI WHERE GOI_Name = ?");
+    				 statement.setString(1, goiName); 
+    				 rs=statement.executeQuery();
+    				 if(!rs.isBeforeFirst()){
+    					 rs.close();
+    					 returnMsg.add("Error: Goi does not exist");
+    					 client.sendToClient(returnMsg);
+    					 return;
+    				 }
+    				 rs.next();
+    				 int goiId = rs.getInt(1);
+    				 
+    				 /**
+     				 * The following statement checks if the user is already a member in the group of interest (GOI) he is requesting to join
+     				 * If the user is already a member the system will sent him a message stating so
+     				 * **/		 
+    				 statement = conn.prepareStatement("SELECT * From usersingoi WHERE GOI_id = ? AND user_Name = ?");
+    				 statement.setInt(1, goiId);
+    				 statement.setString(2, userName);
+    				 rs=statement.executeQuery();
+    				 if(rs.isBeforeFirst()){
+    					 rs.close();
+    					 returnMsg.add("Error: You are allready a memeber in this Group Of Interest");
+    					
+    					 return;
+    				 }
+    				 
+    				 /**
+      				 * The following statement checks if the user has already made a request to join this GOI.
+      				 * If the user has already sent a request the system will send him a message stating so.
+      				 * **/	
+    				 statement = conn.prepareStatement("SELECT * From request WHERE userName = ? AND GOI_Name = ?");
+    				 statement.setString(1, userName); 
+    				 statement.setString(2, goiName);
+    				 rs=statement.executeQuery();
+    				 if(rs.isBeforeFirst()){
+    					 rs.close();
+    					 returnMsg.add("Error: You have already made a request to join this Group of interest," +
+    					 		"Your request is pending for the Admin's answer");
+    					 client.sendToClient(returnMsg);
+    					 return;
+    				 }
+    				 
+    				 /**
+       				 * The following statement will insert the user's request to the appropriate mySQL table (request)
+       				 * if all the previous checks were passed successfully.
+       				 * **/	
+    				 statement = conn.prepareStatement("INSERT INTO Request (userName,GOI_Name,description) VALUES (?,?,?)");
+    				 statement.setString(1, userName);
+    			     statement.setString(2, goiName);	
+    			     statement.setString(3, description);
+    			     statement.executeUpdate();
+    			     returnMsg.add("Request was sent successfully");
+    			     client.sendToClient(returnMsg);
+    			     return;
+    			     
+    			} 
+    			/**
+    			 * Handling of the SQLException - 1.saving the appropriate data in the Log
+    			 *                                2. Sending a message to the user informing him of the problem and how to handle it
+    			 * **/
+    			catch (SQLException e) {
+    				//search
+    				   LogHandling.logging("Error:"+ userName +"trying to make a request to join GOI" + goiName);
+    				   LogHandling.logging(e.getMessage());
+    				   e.printStackTrace(); 
+    				   returnMsg.add("MyBox Encounterd an Error!");
+    				   returnMsg.add("Please Contact Technical Support");
+    				   client.sendToClient(returnMsg);
+    			}
      }
+     
      
      /**searchSharedFiles - will be responsible for searching the shared files in the Group of interests the user is a member in
       * @author Ido Saroka 300830973
@@ -180,8 +280,8 @@ public class GoiBasic {
       * @param option - the search option the user wishes the search to be performed by
       * @param searchParameter - the parameter by which to perform the search
       * <p>
-      * @exception SQLException e -
-      * @exception IOException e - 
+      * @exception SQLException e 
+      * @exception IOException e  
       * **/  
  	public static void searchSharedFiles(String userName,String option, String searchParameter) throws IOException{
 		Statement stmt = null;
@@ -234,7 +334,7 @@ public class GoiBasic {
 					client.sendToClient(returnMsg);
 					return;
 				}
-				/**
+				/**;
 				 * This loop will print all the files associated with the groups the user is a member 
 				 **/
 				for (int var : groupIds){
@@ -331,9 +431,13 @@ public class GoiBasic {
 					client.sendToClient(returnMsg);
 			     break;
 			}
+			/**
+			 * Handling of the SQLException - 1.saving the appropriate data in the Log
+			 *                                2. Sending a message to the user informing him of the problem and how to handle it
+			 * **/
 	     }catch (SQLException e) {
 	     LogHandling.logging("Error:"+ userName +"Encountered a problem while searching in the GOI Database");
-		 LogHandling.logging("Serach Parmeter: " + option +"Serach Index: " + searchParameter);
+		 LogHandling.logging("search Parmeter: " + option +"Serach Index: " + searchParameter);
 		 LogHandling.logging(e.getMessage());
 		 e.printStackTrace(); 
 		 returnMsg.add("MyBox Encounterd an Error!");
