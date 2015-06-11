@@ -27,7 +27,6 @@ public class UserController {
 	 * @param filePath, Primary Key for files table
 	 * @throws IOException 
 	 */
-
 	public UserController(){
 	}
 	public void serachSharedFiles(String FileName) throws IOException{
@@ -113,6 +112,19 @@ public class UserController {
 		message.add("getFile");
 		message.add(filePath);
 		MyBoxGUI.getClient().sendToServer(message);
+	}
+	
+	public void updateFile(UploadFilePage uploadfilepage) throws IOException{
+		message.clear();
+		uploadFile();
+		message.add("updateFile");
+		message.add(file);
+		MyBoxGUI.getClient().sendToServer(message);
+		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+		String str = (String)msg.get(0);
+		JOptionPane.showMessageDialog(uploadfilepage,str);
+		//if file doesnt exist, an appropriate msg appears
+		//if the file updated, the user will note it
 	}
 
 }
