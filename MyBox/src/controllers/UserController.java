@@ -23,12 +23,16 @@ public class UserController {
 	
 
 	/**
-	 * user send a request to view files shared with him/her
-	 * @param filePath, Primary Key for files table
-	 * @throws IOException 
+	 * Empty constructor
 	 */
 	public UserController(){
 	}
+	
+	/**
+	 * user searching for files shared with him
+	 * @param String that define the file name
+	 * @throws IOException 
+	 */
 	public void serachSharedFiles(String FileName) throws IOException{
 		message.clear();
 		message.add("searchSharedFiles");
@@ -68,7 +72,6 @@ public class UserController {
 	 * user sends a request to search GOI by name 
 	 * @param GOI is the subject of the GOI
 	 * @throws IOException 
-	 * 
 	 */
 	public void searchGOI(String GOIName) throws IOException{
 		message.clear();
@@ -114,6 +117,11 @@ public class UserController {
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 	
+	/**
+	 * users with the right permission will be able to update the file
+	 * @param UploadFilePage for viewing in the right window
+	 * @throws IOException 
+	 */
 	public void updateFile(UploadFilePage uploadfilepage) throws IOException{
 		message.clear();
 		uploadFile();
