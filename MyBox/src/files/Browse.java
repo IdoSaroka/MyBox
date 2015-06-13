@@ -22,6 +22,10 @@ public class Browse extends MyBoxGUI {
 	 */
 	private static final long serialVersionUID = 1L;
 	private MyFile myFile;
+	private String filePath;
+	private String fileName;
+	private String fileSuffix;
+	
 	/**
 	 * Initializing the File Open window
 	 */
@@ -82,22 +86,32 @@ public class Browse extends MyBoxGUI {
 			File file = fc.getSelectedFile();
 			Path = file.toString();
 			txtPath.setText(Path);
-			myFile = new MyFile(file.getName());
+			
+			int dot = Path.lastIndexOf('.');
+			
+			String name=file.getName();
+			String suff=Path.substring(dot+1);
+			myFile = new MyFile(name);
+			
+			myFile.setPath(file.getParent());
+			name=name.substring(0, Math.min(name.length(), suff.length()-1));
+			myFile.setName(name);
+			myFile.setSuffix(suff);
+			
 			long length = file.length(); 
-			  if (length > Integer.MAX_VALUE)  
-		            throw new IOException("File is too large!"); 	  
-		        byte[] b = new byte[(int)length]; 
-		        b = getFile(file);
-		        myFile.initArray((int)length);
-		        myFile.setSize((int)length);
-		        myFile.setMybytearray(b);
+			if (length > Integer.MAX_VALUE)  
+		    throw new IOException("File is too large!"); 	  
+		    byte[] b = new byte[(int)length]; 
+		    b = getFile(file);
+		    myFile.initArray((int)length);
+		    myFile.setSize((int)length);
+		    myFile.setMybytearray(b);
 		}
 		this.setSize(400, 321);
 		this.setLayout(null);	
 	}
 	
 	/**
-	 * 
 	 * @param myFile
 	 * @return
 	 */
@@ -112,7 +126,6 @@ public class Browse extends MyBoxGUI {
 		    BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile)); //get Buffered Stream		    
 		    bis.read(mybytearray,0,mybytearray.length); // read file into array
 		    bis.close();
-		      System.out.println("xxxxxxxxxxxxx: "+myFile.getName());
 		    return mybytearray;	//return array
 			
 		} catch (FileNotFoundException e) {
@@ -148,4 +161,17 @@ public class Browse extends MyBoxGUI {
     		}     
         return bytes; 
     } 
+	
+	
+	public String getName(){
+		return this.fileName;
+	}
+	
+	public String getPath(){
+		return this.filePath;
+	}
+	
+	public String getSuffix(){
+		return this.fileSuffix;
+	}
 }

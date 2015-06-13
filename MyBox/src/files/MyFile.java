@@ -13,11 +13,14 @@ public class MyFile implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String Description=null;
-	private String path=null;
-	private String name = null;
-	private int size=0;
-	public  byte[] mybytearray;
+	private String Description;
+	private String path;
+	private String name;
+	private String suffix;
+	private int size;
+	private int privelege;
+	private  byte[] mybytearray;
+	private String owner;
 		
 		
 		/**
@@ -126,6 +129,41 @@ public class MyFile implements Serializable {
 		 */
 		public byte[] getMybytearray() {
 			return mybytearray;
+		}
+
+
+
+		public String getSuffix() {
+			return suffix;
+		}
+
+
+
+		public void setSuffix(String suffix) {
+			this.suffix = suffix;
+		}
+
+
+
+		public void setPrivelege(int privelege) {
+			this.privelege=privelege;
+			
+		}
+		public int getPrivelege() {
+			return this.privelege;
+			
+		}
+
+
+
+		public String getOwner() {
+			return owner;
+		}
+
+
+
+		public void setOwner(String owner) {
+			this.owner = owner;
 		}
 
 		

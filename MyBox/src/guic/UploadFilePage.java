@@ -26,12 +26,15 @@ import files.Browse;
 import javax.swing.ImageIcon;
 
 import controllers.UserController;
+import javax.swing.JRadioButton;
 
 public class UploadFilePage extends MyBoxGUI
 {
 	
 	//private Browse browse;
 	UserController local=new UserController();
+	private String txtDescription=null;
+	private int privelege=3;
 	
     public UploadFilePage() 
     {
@@ -67,7 +70,7 @@ public class UploadFilePage extends MyBoxGUI
     	btnDone.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			try {
-					local.sendFile(uploadfilepage);
+					local.sendFile(uploadfilepage, txtDescription, privelege);
 					uploadfilepage.setVisible(false);
 	    			userpage.setVisible(true);
 				} catch (IOException e1) {
@@ -84,10 +87,39 @@ public class UploadFilePage extends MyBoxGUI
     	txtPath.setEditable(false);
     	add(txtPath);
     	
-    	JLabel label = new JLabel("");
-    	label.setIcon(new ImageIcon("/guic/MyBox.jpg"));
-    	label.setBounds(10, 11, 780, 478);
-    	add(label);
+    	JFormattedTextField frmtdtxtDescription = new JFormattedTextField();
+    	frmtdtxtDescription.setText("Enter file description here");
+    	txtDescription = frmtdtxtDescription.getText();
+    	frmtdtxtDescription.setBounds(244, 116, 148, 20);
+    	add(frmtdtxtDescription);
+    	
+    	JRadioButton rdbtnPrivate = new JRadioButton("Private file");
+    	rdbtnPrivate.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e)
+    		{
+    			privelege=1;
+    		}
+    	});
+    	rdbtnPrivate.setBounds(123, 72, 109, 23);
+    	add(rdbtnPrivate);
+    	
+    	JRadioButton rdbtnNewRadioButton = new JRadioButton("Share with group of interest");
+    	rdbtnNewRadioButton.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			privelege=2;
+    		}
+    	});
+    	rdbtnNewRadioButton.setBounds(234, 72, 109, 23);
+    	add(rdbtnNewRadioButton);
+    	
+    	JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Share with everyone");
+    	rdbtnNewRadioButton_1.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			privelege=3;
+    		}
+    	});
+    	rdbtnNewRadioButton_1.setBounds(348, 72, 136, 23);
+    	add(rdbtnNewRadioButton_1);
     	txtPath.setColumns(10);
     	
     	

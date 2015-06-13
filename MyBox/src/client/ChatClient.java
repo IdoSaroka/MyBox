@@ -76,6 +76,7 @@ public class ChatClient extends AbstractClient
 	 * @return the message Package
 	 */
 	synchronized public Object getMessage() {
+		msg=null;
 		while (msg == null) {
 			try {
 				wait();

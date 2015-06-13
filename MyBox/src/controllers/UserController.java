@@ -9,6 +9,7 @@ import java.io.File;
 
 
 
+
 import javax.swing.JOptionPane;
 
 import main.MyBoxGUI;
@@ -19,8 +20,10 @@ import guic.UploadFilePage;
 public class UserController {
 
 	ArrayList<Object> message = new ArrayList<>();
-	MyFile file;
-	
+	private MyFile file;
+	private String filePath;
+	private String fileName;
+	private String fileSuffix;
 
 	/**
 	 * Empty constructor
@@ -88,6 +91,9 @@ public class UserController {
 	public void uploadFile() throws IOException{
 		Browse b = new Browse();
 		this.file = b.getFile();
+		this.filePath = b.getPath();
+		this.fileName = b.getName();
+		this.fileSuffix = b.getSuffix();
 	}
 	
 	/**
@@ -96,9 +102,13 @@ public class UserController {
 	 * @param filePath, Primary Key for files table
 	 * @throws IOException 
 	 */
-	public void sendFile(UploadFilePage uploadfilepage) throws IOException{
+	public void sendFile(UploadFilePage uploadfilepage, String description, int privelege) throws IOException{
 		message.clear();
-		message.add("uploadFile");
+		file.setDescription(description);
+		file.setPrivelege(privelege);
+		file.setOwner(MyBoxGUI.getUserName());
+		message.add("File");
+		message.add("UploadAFile");
 		message.add(file);
 		MyBoxGUI.getClient().sendToServer(message);
 		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
@@ -115,6 +125,8 @@ public class UserController {
 		message.add("getFile");
 		message.add(filePath);
 		MyBoxGUI.getClient().sendToServer(message);
+		
+		//To-Do
 	}
 	
 	/**

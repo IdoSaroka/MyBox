@@ -21,14 +21,16 @@ public class Save extends JPanel {
 	private static final long serialVersionUID = 1L;
 		private MyFile myFile;
 		private File ff;
+		private String path;
 		/**
 		 * 
 		 * @param f
 		 */
-		public Save(MyFile f)
+		public Save(MyFile f,String path)
 		{
 			super();
 			myFile = f;
+			this.path=path;
 			try 
 			{
 				init();
@@ -62,7 +64,7 @@ public class Save extends JPanel {
 	 */
 	public static File saveFile(MyFile f)
 	{
-		String strFilePath = "C://group2//"+ f.getName();
+		String strFilePath = "C://MyBox//"+f.getOwner()+"//"+ f.getName()+"."+f.getSuffix();
 			 File file = null; 
 		     try{ 
 		          file = new File(strFilePath);

@@ -48,7 +48,6 @@ public class GoiBasic implements Serializable{
     * @exception IOException e 
     * **/   
    public static void options() throws IOException{
-	   Scanner sc = new Scanner(System.in);
 	   String str = (String)msg.get(1);
 	   switch(str){
 	              /**

@@ -91,6 +91,7 @@ public class LoginPage extends MyBoxGUI
     				if(ok)
     				{
     					ok = false;
+    					
     					txtUserName = userNametxt.getText();
     					txtPortNumber = Porttxt.getText();
     			        txtPassword = passwordField.getText();
@@ -109,6 +110,7 @@ public class LoginPage extends MyBoxGUI
     						if(message.get(0) instanceof User){
     							user=(User)message.get(0);
     							System.out.println(user.toString());
+    							
     							userpage.setVisible(true);
     	    					loginpage.setVisible(false);
     						}
@@ -119,7 +121,10 @@ public class LoginPage extends MyBoxGUI
     					} catch (IOException e) {
     						e.printStackTrace();
     					}
-    					
+    					/*
+    					userpage.setVisible(true);
+    					loginpage.setVisible(false);
+    					*/
     				}
                 }
             }
