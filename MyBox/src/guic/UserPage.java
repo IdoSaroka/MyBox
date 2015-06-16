@@ -44,10 +44,26 @@ public class UserPage extends MyBoxGUI
     	add(btnHelp);
     	
     	JButton btnJoingoi = new JButton("Join a GOI");
+    	btnJoingoi.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			userpage.setVisible(false);
+    			joingoipage.setVisible(true);
+    		}
+    	});
     	btnJoingoi.setBounds(211, 71, 123, 42);
     	add(btnJoingoi);
     	
-    	JButton btnSearchgoi = new JButton("Search for a GOI");
+    	JButton btnSearchgoi = new JButton("Search a GOI");
+    	btnSearchgoi.addActionListener(new ActionListener()
+    	{
+    		public void actionPerformed(ActionEvent e)
+    		{
+    			userpage.setVisible(false);
+    			searchgoipage.setVisible(true);
+    		}
+    	});
     	btnSearchgoi.setBounds(68, 140, 122, 42);
     	add(btnSearchgoi);
     	
@@ -95,10 +111,16 @@ public class UserPage extends MyBoxGUI
     	lblFiles.setBounds(420, 27, 89, 33);
     	add(lblFiles);
     	
-    	JLabel label = new JLabel(".");
-    	label.setIcon(new ImageIcon("/guic/MyBox.jpg"));
-    	label.setBounds(10, 11, 780, 478);
-    	add(label);
+    	JButton btnMessages = new JButton("Messages");
+    	btnMessages.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			userpage.setVisible(false);
+    			messages.setVisible(true);
+    		}
+    	});
+    	btnMessages.setBounds(336, 378, 89, 36);
+    	add(btnMessages);
     }
-
 }

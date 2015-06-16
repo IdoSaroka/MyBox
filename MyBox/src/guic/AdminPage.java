@@ -23,7 +23,6 @@ public class AdminPage extends MyBoxGUI
      * This card consists of Two JLabels and two JCheckBox
      * with GridLayout.
      */  
-    private ActionListener state;
 
     public AdminPage()
     {
@@ -58,6 +57,13 @@ public class AdminPage extends MyBoxGUI
     	add(btnEditAGoi);
     	
     	JButton btnCreateAGoi = new JButton("Create a GOI");
+    	btnCreateAGoi.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			adminpage.setVisible(false);
+    			creategoipage.setVisible(true);
+    		}
+    	});
     	btnCreateAGoi.setBounds(68, 71, 123, 42);
     	add(btnCreateAGoi);
     	

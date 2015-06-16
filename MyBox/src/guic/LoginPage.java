@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 
 import java.awt.Font;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -26,6 +27,8 @@ import entities.User;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.JProgressBar;
 
 public class LoginPage extends MyBoxGUI
 {
@@ -48,6 +51,8 @@ public class LoginPage extends MyBoxGUI
     private JLabel prtsight;
     private boolean ok = false;
     private String IPAddressVaild;
+    int i = 0;
+    private JLabel lblPicMBX;
     public LoginPage() 
     {
         init();
@@ -63,7 +68,7 @@ public class LoginPage extends MyBoxGUI
             public void actionPerformed(ActionEvent ae)
             {
                 if (ae.getSource() == btnLogin)
-                {
+                {    
                 	IPAddressVaild = meth.Connecting(iptxt1.getText(), iptxt2.getText(), iptxt3.getText(), iptxt4.getText());
     				if( ( meth.isUserValid(userNametxt.getText()) && meth.isPasswordValid(passwordField.getText()) && meth.isPortValid(Porttxt.getText()) &&
     						meth.isIPValid(IPAddressVaild)) 
@@ -90,11 +95,17 @@ public class LoginPage extends MyBoxGUI
     				}
     				if(ok)
     				{
+    					/*
+    			        progressBar = new JProgressBar();
+    			        progressBar.setBounds(301, 354, 146, 14); 
+    			       	add(progressBar);
+    		         	progressBar.setValue(15);
+    		         	*/
     					ok = false;
-    					
     					txtUserName = userNametxt.getText();
     					txtPortNumber = Porttxt.getText();
     			        txtPassword = passwordField.getText();
+    			/*
     			        chat = new ClientGUI(IPAddress,txtPortNumber);
     			        try {
     						client= new ChatClient(IPAddress,Integer.parseInt(txtPortNumber),chat);
@@ -107,12 +118,19 @@ public class LoginPage extends MyBoxGUI
     						System.out.println("sending: "+login.toString());
     						login.sendLogin();
     						ArrayList<Object> message = (ArrayList) client.getMessage();
-    						if(message.get(0) instanceof User){
+    						if(message.get(0) instanceof User)
+    						{
     							user=(User)message.get(0);
     							System.out.println(user.toString());
     							
-    							userpage.setVisible(true);
-    	    					loginpage.setVisible(false);
+    							loginpage.setVisible(false);
+    							if(user.getrole().equals("User"))
+    								userpage.setVisible(true);
+    							else if (user.getrole().equals("SystemAdmin"))
+    								adminpage.setVisible(true);
+    					//		else if (user.getRole().equals("FileOwner"))
+    						//		fileownerpage.setVisible(true);
+    	    					
     						}
     						else{
     							String str = (String)message.get(0);
@@ -121,10 +139,38 @@ public class LoginPage extends MyBoxGUI
     					} catch (IOException e) {
     						e.printStackTrace();
     					}
-    					/*
-    					userpage.setVisible(true);
-    					loginpage.setVisible(false);
-    					*/
+    			        */
+    			        ListModel.addElement("שמעון אוהב בתחת");
+    			        ListModel.addElement("שמעון אוהב חזק");
+    			        ListModel.addElement("שמעון אוהב את זה קשה");
+    			        ListModel.addElement("שמעון אוהב את זה עמוק");
+    			        ListModel.addElement("שמעון אוהב את זה כואב");
+    			        ListModel.addElement("שמעון אוהב את זה הארדקור");
+    			        ListModel.addElement("שמעון לא יכול ללכת");
+    			        ListModel.addElement("שמעון אוהב בתחת");
+    			        ListModel.addElement("שמעון אוהב חזק");
+    			        ListModel.addElement("שמעון אוהב את זה קשה");
+    			        ListModel.addElement("שמעון אוהב את זה עמוק");
+    			        ListModel.addElement("שמעון אוהב את זה כואב");
+    			        ListModel.addElement("שמעון אוהב את זה הארדקור");
+    			        ListModel.addElement("שמעון לא יכול ללכת");
+    			        ListModel2.addElement("שמעון אוהב בתחת");
+    			        ListModel2.addElement("שמעון אוהב חזק");
+    			        ListModel2.addElement("שמעון אוהב את זה קשה");
+    			        ListModel2.addElement("שמעון אוהב את זה עמוק");
+    			        ListModel2.addElement("שמעון אוהב את זה כואב");
+    			        ListModel2.addElement("שמעון אוהב את זה הארדקור");
+    			        ListModel2.addElement("שמעון לא יכול ללכת");
+    			        ListModel2.addElement("שמעון אוהב בתחת");
+    			        ListModel2.addElement("שמעון אוהב חזק");
+    			        ListModel2.addElement("שמעון אוהב את זה קשה");
+    			        ListModel2.addElement("שמעון אוהב את זה עמוק");
+    			        ListModel2.addElement("שמעון אוהב את זה כואב");
+    			        ListModel2.addElement("שמעון אוהב את זה הארדקור");
+    			        ListModel2.addElement("שמעון לא יכול ללכת");
+    			        loginpage.setVisible(false);
+    			        userpage.setVisible(true);
+    			      //  adminpage.setVisible(true); // testing
     				}
                 }
             }
@@ -221,10 +267,12 @@ public class LoginPage extends MyBoxGUI
         prtsight.setBounds(254, 227, 56, 14);
         add(prtsight);
         
-        JLabel label = new JLabel("");
-        label.setBackground(Color.WHITE);
-        label.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
-        label.setBounds(10, 11, 780, 478);
-        add(label);
+        lblPicMBX = new JLabel("");
+        lblPicMBX.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
+        lblPicMBX.setBounds(10, 11, 780, 478);
+        add(lblPicMBX);
+        
+  
     }
 }
+    

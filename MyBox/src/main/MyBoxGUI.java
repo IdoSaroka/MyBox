@@ -33,25 +33,44 @@ public class MyBoxGUI extends JPanel
 	protected static UserPage userpage;
 	protected static AdminPage adminpage;
 	protected static UploadFilePage uploadfilepage;
+	protected static FileOwnerPage fileownerpage;
+	protected static Messages messages;
+	protected static SearchGOIPage searchgoipage;
+	protected static JoinGOIPage joingoipage;
+	protected static ShowSearchedGOI showsearchgoi;
+	protected static CreateGOIPage creategoipage;
+	
 	protected static JFrame frmMyBox;
 	protected Mtds meth = new Mtds();
-	
 	protected static JTextField txtPath;
-	protected static String IPAddress;
 	protected static String Path = "";
-	
 	protected static ClientGUI chat;
 	protected static ChatClient client;
 	protected static String txtPortNumber;
 	protected static String txtUserName;
 	protected static String txtPassword;
+	protected static String IPAddress;
+	////////////////////
+	protected static JProgressBar progressBar;
+
+	protected static JList list;
+	protected static JList list2;
+	protected static DefaultListModel ListModel = new DefaultListModel();
+	protected static DefaultListModel ListModel2 = new DefaultListModel();
+	//protected static ArrayList<String> LsitArray = new ArrayList<String>();
+	////////////////////////
+	
+	
+	
+	
+	
+	protected static String portNumber = "1245";
 	
 	protected static User user;
 	
     private static void createAndShowGUI()
     {
          frmMyBox = new JFrame("My Box");
-//        frmMyBox.setContentPane(new JLabel(new ImageIcon("C:\\Users\\Ran\\workspace\\MyBoxTesting\\bin\\main\\MyBox.jpg")));
         frmMyBox.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmMyBox.setResizable(false);
         // This JPanel is the base for CardLayout for other JPanels.
@@ -65,26 +84,39 @@ public class MyBoxGUI extends JPanel
         
         loginpage = new LoginPage();
         contentPane.add(loginpage);
+        
         userpage = new UserPage();
         contentPane.add(userpage);
+        
         adminpage = new AdminPage();
         contentPane.add(adminpage);
+        
         uploadfilepage = new UploadFilePage();
         contentPane.add(uploadfilepage);
-
-	         
+        
+        fileownerpage = new FileOwnerPage();
+        contentPane.add(fileownerpage);
+        
+        messages = new Messages();
+        contentPane.add(messages);
+        
+        searchgoipage = new SearchGOIPage();
+        contentPane.add(searchgoipage);
+        
+        joingoipage = new JoinGOIPage();
+        contentPane.add(joingoipage);
+        
+        showsearchgoi = new ShowSearchedGOI();
+        contentPane.add(showsearchgoi);
+        
+        creategoipage = new CreateGOIPage();
+        contentPane.add(creategoipage);
+        
         JPanel mainPanel = new JPanel(); 
         
         final JButton previousButton = new JButton("PREVIOUS");
         
         final JButton nextButton = new JButton("NEXT");
- //       mainPanel.add(previousButton);
- //       mainPanel.add(nextButton);
-
-        /* Adding the ActionListeners to the JButton,
-         * so that the user can see the next Card or
-         * come back to the previous Card, as desired.
-         */
        previousButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent ae)
