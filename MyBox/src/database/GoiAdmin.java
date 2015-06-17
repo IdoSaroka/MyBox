@@ -50,9 +50,8 @@ public class GoiAdmin implements Serializable{
 		   case "DeleteAGOI":
 			   break;
 			   
-		   /**
-		    * "RetriveCurrentRequests" - will be used
-		    * **/   
+		   
+		   // "RetriveCurrentRequests" - will be used to retrieve all the current users requests to join GOIs
 		   case "RetriveCurrentRequests":
 			   getRequests();
 			   break;
@@ -74,7 +73,8 @@ public class GoiAdmin implements Serializable{
 	    * <p>
 	    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
 	    * @exception SQLException e 
-	    * @exception IOException e  
+	    * @exception IOException e 
+	    * @return 
 	    * **/   
 		public static void getRequests() throws IOException{
 			 Statement stmt;
@@ -82,13 +82,13 @@ public class GoiAdmin implements Serializable{
 			       stmt = conn.createStatement();
 			       ResultSet rs = stmt.executeQuery("SELECT * FROM request;");
 			       while(rs.next()){
-			    	   /**
+			    	   /*
 			    	    * Description:
 			    	    * rs.getString(1) - Request ID
 			    	    * rs.getString(2) - User Name
 			    	    * rs.getString(3) - GOI Name
 			    	    * rs.getString(4) - Description
-			    	    * **/
+			    	    * */
 			    	   returnMsg.add(rs.getString(1) +
 			    			               " "+rs.getString(2) +
 			    			                  " "+rs.getString(3) +
@@ -97,13 +97,10 @@ public class GoiAdmin implements Serializable{
 			       rs.close();
 			       client.sendToClient(returnMsg);
 			   }
-				/**
-				 * Handling of the SQLException - 1. Saving the appropriate data in the Log
+				/*
+				 * Handling of the SQLException | IOException - 1. Saving the appropriate data in the Log
 				 *                                2.The Admin will receive a notification regarding the problem
-				 * 
-				 * Handling of the IOException - 1. Saving the appropriate data in the Log
-				 *                               2. The Admin will receive a notification regarding the problem
-				 * **/                          
+				 */                          
 			   catch(SQLException | IOException e) {
 				   LogHandling.logging("Error: Admin ecnounterd a problme while trying to retrive current reqeusts");
 				   LogHandling.logging(e.getMessage());

@@ -58,13 +58,32 @@ public class FilesHandler implements Serializable {
 		 }
 	}
 	//Privilege
+	
 	public static void uploadAFile(MyFile file) throws SQLException, IOException{
 		System.out.println(file.getName()+"\n");
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-		File newFile;
+		File newFile;	
 		
-	     /*input test to check that path is legal*/
+		/*Check that the path the user inputed exists and it is a folder*/
+		File f = new File(file.getPath());
+		if(! (f.exists() && f.isDirectory() )){
+			 LogHandling.logging("Error - User:"+ file.getOwner() +"Ecnounterd a problem saving file: "+file.getName()+file.getSuffix()+" to path:"+file.getPath());
+			 LogHandling.logging("Error:  Illegal Path");
+			 returnMsg.add("Error: Illegal Path");
+			 connection.sendToClient(returnMsg);
+			 rs.close();
+			 return;
+		}
+		/*check that the file privilege is a legal value (1,2 or 3)*/
+		if( ( 1 > file.getPrivelege() ) || ( file.getPrivelege() > 3) ){
+			 LogHandling.logging("Error - User:"+ file.getOwner() +"Ecnounterd a problem saving file: "+file.getName()+file.getSuffix()+" to path:"+file.getPath());
+			 LogHandling.logging("Error:  Illegal privilege level");
+			 returnMsg.add("Error: Invalid privilege level");
+			 connection.sendToClient(returnMsg);
+			 rs.close();
+		}
+        
 		 statement = conn.prepareStatement("SELECT file_Name,suffix,file_Owner From Files WHERE file_Name = ? AND suffix = ? AND file_Owner = ? AND virtual_path = ?");
 		 statement.setString(1, file.getName()); 
 		 statement.setString(2, file.getSuffix());
@@ -74,6 +93,8 @@ public class FilesHandler implements Serializable {
 
 		 rs=statement.executeQuery();
 		 if(rs.isBeforeFirst()){
+			 LogHandling.logging("Error - User:"+ file.getOwner() +"Ecnounterd a problem saving file: "+file.getName()+file.getSuffix()+" to path:"+file.getPath());
+			 LogHandling.logging("Error: File allready Exists");
 			 returnMsg.add("Error File allready exist");
 			 connection.sendToClient(returnMsg);
 			 rs.close();
@@ -82,9 +103,9 @@ public class FilesHandler implements Serializable {
 		 
 		 String path=null;
 		 Save save=new Save(file,path);
-		// newFile = save.saveFile(file); // <- ?
+	
 		 
-		 
+		 /*Adding the file to the database and copying it to the user directory*/
 		 statement = conn.prepareStatement("INSERT INTO Files (file_Name,suffix,file_Owner,virtual_path,privilege_level,description) VALUES (?,?,?,?,?,?)");
 		 statement.setString(1, file.getName());
 		 statement.setString(2, file.getSuffix());	
@@ -92,12 +113,16 @@ public class FilesHandler implements Serializable {
 		 statement.setString(4, file.getPath() );
 		 statement.setInt(5, file.getPrivelege());
 		 statement.setString(6, file.getDescription());
-
+		 statement.executeUpdate();
+		 LogHandling.logging("User:"+ file.getOwner() +"Added the file: "+file.getName()+file.getSuffix()+" to path:"+file.getPath());
+		 LogHandling.logging("Error: File allready Exists");
 		 returnMsg.add("Success");
 		 connection.sendToClient(returnMsg);
 		}
 	
-
-
+	
+	public static void retriveAFile(){
+		
+	}
 	
 }
