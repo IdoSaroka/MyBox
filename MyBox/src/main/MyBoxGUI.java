@@ -4,6 +4,7 @@ import guic.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -55,8 +56,8 @@ public class MyBoxGUI extends JPanel
 
 	protected static JList list;
 	protected static JList list2;
-	protected static DefaultListModel ListModel = new DefaultListModel();
-	protected static DefaultListModel ListModel2 = new DefaultListModel();
+	protected static DefaultListModel ListModel = new DefaultListModel();//for msgs
+	protected static DefaultListModel ListModel2 = new DefaultListModel();//for GOI
 	//protected static ArrayList<String> LsitArray = new ArrayList<String>();
 	////////////////////////
 	
@@ -181,6 +182,18 @@ public class MyBoxGUI extends JPanel
 
 	public User getUser(){
 		   return user;
+	}
+	public void byeBye(){
+		ArrayList<Object> msg = new ArrayList<>();
+		msg.add("SignOut");
+		msg.add(user.getUserName());
+		try {
+			client.sendToServer(msg);
+		} catch (IOException e) {
+			System.out.println("Unable to send to server");
+			e.printStackTrace();
+		}
+		
 	}
 } 
 

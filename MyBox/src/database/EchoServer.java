@@ -134,10 +134,10 @@ public class EchoServer extends AbstractServer implements Serializable
          * SignOut - used when a logged in user chooses to sign out
          * **/
     case "SignOut":
-    	 /*Expected message from Shimon: string(0) = SignOut , string(1) = userName String(2) = UserName */
-    	try { signOutUser((String)message.get(2),conn,client); } 
+    	 /*Expected message from Shimon: string(0) = SignOut , string(1) = userName*/
+    	try { signOutUser((String)message.get(1),conn,client); } 
     	catch (SQLException e1) {
-    		LogHandling.logging("Error:System could not sign out User " + (String)message.get(2));
+    		LogHandling.logging("Error:System could not sign out User " + (String)message.get(1));
     		e1.printStackTrace();
     		client.sendToClient("an error has occured while trying to Access Mybox!");
 		}

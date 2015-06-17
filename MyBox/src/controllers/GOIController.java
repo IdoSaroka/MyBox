@@ -11,6 +11,13 @@ public class GOIController {
 	ArrayList<Object> message = new ArrayList<>();
 	
 	/**
+	 * Empty constructor
+	 */
+	public GOIController(){
+		
+	}
+	
+	/**
 	 * used to get GOI entity in order to edit, change etc
 	 * @param GOI id, primary key
 	 * @throws IOException 
@@ -57,10 +64,13 @@ public class GOIController {
 	 * @param 
 	 * @throws IOException 
 	 */
-	public void searchGOI(String GOI) throws IOException{
+	public void searchGOI(String param, String option) throws IOException{
 		message.clear();
-		message.add("searchGOI");
-		message.add(GOI);
+		message.add("GOIBasic");
+		message.add("Search");
+		message.add(MyBoxGUI.getUserName());
+		message.add(option);
+		message.add(param);
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 }

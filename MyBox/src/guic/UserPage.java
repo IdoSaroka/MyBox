@@ -11,7 +11,11 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import main.MyBoxGUI;
+
 import java.awt.Font;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 
 public class UserPage extends MyBoxGUI
@@ -116,6 +120,22 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e) 
     		{
+    			/*
+    			 * 
+    			 * This is meant for client server work
+    			try {
+					MyBoxGUI.getClient().sendToServer("Messages");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+    			//if there is no new msgs, you will get "No new messages"
+    			
+    			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+    			for(int i=0;i<msg.size();i++){
+    				ListModel.addElement((String)msg.get(i));
+    			}
+    			*/
     			userpage.setVisible(false);
     			messages.setVisible(true);
     		}

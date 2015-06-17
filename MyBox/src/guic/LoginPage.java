@@ -140,34 +140,6 @@ public class LoginPage extends MyBoxGUI
     						e.printStackTrace();
     					}
     			        */
-    			        ListModel.addElement("שמעון אוהב בתחת");
-    			        ListModel.addElement("שמעון אוהב חזק");
-    			        ListModel.addElement("שמעון אוהב את זה קשה");
-    			        ListModel.addElement("שמעון אוהב את זה עמוק");
-    			        ListModel.addElement("שמעון אוהב את זה כואב");
-    			        ListModel.addElement("שמעון אוהב את זה הארדקור");
-    			        ListModel.addElement("שמעון לא יכול ללכת");
-    			        ListModel.addElement("שמעון אוהב בתחת");
-    			        ListModel.addElement("שמעון אוהב חזק");
-    			        ListModel.addElement("שמעון אוהב את זה קשה");
-    			        ListModel.addElement("שמעון אוהב את זה עמוק");
-    			        ListModel.addElement("שמעון אוהב את זה כואב");
-    			        ListModel.addElement("שמעון אוהב את זה הארדקור");
-    			        ListModel.addElement("שמעון לא יכול ללכת");
-    			        ListModel2.addElement("שמעון אוהב בתחת");
-    			        ListModel2.addElement("שמעון אוהב חזק");
-    			        ListModel2.addElement("שמעון אוהב את זה קשה");
-    			        ListModel2.addElement("שמעון אוהב את זה עמוק");
-    			        ListModel2.addElement("שמעון אוהב את זה כואב");
-    			        ListModel2.addElement("שמעון אוהב את זה הארדקור");
-    			        ListModel2.addElement("שמעון לא יכול ללכת");
-    			        ListModel2.addElement("שמעון אוהב בתחת");
-    			        ListModel2.addElement("שמעון אוהב חזק");
-    			        ListModel2.addElement("שמעון אוהב את זה קשה");
-    			        ListModel2.addElement("שמעון אוהב את זה עמוק");
-    			        ListModel2.addElement("שמעון אוהב את זה כואב");
-    			        ListModel2.addElement("שמעון אוהב את זה הארדקור");
-    			        ListModel2.addElement("שמעון לא יכול ללכת");
     			        loginpage.setVisible(false);
     			        userpage.setVisible(true);
     			      //  adminpage.setVisible(true); // testing

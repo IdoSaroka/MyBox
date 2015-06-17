@@ -12,8 +12,12 @@ import javax.swing.JRadioButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JTextField;
+
+import controllers.GOIController;
 
 public class SearchGOIPage extends MyBoxGUI 
 {
@@ -27,8 +31,12 @@ public class SearchGOIPage extends MyBoxGUI
 	private JButton btnSearch;
 	private JButton btnHelp;
 	private JButton btnSignOut;
-	public SearchGOIPage()
-	{
+	
+	private String option;
+	private String param;
+	
+	
+	public SearchGOIPage(){
 		setLayout(null);
 		
 		JButton btnBack = new JButton("Back");
@@ -121,14 +129,46 @@ public class SearchGOIPage extends MyBoxGUI
 			{
 				switch(isPressed)
 				{
-				case 0: JOptionPane.showMessageDialog(frmMyBox,"Please chose an option to search","Error Message",JOptionPane.WARNING_MESSAGE);break;
-				case 1: JOptionPane.showMessageDialog(frmMyBox,"Searching for a name","Name",JOptionPane.INFORMATION_MESSAGE);break;
-				case 2: JOptionPane.showMessageDialog(frmMyBox,"Searching for a subject","subject",JOptionPane.INFORMATION_MESSAGE);break;
-				case 3: JOptionPane.showMessageDialog(frmMyBox,"Seraching in all GOI","Entire GOI",JOptionPane.INFORMATION_MESSAGE);break;
+				case 0: 
+					JOptionPane.showMessageDialog(frmMyBox,"Please chose an option to search","Error Message",JOptionPane.WARNING_MESSAGE);
+					break;
+				case 1: 
+					JOptionPane.showMessageDialog(frmMyBox,"Searching for a name","Name",JOptionPane.INFORMATION_MESSAGE);
+					option="Name";
+					param=txtSearchName.getText();
+					break;
+				case 2: 
+					JOptionPane.showMessageDialog(frmMyBox,"Searching for a subject","subject",JOptionPane.INFORMATION_MESSAGE);
+					option="Subject";
+					param=txtSerachSubject.getText();
+					break;
+				case 3: 
+					JOptionPane.showMessageDialog(frmMyBox,"Seraching in all GOI","Entire GOI",JOptionPane.INFORMATION_MESSAGE);
+					option="All";
+					param=null;
+					break;
 			
 				}
 				if(isPressed!=0)
 				{
+					/*
+					 * For Client Server Only!!
+ 
+					 
+					GOIController send = new GOIController();
+					try {
+						send.searchGOI(param, option);
+					} catch (IOException e1) {
+						System.out.println("Unable to send search terms in Search GOI Page");
+						e1.printStackTrace();
+					}
+					//if there is no new msgs, you will get "No new messages"
+	    			
+	    			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+	    			for(int i=0;i<msg.size();i++){
+	    				ListModel2.addElement((String)msg.get(i));
+	    			}
+	    			*/
 					searchgoipage.setVisible(false);
 					showsearchgoi.setVisible(true);
 				}

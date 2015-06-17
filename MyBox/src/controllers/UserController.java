@@ -24,6 +24,7 @@ public class UserController {
 	private String filePath;
 	private String fileName;
 	private String fileSuffix;
+	ArrayList<Object> filesToView = new ArrayList<>();
 
 	/**
 	 * Empty constructor
@@ -36,10 +37,12 @@ public class UserController {
 	 * @param String that define the file name
 	 * @throws IOException 
 	 */
-	public void serachSharedFiles(String FileName) throws IOException{
+	public void serachSharedFiles(String option, String GOI) throws IOException{
 		message.clear();
-		message.add("searchSharedFiles");
-		message.add(FileName);
+		message.add("GOIBasic");
+		message.add("ShoeGoiFiles");
+		message.add(option);
+		message.add(GOI);//parameter for search
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 	
