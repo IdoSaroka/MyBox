@@ -3,7 +3,6 @@ package controllers;
 import java.io.IOException;
 
 import entities.GOI;
-import entities.GoiRequest;
 import main.MyBoxGUI;
 
 public class SysAdminController extends FileOwnerController {

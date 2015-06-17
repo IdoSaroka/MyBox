@@ -1,5 +1,9 @@
 
 package entities;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 /**
 	* Project MyBox - Software Engineering Lab 2015 - Group no.2
 	* Ido Saroka 300830973
@@ -29,12 +33,13 @@ public class GOI
 	* @param String creationDate
 	* @param String numberOfUsers
 */
-	public GOI (String name, String id, String subject, String creationDate, String numberOfUsers)
+	public GOI (String name, String subject, String numberOfUsers)
 	{
-		Name = name;
-		ID = id;
-		Subject = subject;
-		CreationDate = creationDate;
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		this.Name = name;
+		this.Subject = subject;
+		this.CreationDate = dateFormat.format(date);
 		NumberOfUsers = numberOfUsers;
 	}
 	
