@@ -45,7 +45,7 @@ public class UserPage extends MyBoxGUI
     			
     		}
     	});
-    	btnsignout.setBounds(503, 378, 99, 36);
+    	btnsignout.setBounds(595, 381, 99, 36);
     	add(btnsignout);
     	JButton btnHelp = new JButton("Help");
     	btnHelp.addActionListener(new ActionListener() {
@@ -54,7 +54,7 @@ public class UserPage extends MyBoxGUI
     			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
     		}
     	});
-    	btnHelp.setBounds(166, 378, 99, 36);
+    	btnHelp.setBounds(81, 381, 99, 36);
     	add(btnHelp);
     	
     	JButton btnSearchgoi = new JButton("Search a GOI");
@@ -148,7 +148,7 @@ public class UserPage extends MyBoxGUI
     			messages.setVisible(true);
     		}
     	});
-    	btnMessages.setBounds(339, 378, 99, 36);
+    	btnMessages.setBounds(330, 300, 99, 36);
     	add(btnMessages);
     	
     	JSeparator separator = new JSeparator();
@@ -157,36 +157,42 @@ public class UserPage extends MyBoxGUI
     	
     	JSeparator separator_1 = new JSeparator();
     	separator_1.setOrientation(SwingConstants.VERTICAL);
-    	separator_1.setBounds(265, 11, 17, 330);
+    	separator_1.setBounds(265, 11, 17, 285);
     	add(separator_1);
     	
     	JSeparator separator_2 = new JSeparator();
     	separator_2.setOrientation(SwingConstants.VERTICAL);
-    	separator_2.setBounds(74, 11, 17, 330);
+    	separator_2.setBounds(74, 11, 17, 285);
     	add(separator_2);
     	
     	JSeparator separator_3 = new JSeparator();
     	separator_3.setOrientation(SwingConstants.VERTICAL);
-    	separator_3.setBounds(483, 11, 17, 330);
+    	separator_3.setBounds(483, 11, 17, 285);
     	add(separator_3);
     	
     	JSeparator separator_4 = new JSeparator();
     	separator_4.setOrientation(SwingConstants.VERTICAL);
-    	separator_4.setBounds(694, 11, 17, 330);
+    	separator_4.setBounds(694, 11, 17, 285);
     	add(separator_4);
     	
     	JSeparator separator_5 = new JSeparator();
-    	separator_5.setBounds(74, 341, 621, 26);
+    	separator_5.setBounds(74, 296, 621, 26);
     	add(separator_5);
     	
     	JSeparator separator_6 = new JSeparator();
     	separator_6.setBounds(74, 11, 621, 26);
     	add(separator_6);
     	
+    	JLabel lblNewLabel = new JLabel("");
+    	lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\NewMSG.gif"));
+    	lblNewLabel.setBounds(422, 300, 31, 14);
+    	add(lblNewLabel);
+    	
     	
     	JLabel lblBackGround = new JLabel("");
     	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
     	lblBackGround.setBounds(10, 11, 780, 478);
     	add(lblBackGround);
+    	
     }
 }
