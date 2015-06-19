@@ -123,8 +123,11 @@ public class UserPage extends MyBoxGUI
     			/*
     			 * 
     			 * This is meant for client server work
+    			ArrayList<Object> sendMsg = new ArrayList<Object>();
     			try {
-					MyBoxGUI.getClient().sendToServer("Messages");
+    				sendMsg.add("Messages");
+    				sendMsg.add(MyBoxGUI.getUser());
+					MyBoxGUI.getClient().sendToServer(sendMsg);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

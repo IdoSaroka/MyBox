@@ -23,24 +23,46 @@ public class GOI
 	private String ID;
 	private String Subject;
 	private String CreationDate;
-	private String NumberOfUsers;
+	private int NumberOfUsers;
+	private int currentUser;
 	
 /**
 	* Constructor of the GOI class
+	* The id is given by the server at first creation of this GOI
 	* @param String name
-	* @param String id
 	* @param String subject
-	* @param String creationDate
-	* @param String numberOfUsers
+	* @param int numberOfUsers
 */
-	public GOI (String name, String subject, String numberOfUsers)
+	public GOI (String name, String subject, int numberOfUsers)
 	{
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm  dd-MM-yyyy");
 		Date date = new Date();
 		this.Name = name;
 		this.Subject = subject;
 		this.CreationDate = dateFormat.format(date);
-		NumberOfUsers = numberOfUsers;
+		this.NumberOfUsers = numberOfUsers;
+		this.ID=null;
+		this.currentUser=0;
+	}
+	
+	/**
+	 * This constructor is meant for server use in order to send and receive GOI
+	 * entity to SysAdmin
+	 * @param String name
+	 * @param String id
+	 * @param String subject
+ 	 * @param String creationDate
+ 	 * @param String numberOfUsers
+ 	 * @param int current
+	 */
+	public GOI (String id, String name, String subject, int numberOfUsers, String creation,int current)
+	{
+		this.Name = name;
+		this.Subject = subject;
+		this.CreationDate = creation;
+		this.NumberOfUsers = numberOfUsers;
+		this.ID=id;
+		this.currentUser=current;
 	}
 	
 /**
@@ -78,7 +100,7 @@ public class GOI
 /**
 	* @return String of Number Of Users
 */
-	public String getNumberOfUsers()
+	public int getNumberOfUsers()
 	{
 		return NumberOfUsers;
 	}
@@ -87,7 +109,7 @@ public class GOI
 	* Setting the Number Of Users of the current GOI
 	* @return void
 */
-	public void setNumberOfUsers(String numberOfUsers)
+	public void setNumberOfUsers(int numberOfUsers)
 	{
 		NumberOfUsers = numberOfUsers;
 	}
@@ -111,5 +133,14 @@ public class GOI
 		
 		//return false;
 	}
+
+	/**
+	 * @return the currentUser
+	 */
+	public int getCurrentUser() {
+		return currentUser;
+	}
+
+
 }
 	

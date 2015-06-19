@@ -10,6 +10,9 @@ import java.io.File;
 
 
 
+
+
+
 import javax.swing.JOptionPane;
 
 import main.MyBoxGUI;
@@ -117,17 +120,30 @@ public class UserController {
 		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
 		String str = (String)msg.get(0);
 		JOptionPane.showMessageDialog(uploadfilepage,str);
+		/*
+		 * To-Do
+		 * if file succesful, changes user role to fileOwner
+		 */
 	}
 	/**
 	 * allow  user to download files
-	 * @param String file path to send the server
+	 * @param String file id to send the server
 	 * @throws IOException 
 	 */
-	public void getFile(String filePath) throws IOException{
+	public void getFile(int fileid) throws IOException{
 		message.clear();
-		message.add("getFile");
-		message.add(filePath);
+		message.add("File");
+		message.add("DownloadFile");
+		message.add(fileid);
 		MyBoxGUI.getClient().sendToServer(message);
+		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+		if((boolean)msg.get(0)){
+			file = (MyFile)msg.get(1);
+			System.out.println(file.getName());
+			String path="C:\\MyBox\\Downloaded Files";
+			Save save=new Save(file,path);
+		}
+		
 		
 		//To-Do
 	}
