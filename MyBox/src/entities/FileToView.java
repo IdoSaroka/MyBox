@@ -20,6 +20,14 @@ public class FileToView implements Serializable {
 		
 		/**
 		 * full constructor
+		 * @param goiID
+		 * @param fileID
+		 * @param fileName
+		 * @param fileSuffix
+		 * @param fileOwner
+		 * @param virtualPath
+		 * @param fileDescription
+		 * @param goiPermission
 		 */
 		public FileToView(String goiID, String fileID, String fileName, String fileSuffix, String fileOwner, String virtualPath,
 				String fileDescription, boolean goiPermission){

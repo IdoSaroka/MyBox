@@ -53,6 +53,8 @@ public class MyBoxGUI extends JPanel
 	protected static String IPAddress;
 	////////////////////
 	protected static JProgressBar progressBar;
+	
+	protected static boolean isMsg;
 
 	protected static JList list;
 	protected static JList list2;
@@ -169,6 +171,7 @@ public class MyBoxGUI extends JPanel
 		return txtPortNumber;
 	}
 	
+	
 	public static LoginController getLoginInfo(){
 		return loginpage.getLoginInfo();
 	}
@@ -180,9 +183,18 @@ public class MyBoxGUI extends JPanel
 		return chat;
 	}
 
-	public User getUser(){
+	public static User getUser(){
 		   return user;
 	}
+	
+	public static boolean getIsMsg(){
+		return isMsg;	
+	}
+	
+	public static void setIsMsg(boolean msgStatus){
+		isMsg=msgStatus;
+	}
+	
 	public void byeBye(){
 		ArrayList<Object> msg = new ArrayList<>();
 		msg.add("SignOut");

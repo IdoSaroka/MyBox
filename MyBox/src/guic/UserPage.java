@@ -133,8 +133,12 @@ public class UserPage extends MyBoxGUI
     			//if there is no new msgs, you will get "No new messages"
     			
     			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
-    			for(int i=0;i<msg.size();i++){
-    				ListModel.addElement((String)msg.get(i));
+    			if((boolean)msg.get(0)){
+    				ArrayList<Messages> temp = new ArrayList<>();
+    				for(int i=1;i<msg.size();i++){
+    					temp.add((Messages)msg.get(i)));
+        				//ListModel.addElement();
+        			}
     			}
     			*/
     			userpage.setVisible(false);
@@ -143,11 +147,11 @@ public class UserPage extends MyBoxGUI
     	});
     	btnMessages.setBounds(339, 378, 99, 36);
     	add(btnMessages);
-    	
+    	/*
     	JLabel lblNewMessage = new JLabel("");
     	lblNewMessage.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\NewMessage.gif"));
     	lblNewMessage.setBounds(360, 356, 55, 23);
     	add(lblNewMessage);
-    	
+    	*/
     }
 }
