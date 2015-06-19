@@ -85,7 +85,7 @@ public class UserPage extends MyBoxGUI
     		public void actionPerformed(ActionEvent arg0) 
     		{
     			userpage.setVisible(false);
-    			sharedfolderspage.setVisible(true);
+    			sharedfilesrspage.setVisible(true);
     		}
     	});
     	btnSharedFiles.setBounds(315, 87, 123, 42);
