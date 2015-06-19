@@ -183,10 +183,11 @@ public class UserPage extends MyBoxGUI
     	separator_6.setBounds(74, 11, 621, 26);
     	add(separator_6);
     	
-    	JLabel lblNewLabel = new JLabel("");
-    	lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\NewMSG.gif"));
-    	lblNewLabel.setBounds(422, 300, 31, 14);
-    	add(lblNewLabel);
+    	lblNewMSG = new JLabel("");
+    	lblNewMSG.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\NewMSG.gif"));
+    	lblNewMSG.setBounds(422, 300, 31, 14);
+    	add(lblNewMSG);
+    	lblNewMSG.setVisible(false);
     	
     	
     	JLabel lblBackGround = new JLabel("");

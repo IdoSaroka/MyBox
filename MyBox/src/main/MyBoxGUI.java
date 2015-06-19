@@ -51,6 +51,8 @@ public class MyBoxGUI extends JPanel
 	protected static String txtUserName;
 	protected static String txtPassword;
 	protected static String IPAddress;
+	
+	protected static JLabel lblNewMSG;
 	////////////////////
 	protected static JProgressBar progressBar;
 	
