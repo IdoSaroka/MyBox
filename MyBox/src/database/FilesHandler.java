@@ -20,6 +20,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import entities.FileToView;
+import files.Browse;
 import files.MyFile;
 import files.Save;
 import ocsf.server.ConnectionToClient;
@@ -54,13 +56,9 @@ public class FilesHandler implements Serializable {
 			 break;
 			 
 		 case "DownloadAFile":
-			 try {
-				uploadAFile((MyFile)msg.get(2));
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			 downloadUserFile((String)msg.get(2),(FileToView)msg.get(3));
 			 break;
+			 
 			 
 		 
 		 default:
@@ -138,8 +136,45 @@ public class FilesHandler implements Serializable {
 		
 	}
 	
-	//used by the user to download his\ hers file
-	public static void downloadUserFile(){
+	
+	public static void downloadUserFile(String userName, FileToView file){
+		System.out.println(file.getFileName()+"\n");
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+        
+		File f = new File(file.getVirtualPath());
+		try{
+		if( !f.exists() ){
+			 LogHandling.logging("Error - User:"+ file.getFileOwner()+"Ecnounterd a problem downloading file: "+file.getFileName()+file.getFileSuffix()+ " from path:"+file.getVirtualPath());
+			 LogHandling.logging("Error:  File does not exist");
+			 returnMsg.add(false);
+			 returnMsg.add("Error: File specified does not exist");
+			 connection.sendToClient(returnMsg);
+			 rs.close();
+			 return;
+	   	}
+		if(f.isDirectory()){
+			LogHandling.logging("Error - User:"+ file.getFileOwner()+"Ecnounterd a problem downloading file: "+file.getFileName()+file.getFileSuffix()+ " from path:"+file.getVirtualPath());
+			LogHandling.logging("Error:  File is a Direcotry");
+			returnMsg.add(false);
+			returnMsg.add("Error: Cann't download a folder!");
+			connection.sendToClient(returnMsg);
+			rs.close();
+			return;
+		}
+		File fileToDownload = new File(file.getVirtualPath());
+		Browse newBrowse = new Browse(fileToDownload);
+		MyFile down =newBrowse.getFile();
+		returnMsg.add(true);
+		returnMsg.add(down);
+		connection.sendToClient(returnMsg);
+		
+		}catch(SQLException e){
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
