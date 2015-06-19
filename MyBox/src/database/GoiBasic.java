@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import ocsf.server.ConnectionToClient;
 import entities.FileToView;
+import entities.GOI;
 
 /**This Class contains MyBox basic functions that are responsible for
  * accessing and searching inside the "Groups Of Interests" in the system.
@@ -47,6 +48,7 @@ public class GoiBasic implements Serializable{
     * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
     * @exception SQLException e 
     * @exception IOException e 
+    * @return 
     * **/   
    public static void options() throws IOException{
 	   String str = (String)msg.get(1);
@@ -103,7 +105,8 @@ public class GoiBasic implements Serializable{
     * <p>
     * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
     * @exception SQLException e 
-    * @exception IOException e  
+    * @exception IOException e 
+    * @retrun  
     * **/   
      public static void searchAGOI(String userName, String option,String searchParameter) throws IOException{
 		Statement stmt = null;
@@ -300,7 +303,7 @@ public class GoiBasic implements Serializable{
       * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
       * @exception SQLException e 
       * @exception IOException e 
-      * @return  
+      * @return 
       * **/  
  	public static void searchSharedFiles(String userName,String option, String searchParameter) throws IOException{
  		FileToView newFileToView = null;

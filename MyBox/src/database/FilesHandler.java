@@ -126,6 +126,11 @@ public class FilesHandler implements Serializable {
 		
 	}
 	
+	//used by the user to download his\ hers file
+	public static void downloadUserFile(){
+		
+	}
+	
 	public static void deleteAFile(){
 		/**impoertent ask shimon to send me the user's role in the system**/
 		

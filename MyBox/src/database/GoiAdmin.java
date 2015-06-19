@@ -124,34 +124,45 @@ public class GoiAdmin implements Serializable{
 		    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
 		    * @exception SQLException e 
 		    * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
-		    * @return returnMsg
+		    * @return returnMsg - 
 		    * **/  
-		public static void createAGOI(GOI newGOI){
+		public static void createAGOI(GOI newGOI) throws IOException{
 			PreparedStatement statement = null;
 			ResultSet rs = null;
+			
 			try{
 				 statement = conn.prepareStatement("SELECT GOI_id,GOI_Name From GOI WHERE GOI_Name = ?");
 				 statement.setString(1, newGOI.getName()); 
 				 rs=statement.executeQuery();
 				 if(rs.isBeforeFirst()){
 					 rs.close();
-					 returnMsg.add("Error: Goi does not exist");
+					 returnMsg.add("Error:Could not create GOI, There is allready a GOI with this name in the system");
 					 client.sendToClient(returnMsg);
 					 return;
 				 }
-				// if(){
-					 
-				// }
+				 statement = conn.prepareStatement("INSERT INTO GOI (GOI_id,GOI_Name,subject,creation_Date,number_Of_Users,current_Num_Of_Users) VALUES (NULL,?,?,?,?,?)");
+				 statement.setString(1, newGOI.getName());
+			     statement.setString(2, newGOI.getSubject());	
+			     statement.setString(3, newGOI.getCreationDate());
+			     statement.setInt(4, newGOI.getNumberOfUsers());
+			     statement.setInt(5, 0);
+			     
+			     statement.executeUpdate();
+				 rs.close();
+				 LogHandling.logging("GOI " + newGOI.getName() + " was created by Admin");
+			     returnMsg.add("GOI" + newGOI.getName() + "was successfully created!" );
+			     client.sendToClient(returnMsg);
 				 
-				 
-				 
-			}catch(SQLException e){
-				
-			} catch (IOException e) {
-				
-				e.printStackTrace();
+			}catch(SQLException | IOException e){
+				   LogHandling.logging("Error: Admin ecnounterd a problme while trying to create GOI: "+ newGOI.getName());
+				   LogHandling.logging(e.getMessage());
+				   e.printStackTrace(); 
+				   returnMsg.add("MyBox Encounterd an Error!");
+				   returnMsg.add("Please Contact Technical Support");
+				   client.sendToClient(returnMsg);
 			}
 		}
+
 		
 		public static void deleteAGOI(){
 			/**should user deleteAUserFromAGOI() for the removal of all the users in the goi**/

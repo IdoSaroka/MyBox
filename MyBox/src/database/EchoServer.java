@@ -300,6 +300,7 @@ protected void serverStarted()
 		
 	        		    LogHandling.logging("User: " + login +" logged in");
 	        	    	returnMsg.add(detailsToSend);
+	        	    	returnMsg.add(userHasMessages(rs.getString(1),conn));
 	        		    
 	        	    	
 	        	      	rs.close();
@@ -340,6 +341,32 @@ protected void serverStarted()
 	      e.printStackTrace();
 	    }
     }
+  
+  /**userHasMessages - will check if the user has any new messages he needs to view 
+   * @author Ido Saroka 300830973
+   * @param userName - the function will receive the user's name
+   * @param conn - the function will receive a connection to the database
+   * <p>
+   * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+   * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
+   * @exception IOException e -
+   * @return boolean - the function will return true or false depending if the user has any messages or not
+   * **/
+	public static boolean userHasMessages(String userName, Connection conn){
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		try{
+			statement = conn.prepareStatement("SELECT * From usermessages WHERE userName = ?");
+			statement.setString(1,userName);
+			rs=statement.executeQuery();
+			if(!rs.isBeforeFirst()){
+				return false;
+			}
+			return true;
+		}catch(SQLException e){
+			return false;
+		}	
+	}
   
   
   /**signOutUser - will be responsible for handling the user's
