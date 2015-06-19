@@ -147,7 +147,7 @@ public class LoginPage extends MyBoxGUI
     						e.printStackTrace();
     					}
     			        */
-    			        if(isMsg)
+    			        if(MyBoxGUI.getIsMsg())
     			        	lblNewMSG.setVisible(true);
     			        loginpage.setVisible(false);
     			        userpage.setVisible(true);

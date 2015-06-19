@@ -187,7 +187,7 @@ public class UserPage extends MyBoxGUI
     	lblNewMSG.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\NewMSG.gif"));
     	lblNewMSG.setBounds(422, 300, 31, 14);
     	add(lblNewMSG);
-    	lblNewMSG.setVisible(false);
+    	lblNewMSG.setVisible(true);
     	
     	
     	JLabel lblBackGround = new JLabel("");
