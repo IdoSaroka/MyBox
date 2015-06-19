@@ -1,4 +1,5 @@
 package controllers;
+import java.awt.Desktop;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.io.File;
@@ -13,9 +14,12 @@ import java.io.File;
 
 
 
+
+
 import javax.swing.JOptionPane;
 
 import main.MyBoxGUI;
+import entities.FileToView;
 import files.*;
 import guic.UploadFilePage;
 
@@ -130,11 +134,11 @@ public class UserController {
 	 * @param String file id to send the server
 	 * @throws IOException 
 	 */
-	public void getFile(int fileid) throws IOException{
+	public void getSharedFile(FileToView fileSend) throws IOException{
 		message.clear();
-		message.add("File");
-		message.add("DownloadFile");
-		message.add(fileid);
+		message.add("GoiBasic");
+		message.add("DownloadSharedFile");
+		message.add(fileSend);
 		MyBoxGUI.getClient().sendToServer(message);
 		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
 		if((boolean)msg.get(0)){
@@ -142,6 +146,45 @@ public class UserController {
 			System.out.println(file.getName());
 			String path="C:\\MyBox\\Downloaded Files";
 			Save save=new Save(file,path);
+		}
+		else{
+			System.out.println("Unable to save file");
+		}
+	}
+		
+	public void openSharedFile(FileToView fileSend) throws IOException{
+		message.clear();
+		message.add("GoiBasic");
+		message.add("DownloadSharedFile");
+		message.add(fileSend);
+		MyBoxGUI.getClient().sendToServer(message);
+		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+		if((boolean)msg.get(0)){
+			file = (MyFile)msg.get(1);
+			System.out.println(file.getName());
+			String path="C:\\MyBox\\Downloaded Files";
+			Save save=new Save(file,path);
+			 try {  
+				    File fileOpen = new File(path+"\\"+file.getName()+"."+file.getSuffix());  
+				    if (fileOpen.exists()) {  		     
+				     if (Desktop.isDesktopSupported()) {  
+				      Desktop.getDesktop().open(fileOpen);  
+				     } 
+				     else  
+				      System.out.println("Awt Desktop is not supported!");  
+				    } else  
+				     System.out.println("File is not exists!");  
+				    System.out.println("Done");  
+			   } catch (Exception ex) {  
+				    ex.printStackTrace();  
+			   } 
+		}
+		else{
+			System.out.println("Unable to open file");
+			/*
+			 * TO-Do
+			 * what happens if the file can't be downloaded
+			 */
 		}
 		
 		

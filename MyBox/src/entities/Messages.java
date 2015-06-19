@@ -36,5 +36,21 @@ public class Messages implements Serializable{
 		this.content=content;	
 	}
 	
+	/**
+	 * 
+	 * @return the content of the message
+	 */
+	public String getContent(){
+		return this.content;
+	}
+	
+	/**
+	 * 
+	 * @return the time of the message
+	 */
+	public String getTime(){
+		return this.time;
+	}
+	
 	
 }
