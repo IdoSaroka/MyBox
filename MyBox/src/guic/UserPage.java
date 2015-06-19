@@ -97,10 +97,22 @@ public class UserPage extends MyBoxGUI
     	add(btnUploadAFile);
     	
     	JButton btnCreateAFolder = new JButton("Create a Folder");
+    	btnCreateAFolder.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    		}
+    	});
     	btnCreateAFolder.setBounds(534, 87, 123, 42);
     	add(btnCreateAFolder);
     	
     	JButton btnFolders = new JButton("Folders");
+    	btnFolders.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent e)
+    		{
+    		}
+    	});
     	btnFolders.setBounds(534, 140, 123, 42);
     	add(btnFolders);
     	
@@ -184,10 +196,10 @@ public class UserPage extends MyBoxGUI
     	add(separator_6);
     	
     	lblNewMSG = new JLabel("");
-    	lblNewMSG.setIcon(new ImageIcon("/guic/NewMSG.gif"));
+    	lblNewMSG.setIcon(new ImageIcon(UserPage.class.getResource("/guic/NewMSG.gif")));
     	lblNewMSG.setBounds(422, 300, 31, 14);
     	add(lblNewMSG);
-    	lblNewMSG.setVisible(true);
+    	lblNewMSG.setVisible(false);
     	
     	
     	JLabel lblBackGround = new JLabel("");

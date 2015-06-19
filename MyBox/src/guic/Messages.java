@@ -8,6 +8,7 @@ import javax.swing.JScrollBar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JList;
@@ -18,6 +19,7 @@ import javax.swing.JLabel;
 
 //import com.sun.org.apache.bcel.internal.generic.LNEG;
 //import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+
 
 import java.awt.Font;
 import java.awt.Label;
@@ -74,6 +76,12 @@ public class Messages extends MyBoxGUI
 		Label lblMessage = new Label(" Sender                                | Date");
 		lblMessage.setFont(new Font("Dialog", Font.PLAIN, 14));
 		scrollPane.setColumnHeaderView(lblMessage);
+		
+		
+    	JLabel lblBackGround = new JLabel("");
+    	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
+    	lblBackGround.setBounds(10, 11, 780, 478);
+    	add(lblBackGround);
 		
 	}
 
