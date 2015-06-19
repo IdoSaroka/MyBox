@@ -30,8 +30,8 @@ public class CreateGOIPage extends MyBoxGUI
 		add(btnBack);
 		
 		JLabel lblCreateNewGoi = new JLabel("Create New GOI");
-		lblCreateNewGoi.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblCreateNewGoi.setBounds(333, 42, 162, 43);
+		lblCreateNewGoi.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 28));
+		lblCreateNewGoi.setBounds(248, 11, 268, 43);
 		add(lblCreateNewGoi);
 		
 		JLabel lblGoiName = new JLabel("GOI Name");

@@ -51,11 +51,12 @@ public class SearchGOIPage extends MyBoxGUI
 		add(btnBack);
 		
 		JLabel lblSearchForA = new JLabel("Search For A New GOI");
-		lblSearchForA.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblSearchForA.setBounds(292, 11, 198, 41);
+		lblSearchForA.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 28));
+		lblSearchForA.setBounds(219, 11, 349, 41);
 		add(lblSearchForA);
 		
 		rdbtnSerachByName = new JRadioButton("Serach By Name");
+		rdbtnSerachByName.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		
 		rdbtnSerachByName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
@@ -74,6 +75,7 @@ public class SearchGOIPage extends MyBoxGUI
 		add(rdbtnSerachByName);
 		
 		rdbtnSerachBySubject = new JRadioButton("Serach By Subject");
+		rdbtnSerachBySubject.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		rdbtnSerachBySubject.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -92,6 +94,7 @@ public class SearchGOIPage extends MyBoxGUI
 		add(rdbtnSerachBySubject);
 		
 		rdbtnSearchAllGoi = new JRadioButton("Search All GOI");
+		rdbtnSearchAllGoi.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		rdbtnSearchAllGoi.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -107,17 +110,17 @@ public class SearchGOIPage extends MyBoxGUI
 				txtSearchName.setEnabled(false);
 			}
 		});
-		rdbtnSearchAllGoi.setBounds(28, 161, 109, 23);
+		rdbtnSearchAllGoi.setBounds(28, 161, 141, 23);
 		add(rdbtnSearchAllGoi);
 		
 		txtSearchName = new JTextField();
-		txtSearchName.setBounds(173, 85, 301, 23);
+		txtSearchName.setBounds(195, 83, 301, 23);
 		txtSearchName.disable();
 		add(txtSearchName);
 		txtSearchName.setColumns(10);
 		
 		txtSerachSubject = new JTextField();
-		txtSerachSubject.setBounds(173, 122, 301, 23);
+		txtSerachSubject.setBounds(195, 120, 301, 23);
 		txtSerachSubject.disable();
 		add(txtSerachSubject);
 		txtSerachSubject.setColumns(10);
@@ -174,7 +177,7 @@ public class SearchGOIPage extends MyBoxGUI
 				}
 			}
 		});
-		btnSearch.setBounds(353, 193, 79, 23);
+		btnSearch.setBounds(417, 160, 79, 23);
 		add(btnSearch);
 		
 		btnHelp = new JButton("Help");
@@ -184,7 +187,7 @@ public class SearchGOIPage extends MyBoxGUI
 				JOptionPane.showMessageDialog(frmMyBox,"Help me","Help",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
-		btnHelp.setBounds(166, 378, 89, 36);
+		btnHelp.setBounds(81, 381, 99, 36);
 		add(btnHelp);
 		
 		btnSignOut = new JButton("Sign-Out");
@@ -197,7 +200,7 @@ public class SearchGOIPage extends MyBoxGUI
 				loginpage.setVisible(true);
 			}
 		});
-		btnSignOut.setBounds(513, 378, 89, 36);
+		btnSignOut.setBounds(595, 381, 99, 36);
 		add(btnSignOut);
 	}
 }

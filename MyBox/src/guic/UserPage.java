@@ -164,6 +164,7 @@ public class UserPage extends MyBoxGUI
         			}
     			}
     			*/
+    			lblNewMSG.setVisible(false);
     			userpage.setVisible(false);
     			messages.setVisible(true);
     		}
