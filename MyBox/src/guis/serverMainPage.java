@@ -64,18 +64,19 @@ public class serverMainPage extends ServerGUI
 		add(label);
 		
 		txtPath = new JTextField();
-		txtPath.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		txtPath.setFont(new Font("Footlight MT Light", Font.PLAIN, 20));
 		txtPath.setBounds(381, 75, 224, 37);
 		add(txtPath);
 		txtPath.setColumns(10);
 		
 		textUserName = new JTextField();
-		textUserName.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		textUserName.setFont(new Font("Footlight MT Light", Font.PLAIN, 20));
 		textUserName.setColumns(10);
 		textUserName.setBounds(381, 124, 224, 37);
 		add(textUserName);
 		
 		JButton btnOk = new JButton("OK");
+		btnOk.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		btnOk.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -108,6 +109,7 @@ public class serverMainPage extends ServerGUI
 		add(btnOk);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		btnCancel.setBounds(394, 290, 82, 37);
 		add(btnCancel);
 		
@@ -125,21 +127,22 @@ public class serverMainPage extends ServerGUI
 		add(btnBrowse);
 		
 		textPort = new JTextField();
-		textPort.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		textPort.setFont(new Font("Footlight MT Light", Font.PLAIN, 20));
 		textPort.setColumns(10);
 		textPort.setBounds(381, 220, 224, 37);
 		textPort.setText(portNumber);
 		add(textPort);
 		
 		textPassword = new JPasswordField();
-		textPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		textPassword.setFont(new Font("Footlight MT Light", Font.PLAIN, 20));
 		textPassword.setBounds(381, 172, 224, 37);
 		add(textPassword);
 		
-		JLabel label_2 = new JLabel("");
-		label_2.setIcon(new ImageIcon(serverMainPage.class.getResource("/guis/MyBox.jpg")));
-		label_2.setBounds(10, 11, 780, 478);
-		add(label_2);
+		JLabel lblMyBox = new JLabel("");
+		lblMyBox.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblMyBox.setIcon(new ImageIcon(serverMainPage.class.getResource("/guis/MyBox.jpg")));
+		lblMyBox.setBounds(10, 11, 790, 478);
+		add(lblMyBox);
 		
 	}
 }
