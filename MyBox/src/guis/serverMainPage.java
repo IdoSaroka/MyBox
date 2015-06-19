@@ -104,11 +104,11 @@ public class serverMainPage extends ServerGUI
 				}
 			}
 		});
-		btnOk.setBounds(298, 374, 89, 44);
+		btnOk.setBounds(307, 392, 82, 37);
 		add(btnOk);
 		
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setBounds(393, 374, 89, 44);
+		btnCancel.setBounds(399, 392, 82, 37);
 		add(btnCancel);
 		
 

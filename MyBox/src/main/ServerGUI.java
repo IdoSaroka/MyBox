@@ -7,10 +7,12 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Font;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -29,6 +31,8 @@ public class ServerGUI extends MyBoxGUI
 	protected static JTextField textConnection;
 	protected static String portNumber = "3306";
 	
+	protected static JList listServer;
+	protected static DefaultListModel listModelServer = new DefaultListModel();//for GOI
 	
 	public ServerGUI() 
 	{

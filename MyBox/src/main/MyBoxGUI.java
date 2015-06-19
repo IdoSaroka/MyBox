@@ -169,7 +169,6 @@ public class MyBoxGUI extends JPanel
 		return txtPortNumber;
 	}
 	
-	
 	public static LoginController getLoginInfo(){
 		return loginpage.getLoginInfo();
 	}
@@ -181,7 +180,7 @@ public class MyBoxGUI extends JPanel
 		return chat;
 	}
 
-	public static User getUser(){
+	public User getUser(){
 		   return user;
 	}
 	public void byeBye(){

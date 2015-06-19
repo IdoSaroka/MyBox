@@ -21,7 +21,7 @@ public class JoinGOIPage extends MyBoxGUI
 			public void actionPerformed(ActionEvent e) 
 			{
 				joingoipage.setVisible(false);
-				userpage.setVisible(true);
+				showsearchgoi.setVisible(true);
 			}
 		});
 		btnBack.setBounds(10, 11, 89, 23);

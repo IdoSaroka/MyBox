@@ -40,7 +40,8 @@ public class ShowSearchedGOI extends MyBoxGUI
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				
+				showsearchgoi.setVisible(false);
+				joingoipage.setVisible(true);
 			}
 		});
 		btnJoinGoi.setBounds(513, 137, 89, 37);

@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class UserPage extends MyBoxGUI
 {
@@ -26,16 +28,21 @@ public class UserPage extends MyBoxGUI
     	setLayout(null);
     	
     	JButton btnsignout = new JButton("Sign-Out");
-    	btnsignout.addActionListener(new ActionListener() {
+    	btnsignout.addActionListener(new ActionListener()
+    	{
     		public void actionPerformed(ActionEvent e) 
     		{
-    			JOptionPane.showMessageDialog(frmMyBox,"Signing-out Successfully","Help",JOptionPane.YES_NO_CANCEL_OPTION);
-    			userpage.setVisible(false);
-    			loginpage.setVisible(true);
+    	        int reply = JOptionPane.showConfirmDialog(null, "Are you sure?", "Signing out...", JOptionPane.YES_NO_OPTION);
+    	        if (reply == JOptionPane.YES_OPTION) 
+    	        {
+    	        	byeBye();
+        			userpage.setVisible(false);
+        			loginpage.setVisible(true);
+    	        }
     			
     		}
     	});
-    	btnsignout.setBounds(513, 378, 89, 36);
+    	btnsignout.setBounds(503, 378, 99, 36);
     	add(btnsignout);
     	JButton btnHelp = new JButton("Help");
     	btnHelp.addActionListener(new ActionListener() {
@@ -44,20 +51,8 @@ public class UserPage extends MyBoxGUI
     			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
     		}
     	});
-    	btnHelp.setBounds(166, 378, 89, 36);
+    	btnHelp.setBounds(166, 378, 99, 36);
     	add(btnHelp);
-    	
-    	JButton btnJoingoi = new JButton("Join a GOI");
-    	btnJoingoi.addActionListener(new ActionListener() 
-    	{
-    		public void actionPerformed(ActionEvent e) 
-    		{
-    			userpage.setVisible(false);
-    			joingoipage.setVisible(true);
-    		}
-    	});
-    	btnJoingoi.setBounds(211, 71, 123, 42);
-    	add(btnJoingoi);
     	
     	JButton btnSearchgoi = new JButton("Search a GOI");
     	btnSearchgoi.addActionListener(new ActionListener()
@@ -68,15 +63,21 @@ public class UserPage extends MyBoxGUI
     			searchgoipage.setVisible(true);
     		}
     	});
-    	btnSearchgoi.setBounds(68, 140, 122, 42);
+    	btnSearchgoi.setBounds(115, 140, 122, 42);
     	add(btnSearchgoi);
     	
-    	JButton btnLeaveAGoi = new JButton("Leave a GOI");
-    	btnLeaveAGoi.setBounds(68, 71, 123, 42);
-    	add(btnLeaveAGoi);
+    	JButton btnYourGoi = new JButton("Your GOIs");
+    	btnYourGoi.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent arg0)
+    		{
+    		}
+    	});
+    	btnYourGoi.setBounds(114, 87, 123, 42);
+    	add(btnYourGoi);
     	
     	JButton btnSharedFiles = new JButton("Shared Files");
-    	btnSharedFiles.setBounds(403, 71, 123, 42);
+    	btnSharedFiles.setBounds(315, 87, 123, 42);
     	add(btnSharedFiles);
     	
     	JButton btnUploadAFile = new JButton("Upload a File");
@@ -89,30 +90,30 @@ public class UserPage extends MyBoxGUI
     			
     		}
     	});
-    	btnUploadAFile.setBounds(403, 140, 123, 42);
+    	btnUploadAFile.setBounds(315, 140, 123, 42);
     	add(btnUploadAFile);
     	
     	JButton btnCreateAFolder = new JButton("Create a Folder");
-    	btnCreateAFolder.setBounds(552, 71, 123, 42);
+    	btnCreateAFolder.setBounds(534, 87, 123, 42);
     	add(btnCreateAFolder);
     	
     	JButton btnFolders = new JButton("Folders");
-    	btnFolders.setBounds(552, 140, 123, 42);
+    	btnFolders.setBounds(534, 140, 123, 42);
     	add(btnFolders);
     	
     	JLabel lblGoi = new JLabel("GOI");
     	lblGoi.setFont(new Font("Arial", Font.PLAIN, 36));
-    	lblGoi.setBounds(166, 26, 89, 34);
+    	lblGoi.setBounds(136, 26, 89, 34);
     	add(lblGoi);
     	
     	JLabel lblFolders = new JLabel("Folders");
     	lblFolders.setFont(new Font("Arial", Font.PLAIN, 36));
-    	lblFolders.setBounds(554, 26, 123, 34);
+    	lblFolders.setBounds(534, 26, 123, 34);
     	add(lblFolders);
     	
     	JLabel lblFiles = new JLabel("Files");
     	lblFiles.setFont(new Font("Arial", Font.PLAIN, 36));
-    	lblFiles.setBounds(420, 27, 89, 33);
+    	lblFiles.setBounds(339, 27, 89, 33);
     	add(lblFiles);
     	
     	JButton btnMessages = new JButton("Messages");
@@ -123,11 +124,8 @@ public class UserPage extends MyBoxGUI
     			/*
     			 * 
     			 * This is meant for client server work
-    			ArrayList<Object> sendMsg = new ArrayList<Object>();
     			try {
-    				sendMsg.add("Messages");
-    				sendMsg.add(MyBoxGUI.getUser());
-					MyBoxGUI.getClient().sendToServer(sendMsg);
+					MyBoxGUI.getClient().sendToServer("Messages");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -143,7 +141,13 @@ public class UserPage extends MyBoxGUI
     			messages.setVisible(true);
     		}
     	});
-    	btnMessages.setBounds(336, 378, 89, 36);
+    	btnMessages.setBounds(339, 378, 99, 36);
     	add(btnMessages);
+    	
+    	JLabel lblNewMessage = new JLabel("");
+    	lblNewMessage.setIcon(new ImageIcon("C:\\Users\\Ran\\Desktop\\NewMessage.gif"));
+    	lblNewMessage.setBounds(360, 356, 55, 23);
+    	add(lblNewMessage);
+    	
     }
 }
