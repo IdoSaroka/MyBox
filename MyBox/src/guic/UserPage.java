@@ -80,6 +80,14 @@ public class UserPage extends MyBoxGUI
     	add(btnYourGoi);
     	
     	JButton btnSharedFiles = new JButton("Shared Files");
+    	btnSharedFiles.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent arg0) 
+    		{
+    			userpage.setVisible(false);
+    			sharedfolderspage.setVisible(true);
+    		}
+    	});
     	btnSharedFiles.setBounds(315, 87, 123, 42);
     	add(btnSharedFiles);
     	

@@ -40,7 +40,7 @@ public class MyBoxGUI extends JPanel
 	protected static JoinGOIPage joingoipage;
 	protected static ShowSearchedGOI showsearchgoi;
 	protected static CreateGOIPage creategoipage;
-	
+	protected static SharedFoldersPage sharedfolderspage;
 	protected static JFrame frmMyBox;
 	protected Mtds meth = new Mtds();
 	protected static JTextField txtPath;
@@ -60,8 +60,10 @@ public class MyBoxGUI extends JPanel
 
 	protected static JList list;
 	protected static JList list2;
+	protected static JList listSharedFls;
 	protected static DefaultListModel ListModel = new DefaultListModel();//for msgs
 	protected static DefaultListModel ListModel2 = new DefaultListModel();//for GOI
+	protected static DefaultListModel listSharedFlsModel = new DefaultListModel();//for Folders
 	//protected static ArrayList<String> LsitArray = new ArrayList<String>();
 	////////////////////////
 	
@@ -116,6 +118,9 @@ public class MyBoxGUI extends JPanel
         
         creategoipage = new CreateGOIPage();
         contentPane.add(creategoipage);
+        
+        sharedfolderspage = new SharedFoldersPage();
+        contentPane.add(sharedfolderspage); 
         
         JPanel mainPanel = new JPanel(); 
         
