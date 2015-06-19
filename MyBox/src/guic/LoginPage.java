@@ -63,8 +63,8 @@ public class LoginPage extends MyBoxGUI
     private void init() 
     {
         final JButton btnLogin = new JButton("Login");
-        btnLogin.setFont(new Font("Forte", Font.PLAIN, 11));
-        btnLogin.setBounds(334, 308, 80, 36);
+        btnLogin.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
+        btnLogin.setBounds(347, 298, 80, 36);
         action = new ActionListener()
         {
             public void actionPerformed(ActionEvent ae)
@@ -162,89 +162,94 @@ public class LoginPage extends MyBoxGUI
         
         JLabel lblWelcomeToMybox = new JLabel("Welcome To MyBox");
         lblWelcomeToMybox.setFont(new Font("Forte", Font.PLAIN, 54));
-        lblWelcomeToMybox.setBounds(180, 24, 501, 57);
+        lblWelcomeToMybox.setBounds(153, 11, 501, 57);
         add(lblWelcomeToMybox);
         
         JLabel lblUserName = new JLabel("User Name:");
-        lblUserName.setFont(new Font("Forte", Font.PLAIN, 18));
-        lblUserName.setBounds(233, 117, 102, 36);
+        lblUserName.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 18));
+        lblUserName.setBounds(233, 92, 102, 36);
         add(lblUserName);
         
         JLabel lblPassword = new JLabel("Password:");
-        lblPassword.setFont(new Font("Forte", Font.PLAIN, 18));
-        lblPassword.setBounds(233, 167, 100, 22);
+        lblPassword.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 18));
+        lblPassword.setBounds(233, 139, 100, 22);
         add(lblPassword);
         
         userNametxt = new JTextField();
-        userNametxt.setFont(new Font("Forte", Font.PLAIN, 18));
-        userNametxt.setBounds(363, 127, 129, 20);
+        userNametxt.setFont(new Font("Franklin Gothic Book", Font.ITALIC, 18));
+        userNametxt.setBounds(363, 102, 197, 20);
         add(userNametxt);
         userNametxt.setColumns(10);
         
         
         JLabel lblPortNumber = new JLabel("Port Number:");
-        lblPortNumber.setFont(new Font("Forte", Font.PLAIN, 18));
-        lblPortNumber.setBounds(233, 212, 120, 14);
+        lblPortNumber.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 18));
+        lblPortNumber.setBounds(233, 184, 120, 14);
         add(lblPortNumber);
         
         Porttxt = new JTextField();
-        Porttxt.setFont(new Font("Forte", Font.PLAIN, 18));
-        Porttxt.setBounds(363, 211, 129, 20);
+        Porttxt.setFont(new Font("Franklin Gothic Book", Font.ITALIC, 18));
+        Porttxt.setBounds(363, 183, 197, 20);
         add(Porttxt);
         Porttxt.setColumns(10);
         
         
         passwordField = new JPasswordField();
-        passwordField.setFont(new Font("Forte", Font.PLAIN, 18));
-        passwordField.setBounds(363, 170, 129, 20);
+        passwordField.setFont(new Font("Franklin Gothic Book", Font.ITALIC, 18));
+        passwordField.setBounds(363, 142, 197, 20);
         add(passwordField);
         
         
         JLabel lblIpAddress = new JLabel("IP Address:");
-        lblIpAddress.setFont(new Font("Forte", Font.PLAIN, 18));
-        lblIpAddress.setBounds(233, 264, 102, 14);
+        lblIpAddress.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 18));
+        lblIpAddress.setBounds(233, 225, 102, 14);
         add(lblIpAddress);
         
         iptxt1 = new JTextField();
-        iptxt1.setBounds(363, 263, 24, 20);
+        iptxt1.setFont(new Font("Franklin Gothic Book", Font.ITALIC, 18));
+        iptxt1.setBounds(363, 224, 42, 20);
         add(iptxt1);
         iptxt1.setColumns(10);
 
         
         iptxt2 = new JTextField();
-        iptxt2.setBounds(399, 263, 24, 20);
+        iptxt2.setFont(new Font("Franklin Gothic Book", Font.ITALIC, 18));
+        iptxt2.setBounds(415, 224, 42, 20);
         add(iptxt2);
         iptxt2.setColumns(10);
         
         iptxt3 = new JTextField();
-        iptxt3.setBounds(434, 263, 24, 20);
+        iptxt3.setFont(new Font("Franklin Gothic Book", Font.ITALIC, 18));
+        iptxt3.setBounds(467, 224, 42, 20);
         add(iptxt3);
         iptxt3.setColumns(10);
         
         iptxt4 = new JTextField();
-        iptxt4.setBounds(468, 263, 24, 20);
+        iptxt4.setFont(new Font("Franklin Gothic Book", Font.ITALIC, 18));
+        iptxt4.setBounds(518, 224, 42, 20);
         add(iptxt4);
         iptxt4.setColumns(10);
         
         lblpoint1 = new JLabel(".");
         lblpoint1.setFont(new Font("Arial", Font.PLAIN, 18));
-        lblpoint1.setBounds(390, 269, 12, 14);
+        lblpoint1.setBounds(408, 230, 12, 14);
         add(lblpoint1);
         
         lblpoint2 = new JLabel(".");
         lblpoint2.setFont(new Font("Arial", Font.PLAIN, 18));
-        lblpoint2.setBounds(425, 269, 12, 14);
+        lblpoint2.setBounds(459, 230, 12, 14);
         add(lblpoint2);
         
         lblpoint3 = new JLabel(".");
         lblpoint3.setFont(new Font("Arial", Font.PLAIN, 18));
-        lblpoint3.setBounds(460, 269, 12, 14);
+        lblpoint3.setBounds(511, 230, 12, 14);
         add(lblpoint3);
         
         prtsight = new JLabel("(0 - 9999)");
-        prtsight.setFont(new Font("Forte", Font.PLAIN, 11));
-        prtsight.setBounds(254, 227, 56, 14);
+        prtsight.setFont(new Font("Footlight MT Light", Font.PLAIN, 12));
+        prtsight.setBounds(254, 199, 56, 14);
         add(prtsight);
+        
         
         lblPicMBX = new JLabel("");
         lblPicMBX.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
