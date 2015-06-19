@@ -34,45 +34,45 @@ public class serverMainPage extends ServerGUI
 		setLayout(null);
 		
 		JLabel lblWellcomToMybox = new JLabel("Welcom to MyBox Server Application");
-		lblWellcomToMybox.setFont(new Font("Arial", Font.PLAIN, 32));
-		lblWellcomToMybox.setBounds(138, 11, 699, 37);
+		lblWellcomToMybox.setFont(new Font("Forte", Font.PLAIN, 36));
+		lblWellcomToMybox.setBounds(91, 11, 699, 37);
 		add(lblWellcomToMybox);
 		
-		JLabel lblEnterDatabasLocation = new JLabel("Enter DB Location:");
-		lblEnterDatabasLocation.setFont(new Font("Arial", Font.PLAIN, 18));
-		lblEnterDatabasLocation.setBounds(138, 85, 207, 14);
+		JLabel lblEnterDatabasLocation = new JLabel("DB Location:");
+		lblEnterDatabasLocation.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 20));
+		lblEnterDatabasLocation.setBounds(175, 84, 196, 14);
 		add(lblEnterDatabasLocation);
 		
-		JLabel lblEnterUserName = new JLabel("Enter User Name (for DB):");
-		lblEnterUserName.setFont(new Font("Arial", Font.PLAIN, 18));
-		lblEnterUserName.setBounds(138, 154, 217, 28);
+		JLabel lblEnterUserName = new JLabel("User Name (for DB):");
+		lblEnterUserName.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 20));
+		lblEnterUserName.setBounds(175, 130, 196, 28);
 		add(lblEnterUserName);
 		
-		JLabel lblEnterPasswordfor = new JLabel("Enter Password (for DB):");
-		lblEnterPasswordfor.setFont(new Font("Arial", Font.PLAIN, 18));
-		lblEnterPasswordfor.setBounds(138, 234, 217, 19);
+		JLabel lblEnterPasswordfor = new JLabel("Password (for DB):");
+		lblEnterPasswordfor.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 20));
+		lblEnterPasswordfor.setBounds(175, 183, 196, 19);
 		add(lblEnterPasswordfor);
 		
-		JLabel lblEnterDbPort = new JLabel("Enter DB Port Number:");
-		lblEnterDbPort.setFont(new Font("Arial", Font.PLAIN, 18));
-		lblEnterDbPort.setBounds(138, 310, 207, 19);
+		JLabel lblEnterDbPort = new JLabel("DB Port Number:");
+		lblEnterDbPort.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 20));
+		lblEnterDbPort.setBounds(175, 231, 196, 19);
 		add(lblEnterDbPort);
 		
 		JLabel label = new JLabel("(0-9999)");
-		label.setFont(new Font("Arial", Font.PLAIN, 11));
-		label.setBounds(213, 328, 46, 14);
+		label.setFont(new Font("Footlight MT Light", Font.PLAIN, 12));
+		label.setBounds(220, 247, 57, 14);
 		add(label);
 		
 		txtPath = new JTextField();
 		txtPath.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtPath.setBounds(413, 75, 224, 37);
+		txtPath.setBounds(381, 75, 224, 37);
 		add(txtPath);
 		txtPath.setColumns(10);
 		
 		textUserName = new JTextField();
 		textUserName.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		textUserName.setColumns(10);
-		textUserName.setBounds(413, 152, 224, 37);
+		textUserName.setBounds(381, 124, 224, 37);
 		add(textUserName);
 		
 		JButton btnOk = new JButton("OK");
@@ -104,11 +104,11 @@ public class serverMainPage extends ServerGUI
 				}
 			}
 		});
-		btnOk.setBounds(307, 392, 82, 37);
+		btnOk.setBounds(310, 290, 82, 37);
 		add(btnOk);
 		
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setBounds(399, 392, 82, 37);
+		btnCancel.setBounds(394, 290, 82, 37);
 		add(btnCancel);
 		
 
@@ -121,24 +121,25 @@ public class serverMainPage extends ServerGUI
 				browse = new Browse();
 			}
 		});
-		btnBrowse.setBounds(660, 75, 46, 37);
+		btnBrowse.setBounds(617, 78, 38, 28);
 		add(btnBrowse);
 		
 		textPort = new JTextField();
 		textPort.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		textPort.setColumns(10);
-		textPort.setBounds(413, 302, 224, 37);
+		textPort.setBounds(381, 220, 224, 37);
 		textPort.setText(portNumber);
 		add(textPort);
 		
 		textPassword = new JPasswordField();
 		textPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		textPassword.setBounds(413, 227, 224, 37);
+		textPassword.setBounds(381, 172, 224, 37);
 		add(textPassword);
 		
 		JLabel label_2 = new JLabel("");
 		label_2.setIcon(new ImageIcon(serverMainPage.class.getResource("/guis/MyBox.jpg")));
 		label_2.setBounds(10, 11, 780, 478);
 		add(label_2);
+		
 	}
 }

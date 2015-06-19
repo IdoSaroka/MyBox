@@ -20,6 +20,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.swing.SwingUtilities;
+
+import main.ServerGUI;
 import entities.User;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -188,6 +192,18 @@ protected void serverStarted()
    * **/   
   public static void main(String[] args) throws IOException
   {
+	  
+	/*
+      SwingUtilities.invokeLater(new Runnable()
+      {
+          public void run()
+          {
+        	  ServerGUI.createAndShowGUI();
+          }
+      });
+	  */
+	  
+	  
 	ArrayList<String> returnMsg = new ArrayList();
     Connection conn = null;
     int port = 0;

@@ -77,9 +77,9 @@ public class GoiBasic implements Serializable{
 			      /**
 	               *DownloadSharedFile - Handles the case where the user wishes to download a shared file
 	               **/
-	              case "DownloadSharedFile":
-	            	  downloadSharedFile();
-	              break;
+	 //             case "DownloadSharedFile":
+	     //       	  downloadSharedFile();
+	    //          break;
 	              
 	              /**
 	               *EditSharedFile - Handles the case where the user wishes to edit a file shared with his GOI

@@ -39,7 +39,7 @@ public class ServerGUI extends MyBoxGUI
 
 	}
 	
-    private static void createAndShowGUI()
+    public static void createAndShowGUI()
     {
     	frmServer = new JFrame("MyBox - Server");
     	frmServer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,6 +70,7 @@ public class ServerGUI extends MyBoxGUI
 
 	public static void main(String[] args) 
 	{
+		
         SwingUtilities.invokeLater(new Runnable()
         {
             public void run()
@@ -77,6 +78,7 @@ public class ServerGUI extends MyBoxGUI
                 createAndShowGUI();
             }
         });
+        
 	}
 
 }
