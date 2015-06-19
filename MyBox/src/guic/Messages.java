@@ -40,7 +40,7 @@ public class Messages extends MyBoxGUI
     			userpage.setVisible(true);
 			}
 		});
-		btnBack.setBounds(10, 11, 74, 36);
+		btnBack.setBounds(59, 299, 74, 36);
 		add(btnBack);
 		
 		
@@ -52,7 +52,7 @@ public class Messages extends MyBoxGUI
 				JOptionPane.showMessageDialog(frmMyBox,"Open message: "+ListModel.getElementAt(list.getSelectedIndex()),null, JOptionPane.YES_NO_CANCEL_OPTION);
 			}
 		});
-		btnOpen.setBounds(524, 104, 74, 36);
+		btnOpen.setBounds(564, 299, 74, 36);
 		add(btnOpen);
 		
 		JButton btnDelete = new JButton("Delete");
@@ -63,18 +63,18 @@ public class Messages extends MyBoxGUI
 				ListModel.removeElementAt(list.getSelectedIndex());
 			}
 		});
-		btnDelete.setBounds(604, 104, 74, 36);
+		btnDelete.setBounds(648, 299, 74, 36);
 		add(btnDelete);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(39, 104, 407, 169);
+		scrollPane.setBounds(59, 57, 663, 235);
 		add(scrollPane);
 		
 	    list = new JList(ListModel);
 		scrollPane.setViewportView(list);
 		
 		Label lblMessage = new Label(" Sender                                | Date");
-		lblMessage.setFont(new Font("Dialog", Font.PLAIN, 14));
+		lblMessage.setFont(new Font("Footlight MT Light", Font.PLAIN, 16));
 		scrollPane.setColumnHeaderView(lblMessage);
 		
 		
