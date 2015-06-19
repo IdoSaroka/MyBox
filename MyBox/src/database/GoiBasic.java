@@ -78,7 +78,7 @@ public class GoiBasic implements Serializable{
 	               *DownloadSharedFile - Handles the case where the user wishes to download a shared file
 	               **/
 	              case "DownloadSharedFile":
-	            	  
+	            	  downloadSharedFile();
 	              break;
 	              
 	              /**
@@ -551,7 +551,7 @@ public class GoiBasic implements Serializable{
 		}
 	}
     //Encountered
- 	public static void downloadSharedFile(){
+ 	public static void downloadSharedFile(FileToView sharedFile){
  		
  	}
  	

@@ -7,6 +7,8 @@ package database;
  *@author Shimon Ben Alol 201231818
 **/
 
+
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
@@ -21,6 +23,7 @@ import java.util.Scanner;
 import entities.User;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import entities.Messages;
 
 /**This Class establish the connection to the DB and creates the server 
  * @author Ido Saroka 300830973
@@ -366,6 +369,39 @@ protected void serverStarted()
 		}catch(SQLException e){
 			return false;
 		}	
+	}
+	
+	  /**returnUserMessages - will return all the new messages the user has
+	   * @author Ido Saroka 300830973
+	   * @param userName - the function will receive the user's name
+	   * @param conn - the function will receive a connection to the database
+	   * <p>
+	   * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+	   * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
+	   * @exception IOException e -
+	   * @return boolean - the function will return true or false depending if the user has any messages or not
+	   * **/
+	public static void returnUserMessages(String userName, Connection conn){
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		Messages userMessage;
+		try{
+			statement = conn.prepareStatement("SELECT * From usermessages WHERE userName = ?");
+			statement.setString(1,userName);
+			rs=statement.executeQuery();
+			if(!rs.isBeforeFirst()){
+				System.out.println("You have no new messages");
+				return;
+			}
+			while(rs.next()){
+				//return message.add
+				userMessage = new Messages(rs.getString(4),rs.getString(2));
+	
+			}
+			/**Important add deletion from the database**/
+		}catch(SQLException e){
+			
+		}
 	}
   
   

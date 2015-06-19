@@ -52,6 +52,16 @@ public class FilesHandler implements Serializable {
 				e.printStackTrace();
 			}
 			 break;
+			 
+		 case "DownloadAFile":
+			 try {
+				uploadAFile((MyFile)msg.get(2));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 break;
+			 
 		 
 		 default:
 			 break;
@@ -71,6 +81,7 @@ public class FilesHandler implements Serializable {
 		if(! (f.exists() && f.isDirectory() )){
 			 LogHandling.logging("Error - User:"+ file.getOwner() +"Ecnounterd a problem saving file: "+file.getName()+file.getSuffix()+" to path:"+file.getPath());
 			 LogHandling.logging("Error:  Illegal Path");
+			 returnMsg.add(false);
 			 returnMsg.add("Error: Illegal Path");
 			 connection.sendToClient(returnMsg);
 			 rs.close();
@@ -80,6 +91,7 @@ public class FilesHandler implements Serializable {
 		if( ( 1 > file.getPrivelege() ) || ( file.getPrivelege() > 3) ){
 			 LogHandling.logging("Error - User:"+ file.getOwner() +"Ecnounterd a problem saving file: "+file.getName()+file.getSuffix()+" to path:"+file.getPath());
 			 LogHandling.logging("Error:  Illegal privilege level");
+			 returnMsg.add(false);
 			 returnMsg.add("Error: Invalid privilege level");
 			 connection.sendToClient(returnMsg);
 			 rs.close();
@@ -96,6 +108,7 @@ public class FilesHandler implements Serializable {
 		 if(rs.isBeforeFirst()){
 			 LogHandling.logging("Error - User:"+ file.getOwner() +"Ecnounterd a problem saving file: "+file.getName()+file.getSuffix()+" to path:"+file.getPath());
 			 LogHandling.logging("Error: File allready Exists");
+			 returnMsg.add(false);
 			 returnMsg.add("Error File allready exist");
 			 connection.sendToClient(returnMsg);
 			 rs.close();
@@ -115,9 +128,8 @@ public class FilesHandler implements Serializable {
 		 statement.setInt(5, file.getPrivelege());
 		 statement.setString(6, file.getDescription());
 		 statement.executeUpdate();
+		 returnMsg.add(true);
 		 LogHandling.logging("User:"+ file.getOwner() +"Added the file: "+file.getName()+file.getSuffix()+" to path:"+file.getPath());
-		 LogHandling.logging("Error: File allready Exists");
-		 returnMsg.add("Success");
 		 connection.sendToClient(returnMsg);
 		}
 	
