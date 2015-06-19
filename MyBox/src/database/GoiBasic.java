@@ -19,6 +19,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 import ocsf.server.ConnectionToClient;
+import entities.FileToView;
 
 /**This Class contains MyBox basic functions that are responsible for
  * accessing and searching inside the "Groups Of Interests" in the system.
@@ -302,6 +303,7 @@ public class GoiBasic implements Serializable{
       * @return  
       * **/  
  	public static void searchSharedFiles(String userName,String option, String searchParameter) throws IOException{
+ 		FileToView newFileToView = null;
 		Statement stmt = null;
 		PreparedStatement statement = null;
 		ArrayList<Integer> groupIds = new ArrayList<>();
@@ -332,9 +334,15 @@ public class GoiBasic implements Serializable{
 					 * rs.getString(7) - File's Description
 					 * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
 					 * */
-				     returnMsg.add("GOI ID: "+rs.getString(1) + " "+rs.getString(2) +" "+rs.getString(3) +
+					
+				   /*  returnMsg.add("GOI ID: "+rs.getString(1) + " "+rs.getString(2) +" "+rs.getString(3) +
     			            " "+rs.getString(4) +" "+rs.getString(5) +" " + rs.getString(6) + 
-    			                       " " + rs.getString(7) +" " + rs.getString(8));
+    			                       " " + rs.getString(7) +" " + rs.getString(8));*/
+					newFileToView = new FileToView(rs.getString(1),rs.getString(2),rs.getString(3),
+							rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),
+							rs.getBoolean(8));
+					returnMsg.add(newFileToView);
+					flag = true;
 				}
 				statement = conn.prepareStatement("SELECT GOI_id From usersingoi WHERE user_Name = ?");
 				statement.setString(1, userName); 
@@ -346,12 +354,12 @@ public class GoiBasic implements Serializable{
 					groupIds.add(rs.getInt(1));
 					flag = true;
 				}
-				if(!flag){
+				/*if(!flag){
 					rs.close();
 					returnMsg.add("You are currently not a member in any Group Of Interests!\n");
 					client.sendToClient(returnMsg);
 					return;
-				}
+				}*/
 				/*
 				 * This loop will print all the files associated with the groups the user is a member 
 				 */
@@ -371,9 +379,13 @@ public class GoiBasic implements Serializable{
 							 * rs.getString(7) - File's Description
 							 * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
 							 * */
-						     returnMsg.add("GOI ID: "+rs.getString(1) + " "+rs.getString(2) +" "+rs.getString(3) +
+						     /*returnMsg.add("GOI ID: "+rs.getString(1) + " "+rs.getString(2) +" "+rs.getString(3) +
 		    			            " "+rs.getString(4) +" "+rs.getString(5) +" " + rs.getString(6) + 
-		    			                       " " + rs.getString(7) +" " + rs.getString(8));
+		    			                       " " + rs.getString(7) +" " + rs.getString(8));*/
+						     newFileToView = new FileToView(rs.getString(1),rs.getString(2),rs.getString(3),
+							 rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),
+							 rs.getBoolean(8));
+							 returnMsg.add(newFileToView);
 						     flag = true;
 						} 
 				 }
@@ -382,7 +394,7 @@ public class GoiBasic implements Serializable{
 				 */
 				 if(flag == false){
 					    rs.close();
-					    returnMsg.add("The Groups of intersets you are currentliy a member in have no files in them!\n");
+					    returnMsg.add("No files are currently shared with you or the group of interests you are a member in!");
 						client.sendToClient(returnMsg);
 						break;
 					 }
@@ -435,9 +447,13 @@ public class GoiBasic implements Serializable{
 						 * rs.getString(7) - File's Description
 						 * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
 						 * */
-						returnMsg.add(rs.getString(1) +" "+rs.getString(2) + " "+rs.getString(3) +
+						/*returnMsg.add(rs.getString(1) +" "+rs.getString(2) + " "+rs.getString(3) +
 	    			                    " "+rs.getString(4) +" "+rs.getString(5) +" " + rs.getString(6) + 
-	    			                           " " + rs.getString(7) +" " + rs.getString(8));
+	    			                           " " + rs.getString(7) +" " + rs.getString(8));*/
+						newFileToView = new FileToView(rs.getString(1),rs.getString(2),rs.getString(3),
+						                               rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),
+								                       rs.getBoolean(8));
+								 returnMsg.add(newFileToView);
 					}
 					rs.close();
 					client.sendToClient(returnMsg);
@@ -534,5 +550,9 @@ public class GoiBasic implements Serializable{
     //Encountered
  	public static void downloadSharedFile(){
  		
+ 	}
+ 	
+ 	public static void editSharedFile(){
+ 		/**Important add message to all relevant users(the one the file is shared with**/
  	}
 }

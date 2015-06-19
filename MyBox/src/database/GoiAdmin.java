@@ -19,6 +19,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 import ocsf.server.ConnectionToClient;
+import entities.GOI;
+
 public class GoiAdmin implements Serializable{
 
   /**This Class contains MyBox Advanced functions responsible for the creation and maintenance of
@@ -45,6 +47,7 @@ public class GoiAdmin implements Serializable{
 		   switch(str){
 		   
 		   case "CreateGOI":
+			   createAGOI((GOI)msg.get(2));
 			   break;
 			   
 		   case "DeleteAGOI":
@@ -112,6 +115,55 @@ public class GoiAdmin implements Serializable{
 		}
 		
 		
+		 /**getRequests - will be responsible for retrieving all of the current requests made by the user
+		    * @author Ido Saroka 300830973
+		    * @param userName - the user's user name in the MyBox system
+		    * @param option - the search option the user wishes the search to be performed by
+		    * @param searchParameter - the parameter by which to perform the search
+		    * <p>
+		    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+		    * @exception SQLException e 
+		    * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
+		    * @return returnMsg
+		    * **/  
+		public static void createAGOI(GOI newGOI){
+			PreparedStatement statement = null;
+			ResultSet rs = null;
+			try{
+				 statement = conn.prepareStatement("SELECT GOI_id,GOI_Name From GOI WHERE GOI_Name = ?");
+				 statement.setString(1, newGOI.getName()); 
+				 rs=statement.executeQuery();
+				 if(rs.isBeforeFirst()){
+					 rs.close();
+					 returnMsg.add("Error: Goi does not exist");
+					 client.sendToClient(returnMsg);
+					 return;
+				 }
+				// if(){
+					 
+				// }
+				 
+				 
+				 
+			}catch(SQLException e){
+				
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
+		public static void deleteAGOI(){
+			/**should user deleteAUserFromAGOI() for the removal of all the users in the goi**/
+		}
+		
+		public static void deleteAUserFromAGOI(){
+			/**Important add a message to this user in the message database**/
+		}
+		
+		public static void decideAboutRequest(){
+			/**Important add messages to the user database**/
+		}
 		
 
 }

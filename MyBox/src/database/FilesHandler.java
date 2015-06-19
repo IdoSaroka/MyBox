@@ -60,6 +60,7 @@ public class FilesHandler implements Serializable {
 	//Privilege
 	
 	public static void uploadAFile(MyFile file) throws SQLException, IOException{
+		/**Impotent ask shimon to send me the user type**/
 		System.out.println(file.getName()+"\n");
 		PreparedStatement statement = null;
 		ResultSet rs = null;
@@ -123,6 +124,12 @@ public class FilesHandler implements Serializable {
 	
 	public static void retriveAFile(){
 		
+	}
+	
+	public static void deleteAFile(){
+		/**impoertent ask shimon to send me the user's role in the system**/
+		
+		/**impoertent add the appropriate messages to all the user's the file is shared with**/
 	}
 	
 }
