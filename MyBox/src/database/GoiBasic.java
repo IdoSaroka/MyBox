@@ -88,7 +88,7 @@ public class GoiBasic implements Serializable{
 	            	  break;
 			      
 			      default:
-			        LogHandling.logging("Error: User selected an invalid search option");
+			        LogHandling.logging("Error: User selected an invalid search option:" + (String)msg.get(1));
 				    returnMsg.add("Error: Invalid Selection");
 				    client.sendToClient(returnMsg);
 			      break;
@@ -110,6 +110,7 @@ public class GoiBasic implements Serializable{
     * **/   
      public static void searchAGOI(String userName, String option,String searchParameter) throws IOException{
 		Statement stmt = null;
+		GOI goiToReturn;
 		boolean flag = false;
 		try {
 			stmt = conn.createStatement();
@@ -131,8 +132,11 @@ public class GoiBasic implements Serializable{
 			case "Name":
 			    while(rs.next()){ 
 				   if( searchParameter.equals(rs.getString(2)) ){ /**GOI Name**/
-                      returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
+					  /* goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3)+
+			    			   ,rs.getString(4),rs.getInt(5),rs.getInt(6));  */
+                     returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
 			    			   " "+rs.getString(4)+" "+rs.getString(5)+ " "+rs.getString(6)); 
+					   
                        rs.close();
                        client.sendToClient(returnMsg);
 				 	   break;

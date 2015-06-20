@@ -51,6 +51,7 @@ public class GoiAdmin implements Serializable{
 			   break;
 			   
 		   case "DeleteAGOI":
+			   
 			   break;
 			   
 		   
@@ -76,8 +77,7 @@ public class GoiAdmin implements Serializable{
 	    * <p>
 	    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
 	    * @exception SQLException e 
-	    * @exception IOException e 
-	    * @return 
+	    * @exception IOException e  
 	    * **/   
 		public static void getRequests() throws IOException{
 			 Statement stmt;
@@ -124,7 +124,6 @@ public class GoiAdmin implements Serializable{
 		    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
 		    * @exception SQLException e 
 		    * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
-		    * @return returnMsg - 
 		    * **/  
 		public static void createAGOI(GOI newGOI) throws IOException{
 			PreparedStatement statement = null;
@@ -140,7 +139,7 @@ public class GoiAdmin implements Serializable{
 					 client.sendToClient(returnMsg);
 					 return;
 				 }
-				 statement = conn.prepareStatement("INSERT INTO GOI (GOI_id,GOI_Name,subject,creation_Date,number_Of_Users,current_Num_Of_Users) VALUES (NULL,?,?,?,?,?)");
+				 statement = conn.prepareStatement("INSERT INTO GOI (GOI_Name,subject,creation_Date,number_Of_Users,current_Num_Of_Users) VALUES (?,?,?,?,?)");
 				 statement.setString(1, newGOI.getName());
 			     statement.setString(2, newGOI.getSubject());	
 			     statement.setString(3, newGOI.getCreationDate());
@@ -164,8 +163,12 @@ public class GoiAdmin implements Serializable{
 		}
 
 		
-		public static void deleteAGOI(){
+		public static void deleteAGOI(GOI newGOI){
 			/**should user deleteAUserFromAGOI() for the removal of all the users in the goi**/
+			PreparedStatement statement = null;
+			ResultSet rs = null;
+			
+			
 		}
 		
 		public static void deleteAUserFromAGOI(){
