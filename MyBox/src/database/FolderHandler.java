@@ -73,7 +73,7 @@ public class FolderHandler implements Serializable{
 	}
 	
 	public static void deleteAFolder(){
-		/**Impotent add a condition about deleting the user's folder in MyBox**/
+		/**Important add a condition about deleting the user's folder in MyBox**/
 		
 	}
 	

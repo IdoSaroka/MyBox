@@ -328,8 +328,8 @@ public class GoiBasic implements Serializable{
 				while(rs.next()){
 					/*
 					 * Description:
-					 * rs.getString(1) - GOI ID
-					 * rs.getString(2) - File ID
+					 * rs.getInt(1) - GOI ID
+					 * rs.getInt(2) - File ID
 					 * rs.getString(3) - File Name
 					 * rs.getString(4) - File's Suffix
 					 * rs.getString(5) - File Owner
@@ -337,11 +337,7 @@ public class GoiBasic implements Serializable{
 					 * rs.getString(7) - File's Description
 					 * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
 					 * */
-					
-				   /*  returnMsg.add("GOI ID: "+rs.getString(1) + " "+rs.getString(2) +" "+rs.getString(3) +
-    			            " "+rs.getString(4) +" "+rs.getString(5) +" " + rs.getString(6) + 
-    			                       " " + rs.getString(7) +" " + rs.getString(8));*/
-					newFileToView = new FileToView(rs.getString(1),rs.getString(2),rs.getString(3),
+					newFileToView = new FileToView(rs.getInt(1),rs.getInt(2),rs.getString(3),
 							rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),
 							rs.getBoolean(8));
 					returnMsg.add(newFileToView);
@@ -373,8 +369,8 @@ public class GoiBasic implements Serializable{
 					 while(rs.next()){
 							/*
 							 * Description:
-							 * rs.getString(1) - GOI ID
-							 * rs.getString(2) - File ID
+							 * rs.getInt(1) - GOI ID
+							 * rs.getInt(2) - File ID
 							 * rs.getString(3) - File Name
 							 * rs.getString(4) - File's Suffix
 							 * rs.getString(5) - File Owner
@@ -382,10 +378,7 @@ public class GoiBasic implements Serializable{
 							 * rs.getString(7) - File's Description
 							 * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
 							 * */
-						     /*returnMsg.add("GOI ID: "+rs.getString(1) + " "+rs.getString(2) +" "+rs.getString(3) +
-		    			            " "+rs.getString(4) +" "+rs.getString(5) +" " + rs.getString(6) + 
-		    			                       " " + rs.getString(7) +" " + rs.getString(8));*/
-						     newFileToView = new FileToView(rs.getString(1),rs.getString(2),rs.getString(3),
+						     newFileToView = new FileToView(rs.getInt(1),rs.getInt(2),rs.getString(3),
 							 rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),
 							 rs.getBoolean(8));
 							 returnMsg.add(newFileToView);
@@ -441,8 +434,8 @@ public class GoiBasic implements Serializable{
 					while(rs.next()){
 						/*
 						 * Description:
-						 * rs.getString(1) - GOI ID
-						 * rs.getString(2) - File ID
+						 * rs.getInt(1) - GOI ID
+						 * rs.getInt(2) - File ID
 						 * rs.getString(3) - File Name
 						 * rs.getString(4) - File's Suffix
 						 * rs.getString(5) - File Owner
@@ -450,10 +443,8 @@ public class GoiBasic implements Serializable{
 						 * rs.getString(7) - File's Description
 						 * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
 						 * */
-						/*returnMsg.add(rs.getString(1) +" "+rs.getString(2) + " "+rs.getString(3) +
-	    			                    " "+rs.getString(4) +" "+rs.getString(5) +" " + rs.getString(6) + 
-	    			                           " " + rs.getString(7) +" " + rs.getString(8));*/
-						newFileToView = new FileToView(rs.getString(1),rs.getString(2),rs.getString(3),
+				
+						newFileToView = new FileToView(rs.getInt(1),rs.getInt(2),rs.getString(3),
 						                               rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),
 								                       rs.getBoolean(8));
 								 returnMsg.add(newFileToView);

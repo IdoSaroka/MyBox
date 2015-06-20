@@ -6,6 +6,7 @@ package database;
  *@author Sagi Sulimani 300338878
  *@author Shimon Ben Alol 201231818
 **/
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import entities.FileToView;
+import entities.FileOwnerViewer;
 import files.Browse;
 import files.MyFile;
 import files.Save;
@@ -56,16 +58,23 @@ public class FilesHandler implements Serializable {
 			 break;
 			 
 		 case "DownloadAFile":
-			 downloadUserFile((String)msg.get(2),(FileToView)msg.get(3));
+			 downloadUserFile((String)msg.get(2),(FileOwnerViewer)msg.get(3));
 			 break;
 			 
+		 case "ReturnFileOwnerFiles":
+			 returnUseFile((String)msg.get(2));
+			 break;
 			 
 		 
 		 default:
 			 break;
 		 }
 	}
-	//Privilege
+
+	public static void serachUserFile(){
+		
+	}
+	
 	
 	public static void uploadAFile(MyFile file) throws SQLException, IOException{
 		/**Impotent ask shimon to send me the user type**/
@@ -132,12 +141,13 @@ public class FilesHandler implements Serializable {
 		}
 	
 	
-	public static void retriveAFile(){
+	public static void retriveAFile(String userName,int fileID){
+		/**Do we want the function to receive an int or a MyFile Object **/
 		
 	}
 	
 	
-	public static void downloadUserFile(String userName, FileToView file){
+	public static void downloadUserFile(String userName, FileOwnerViewer file){
 		System.out.println(file.getFileName()+"\n");
 		PreparedStatement statement = null;
 		ResultSet rs = null;
@@ -178,10 +188,58 @@ public class FilesHandler implements Serializable {
 		
 	}
 	
-	public static void deleteAFile(){
+	public static void changeFilePermission(String userName, MyFile fileToChange){
+		
+	}
+	
+	public static void deleteAFile(MyFile fileToDelete){
 		/**impoertent ask shimon to send me the user's role in the system**/
 		
 		/**impoertent add the appropriate messages to all the user's the file is shared with**/
+	}
+	
+	   /**returnUseFile - this function will return the user all the files he currently 
+	    * @author Ido Saroka 300830973
+		* @param userName - the 
+	    * @param decision - the Admin's decision regarding this specific request (Approved, Declined or illegal input)
+		* @param client - the function will receive a connection to the client
+	    * <p>
+	    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+	    * @throws SQLException - the function will throw an IOException in case there will be a problem writing to the the Database: "Users"
+	    * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
+	    * @exception IOException e - 
+	    * **/ 
+	public static void returnUseFile(String userName){
+		PreparedStatement statement = null;
+		FileOwnerViewer fileToReturn;
+		ResultSet rs = null;
+		 try{
+			 statement = conn.prepareStatement("SELECT * From files WHERE file_Owner = ?");
+			 statement.setString(1, userName);
+			 rs = statement.executeQuery();
+			 if(!rs.isBeforeFirst()){
+				 returnMsg.add(false);
+				 System.out.println("You have no files in the system!");
+				 return;
+			 }
+			 returnMsg.add(true);
+			 while(rs.next()){
+				 System.out.println();
+				/* fileToReturn = new FileToView(null,rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)
+						 ,rs.getString(7),null);*/
+				 fileToReturn = new FileOwnerViewer(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(6),
+						 rs.getString(7));
+				 returnMsg.add(fileToReturn);
+				 connection.sendToClient(returnMsg);
+			 } 
+			 rs.close();
+			 
+		 }catch(SQLException e){
+			 
+		 } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }
