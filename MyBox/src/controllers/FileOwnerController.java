@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import entities.FileOwnerViewer;
 import entities.FileToView;
 import files.MyFile;
 import files.Save;
@@ -107,12 +108,17 @@ public class FileOwnerController extends UserController {
 		}
 	}
 	
+	
+	/***************
+	 * This is just for testing!!!!!
+	 */
+	
 	public void testDown(){
 		message.clear();
 		message.add("File");
 		message.add("DownloadAFile");
-		message.add(MyBoxGUI.getUserName());
-		FileToView dummy = new FileToView(0,1,"Choclate Cookies","txt", "Shimon_Ben_Alul", "C:\\MyBox\\Files\\Shimon_Ben_Alul", "A chocolate chip cookies recipe", true);
+		message.add(MyBoxGUI.getUser());
+		FileOwnerViewer dummy = new FileOwnerViewer(1,"Choclate Cookies","txt", "Shimon_Ben_Alul", "C:\\MyBox\\Files\\Shimon_Ben_Alul",3, "A chocolate chip cookies recipe");
 		message.add(dummy);
 		
 		try {

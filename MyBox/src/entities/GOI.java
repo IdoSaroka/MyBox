@@ -20,7 +20,7 @@ import java.util.Date;
 public class GOI 
 {
 	private String Name; 
-	private String ID;
+	private int ID;
 	private String Subject;
 	private String CreationDate;
 	private int NumberOfUsers;
@@ -41,7 +41,6 @@ public class GOI
 		this.Subject = subject;
 		this.CreationDate = dateFormat.format(date);
 		this.NumberOfUsers = numberOfUsers;
-		this.ID=null;
 		this.currentUser=0;
 	}
 	
@@ -49,13 +48,13 @@ public class GOI
 	 * This constructor is meant for server use in order to send and receive GOI
 	 * entity to SysAdmin
 	 * @param String name
-	 * @param String id
+	 * @param int id
 	 * @param String subject
  	 * @param String creationDate
  	 * @param String numberOfUsers
  	 * @param int current
 	 */
-	public GOI (String id, String name, String subject, int numberOfUsers, String creation,int current)
+	public GOI (int id, String name, String subject, int numberOfUsers, String creation,int current)
 	{
 		this.Name = name;
 		this.Subject = subject;
@@ -92,7 +91,7 @@ public class GOI
 /**
 	* @return String of ID
 */
-	public String getID()
+	public int getID()
 	{
 		return ID;
 	}
