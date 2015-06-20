@@ -16,10 +16,12 @@ import java.io.File;
 
 
 
+
 import javax.swing.JOptionPane;
 
 import main.MyBoxGUI;
 import entities.FileToView;
+import entities.User;
 import files.*;
 import guic.UploadFilePage;
 
@@ -119,11 +121,23 @@ public class UserController {
 		file.setOwner(MyBoxGUI.getUserName());
 		message.add("File");
 		message.add("UploadAFile");
+		message.add(MyBoxGUI.getUser());
 		message.add(file);
+		
 		MyBoxGUI.getClient().sendToServer(message);
 		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
-		String str = (String)msg.get(0);
-		JOptionPane.showMessageDialog(uploadfilepage,str);
+		if((boolean)msg.get(0)==true){
+			System.out.println(msg.get(1));
+			String str = (String)msg.get(1);
+			JOptionPane.showMessageDialog(uploadfilepage,str);
+			if(MyBoxGUI.getUser().getrole().equals("User")){
+				MyBoxGUI.setUser((User)msg.get(2));
+			}
+		}
+		else{
+			String str = (String)msg.get(1);
+			JOptionPane.showMessageDialog(uploadfilepage,str);
+		}
 		/*
 		 * To-Do
 		 * if file succesful, changes user role to fileOwner
@@ -158,8 +172,8 @@ public class UserController {
 		message.add("DownloadSharedFile");
 		message.add(fileSend);
 		MyBoxGUI.getClient().sendToServer(message);
-		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
-		if((boolean)msg.get(0)){
+		ArrayList<Object> msg =  (ArrayList) MyBoxGUI.getClient().getMessage();
+		if((boolean)msg.get(0)==true){
 			file = (MyFile)msg.get(1);
 			System.out.println(file.getName());
 			String path="C:\\MyBox\\Downloaded Files";

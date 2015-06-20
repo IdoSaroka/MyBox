@@ -23,7 +23,9 @@ import java.util.Scanner;
 
 import javax.swing.SwingUtilities;
 
-import main.ServerGUI;
+
+import entities.FileOwnerViewer;
+//import main.ServerGUI;
 import entities.User;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -59,10 +61,19 @@ public class EchoServer extends AbstractServer implements Serializable
   {
     
     Scanner sc = new Scanner(System.in);
-    ArrayList<String> message = (ArrayList)msg;
-    ArrayList<String> returnMsg = (ArrayList)msg;
-    
+    ArrayList<Object> message = (ArrayList)msg;
+    ArrayList<Object> returnMsg = (ArrayList)msg;
+    /*
+    ArrayList<Object> nbg = (ArrayList)msg;
+    */
     Connection conn = getDBConn();
+    /*
+    System.out.println(message.size());
+    if(message.size()==4){
+    	FileOwnerViewer temp=(FileOwnerViewer)nbg.get(3);
+    	System.out.println(temp);
+    }
+*/
     
     String str = (String)message.get(0);
     
@@ -95,15 +106,13 @@ public class EchoServer extends AbstractServer implements Serializable
         break;
         
         
-        /**
+        /*
     	 * Admin - will contain all of MyBox Administrative functions - accessible only for the systems Admin
-    	 * **/
-        /*Expected message from Shimon: string(0) = Admin string(1) = SystemAdmin(user.role) , string(2) = Option String(3) = UserName
-         * String(4) = */
+    	 * */
     case "Admin":
-    	/**
+    	/*
     	 * This condition is a security check in case a user which is not a admin tries to access the system
-    	 * **/
+    	 **/
     	if(("SystemAdmin").equals((String)message.get(1))){
     		LogHandling.logging("Admin: " + (String)message.get(3) + " is logged in the system");
     		GoiAdmin AdminHandler = new GoiAdmin(msg,client,conn); 
@@ -114,7 +123,7 @@ public class EchoServer extends AbstractServer implements Serializable
     			client.sendToClient("an error has occured while trying to Access Mybox!");
     		}
     	}
-    	/**If a unauthorized access was attempted the system will register the user's details**/
+    	/*If a unauthorized access was attempted the system will register the user's details*/
     	else{ 		
     		LogHandling.logging("Security Violation: User: " + (String)message.get(3) + "Tried to access the system!");
     		client.sendToClient("an error has occured while trying to Access Mybox!");

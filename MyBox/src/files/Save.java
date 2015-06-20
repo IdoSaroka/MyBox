@@ -64,7 +64,7 @@ public class Save extends JPanel {
 	 */
 	public static File saveFile(MyFile f, String path)
 	{
-		String strFilePath = path+f.getName();
+		String strFilePath = path+f.getName()+"."+f.getSuffix();
 			 File file = null; 
 		     try{ 
 		          file = new File(strFilePath);

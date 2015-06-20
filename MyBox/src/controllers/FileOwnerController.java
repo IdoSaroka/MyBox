@@ -117,7 +117,7 @@ public class FileOwnerController extends UserController {
 		message.clear();
 		message.add("File");
 		message.add("DownloadAFile");
-		message.add(MyBoxGUI.getUserName());
+		message.add(MyBoxGUI.getUser());
 		FileOwnerViewer dummy = new FileOwnerViewer(1,"Choclate Cookies","txt", "Shimon_Ben_Alul", "C:\\MyBox\\Files\\Shimon_Ben_Alul",3, "A chocolate chip cookies recipe");
 		message.add(dummy);
 		System.out.println(dummy);
@@ -128,10 +128,7 @@ public class FileOwnerController extends UserController {
 			e.printStackTrace();
 		}
 		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
-		for(int i=0; i<msg.size();i++){
-			System.out.println(msg.get(i).toString());
-		}
-		if((boolean)msg.get(0)){
+		if((boolean)msg.get(0)==true){
 			MyFile file = (MyFile)msg.get(1);
 			System.out.println(file.getName());
 			String path="C:\\MyBox\\Downloaded Files\\";

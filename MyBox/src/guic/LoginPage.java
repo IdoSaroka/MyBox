@@ -130,6 +130,9 @@ public class LoginPage extends MyBoxGUI
     							MyBoxGUI.setIsMsg((boolean)message.get(1));
     							System.out.println(user.toString()+" is connected");
     							
+    							if(MyBoxGUI.getIsMsg())
+    	    			        	lblNewMSG.setVisible(true);
+    							
     							loginpage.setVisible(false);
     							userpage.setVisible(true);
     					//		if(user.getrole().equals("User"))
@@ -150,8 +153,7 @@ public class LoginPage extends MyBoxGUI
     			        
     			        if(MyBoxGUI.getIsMsg())
     			        	lblNewMSG.setVisible(true);
-    			        loginpage.setVisible(false);
-    			        userpage.setVisible(true);
+
     			      //  adminpage.setVisible(true); // testing
     				}
                 }

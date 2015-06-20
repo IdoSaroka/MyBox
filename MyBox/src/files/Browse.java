@@ -43,8 +43,10 @@ public class Browse extends MyBoxGUI {
  * change the file to bits array
  * 
  * @param f from file type to save the file data
+ * @param string2 
+ * @param string 
  */
-	public Browse(File f)
+	public Browse(File f, String name1, String suff1)
 	{
 		myFile = new MyFile(f.getName());
 		long length = f.length(); 
@@ -58,6 +60,14 @@ public class Browse extends MyBoxGUI {
 	        byte[] b = new byte[(int)length]; 
 	        b = getFile(f);
 	        if (b!=null){
+	        	int dot = Path.lastIndexOf('.');
+				
+				String name=f.getName();
+				myFile = new MyFile(name);				
+				myFile.setPath(f.getParent());
+				
+				myFile.setName(name1);
+				myFile.setSuffix(suff1);
 	        	myFile.initArray((int)length);
 	        	myFile.setSize((int)length);
 	        	myFile.setMybytearray(b);
@@ -94,7 +104,11 @@ public class Browse extends MyBoxGUI {
 			myFile = new MyFile(name);
 			
 			myFile.setPath(file.getParent());
-			name=name.substring(0, Math.min(name.length(), suff.length()-1));
+			
+			System.out.println(name);
+			name=name.substring(0, name.length()- suff.length()-1);
+			System.out.println(name);
+			
 			myFile.setName(name);
 			myFile.setSuffix(suff);
 			

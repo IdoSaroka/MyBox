@@ -77,7 +77,7 @@ public class MyBoxGUI extends JPanel
 	
     private static void createAndShowGUI()
     {
-         frmMyBox = new JFrame("My Box");
+        frmMyBox = new JFrame("My Box");
         frmMyBox.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmMyBox.setResizable(false);
         // This JPanel is the base for CardLayout for other JPanels.
@@ -213,6 +213,9 @@ public class MyBoxGUI extends JPanel
 			e.printStackTrace();
 		}
 		
+	}
+	public static void setUser(User usr){
+		user=usr;
 	}
 } 
 

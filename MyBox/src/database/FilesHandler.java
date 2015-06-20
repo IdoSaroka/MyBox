@@ -7,6 +7,7 @@ package database;
  *@author Shimon Ben Alol 201231818
 **/
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,6 +48,8 @@ public class FilesHandler implements Serializable {
 	}
 	
 	public static void options() throws IOException{
+		System.out.println("This is sent to print from FilesHandler - options");
+		returnMsg =  new ArrayList<>();
 		String str = (String)msg.get(1);
 		 switch(str){
 		 case "UploadAFile":
@@ -54,7 +57,7 @@ public class FilesHandler implements Serializable {
 			 break;
 			 
 		 case "DownloadAFile":
-			 downloadUserFile((String)msg.get(2),(FileOwnerViewer)msg.get(3));
+			 downloadUserFile((User)msg.get(2),(FileOwnerViewer)msg.get(3));
 			 break;
 			 
 		 case "ReturnFileOwnerFiles":
@@ -83,16 +86,14 @@ public class FilesHandler implements Serializable {
 	
 	   /**returnUseFile - this function will return the user all the files he currently 
 	    * @author Ido Saroka 300830973
-		* @param userName - the 
-	    * @param decision - the Admin's decision regarding this specific request (Approved, Declined or illegal input)
-		* @param client - the function will receive a connection to the client
+		* @param userName - a User Object used to determine the user is actually the file owner
 	    * <p>
 	    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
 	    * @throws SQLException - the function will throw an IOException in case there will be a problem writing to the the Database: "Users"
 	    * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
-	    * @exception IOException e - 
+	    * @exception IOException e - the function will throw an INExpcetion in case there will be a problem saving the file in the server
 	    * **/ 
-	public static void returnUseFile(User userName){
+	public static void returnUseFile(User userName) throws IOException{
 		PreparedStatement statement = null;
 		FileOwnerViewer fileToReturn;
 		ResultSet rs = null;
@@ -133,13 +134,15 @@ public class FilesHandler implements Serializable {
 				 connection.sendToClient(returnMsg);
 			 } 
 			 rs.close();
-			 
-		 }catch(SQLException e){
-			 
-		 } catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			
+		 }catch(SQLException | IOException e){
+			 LogHandling.logging("Error: "+ userName +" Encountered a problem while trying to retrieve his files");
+			   LogHandling.logging(e.getMessage());
+			   e.printStackTrace(); 
+			   returnMsg.add("MyBox Encountered an Error!");
+			   returnMsg.add("Please Contact Technical Support");
+			   connection.sendToClient(returnMsg);
+		 }
 	}
 	
 	public static void uploadAFile(User userName, MyFile file) throws IOException{
@@ -148,38 +151,44 @@ public class FilesHandler implements Serializable {
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		File newFile;	
+		User temp=null;
+		String path = "C:\\MyBox\\Files\\"+userName.getUserName();
 		try{
 		/*Check that the path the user inputed exists and it is a folder (User can not save a file on another file..)*/
-		File f = new File(file.getPath());
-		if(! (f.exists() && f.isDirectory() )){
-			 LogHandling.logging("Error - User:"+ file.getOwner() +"Ecnounterd a problem saving file: "+file.getName()+file.getSuffix()+" to path:"+file.getPath());
-			 LogHandling.logging("Error:  Illegal Path");
+	 
+		if(!(userName.getUserName()).equals(file.getOwner())){
+			
+		}
+		File f = new File(path+"\\"+file.getName()+"."+file.getSuffix());
+		if( f.isDirectory() ){
+			 LogHandling.logging("Error - User: "+ file.getOwner() +" Ecnounterd a problem saving file: "+file.getName()+"."+file.getSuffix()+" to path: "+path);
+			 LogHandling.logging("Error: Can not save a directory in MyBox!");
 			 returnMsg.add(false);
-			 returnMsg.add("Error: Illegal Path");
+			 returnMsg.add("Error:  Can not save a directory in MyBox!");
 			 connection.sendToClient(returnMsg);
 			 rs.close();
 			 return;
 		}
 		/*check that the file privilege is a legal value (1,2 or 3)*/
 		if( ( 1 > file.getPrivelege() ) || ( file.getPrivelege() > 3) ){
-			 LogHandling.logging("Error - User:"+ file.getOwner() +"Ecnounterd a problem saving file: "+file.getName()+file.getSuffix()+" to path:"+file.getPath());
+			 LogHandling.logging("Error - User: "+ file.getOwner() +"Ecnounterd a problem saving file: "+file.getName()+"."+file.getSuffix()+" to path:"+path);
 			 LogHandling.logging("Error:  Illegal privilege level");
 			 returnMsg.add(false);
 			 returnMsg.add("Error: Invalid privilege level");
 			 connection.sendToClient(returnMsg);
 			 rs.close();
 		}
-        
+		 
 		 statement = conn.prepareStatement("SELECT file_Name,suffix,file_Owner From Files WHERE file_Name = ? AND suffix = ? AND file_Owner = ? AND virtual_path = ?");
 		 statement.setString(1, file.getName()); 
 		 statement.setString(2, file.getSuffix());
 		 statement.setString(3, file.getOwner());
-		 statement.setString(4, file.getPath());
+		 statement.setString(4, path);
 		 rs=statement.executeQuery();
 		  
-		 //checks that the User did not allready uploaded this file to MyBox in this specific location
+		 //checks that the User did not already uploaded this file to MyBox in this specific location
 		 if(rs.isBeforeFirst()){
-			 LogHandling.logging("Error - User:"+ file.getOwner() +"Ecnounterd a problem saving file: "+file.getName()+file.getSuffix()+" to path:"+file.getPath());
+			 LogHandling.logging("Error - User:"+ file.getOwner() +"Ecnounterd a problem saving file: "+file.getName()+"."+file.getSuffix()+" to path:"+path);
 			 LogHandling.logging("Error: File allready Exists");
 			 returnMsg.add(false);
 			 returnMsg.add("Error File allready exist");
@@ -188,8 +197,8 @@ public class FilesHandler implements Serializable {
 			 return;
 		 }
 		 
-		 String path=null;
-		 Save save=new Save(file,path);
+		
+		 Save save=new Save(file,path+"\\");
 	
 		 
 		 /*Adding the file to the database and copying it to the user directory*/
@@ -197,7 +206,7 @@ public class FilesHandler implements Serializable {
 		 statement.setString(1, file.getName());
 		 statement.setString(2, file.getSuffix());	
 		 statement.setString(3, file.getOwner() );	
-		 statement.setString(4, file.getPath() );
+		 statement.setString(4, path);
 		 statement.setInt(5, file.getPrivelege());
 		 statement.setString(6, file.getDescription());
 		 statement.executeUpdate();
@@ -207,21 +216,26 @@ public class FilesHandler implements Serializable {
 			 statement = conn.prepareStatement("UPDATE Users SET role = 'FileOwner' WHERE userName = ?");
 			 statement.setString(1, userName.getUserName()); 
 			 statement.executeQuery();
+			 //return the new user object to the user
+			 statement = conn.prepareStatement("SELECT * FROM  Users WHERE userName= ?");
+			 statement.setString(1, userName.getUserName()); 
+			 rs = statement.executeQuery();
+			 temp=new User(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
 		 }
-		
+		 returnMsg.clear();
 		 returnMsg.add(true);
-		 returnMsg.add("You have successfully uploaded the file" + file.getName() + "To your virtual MyBox space!");
-		 LogHandling.logging("User:"+ file.getOwner() +"Added the file: "+file.getName()+file.getSuffix()+" to path:"+file.getPath());
+		 returnMsg.add("You have successfully uploaded the file " + file.getName() + " To your virtual MyBox space!");
+		 returnMsg.add(temp);
+		 LogHandling.logging("User: "+ file.getOwner() +" Added the file: "+file.getName()+"."+file.getSuffix()+" to path: "+path);
 		 connection.sendToClient(returnMsg);
 		 
 		}
 		 catch(SQLException | IOException e){
-			   LogHandling.logging("Error:"+ userName +"Encountered a problem while trying to upload a file" + file.getName());
-			   LogHandling.logging("Error: given path is: " + file.getPath());
+			   LogHandling.logging("Error: "+ userName +" Encountered a problem while trying to upload a file " + file.getName());
+			   LogHandling.logging("Error: given path is: " + path );
 			   LogHandling.logging(e.getMessage());
 			   e.printStackTrace(); 
-			   returnMsg.add("MyBox Encountered an Error!");
-			   returnMsg.add("Please Contact Technical Support");
+			   returnMsg.add("MyBox Encountered an Error! \n Please Contact Technical Support");
 			   connection.sendToClient(returnMsg);
 		 }
 		 
@@ -233,9 +247,18 @@ public class FilesHandler implements Serializable {
 		
 	}
 	
-	
-	public static void downloadUserFile(String userName, FileOwnerViewer file){
-		System.out.println(file.getFileName()+"\n");
+	  /**downloadUserFile - this function will be used by the file owner to download his \ hers files
+	    * @author Ido Saroka 300830973
+		* @param userName - a User Object used to determine the user is actually the file owner
+		* @param file - the requested file to download
+	    * <p>
+	    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+	    * @throws SQLException - the function will throw an IOException in case there will be a problem writing to the the Database: "Users"
+	    * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
+	    * @exception IOException e - the function will throw an IOException in case there will be a problem sending the file back to the user
+	    * **/ 
+	public static void downloadUserFile(User userName, FileOwnerViewer file) throws IOException{
+		System.out.println(file.toString());
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		
@@ -262,22 +285,25 @@ public class FilesHandler implements Serializable {
 			return;
 		}
 
-		Browse newBrowse = new Browse(f);
-		MyFile down =newBrowse.getFile();
+		Browse newBrowse = new Browse(f, file.getFileName(),file.getFileSuffix());
+		MyFile down = newBrowse.getFile();
 		returnMsg.add(true);
 		returnMsg.add(down);
 		connection.sendToClient(returnMsg);
 		
-		}catch(SQLException e){
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}catch(SQLException | IOException e){
+			 LogHandling.logging("Error: "+ userName +" Encountered a problem while trying to download a file: " + file.getFileName());
+			 LogHandling.logging("Error: given path is: " + file.getVirtualPath());
+			 LogHandling.logging(e.getMessage());
+			 e.printStackTrace(); 
+			 returnMsg.add("MyBox Encountered an Error!");
+			 returnMsg.add("Please Contact Technical Support");
+			 connection.sendToClient(returnMsg);
 		}
 		
 	}
 	
-	public static void changeFilePermission(String userName, MyFile fileToChange){
+	public static void changeFilePermission(User userName, MyFile fileToChange){
 		
 	}
 	
