@@ -33,14 +33,14 @@ public class Save extends JPanel {
 			this.path=path;
 			try 
 			{
-				init();
+				init(path);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		public void init() throws IOException {
-			ff = saveFile(myFile);
+		public void init(String Path) throws IOException {
+			ff = saveFile(myFile, Path);
 
 		
 		}
@@ -62,24 +62,26 @@ public class Save extends JPanel {
 	/**
 	 * @param f
 	 */
-	public static File saveFile(MyFile f)
+	public static File saveFile(MyFile f, String path)
 	{
-		String strFilePath = "C://MyBox//"+f.getOwner()+"//"+ f.getName()+"."+f.getSuffix();
+		String strFilePath = path+f.getName();
 			 File file = null; 
 		     try{ 
 		          file = new File(strFilePath);
 		          byte mybytearray[] = f.getMybytearray();
 		          // set output stream to write file in file system
+		          
 		          BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file)); 
+		         // System.out.println("here we are:");
 		          bos.write(mybytearray, 0 , mybytearray.length); //write out file
 		          bos.flush(); //close buffer
 		          bos.close();
-		          System.out.println("here we are:");
+		          
 		          return file;
 			} catch (FileNotFoundException e) {
-				System.out.println("Error saving file "+ strFilePath+": "+e.getMessage());		}
+				System.out.println("Error saving file "+ strFilePath+": "+e.getMessage()+ "  FileNotFoundException");		}
 			catch(IOException e) {
-				System.out.println("Error saving file "+ strFilePath+": "+e.getMessage());	
+				System.out.println("Error saving file "+ strFilePath+": "+e.getMessage()+ "  IOException");	
 			}
 				return file;
 		}

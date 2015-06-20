@@ -238,8 +238,10 @@ public class FilesHandler implements Serializable {
 		System.out.println(file.getFileName()+"\n");
 		PreparedStatement statement = null;
 		ResultSet rs = null;
-        
-		File f = new File(file.getVirtualPath());
+		
+		String fullPath=file.getVirtualPath()+"\\"+file.getFileName()+"."+file.getFileSuffix();
+		
+		File f = new File(fullPath);
 		try{
 		if( !f.exists() ){
 			 LogHandling.logging("Error - User:"+ file.getFileOwner()+"Ecnounterd a problem downloading file: "+file.getFileName()+file.getFileSuffix()+ " from path:"+file.getVirtualPath());
@@ -259,8 +261,8 @@ public class FilesHandler implements Serializable {
 			rs.close();
 			return;
 		}
-		File fileToDownload = new File(file.getVirtualPath());
-		Browse newBrowse = new Browse(fileToDownload);
+
+		Browse newBrowse = new Browse(f);
 		MyFile down =newBrowse.getFile();
 		returnMsg.add(true);
 		returnMsg.add(down);

@@ -84,4 +84,9 @@ public class FileOwnerViewer implements Serializable {
 		public int getPrivilege() {
 			return privilege;
 		}
+		
+		@Override
+		public String toString(){
+			return "File name: "+ fileName +", File suffix: "+fileSuffix+ ", File path: "+virtualPath; 
+		}
 }

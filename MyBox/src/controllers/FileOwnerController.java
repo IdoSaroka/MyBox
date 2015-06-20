@@ -117,10 +117,10 @@ public class FileOwnerController extends UserController {
 		message.clear();
 		message.add("File");
 		message.add("DownloadAFile");
-		message.add(MyBoxGUI.getUser());
+		message.add(MyBoxGUI.getUserName());
 		FileOwnerViewer dummy = new FileOwnerViewer(1,"Choclate Cookies","txt", "Shimon_Ben_Alul", "C:\\MyBox\\Files\\Shimon_Ben_Alul",3, "A chocolate chip cookies recipe");
 		message.add(dummy);
-		
+		System.out.println(dummy);
 		try {
 			MyBoxGUI.getClient().sendToServer(message);
 		} catch (IOException e) {
@@ -134,7 +134,7 @@ public class FileOwnerController extends UserController {
 		if((boolean)msg.get(0)){
 			MyFile file = (MyFile)msg.get(1);
 			System.out.println(file.getName());
-			String path="C:\\MyBox\\Downloaded Files";
+			String path="C:\\MyBox\\Downloaded Files\\";
 			Save save=new Save(file,path);
 		}
 		else{
