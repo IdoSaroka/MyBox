@@ -9,8 +9,8 @@ public class FileToView implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-		private String goiID;
-		private String fileID;
+		private int goiID;
+		private int fileID;
 		private String fileName;
 		private String fileSuffix;
 		private String fileOwner;
@@ -29,7 +29,7 @@ public class FileToView implements Serializable {
 		 * @param fileDescription
 		 * @param goiPermission
 		 */
-		public FileToView(String goiID, String fileID, String fileName, String fileSuffix, String fileOwner, String virtualPath,
+		public FileToView(int goiID, int fileID, String fileName, String fileSuffix, String fileOwner, String virtualPath,
 				String fileDescription, boolean goiPermission){
 			this.goiID=goiID;
 			this.fileID=fileID;
@@ -45,14 +45,14 @@ public class FileToView implements Serializable {
 		/**
 		 * @return the goiID
 		 */
-		public String getGoiID() {
+		public int getGoiID() {
 			return goiID;
 		}
 
 		/**
 		 * @return the fileID
 		 */
-		public String getFileID() {
+		public int getFileID() {
 			return fileID;
 		}
 

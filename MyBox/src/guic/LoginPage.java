@@ -107,7 +107,7 @@ public class LoginPage extends MyBoxGUI
     					txtUserName = userNametxt.getText();
     					txtPortNumber = Porttxt.getText();
     			        txtPassword = passwordField.getText();
-    			/*
+    			
     			        chat = new ClientGUI(IPAddress,txtPortNumber);
     			        try {
     						client= new ChatClient(IPAddress,Integer.parseInt(txtPortNumber),chat);
@@ -128,13 +128,14 @@ public class LoginPage extends MyBoxGUI
     							}
     							user=(User)message.get(0);
     							MyBoxGUI.setIsMsg((boolean)message.get(1));
-    							System.out.println(user.toString());
+    							System.out.println(user.toString()+" is connected");
     							
     							loginpage.setVisible(false);
-    							if(user.getrole().equals("User"))
-    								userpage.setVisible(true);
-    							else if (user.getrole().equals("SystemAdmin"))
-    								adminpage.setVisible(true);
+    							userpage.setVisible(true);
+    					//		if(user.getrole().equals("User"))
+    					//			userpage.setVisible(true);
+    					//		else if (user.getrole().equals("SystemAdmin"))
+    					//			adminpage.setVisible(true);
     					//		else if (user.getRole().equals("FileOwner"))
     						//		fileownerpage.setVisible(true);
     	    					
@@ -146,7 +147,7 @@ public class LoginPage extends MyBoxGUI
     					} catch (IOException e) {
     						e.printStackTrace();
     					}
-    			        */
+    			        
     			        if(MyBoxGUI.getIsMsg())
     			        	lblNewMSG.setVisible(true);
     			        loginpage.setVisible(false);

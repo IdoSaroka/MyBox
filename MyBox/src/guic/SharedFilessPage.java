@@ -18,6 +18,18 @@ public class SharedFilessPage extends MyBoxGUI
 	{
 		setLayout(null);
 		
+		JButton btnBack = new JButton("Back");
+    	btnBack.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			sharedfilesrspage.setVisible(false);
+    			userpage.setVisible(true);
+    			
+    		}
+    	});
+    	btnBack.setBounds(3, 2, 55, 23);
+    	add(btnBack);
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(58, 87, 663, 235);
 		add(scrollPane);

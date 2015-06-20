@@ -1,7 +1,11 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import entities.FileToView;
+import files.MyFile;
+import files.Save;
 import main.MyBoxGUI;
 
 public class FileOwnerController extends UserController {
@@ -89,6 +93,47 @@ public class FileOwnerController extends UserController {
 		message.add("deleteFolder");
 		message.add(folderName);
 		MyBoxGUI.getClient().sendToServer(message);
+	}
+	
+	public void myFiles(){
+		message.clear();
+		message.add("File");
+		message.add("MyFiles");
+		try {
+			MyBoxGUI.getClient().sendToServer(message);
+		} catch (IOException e) {
+			System.out.println("Could not ask server to get owner's file");
+			e.printStackTrace();
+		}
+	}
+	
+	public void testDown(){
+		message.clear();
+		message.add("File");
+		message.add("DownloadAFile");
+		message.add(MyBoxGUI.getUserName());
+		FileToView dummy = new FileToView(0,1,"Choclate Cookies","txt", "Shimon_Ben_Alul", "C:\\MyBox\\Files\\Shimon_Ben_Alul", "A chocolate chip cookies recipe", true);
+		message.add(dummy);
+		
+		try {
+			MyBoxGUI.getClient().sendToServer(message);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+		for(int i=0; i<msg.size();i++){
+			System.out.println(msg.get(i).toString());
+		}
+		if((boolean)msg.get(0)){
+			MyFile file = (MyFile)msg.get(1);
+			System.out.println(file.getName());
+			String path="C:\\MyBox\\Downloaded Files";
+			Save save=new Save(file,path);
+		}
+		else{
+			System.out.println("Unable to save file");
+		}
 	}
 	
 }

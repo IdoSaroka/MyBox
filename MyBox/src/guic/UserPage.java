@@ -20,6 +20,8 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import controllers.FileOwnerController;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -74,6 +76,10 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0)
     		{
+    			/**
+    			 * TODO
+    			 * ask Ido how to get my own GOIs
+    			 */
     		}
     	});
     	btnYourGoi.setBounds(114, 87, 123, 42);
@@ -84,6 +90,13 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0) 
     		{
+    			/**
+    			 * TODO
+    			 * ask Ido how to get my Files
+    			 * initializing listSharedFlsModel
+    			 */
+    			FileOwnerController temp= new FileOwnerController();
+    			temp.testDown();
     			userpage.setVisible(false);
     			sharedfilesrspage.setVisible(true);
     		}
@@ -144,9 +157,7 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e) 
     		{
-    			/*
-    			 * 
-    			 * This is meant for client server work
+
     			try {
 					MyBoxGUI.getClient().sendToServer("Messages");
 				} catch (IOException e1) {
@@ -158,12 +169,15 @@ public class UserPage extends MyBoxGUI
     			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
     			if((boolean)msg.get(0)){
     				ArrayList<Messages> temp = new ArrayList<>();
-    				for(int i=1;i<msg.size();i++){
-    					temp.add((Messages)msg.get(i)));
-        				//ListModel.addElement();
+    				for(int i=1;i<msg.size()+1;i++){
+    					temp.add((Messages)msg.get(i));
+        				ListModel.addElement(temp.get(i).toString());
         			}
     			}
-    			*/
+    			else{
+    				JOptionPane.showMessageDialog(frmMyBox,"No new messages","Message",JOptionPane.INFORMATION_MESSAGE);
+    			}
+
     			lblNewMSG.setVisible(false);
     			userpage.setVisible(false);
     			messages.setVisible(true);
