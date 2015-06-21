@@ -37,8 +37,8 @@ public class UserPage extends MyBoxGUI
     	btnsignout.addActionListener(new ActionListener()
     	{
     		public void actionPerformed(ActionEvent e) 
-    		{
-    	        int reply = JOptionPane.showConfirmDialog(null, "Are you sure?", "Signing out...", JOptionPane.YES_NO_OPTION);
+    		{	
+    	        int reply = JOptionPane.showConfirmDialog(frmMyBox, "Are you sure?", "Signing out...", JOptionPane.YES_NO_OPTION);
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
@@ -144,6 +144,8 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
+    			userpage.setVisible(false);
+    			folderspage.setVisible(true);
     		}
     	});
     	btnFolders.setBounds(534, 140, 123, 42);

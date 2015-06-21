@@ -2,6 +2,7 @@ package guic;
 
 import main.MyBoxGUI;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,17 +33,18 @@ public class JoinGOIPage extends MyBoxGUI
 		btnBack.setBounds(10, 11, 89, 23);
 		add(btnBack);
 		
-		JLabel lblAskToJoin = new JLabel("Ask to join a Group Of Interest");
-		lblAskToJoin.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblAskToJoin.setBounds(267, 46, 316, 41);
+		JLabel lblAskToJoin = new JLabel("   Join a Group Of Interest");
+		lblAskToJoin.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 28));
+		lblAskToJoin.setBounds(188, 11, 376, 50);
 		add(lblAskToJoin);
 		
-		JLabel lblWhyWouldYou = new JLabel("Why would you like to join");
-		lblWhyWouldYou.setBounds(80, 152, 152, 41);
+		JLabel lblWhyWouldYou = new JLabel("Why Would You Like To Join");
+		lblWhyWouldYou.setFont(new Font("Footlight MT Light", Font.PLAIN, 18));
+		lblWhyWouldYou.setBounds(33, 89, 236, 41);
 		add(lblWhyWouldYou);
 		
 		textField = new JTextField();
-		textField.setBounds(214, 161, 316, 23);
+		textField.setBounds(279, 89, 389, 32);
 		add(textField);
 		textField.setColumns(10);
 		
@@ -57,15 +59,24 @@ public class JoinGOIPage extends MyBoxGUI
 				
 			}
 		});
-		btnHelp.setBounds(130, 291, 89, 23);
+		btnHelp.setBounds(81, 381, 99, 36);
 		add(btnHelp);
 		
 		JButton btnSignout = new JButton("Sign-Out");
-		btnSignout.setBounds(516, 291, 89, 23);
+		btnSignout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnSignout.setBounds(595, 381, 99, 36);
 		add(btnSignout);
 		
 		JButton btnDone = new JButton("Done");
-		btnDone.setBounds(357, 225, 89, 23);
+		btnDone.setBounds(579, 132, 89, 32);
 		add(btnDone);
+		
+    	JLabel lblBackGround = new JLabel("");
+    	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
+    	lblBackGround.setBounds(10, 11, 780, 478);
+    	add(lblBackGround);
 	}
 }

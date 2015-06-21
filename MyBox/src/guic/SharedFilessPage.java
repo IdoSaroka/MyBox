@@ -72,5 +72,10 @@ public class SharedFilessPage extends MyBoxGUI
 		});
 		btnAddFile.setBounds(285, 22, 200, 50);
 		add(btnAddFile);
+		
+    	JLabel lblBackGround = new JLabel("");
+    	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
+    	lblBackGround.setBounds(10, 11, 780, 478);
+    	add(lblBackGround);
 	}
 }

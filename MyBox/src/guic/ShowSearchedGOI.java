@@ -2,13 +2,17 @@ package guic;
 
 import main.MyBoxGUI;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import java.awt.Label;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class ShowSearchedGOI extends MyBoxGUI
 {
@@ -28,14 +32,19 @@ public class ShowSearchedGOI extends MyBoxGUI
 		add(btnBack);
 		
 		JButton btnHelp = new JButton("Help");
-		btnHelp.setBounds(154, 290, 89, 23);
+		btnHelp.setBounds(81, 381, 99, 36);
 		add(btnHelp);
 		
 		JButton btnSignout = new JButton("Sign-out");
-		btnSignout.setBounds(569, 290, 89, 23);
+		btnSignout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnSignout.setBounds(595, 381, 99, 36);
 		add(btnSignout);
 		
-		JButton btnJoinGoi = new JButton("Join GOI");
+		JButton btnJoinGoi = new JButton(" Join");
+		btnJoinGoi.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		btnJoinGoi.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -44,11 +53,23 @@ public class ShowSearchedGOI extends MyBoxGUI
 				joingoipage.setVisible(true);
 			}
 		});
-		btnJoinGoi.setBounds(513, 137, 89, 37);
+		btnJoinGoi.setBounds(456, 104, 89, 37);
 		add(btnJoinGoi);
 		
-		JButton btnRemoveYourself = new JButton("Remove Yourself");
-		btnRemoveYourself.setBounds(612, 137, 113, 37);
+		JButton btnRemoveYourself = new JButton(" Remove");
+		btnRemoveYourself.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+    	        int reply = JOptionPane.showConfirmDialog(frmMyBox, "Are you sure?", "Delete From GOI...", JOptionPane.YES_NO_OPTION);
+    	        if (reply == JOptionPane.YES_OPTION) 
+    	        {
+    	        	JOptionPane.showConfirmDialog(frmMyBox, "Done", "Deleted From GOI", JOptionPane.OK_OPTION);
+    	        }
+			}
+		});
+		btnRemoveYourself.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
+		btnRemoveYourself.setBounds(547, 104, 89, 37);
 		add(btnRemoveYourself);
 		////////////////
 		JScrollPane scrollPane = new JScrollPane();
@@ -60,6 +81,13 @@ public class ShowSearchedGOI extends MyBoxGUI
 		
 		/////////////
 		Label lblNameGOI = new Label("Name Of GOI");
+		lblNameGOI.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 14));
 		scrollPane.setColumnHeaderView(lblNameGOI);
+		
+    	JLabel lblBackGround = new JLabel("");
+    	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
+    	lblBackGround.setBounds(10, 11, 780, 478);
+    	add(lblBackGround);
+    	
 	}
 }

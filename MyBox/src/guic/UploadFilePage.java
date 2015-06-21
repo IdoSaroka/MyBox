@@ -28,12 +28,28 @@ import javax.swing.ImageIcon;
 import controllers.UserController;
 import javax.swing.JRadioButton;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JTextPane;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+
 public class UploadFilePage extends MyBoxGUI
 {
 	
 	//private Browse browse;
 	UserController local=new UserController();
 	private String txtDescription=null;
+	JRadioButton rdbtnEveryOneShare;
+	JRadioButton rdbtnGroupShare;
+	JRadioButton rdbtnPrivate;
 	private int privelege=3;
 	
     public UploadFilePage() 
@@ -52,6 +68,7 @@ public class UploadFilePage extends MyBoxGUI
     	add(btnBack);
     	
     	JButton btnBrowse = new JButton("Browse");
+    	btnBrowse.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnBrowse.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent arg0) 
     		{
@@ -63,12 +80,15 @@ public class UploadFilePage extends MyBoxGUI
 				}
     		}
     	});
-    	btnBrowse.setBounds(181, 184, 89, 23);
+    	btnBrowse.setBounds(78, 215, 89, 23);
     	add(btnBrowse);
     	
     	JButton btnDone = new JButton("Done");
-    	btnDone.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
+    	btnDone.setFont(new Font("Footlight MT Light", Font.PLAIN, 16));
+    	btnDone.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    			{
     			try {
 					local.sendFile(uploadfilepage, txtDescription, privelege);
 					uploadfilepage.setVisible(false);
@@ -79,51 +99,103 @@ public class UploadFilePage extends MyBoxGUI
 				}
     		}
     	});
-    	btnDone.setBounds(323, 255, 89, 38);
+    	btnDone.setBounds(323, 296, 89, 38);
     	add(btnDone);
-    	
     	txtPath = new JTextField();
-    	txtPath.setBounds(305, 185, 372, 20);
+    	txtPath.setFont(new Font("Tahoma", Font.PLAIN, 14));
+    	txtPath.setBounds(208, 215, 449, 23);
     	txtPath.setEditable(false);
     	add(txtPath);
     	
-    	JFormattedTextField frmtdtxtDescription = new JFormattedTextField();
-    	frmtdtxtDescription.setText("Enter file description here");
-    	txtDescription = frmtdtxtDescription.getText();
-    	frmtdtxtDescription.setBounds(244, 116, 148, 20);
-    	add(frmtdtxtDescription);
-    	
-    	JRadioButton rdbtnPrivate = new JRadioButton("Private file");
-    	rdbtnPrivate.addActionListener(new ActionListener() {
+    	rdbtnPrivate = new JRadioButton("Private File");
+    	rdbtnPrivate.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
+    	rdbtnPrivate.addActionListener(new ActionListener() 
+    	{
     		public void actionPerformed(ActionEvent e)
     		{
-    			privelege=1;
+    			if(privelege!=1)
+    			{
+    				privelege=1;
+    				rdbtnPrivate.setSelected(true);
+    				rdbtnGroupShare.setSelected(false);
+    				rdbtnEveryOneShare.setSelected(false);
+    			}
+    			else
+    			{
+    				privelege = 0;
+    				rdbtnPrivate.setSelected(false);
+    			}
     		}
     	});
-    	rdbtnPrivate.setBounds(123, 72, 109, 23);
+    	rdbtnPrivate.setBounds(78, 255, 109, 23);
     	add(rdbtnPrivate);
     	
-    	JRadioButton rdbtnNewRadioButton = new JRadioButton("Share with group of interest");
-    	rdbtnNewRadioButton.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    			privelege=2;
+    	rdbtnGroupShare = new JRadioButton("Share With Group Of Interest");
+    	rdbtnGroupShare.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
+    	rdbtnGroupShare.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			if(privelege!=2)
+    			{
+    				privelege=2;
+    				rdbtnGroupShare.setSelected(true);
+    				rdbtnEveryOneShare.setSelected(false);
+    				rdbtnPrivate.setSelected(false);
+    			}
+    			else
+    			{
+    				privelege = 0;
+    				rdbtnGroupShare.setSelected(false);
+    			}
     		}
     	});
-    	rdbtnNewRadioButton.setBounds(234, 72, 109, 23);
-    	add(rdbtnNewRadioButton);
+    	rdbtnGroupShare.setBounds(258, 255, 205, 23);
+    	add(rdbtnGroupShare);
     	
-    	JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Share with everyone");
-    	rdbtnNewRadioButton_1.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    			privelege=3;
+    	rdbtnEveryOneShare = new JRadioButton("Share With Everyone");
+    	rdbtnEveryOneShare.setSelected(true);
+    	rdbtnEveryOneShare.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
+    	rdbtnEveryOneShare.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			if(privelege!=3)
+    			{
+    				privelege=3;
+    				rdbtnEveryOneShare.setSelected(true);
+    				rdbtnGroupShare.setSelected(false);
+    				rdbtnPrivate.setSelected(false);
+    			}
+    			else
+    			{
+    				privelege = 0;
+    				rdbtnEveryOneShare.setSelected(false);
+    			}
     		}
     	});
-    	rdbtnNewRadioButton_1.setBounds(348, 72, 136, 23);
-    	add(rdbtnNewRadioButton_1);
+    	rdbtnEveryOneShare.setBounds(504, 255, 153, 23);
+    	add(rdbtnEveryOneShare);
     	txtPath.setColumns(10);
+    	
+    	JScrollPane scrollPane = new JScrollPane();
+    	scrollPane.setBounds(78, 63, 579, 141);
+    	add(scrollPane);
+    	
+    	JTextPane textPane = new JTextPane();
+    	textPane.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
+    	scrollPane.setViewportView(textPane);
+    	
+    	JLabel lblFileDescription = new JLabel("File Description");
+    	lblFileDescription.setFont(new Font("Footlight MT Light", Font.BOLD, 16));
+    	scrollPane.setColumnHeaderView(lblFileDescription);
     	
     	
     	JButton btnsignout = new JButton("Sign-Out");
     	
+    	
+    	JLabel lblPicMBX = new JLabel("");
+        lblPicMBX.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
+        lblPicMBX.setBounds(10, 11, 780, 478);
+        add(lblPicMBX);
     }
 }

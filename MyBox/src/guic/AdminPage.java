@@ -4,106 +4,189 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 import main.MyBoxGUI;
+
 import java.awt.Font;
 
 
 public class AdminPage extends MyBoxGUI
 {
-    /*
-     * Here this is our third Card of CardLayout, which will
-     * be added to the contentPane object of JPanel, which
-     * has the LayoutManager set to CardLayout.
-     * This card consists of Two JLabels and two JCheckBox
-     * with GridLayout.
-     */  
 
     public AdminPage()
     {
     	setLayout(null);
     	
-    	JButton btnSignOut = new JButton("Sign-Out");
-    	btnSignOut.addActionListener(new ActionListener() {
+    	JButton btnsignout = new JButton("Sign-Out");
+    	btnsignout.addActionListener(new ActionListener()
+    	{
     		public void actionPerformed(ActionEvent e) 
     		{
-    			adminpage.setVisible(false);
-    			loginpage.setVisible(true);
+    	        int reply = JOptionPane.showConfirmDialog(null, "Are you sure?", "Signing out...", JOptionPane.YES_NO_OPTION);
+    	        if (reply == JOptionPane.YES_OPTION) 
+    	        {
+    	        	byeBye();
+    	        	fileownerpage.setVisible(false);
+        			loginpage.setVisible(true);
+    	        }
+    			
     		}
     	});
-    	btnSignOut.setBounds(513, 378, 89, 36);
-    	add(btnSignOut);
-    	
+    	btnsignout.setBounds(595, 381, 99, 36);
+    	add(btnsignout);
     	JButton btnHelp = new JButton("Help");
-    	btnHelp.setBounds(130, 378, 89, 23);
+    	btnHelp.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    		}
+    	});
+    	btnHelp.setBounds(81, 381, 99, 36);
     	add(btnHelp);
     	
-    	JLabel lblGoi = new JLabel("GOI");
-    	lblGoi.setFont(new Font("Arial", Font.PLAIN, 36));
-    	lblGoi.setBounds(166, 26, 89, 34);
-    	add(lblGoi);
-    	
-    	JButton btnPendingRequest = new JButton("Pending Request");
-    	btnPendingRequest.setBounds(211, 71, 123, 42);
-    	add(btnPendingRequest);
-    	
-    	JButton btnEditAGoi = new JButton("Edit a GOI");
-    	btnEditAGoi.setBounds(68, 208, 123, 42);
-    	add(btnEditAGoi);
-    	
-    	JButton btnCreateAGoi = new JButton("Create a GOI");
-    	btnCreateAGoi.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) 
+    	JButton btnSearchgoi = new JButton("Search a GOI");
+    	btnSearchgoi.addActionListener(new ActionListener()
+    	{
+    		public void actionPerformed(ActionEvent e)
     		{
-    			adminpage.setVisible(false);
-    			creategoipage.setVisible(true);
+
     		}
     	});
-    	btnCreateAGoi.setBounds(68, 71, 123, 42);
-    	add(btnCreateAGoi);
+    	btnSearchgoi.setBounds(114, 140, 122, 42);
+    	add(btnSearchgoi);
     	
-    	JButton btnSearchForA = new JButton("Search for a GOI");
-    	btnSearchForA.setBounds(68, 140, 122, 42);
-    	add(btnSearchForA);
-    	
-    	JButton btnDeleteAGoi = new JButton("Delete a GOI");
-    	btnDeleteAGoi.setBounds(211, 140, 123, 42);
-    	add(btnDeleteAGoi);
-    	
-    	JLabel lblFiles = new JLabel("Files");
-    	lblFiles.setFont(new Font("Arial", Font.PLAIN, 36));
-    	lblFiles.setBounds(420, 27, 89, 33);
-    	add(lblFiles);
-    	
-    	JLabel lblFolders = new JLabel("Folders");
-    	lblFolders.setFont(new Font("Arial", Font.PLAIN, 36));
-    	lblFolders.setBounds(554, 26, 123, 34);
-    	add(lblFolders);
+    	JButton btnYourGoi = new JButton("Your GOIs");
+    	btnYourGoi.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent arg0)
+    		{
+    		}
+    	});
+    	btnYourGoi.setBounds(114, 87, 123, 42);
+    	add(btnYourGoi);
     	
     	JButton btnSharedFiles = new JButton("Shared Files");
-    	btnSharedFiles.setBounds(406, 81, 89, 23);
+    	btnSharedFiles.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent arg0) 
+    		{
+    			
+    		}
+    	});
+    	btnSharedFiles.setBounds(315, 87, 123, 42);
     	add(btnSharedFiles);
     	
     	JButton btnUploadAFile = new JButton("Upload a File");
-    	btnUploadAFile.setBounds(406, 140, 89, 23);
+    	btnUploadAFile.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent arg0) 
+    		{
+    			
+    		}
+    	});
+    	btnUploadAFile.setBounds(315, 140, 123, 42);
     	add(btnUploadAFile);
     	
-    	JButton btnMyFiles = new JButton("My Files");
-    	btnMyFiles.setBounds(406, 194, 89, 23);
-    	add(btnMyFiles);
+    	JButton btnCreateAFolder = new JButton("Create a Folder");
+    	btnCreateAFolder.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    		}
+    	});
+    	btnCreateAFolder.setBounds(534, 87, 123, 42);
+    	add(btnCreateAFolder);
     	
     	JButton btnFolders = new JButton("Folders");
-    	btnFolders.setBounds(568, 194, 89, 23);
+    	btnFolders.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent e)
+    		{
+    		}
+    	});
+    	btnFolders.setBounds(534, 140, 123, 42);
     	add(btnFolders);
     	
-    	JButton btnCreateAFolder = new JButton("Create a Folder");
-    	btnCreateAFolder.setBounds(552, 71, 123, 42);
-    	add(btnCreateAFolder);
+    	JLabel lblGoi = new JLabel("GOI");
+    	lblGoi.setFont(new Font("Arial", Font.PLAIN, 36));
+    	lblGoi.setBounds(136, 26, 89, 34);
+    	add(lblGoi);
+    	
+    	JLabel lblFolders = new JLabel("Folders");
+    	lblFolders.setFont(new Font("Arial", Font.PLAIN, 36));
+    	lblFolders.setBounds(534, 26, 123, 34);
+    	add(lblFolders);
+    	
+    	JLabel lblFiles = new JLabel("Files");
+    	lblFiles.setFont(new Font("Arial", Font.PLAIN, 36));
+    	lblFiles.setBounds(339, 27, 89, 33);
+    	add(lblFiles);
+    	
+    	JSeparator separator = new JSeparator();
+    	separator.setBounds(74, 63, 621, 26);
+    	add(separator);
+    	
+    	JSeparator separator_1 = new JSeparator();
+    	separator_1.setOrientation(SwingConstants.VERTICAL);
+    	separator_1.setBounds(265, 11, 17, 285);
+    	add(separator_1);
+    	
+    	JSeparator separator_2 = new JSeparator();
+    	separator_2.setOrientation(SwingConstants.VERTICAL);
+    	separator_2.setBounds(74, 11, 17, 285);
+    	add(separator_2);
+    	
+    	JSeparator separator_3 = new JSeparator();
+    	separator_3.setOrientation(SwingConstants.VERTICAL);
+    	separator_3.setBounds(483, 11, 17, 285);
+    	add(separator_3);
+    	
+    	JSeparator separator_4 = new JSeparator();
+    	separator_4.setOrientation(SwingConstants.VERTICAL);
+    	separator_4.setBounds(694, 11, 17, 285);
+    	add(separator_4);
+    	
+    	JSeparator separator_5 = new JSeparator();
+    	separator_5.setBounds(74, 296, 621, 26);
+    	add(separator_5);
+    	
+    	JSeparator separator_6 = new JSeparator();
+    	separator_6.setBounds(74, 11, 621, 26);
+    	add(separator_6);
+    	
+    	/*
+    	lblNewMSG = new JLabel("");
+    	lblNewMSG.setIcon(new ImageIcon(UserPage.class.getResource("/guic/NewMSG.gif")));
+    	lblNewMSG.setBounds(422, 300, 31, 14);
+    	add(lblNewMSG);
+    	lblNewMSG.setVisible(false);
+    	*/
+    	
+    	JButton btnPendingRequest = new JButton("Pending Request");
+    	btnPendingRequest.setBounds(114, 193, 122, 42);
+    	add(btnPendingRequest);
+    	
+    	JButton button_1 = new JButton("Search a GOI");
+    	button_1.setBounds(114, 243, 122, 42);
+    	add(button_1);
+    	
+    	JButton btnMyFiles = new JButton("My Files");
+    	btnMyFiles.setBounds(315, 193, 122, 42);
+    	add(btnMyFiles);
+    	
+    	
+    	JLabel lblBackGround = new JLabel("");
+    	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
+    	lblBackGround.setBounds(10, 11, 780, 478);
+    	add(lblBackGround);
     }
 
 

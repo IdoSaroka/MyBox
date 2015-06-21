@@ -2,6 +2,7 @@ package guic;
 
 import main.MyBoxGUI;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -71,7 +72,7 @@ public class SearchGOIPage extends MyBoxGUI
 				txtSerachSubject.setEnabled(false);
 			}
 		});
-		rdbtnSerachByName.setBounds(28, 83, 141, 23);
+		rdbtnSerachByName.setBounds(10, 83, 133, 23);
 		add(rdbtnSerachByName);
 		
 		rdbtnSerachBySubject = new JRadioButton("Serach By Subject");
@@ -90,7 +91,7 @@ public class SearchGOIPage extends MyBoxGUI
 				txtSearchName.setEnabled(false);
 			}
 		});
-		rdbtnSerachBySubject.setBounds(28, 122, 141, 23);
+		rdbtnSerachBySubject.setBounds(10, 122, 133, 23);
 		add(rdbtnSerachBySubject);
 		
 		rdbtnSearchAllGoi = new JRadioButton("Search All GOI");
@@ -110,7 +111,7 @@ public class SearchGOIPage extends MyBoxGUI
 				txtSearchName.setEnabled(false);
 			}
 		});
-		rdbtnSearchAllGoi.setBounds(28, 161, 141, 23);
+		rdbtnSearchAllGoi.setBounds(10, 161, 133, 23);
 		add(rdbtnSearchAllGoi);
 		
 		txtSearchName = new JTextField();
@@ -202,5 +203,11 @@ public class SearchGOIPage extends MyBoxGUI
 		});
 		btnSignOut.setBounds(595, 381, 99, 36);
 		add(btnSignOut);
+		
+    	JLabel lblBackGround = new JLabel("");
+    	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
+    	lblBackGround.setBounds(10, 11, 780, 478);
+    	add(lblBackGround);
+    	
 	}
 }

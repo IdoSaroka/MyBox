@@ -107,6 +107,14 @@ public class LoginPage extends MyBoxGUI
     					txtUserName = userNametxt.getText();
     					txtPortNumber = Porttxt.getText();
     			        txtPassword = passwordField.getText();
+    			        
+    			        userNametxt.setText("");
+    			        Porttxt.setText("");
+    			        passwordField.setText("");
+    			        iptxt1.setText("");
+    			        iptxt2.setText("");
+    			        iptxt3.setText("");
+    			        iptxt4.setText("");
     			
     			        chat = new ClientGUI(IPAddress,txtPortNumber);
     			        try {

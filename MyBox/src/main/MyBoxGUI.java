@@ -41,6 +41,8 @@ public class MyBoxGUI extends JPanel
 	protected static ShowSearchedGOI showsearchgoi;
 	protected static CreateGOIPage creategoipage;
 	protected static SharedFilessPage sharedfilesrspage;
+	protected static FoldersPage folderspage;
+	
 	protected static JFrame frmMyBox;
 	protected Mtds meth = new Mtds();
 	protected static JTextField txtPath;
@@ -122,6 +124,9 @@ public class MyBoxGUI extends JPanel
         sharedfilesrspage = new SharedFilessPage();
         contentPane.add(sharedfilesrspage); 
         
+        folderspage = new FoldersPage();
+        contentPane.add(folderspage);
+        
         JPanel mainPanel = new JPanel(); 
         
         final JButton previousButton = new JButton("PREVIOUS");
@@ -195,7 +200,7 @@ public class MyBoxGUI extends JPanel
 	}
 	
 	public static boolean getIsMsg(){
-		return isMsg;	
+		return isMsg;		
 	}
 	
 	public static void setIsMsg(boolean msgStatus){
