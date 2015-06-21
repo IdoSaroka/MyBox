@@ -5,6 +5,19 @@ import java.util.ArrayList;
 
 import main.MyBoxGUI;
 
+
+/**
+* Project MyBox - Software Engineering Lab 2015 - Group no.2
+* Ido Saroka 300830973
+* Ran Azard 300819190
+* Sagi Sulimani 300338878
+* Shimon Ben Alol 201231818
+*/
+
+/**
+*Class GOIController: represent the GOI actions allowed by the various users
+*@author Shimon Ben-Alul 201231818
+*/
 public class GOIController {
 
 	
@@ -33,8 +46,9 @@ public class GOIController {
 	
 	/**
 	 * checks if a specific user in a specific GOI
-	 * @param user name, primary key for users, and GOI id, PK for GOI
-	 * @throws IOException 
+	 * @param GOI
+	 * @param user
+	 * @throws IOException
 	 */
 	public void isUserInGOI (String GOI, String user ) throws IOException{
 		message.clear();
@@ -47,9 +61,10 @@ public class GOIController {
 	
 	
 	/**
+	 * 
 	 * Used to check if a specific GOI exit
-	 * @param GOI id is primary key in GOI table
-	 * @throws IOException 
+	 * @param GOI
+	 * @throws IOException
 	 */
 	public void isGOIExist(String GOI) throws IOException{
 		message.clear();
@@ -61,8 +76,9 @@ public class GOIController {
 	
 	/**
 	 * Used to search for GOI or GOIs
-	 * @param 
-	 * @throws IOException 
+	 * @param param
+	 * @param option
+	 * @throws IOException
 	 */
 	public void searchGOI(String param, String option) throws IOException{
 		message.clear();

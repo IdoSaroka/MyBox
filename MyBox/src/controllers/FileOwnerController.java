@@ -9,21 +9,36 @@ import files.MyFile;
 import files.Save;
 import main.MyBoxGUI;
 
+/**
+* Project MyBox - Software Engineering Lab 2015 - Group no.2
+* Ido Saroka 300830973
+* Ran Azard 300819190
+* Sagi Sulimani 300338878
+* Shimon Ben Alol 201231818
+*/
+
+/**
+*Class FileOwnerController: Class the actually makes all of the actions the
+*user want to perform
+*@author Shimon Ben-Alul 201231818
+*/
 public class FileOwnerController extends UserController {
 	
 	
 	
 	/**
-	 * Empty constructor
+	 * Empty constructor uses the user controller as all of
+	 * the user options are available to the file owner, and extra 
 	 */
 	public FileOwnerController(){
 		super();
 	}
 	
+
 	/**
 	 * User wants to delete file's he\she owns
-	 * @param String that define the file path
-	 * @throws IOException 
+	 * @param filePath String to represent file path
+	 * @throws IOException
 	 */
 	public void deleteFile(String filePath) throws IOException{
 		message.clear();
@@ -34,8 +49,9 @@ public class FileOwnerController extends UserController {
 	
 	/**
 	 * User wants to change file path he\she owns
-	 * @param String that define the file, and String that defines new path
-	 * @throws IOException 
+	 * @param file
+	 * @param newPath
+	 * @throws IOException
 	 */
 	public void setPath(String file,String newPath) throws IOException{
 		message.clear();
@@ -47,8 +63,10 @@ public class FileOwnerController extends UserController {
 	
 	/**
 	 * User wishes to change a file's permission
-	 * @param String that define the file, the permission and the GOI to edit
-	 * @throws IOException 
+	 * @param file
+	 * @param perm
+	 * @param goi
+	 * @throws IOException
 	 */
 	public void editPermission(String file, String perm, String goi) throws IOException{
 		message.clear();
@@ -61,8 +79,8 @@ public class FileOwnerController extends UserController {
 	
 	/**
 	 * user wants to see file's details
-	 * @param String that define the file
-	 * @throws IOException 
+	 * @param file
+	 * @throws IOException
 	 */
 	public void retrieveFile(String file) throws IOException{
 		message.clear();
@@ -73,8 +91,9 @@ public class FileOwnerController extends UserController {
 	
 	/**
 	 * User wishes to change a file's name
-	 * @param String that define the file and new file name
-	 * @throws IOException 
+	 * @param file
+	 * @param newName
+	 * @throws IOException
 	 */
 	public void setFileName(String file,String newName) throws IOException{
 		message.clear();
@@ -86,8 +105,8 @@ public class FileOwnerController extends UserController {
 	
 	/**
 	 * User asks to delete a complete folder
-	 * @param String that define the folder's name
-	 * @throws IOException 
+	 * @param folderName
+	 * @throws IOException
 	 */
 	public void deleteFolder(String folderName) throws IOException{
 		message.clear();
@@ -96,6 +115,9 @@ public class FileOwnerController extends UserController {
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 	
+	/**
+	 * Asks the server to see the files he owns
+	 */
 	public void myFiles(){
 		message.clear();
 		message.add("File");

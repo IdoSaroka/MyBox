@@ -17,15 +17,30 @@ import java.io.File;
 
 
 
+
+
 import javax.swing.JOptionPane;
 
 import main.MyBoxGUI;
 import entities.FileToView;
 import entities.User;
 import files.*;
+import guic.SharedFilessPage;
 import guic.UploadFilePage;
+import guic.UserPage;
 
+/**
+* Project MyBox - Software Engineering Lab 2015 - Group no.2
+* Ido Saroka 300830973
+* Ran Azard 300819190
+* Sagi Sulimani 300338878
+* Shimon Ben Alol 201231818
+*/
 
+/**
+*Class UserController:  describe the user actions
+*@author Shimon Ben-Alul 201231818
+*/
 public class UserController {
 
 	ArrayList<Object> message = new ArrayList<>();
@@ -33,7 +48,8 @@ public class UserController {
 	private String filePath;
 	private String fileName;
 	private String fileSuffix;
-	ArrayList<Object> filesToView = new ArrayList<>();
+	ArrayList<FileToView> filesToView = new ArrayList<>();
+	
 
 	/**
 	 * Empty constructor
@@ -42,22 +58,42 @@ public class UserController {
 	}
 	
 	/**
-	 * user searching for files shared with him
-	 * @param String that define the file name
-	 * @throws IOException 
+	 *  user searching for files shared with him
+	 * @param option
+	 * @param GOI
+	 * @param userpage
+	 * @throws IOException
 	 */
-	public void serachSharedFiles(String option, String GOI) throws IOException{
+	public void serachSharedFiles(String option, String GOI,UserPage userpage) throws IOException{
 		message.clear();
 		message.add("GOIBasic");
 		message.add("ShoeGoiFiles");
+		message.add(MyBoxGUI.getUser());
 		message.add(option);
 		message.add(GOI);//parameter for search
 		MyBoxGUI.getClient().sendToServer(message);
+		filesToView.clear();
+		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+		if((boolean)msg.get(0)==true){
+			String str = (String)msg.get(1);
+			JOptionPane.showMessageDialog(userpage,str);
+			for(int i=1; i<msg.size();i++){
+				filesToView.add((FileToView)msg.get(i)); 
+			}
+		}
+		else{
+			String str = (String)msg.get(1);
+			JOptionPane.showMessageDialog(userpage,str);
+		}		
+	}
+	
+	public ArrayList<FileToView> getFilesToView(){
+		return filesToView;
 	}
 	
 	/**
 	 * user sends a request to join group of interest 
-	 * @param GOI id is the primary key for GOI table
+	 * @param GOIID id is the primary key for GOI table
 	 * @throws IOException 
 	 * 
 	 * 
@@ -71,7 +107,7 @@ public class UserController {
 	
 	/**
 	 * user sends a request to join group of interest 
-	 * @param filePath, Primary Key for files table
+	 * @param filePath Primary Key for files table
 	 * @throws IOException 
 	 * 
 	 */
@@ -85,7 +121,7 @@ public class UserController {
 	
 	/**
 	 * user sends a request to search GOI by name 
-	 * @param GOI is the subject of the GOI
+	 * @param GOIName is the subject of the GOI
 	 * @throws IOException 
 	 */
 	public void searchGOI(String GOIName) throws IOException{
@@ -96,9 +132,8 @@ public class UserController {
 	}
 
 	/**
-	 * allow  user to become a file owner
-	 * @param filePath, Primary Key for files table
-	 * @throws IOException 
+	 * Creates the file that will be uploaded
+	 * @throws IOException
 	 */
 	public void uploadFile() throws IOException{
 		Browse b = new Browse();
@@ -108,11 +143,14 @@ public class UserController {
 		this.fileSuffix = b.getSuffix();
 	}
 	
+
+
 	/**
-	 * allow  user to become a file owner
-	 * @param uploadfilepage 
-	 * @param filePath, Primary Key for files table
-	 * @throws IOException 
+	 * Upload the file created in uploadFile method
+	 * @param uploadfilepage
+	 * @param description
+	 * @param privelege
+	 * @throws IOException
 	 */
 	public void sendFile(UploadFilePage uploadfilepage, String description, int privelege) throws IOException{
 		message.clear();
@@ -145,7 +183,7 @@ public class UserController {
 	}
 	/**
 	 * allow  user to download files
-	 * @param String file id to send the server
+	 * @param fileSend is the file to send to the server
 	 * @throws IOException 
 	 */
 	public void getSharedFile(FileToView fileSend) throws IOException{
@@ -166,6 +204,11 @@ public class UserController {
 		}
 	}
 		
+	/**
+	 * allow the user to open the file he wants from his library
+	 * @param fileSend
+	 * @throws IOException
+	 */
 	public void openSharedFile(FileToView fileSend) throws IOException{
 		message.clear();
 		message.add("GoiBasic");
@@ -207,7 +250,7 @@ public class UserController {
 	
 	/**
 	 * users with the right permission will be able to update the file
-	 * @param UploadFilePage for viewing in the right window
+	 * @param uploadfilepage for viewing in the right window
 	 * @throws IOException 
 	 */
 	public void updateFile(UploadFilePage uploadfilepage) throws IOException{

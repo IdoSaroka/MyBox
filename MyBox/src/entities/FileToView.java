@@ -2,10 +2,23 @@ package entities;
 
 import java.io.Serializable;
 
+
+/**
+* Project MyBox - Software Engineering Lab 2015 - Group no.2
+* Ido Saroka 300830973
+* Ran Azard 300819190
+* Sagi Sulimani 300338878
+* Shimon Ben Alol 201231818
+*/
+
+/**
+*Class xxxx: 
+*@author Shimon Ben-Alul 201231818
+*/
 public class FileToView implements Serializable {
 
 	/**
-	 * 
+	 * implements serializable as this class will sent from the server or to the server
 	 */
 	private static final long serialVersionUID = 1L;
 	
@@ -20,6 +33,8 @@ public class FileToView implements Serializable {
 		
 		/**
 		 * full constructor
+		 * used by the server to sent to the client and view files
+		 * that are shared with you
 		 * @param goiID
 		 * @param fileID
 		 * @param fileName

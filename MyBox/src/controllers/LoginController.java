@@ -7,7 +7,18 @@ import entities.Login;
 import main.MyBoxGUI;
 
 
+/**
+* Project MyBox - Software Engineering Lab 2015 - Group no.2
+* Ido Saroka 300830973
+* Ran Azard 300819190
+* Sagi Sulimani 300338878
+* Shimon Ben Alol 201231818
+*/
 
+/**
+*Class LoginController: send the login details to the server for authorization
+*@author Shimon Ben-Alul 201231818
+*/
 public class LoginController {
 	
 
@@ -17,9 +28,8 @@ public class LoginController {
 
 	/**
 	 * constructor for Login for the User
-	 * @param Strings userName and Password for identify a user
-	 * @throws IOException 
-	 * 
+	 * @param userName
+	 * @param password
 	 */
 	public LoginController(String userName, String password){
 		 
@@ -34,11 +44,14 @@ public class LoginController {
 	public void sendLogin() throws IOException{
 		message.clear();
 		message.add("Login");
-		message.add(user.getUserName());
-		message.add(user.getPassword());
+		message.add(user);
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 	
+	/**
+	 * @return String 
+	 * that represent the user and password
+	 */
 	@Override
 	public String toString(){
 		return "Login " + user.getUserName() +" "+ user.getPassword() + "\n";

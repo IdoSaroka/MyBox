@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 import controllers.FileOwnerController;
+import entities.FileToView;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -96,7 +97,18 @@ public class UserPage extends MyBoxGUI
     			 * initializing listSharedFlsModel
     			 */
     			FileOwnerController temp= new FileOwnerController();
-    			temp.testDown();
+    			try {
+					temp.serachSharedFiles("All",null,userpage);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			ArrayList<FileToView> filesToView = temp.getFilesToView();
+    			for(int i=0;i<filesToView.size();i++){
+    				listSharedFlsModel.addElement(filesToView.get(i).toString());
+    			}
+    			
+    			//temp.testDown();
     			userpage.setVisible(false);
     			sharedfilesrspage.setVisible(true);
     		}
