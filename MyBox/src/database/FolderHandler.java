@@ -19,9 +19,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import ocsf.server.ConnectionToClient;
-import entities.FileToView;
-
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.sql.Connection;
@@ -34,6 +31,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import ocsf.server.ConnectionToClient;
+import entities.FileToView;
+import entities.User;
+import entities.Folder;
+
 
 
   /**This Class contains MyBox functions relevant for the "Folder structure  
@@ -57,6 +58,7 @@ public class FolderHandler implements Serializable{
 	
 	
 	public static void options() throws IOException{
+	  	 returnMsg =  new ArrayList<>();
 		 String str = (String)msg.get(1);
 		   switch(str){
 		   
@@ -68,16 +70,16 @@ public class FolderHandler implements Serializable{
 		   }
 	}
 	
-	public static void createAFolder(){
+	public static void createAFolder(User userName){
 		
 	}
 	
-	public static void deleteAFolder(){
+	public static void deleteAFolder(User userName , Folder folderToDelete){
 		/**Important add a condition about deleting the user's folder in MyBox**/
 		
 	}
 	
-	public static void returnFilesAndFolders(){
+	public static void returnFilesAndFolders(User userName){
 		
 	}
 	

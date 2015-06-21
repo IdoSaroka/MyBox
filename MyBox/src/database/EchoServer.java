@@ -30,6 +30,8 @@ import entities.User;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import entities.Messages;
+import entities.Login;
+
 
 /**This Class establish the connection to the DB and creates the server 
  * @author Ido Saroka 300830973
@@ -63,27 +65,19 @@ public class EchoServer extends AbstractServer implements Serializable
     Scanner sc = new Scanner(System.in);
     ArrayList<Object> message = (ArrayList)msg;
     ArrayList<Object> returnMsg = (ArrayList)msg;
-    /*
-    ArrayList<Object> nbg = (ArrayList)msg;
-    */
+   
     Connection conn = getDBConn();
-    /*
-    System.out.println(message.size());
-    if(message.size()==4){
-    	FileOwnerViewer temp=(FileOwnerViewer)nbg.get(3);
-    	System.out.println(temp);
-    }
-*/
     
+    returnMsg =  new ArrayList<>();
     String str = (String)message.get(0);
     
     switch(str){
-    /**
-     * Login - check the case the user wish to perform a login operation
-     * **/
+    
+     //Login - check the case the user wish to perform a login operation
     case "Login": 
     	try {
-			checkLogin((String)message.get(1),(String)message.get(2),conn,client);
+			//checkLogin((String)message.get(1),(String)message.get(2),conn,client);
+    		checkLogin((Login)message.get(1),conn,client);
 		} catch (IOException e1) {
 			client.sendToClient("an error has occured while trying to Access Mybox!");
 			
@@ -91,10 +85,7 @@ public class EchoServer extends AbstractServer implements Serializable
 		}
     	break;
     	
-    	/**
-    	 * GOIBasic - is responsible for handling all of the GOI "Basic" functions (i.e. those that are available to all
-    	 * of MyBox users )
-    	 * **/
+    	  //GOIBasic - is responsible for handling all of the GOI "Basic" functions (i.e. those that are available to all of MyBox users )
     case "GOIBasic":
     	GoiBasic handler = new GoiBasic(msg,client,conn); 
     	try { handler.options(); } 
@@ -106,13 +97,13 @@ public class EchoServer extends AbstractServer implements Serializable
         break;
         
         
-        /*
-    	 * Admin - will contain all of MyBox Administrative functions - accessible only for the systems Admin
-    	 * */
+        
+    	 //Admin - will contain all of MyBox Administrative functions - accessible only for the systems Admin
+    	
     case "Admin":
-    	/*
-    	 * This condition is a security check in case a user which is not a admin tries to access the system
-    	 **/
+    	
+    	 //This condition is a security check in case a user which is not a admin tries to access the system
+    	 
     	if(("SystemAdmin").equals((String)message.get(1))){
     		LogHandling.logging("Admin: " + (String)message.get(3) + " is logged in the system");
     		GoiAdmin AdminHandler = new GoiAdmin(msg,client,conn); 
@@ -131,25 +122,22 @@ public class EchoServer extends AbstractServer implements Serializable
     	break;
         
     	
-        /**
-         * File - used when a file owner chooses to access his files
-         * **/
+        
+         //File - used when a file owner chooses to access his files 
     case "File":
     	FilesHandler fileHandler = new FilesHandler(msg,client,conn); 
     	FilesHandler.options();
         break;
         
-        /**
-         * Folder - will be used for the creation and deletion of folders by the users
-         * **/
+        
+         //Folder - will be used for the creation and deletion of folders by the users
     case "Folder":
     	
     	break;
     	
     	
-    	/**
-         * SignOut - used when a logged in user chooses to sign out
-         * **/
+    	
+        //SignOut - used when a logged in user chooses to sign out
     case "SignOut":
     	 /*Expected message from Shimon: string(0) = SignOut , string(1) = userName String(2) = UserName */
     	try { signOutUser((String)message.get(1),conn,client); } 
@@ -162,9 +150,8 @@ public class EchoServer extends AbstractServer implements Serializable
     	
    
         
-    	/**
-         * default - when the server receive a message the deviates from the expected input
-         * **/
+    
+         //default - when the server receive a message the deviates from the expected input
     default:
     	try {
     		returnMsg.add("Error:Invalid selection");
@@ -284,8 +271,7 @@ protected void serverStarted()
   /**checkLogin - will check the that details (user name and password) inputed by  
    * the users corresponds with the one found inside MyBox Database
    * @author Ido Saroka 300830973
-   * @param login - the function will receive the user's name
-   * @param password - the function will receive the user's password
+   * @param login - a Login object containing the inputed user name and password
    * @param conn - the function will receive a connection to the database
    * @param client - the function will receive a connection to the client
    * <p>
@@ -293,7 +279,7 @@ protected void serverStarted()
    * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
    * @exception IOException e -
    * **/   
-  public static void checkLogin(String login, String password, Connection conn, ConnectionToClient client) throws IOException{
+  public static void checkLogin(Login login, Connection conn, ConnectionToClient client) throws IOException{
 	    Statement stmt = null;
 	    ArrayList<Object> returnMsg = new ArrayList();
 	    PreparedStatement preparedStatement = null;
@@ -305,15 +291,15 @@ protected void serverStarted()
 	   
 	      ResultSet rs = stmt.executeQuery("SELECT * From users");
 	      while (rs.next()) { /*search the current users in the system*/
-	        if ((login.equals(rs.getString(1)))){ /*User Name appears in the Database*/
-	        	if(password.equals(rs.getString(2))){/*Password is correct*/
+	        if ((login.getUserName().equals(rs.getString(1)))){ /*User Name appears in the Database*/
+	        	if(login.getPassword().equals(rs.getString(2))){/*Password is correct*/
 	        	
 	        		  if(rs.getBoolean(5)== false){  /*loggedIn == false -> user is not logged in*/
 	        		    /*add the data to the log file*/
 	      
 	        		    preparedStatement = conn.prepareStatement(query);
 	        		    preparedStatement.setInt(1, 1);
-	        	    	preparedStatement.setString(2, login);
+	        	    	preparedStatement.setString(2, login.getUserName());
 	        		    preparedStatement.executeUpdate();
 	        		    /*
 	        		     * The function will return a "User object" to the logged in user this is to better help with security issues 

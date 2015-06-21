@@ -18,9 +18,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 import ocsf.server.ConnectionToClient;
 import entities.FileToView;
 import entities.GOI;
+import entities.User;
 
 /**This Class contains MyBox basic functions that are responsible for
  * accessing and searching inside the "Groups Of Interests" in the system.
@@ -51,40 +53,42 @@ public class GoiBasic implements Serializable{
     * @return 
     * **/   
    public static void options() throws IOException{
+	  
+	   returnMsg =  new ArrayList<>();  //Overwrites any existing messages send to the user 
 	   String str = (String)msg.get(1);
 	   switch(str){
-	              /**
-	               * "Search" - Should the user chooses perform a search in the GOI database
-	               **/
+	              
+	               //"Search" - Should the user chooses perform a search in the GOI database
+	   
 	              case "Search":
 	            	  searchAGOI((String)msg.get(2),(String)msg.get(3),(String)msg.get(4));
 	              break;
 		          
-	              /**
-	               * ShowGoiFiles - will be used should the user wishes to search the shared files currently available in the system
-	               **/
+	       
+	              //ShowGoiFiles - will be used should the user wishes to search the shared files currently available in the system
 	              case "ShowGoiFiles":
 	            	  searchSharedFiles((String)msg.get(2),(String)msg.get(3),(String)msg.get(4));
 	              break;
 	            	  
-	              /**
-	               *MakeARequestToJoin - Handles the case where the user wishes to make a request to join a GOI
-	               **/
+	          
+	               //MakeARequestToJoin - Handles the case where the user wishes to make a request to join a GOI
 	              case "MakeARequestToJoin": 
 	            	  makeARequest((String)msg.get(2),(String)msg.get(3),(String)msg.get(4));
 			      break; 
 	              
-			      /**
-	               *DownloadSharedFile - Handles the case where the user wishes to download a shared file
-	               **/
-	 //             case "DownloadSharedFile":
-	     //       	  downloadSharedFile();
-	    //          break;
+			
+	               //DownloadSharedFile - Handles the case where the user wishes to download a shared file
+	              case "DownloadSharedFile":
+	           	      //downloadSharedFile();
+	              break;
 	              
-	              /**
-	               *EditSharedFile - Handles the case where the user wishes to edit a file shared with his GOI
-	               **/  
+	              
+	               //EditSharedFile - Handles the case where the user wishes to edit a file shared with his GOI  
 	              case "EditSharedFile":
+	            	  break;
+	            	  
+	              case "RemoveAUserFromGOI":
+	            	  removeUserFromGOI((User)msg.get(2),(GOI)msg.get(3));
 	            	  break;
 			      
 			      default:
@@ -489,13 +493,13 @@ public class GoiBasic implements Serializable{
      * @exception IOException e 
      * @return  
      * **/
-	public static void removeUserFromGOI(String userName, String goiName) throws IOException{
+	public static void removeUserFromGOI(User userName, GOI goiName) throws IOException{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try{
 			//this statement will check that the GOI received does indeed exist
 			 statement = conn.prepareStatement("SELECT GOI_id,GOI_Name From GOI WHERE GOI_Name = ?");
-			 statement.setString(1, goiName); 
+			 statement.setString(1, goiName.getName()); 
 			 rs=statement.executeQuery();
 			 
 			 if(!rs.isBeforeFirst()){	//this condition will return the appropriate message to the user	 
@@ -515,7 +519,7 @@ public class GoiBasic implements Serializable{
 				 if(userName.equals(rs.getString(2))){
 					 statement = conn.prepareStatement("DELETE FROM usersingoi WHERE GOI_id = ? AND user_Name = ?");
 					 statement.setInt(1, goiId);
-					 statement.setString(2, userName);
+					 statement.setString(2, userName.getUserName());
 					 statement.executeUpdate();
 					 returnMsg.add("You have been succesfulliy removed from GOI: "+ goiName);
 					 client.sendToClient(returnMsg);
