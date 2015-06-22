@@ -146,6 +146,10 @@ public class GOI implements Serializable{
 		return currentUser;
 	}
 
+	@Override
+	public String toString(){
+		return "GOI name is: "+Name;
+	}
 
 }
 	

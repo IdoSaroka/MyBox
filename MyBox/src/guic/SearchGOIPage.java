@@ -163,19 +163,29 @@ public class SearchGOIPage extends MyBoxGUI
 						System.out.println("Unable to send search terms in Search GOI Page");
 						e1.printStackTrace();
 					}
-					ListModel2.clear();
+					
 	    			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
 	    			ArrayList<GOI> gois = new ArrayList<>();
+	    			
+	    			int size=msg.size();
+	    			
+	    			for(int i=0;i<size;i++){
+	    				System.out.println("This is whats in index "+i+": "+msg.get(i));
+	    			}
+	    			
 	    			if((boolean)msg.get(0)==true){
-	    				for(int i=1;i<msg.size();i++){
+	    				for(int i=1;i<size;i++){
 	    					gois.add((GOI)msg.get(i));
-	    					ListModel2.addElement(gois.get(i).getName());
 	    				}
+	    				ListModel2.clear();
+	    				for(int i=0;i<size-1;i++){
+		    				ListModel2.addElement(gois.get(i).getName());
+		    			}
 	    				searchgoipage.setVisible(false);
 						showsearchgoi.setVisible(true);
 	    			}
 	    			else{
-	    				JOptionPane.showMessageDialog(frmMyBox,(String)msg.get(0));
+	    				JOptionPane.showMessageDialog(frmMyBox,(String)msg.get(1));
 	    			}
 					
 				}
