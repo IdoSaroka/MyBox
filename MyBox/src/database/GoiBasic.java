@@ -157,6 +157,13 @@ public class GoiBasic implements Serializable{
 			     * "Subject" - Handles a search by subject in the GOI database
 			     * */
 			 case "Subject":
+				 if(!rs.isBeforeFirst()){
+					 returnMsg.add(false);
+				     returnMsg.add("There Are currentliy No Goi's with this subject in MyBox!");
+				     rs.close();
+				     client.sendToClient(returnMsg);
+				 }
+				returnMsg.add(true);
 				while(rs.next()){ 
 					if( searchParameter.equals(rs.getString(3)) ){ /**GOI Subject**/
 						goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
@@ -165,9 +172,6 @@ public class GoiBasic implements Serializable{
 					}
 				}
 				rs.close();
-				if(!flag)
-					returnMsg.add(false);
-					returnMsg.add("There Are currentliy No Goi's with this subject in MyBox!");
 				client.sendToClient(returnMsg);
 			 break;
 			  /*
@@ -181,6 +185,7 @@ public class GoiBasic implements Serializable{
 				    	client.sendToClient(returnMsg);
 				    	break;
 				    }
+				    returnMsg.add(true);
 				    while(rs.next()){	   
 				    	  // returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
 				    			//   " "+rs.getString(4)+" "+rs.getString(5)+ " "+rs.getString(6));
@@ -188,6 +193,7 @@ public class GoiBasic implements Serializable{
 						  returnMsg.add(goiToReturn);
 				       }
 				     rs.close();
+				     
 				     client.sendToClient(returnMsg);
 			 break;
 			 /*
@@ -195,6 +201,7 @@ public class GoiBasic implements Serializable{
 			  * */
 			 default:
 				 LogHandling.logging("Error: "+ userName +" User selected an invalid search option");
+				 returnMsg.add(false);
 				 returnMsg.add("Error: Invalid Selection");
 				 client.sendToClient(returnMsg);
 		     break;

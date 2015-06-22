@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import javax.swing.JTextField;
 
 import controllers.GOIController;
+import entities.GOI;
 
 public class SearchGOIPage extends MyBoxGUI 
 {
@@ -164,11 +165,19 @@ public class SearchGOIPage extends MyBoxGUI
 					}
 					ListModel2.clear();
 	    			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
-	    			for(int i=0;i<msg.size();i++){
-	    				ListModel2.addElement(msg.get(i));
+	    			ArrayList<GOI> gois = new ArrayList<>();
+	    			if((boolean)msg.get(0)==true){
+	    				for(int i=1;i<msg.size();i++){
+	    					gois.add((GOI)msg.get(i));
+	    					ListModel2.addElement(gois.get(i).getName());
+	    				}
+	    				searchgoipage.setVisible(false);
+						showsearchgoi.setVisible(true);
 	    			}
-					searchgoipage.setVisible(false);
-					showsearchgoi.setVisible(true);
+	    			else{
+	    				JOptionPane.showMessageDialog(frmMyBox,(String)msg.get(0));
+	    			}
+					
 				}
 			}
 		});
