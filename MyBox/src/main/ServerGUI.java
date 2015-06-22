@@ -35,7 +35,7 @@ public class ServerGUI extends MyBoxGUI
 	protected static String portNumber = "5555";
 	
 	protected static JList listServer;
-	protected static DefaultListModel listModelServer = new DefaultListModel();//for GOI
+	public static DefaultListModel listModelServer = new DefaultListModel();//for GOI
 	
 	public ServerGUI() 
 	{

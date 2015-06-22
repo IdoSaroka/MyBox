@@ -67,7 +67,7 @@ public class GoiBasic implements Serializable{
 	       
 	              //ShowGoiFiles - will be used should the user wishes to search the shared files currently available in the system
 	              case "ShowGoiFiles":
-	            	  searchSharedFiles((String)msg.get(2),(String)msg.get(3),(String)msg.get(4));
+	            	  searchSharedFiles((User)msg.get(2),(String)msg.get(3),(String)msg.get(4));
 	              break;
 	            	  
 	          
@@ -313,7 +313,7 @@ public class GoiBasic implements Serializable{
       * @exception IOException e 
       * @return 
       * **/  
- 	public static void searchSharedFiles(String userName,String option, String searchParameter) throws IOException{
+ 	public static void searchSharedFiles(User userName,String option, String searchParameter) throws IOException{
  		FileToView newFileToView = null;
 		Statement stmt = null;
 		PreparedStatement statement = null;
@@ -352,7 +352,7 @@ public class GoiBasic implements Serializable{
 					flag = true;
 				}
 				statement = conn.prepareStatement("SELECT GOI_id From usersingoi WHERE user_Name = ?");
-				statement.setString(1, userName); 
+				statement.setString(1, userName.getUserName()); 
 				rs=statement.executeQuery();
 				/*
 				 * Receive all the groups the user appears in
@@ -425,7 +425,7 @@ public class GoiBasic implements Serializable{
 			     */
 			    statement = conn.prepareStatement("SELECT GOI_id,user_Name From usersingoi WHERE GOI_id = ? AND user_Name = ?");
 			    statement.setInt(1, groupNumber);
-				statement.setString(2, userName);
+				statement.setString(2, userName.getUserName());
 				rs=statement.executeQuery();
 				if(!rs.isBeforeFirst()){/**Handles the case where the user is not a member of the group**/
 					rs.close();

@@ -8,10 +8,13 @@ package database;
 **/
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import guis.ConnectionPage;
 
 /**This Class perfrom's the writing to the log file used by the system to track it's action's
  * @author Ido Saroka 300830973
@@ -52,6 +55,15 @@ public class LogHandling {
 	  
 	  
 	  static public void logging(String text) throws IOException {
+		  
+		  Date date = new Date();
+		  SimpleDateFormat dateFormatH = new SimpleDateFormat("HH:mm");	 
+		  SimpleDateFormat dateFormatD = new SimpleDateFormat("dd-MM-yyyy");
+		  String time = dateFormatH.format(date);
+			
+		  //display the message in the server GUI
+		  guis.ConnectionPage.listModelServer.addElement(" "+dateFormatD+"         " + " "+dateFormatH+"                " +  text);
+		  
 		  Logger logger = Logger.getLogger("MyLog");  
 		  logger.setLevel(Level.INFO);
 		  FileHandler fh; 
