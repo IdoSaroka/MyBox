@@ -112,8 +112,7 @@ public class GoiBasic implements Serializable{
     * <p>
     * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
     * @exception SQLException e 
-    * @exception IOException e 
-    * @retrun  
+    * @exception IOException e  
     * **/   
      public static void searchAGOI(String userName, String option,String searchParameter) throws IOException{
     	PreparedStatement stmt = null;
@@ -128,7 +127,7 @@ public class GoiBasic implements Serializable{
 	    	    * rs.getString(1) - GOI IDnn * rs.getString(2) - GOI Namec* rs.getString(3) - GOI Subject
 	    	    * rs.getString(4) - Date Created * rs.getString(5) - Total Number Of Users  * rs.getString(6) - Current Number Of Users
 	    	    * **/
-			 
+
 		     //"Name" - Handles a search by name in the GOI database
 			case "Name":
 				stmt = conn.prepareStatement("SELECT * from GOI WHERE GOI_Name = ?");
@@ -497,7 +496,7 @@ public class GoiBasic implements Serializable{
      * <p>
      * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
      * @exception SQLException e 
-     * @exception IOException e 
+     * @exception IOException e - the function will throw an IOException in case there will be a problem writing to the log file
      * @return  
      * **/
 	public static void removeUserFromGOI(User userName, GOI goiName) throws IOException{
@@ -515,15 +514,14 @@ public class GoiBasic implements Serializable{
 				 rs.close();
 				 return;
 			 } 
-			 rs.next();
-			 int goiId = rs.getInt(1);
+			 	 
 			//this statement will check that the user is indeed a memeber in the mentioned GOI
-			 statement = conn.prepareStatement("SELECT * From usersingoi WHERE GOI_id = ? AND user_Name = ?");
+			 statement = conn.prepareStatement("SELECT * From UsersInGOI WHERE GOI_id = ? AND user_Name = ?");
 			 statement.setInt(1, goiName.getID());
 			 statement.setString(2, userName.getUserName());
 			 rs=statement.executeQuery();
 			 if(rs.isBeforeFirst()){
-					 statement2 = conn.prepareStatement("DELETE FROM usersingoi WHERE GOI_id = ? AND user_Name = ?");
+					 statement2 = conn.prepareStatement("DELETE FROM UsersInGOI WHERE GOI_id = ? AND user_Name = ?");
 					 statement2.setInt(1, goiName.getID());
 					 statement2.setString(2, userName.getUserName());
 					 statement2.executeUpdate();
@@ -532,7 +530,8 @@ public class GoiBasic implements Serializable{
 					 rs.close();
 					 return;
 			}
-		     System.out.println("Error: You are not a member of GOI: " + goiName.getName());
+			 returnMsg.add("Error: You are not a member of GOI: " + goiName.getName());
+			 client.sendToClient(returnMsg);
 			 rs.close();
 			 return;
 			 /*
