@@ -76,8 +76,6 @@ public class serverMainPage extends ServerGUI
 			{
 				database.EchoServer.serverUserName = textUserName.getText();
 				database.EchoServer.serverUserPassword = textPassword.getText();
-				//database.EchoServer.serverPort = textConnection.getText();
-				System.out.println(textPort.getText());
 				database.EchoServer.serverPort = Integer.parseInt(textPort.getText());
 				
 				

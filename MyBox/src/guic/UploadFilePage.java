@@ -43,19 +43,24 @@ import javax.swing.JScrollPane;
 
 public class UploadFilePage extends MyBoxGUI
 {
-	
-	//private Browse browse;
 	UserController local=new UserController();
-	private String txtDescription=null;
 	JRadioButton rdbtnEveryOneShare;
 	JRadioButton rdbtnGroupShare;
 	JRadioButton rdbtnPrivate;
+	JButton btnBack;
+	JButton btnBrowse;
+	JButton btnDone;
+	JScrollPane scrollPane;
+	JLabel lblFileDescription;
+	JButton btnHelp;
+	JButton btnsignout;
+	JLabel lblPicMBX;
 	private int privelege=3;
-	
+	static JTextPane textPane;
     public UploadFilePage() 
     {
     	setLayout(null);      
-    	JButton btnBack = new JButton("Back");
+    	btnBack = new JButton("Back");
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
@@ -67,7 +72,7 @@ public class UploadFilePage extends MyBoxGUI
     	btnBack.setBounds(3, 2, 68, 23);
     	add(btnBack);
     	
-    	JButton btnBrowse = new JButton("Browse");
+    	btnBrowse = new JButton("Browse");
     	btnBrowse.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnBrowse.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent arg0) 
@@ -82,17 +87,32 @@ public class UploadFilePage extends MyBoxGUI
     	});
     	btnBrowse.setBounds(78, 215, 89, 23);
     	add(btnBrowse);
-    	
-    	JButton btnDone = new JButton("Done");
+    	btnDone = new JButton("Done");
     	btnDone.setFont(new Font("Footlight MT Light", Font.PLAIN, 16));
     	btnDone.addActionListener(new ActionListener() 
     	{
     		public void actionPerformed(ActionEvent e) 
     			{
+    			/**Check field not null**/
+    			if(textPane.getText().equals("") || textPane.getText().contains(" ") )
+    			{
+    				JOptionPane.showMessageDialog(frmMyBox,"No input inserted", "Wrong input",JOptionPane.WARNING_MESSAGE);
+    				return;
+    				
+    			}
     			try {
-					local.sendFile(uploadfilepage, txtDescription, privelege);
+					local.sendFile(uploadfilepage, textPane.getText(), privelege);
+					
+					/**Clear fields**/
+					txtPath.setText("");
+					textPane.setText("");
 					uploadfilepage.setVisible(false);
 	    			userpage.setVisible(true);
+	    			/**Clear to Deafult Selection Radio Button**/
+	    			rdbtnEveryOneShare.setSelected(true);
+	    			privelege = 3;
+	    			rdbtnGroupShare.setSelected(false);
+	    			rdbtnPrivate.setSelected(false);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -177,20 +197,19 @@ public class UploadFilePage extends MyBoxGUI
     	add(rdbtnEveryOneShare);
     	txtPath.setColumns(10);
     	
-    	JScrollPane scrollPane = new JScrollPane();
+    	scrollPane = new JScrollPane();
     	scrollPane.setBounds(78, 63, 616, 141);
     	add(scrollPane);
     	
-    	JTextPane textPane = new JTextPane();
+    	textPane = new JTextPane();
     	textPane.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	scrollPane.setViewportView(textPane);
     	
-    	JLabel lblFileDescription = new JLabel("File Description");
+    	lblFileDescription = new JLabel("File Description");
     	lblFileDescription.setFont(new Font("Footlight MT Light", Font.BOLD, 16));
     	scrollPane.setColumnHeaderView(lblFileDescription);
     	
-
-    	JButton btnHelp = new JButton("Help");
+    	btnHelp = new JButton("Help");
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
@@ -199,8 +218,8 @@ public class UploadFilePage extends MyBoxGUI
     	});
     	btnHelp.setBounds(81, 381, 99, 36);
     	add(btnHelp);
-    	
-    	JButton btnsignout = new JButton("Sign-Out");
+
+    	btnsignout = new JButton("Sign-Out");
     	btnsignout.addActionListener(new ActionListener()
     	{
     		public void actionPerformed(ActionEvent e) 
@@ -218,8 +237,7 @@ public class UploadFilePage extends MyBoxGUI
     	btnsignout.setBounds(595, 381, 99, 36);
     	add(btnsignout);
     	
-    	
-    	JLabel lblPicMBX = new JLabel("");
+    	lblPicMBX = new JLabel("");
         lblPicMBX.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
         lblPicMBX.setBounds(10, 11, 780, 478);
         add(lblPicMBX);
