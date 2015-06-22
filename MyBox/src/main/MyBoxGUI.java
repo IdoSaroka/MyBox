@@ -203,7 +203,7 @@ public class MyBoxGUI extends JPanel
 		isMsg=msgStatus;
 	}
 	
-	public void byeBye(){
+	public static void byeBye(){
 		ArrayList<Object> msg = new ArrayList<>();
 		msg.add("SignOut");
 		msg.add(user.getUserName());

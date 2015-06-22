@@ -33,18 +33,6 @@ public class Messages extends MyBoxGUI
 	{
 		setLayout(null);
 		
-		JButton btnBack = new JButton("Back");
-		btnBack.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				messages.setVisible(false);
-    			userpage.setVisible(true);
-			}
-		});
-		btnBack.setBounds(59, 299, 74, 36);
-		add(btnBack);
-		
 		
 		JButton btnOpen = new JButton("Open");
 		btnOpen.addActionListener(new ActionListener() 
@@ -83,7 +71,7 @@ public class Messages extends MyBoxGUI
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    			JOptionPane.showMessageDialog(frmMyBox,"Notify all your message","Help",JOptionPane.INFORMATION_MESSAGE);
     		}
     	});
     	btnHelp.setBounds(81, 381, 99, 36);
@@ -98,7 +86,12 @@ public class Messages extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-        			userpage.setVisible(false);
+    	        	if(user.getrole().equals("User"))
+    	        		userpage.setVisible(false);
+    	        	else if (user.getrole().equals("SystemAdmin"))
+    	        		adminpage.setVisible(false);
+    	        	else if (user.getrole().equals("FileOwner"))
+    	        		fileownerpage.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			
@@ -111,8 +104,13 @@ public class Messages extends MyBoxGUI
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			uploadfilepage.setVisible(false);
-    			userpage.setVisible(true);
+    			messages.setVisible(false);
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(true);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(true);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(true);
     			
     		}
     	});

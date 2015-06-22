@@ -28,11 +28,8 @@ import database.EchoServer;
 
 public class serverMainPage extends ServerGUI
 {
-	private JTextField textUserName;
 	private boolean ok;
-	private JTextField textPort;
 	private Browse browse;
-	private JPasswordField textPassword;
 	public serverMainPage()
 	{
 		setLayout(null);
@@ -68,8 +65,8 @@ public class serverMainPage extends ServerGUI
 		textUserName.setBounds(399, 71, 224, 37);
 		add(textUserName);
 		
-		JButton btnOk = new JButton("OK");
-		btnOk.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
+		JButton btnOk = new JButton("Connect");
+		btnOk.setFont(new Font("Footlight MT Light", Font.PLAIN, 15));
 		btnOk.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -110,20 +107,15 @@ public class serverMainPage extends ServerGUI
 						e.printStackTrace();
 					}
 	                
-					textConnection.setText("Server now listing for connections on port: "+portNumber);
+					textConnection.setText("Server is now listening for connections on port: "+portNumber);
 					servermainpage.setVisible(false);
 					connectionpage.setVisible(true);
 					
 				}
 			}
 		});
-		btnOk.setBounds(285, 295, 82, 37);
+		btnOk.setBounds(353, 285, 90, 43);
 		add(btnOk);
-		
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
-		btnCancel.setBounds(369, 295, 82, 37);
-		add(btnCancel);
 		
 		textPort = new JTextField();
 		textPort.setFont(new Font("Footlight MT Light", Font.PLAIN, 20));

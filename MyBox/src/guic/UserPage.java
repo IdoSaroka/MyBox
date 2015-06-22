@@ -57,7 +57,7 @@ public class UserPage extends MyBoxGUI
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    			JOptionPane.showMessageDialog(frmMyBox,"User options","Help",JOptionPane.INFORMATION_MESSAGE);
     		}
     	});
     	btnHelp.setBounds(81, 381, 99, 36);
@@ -68,7 +68,12 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
-    			userpage.setVisible(false);
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
     			searchgoipage.setVisible(true);
     		}
     	});
@@ -112,7 +117,12 @@ public class UserPage extends MyBoxGUI
     			}
     			
     			//temp.testDown();
-    			userpage.setVisible(false);
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
     			sharedfilesrspage.setVisible(true);
     		}
     	});
@@ -124,7 +134,12 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0) 
     		{
-    			userpage.setVisible(false);
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
     			uploadfilepage.setVisible(true);
     			
     		}
@@ -137,6 +152,7 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e) 
     		{
+    			
     		}
     	});
     	btnCreateAFolder.setBounds(534, 87, 123, 42);
@@ -147,7 +163,12 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
-    			userpage.setVisible(false);
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
     			folderspage.setVisible(true);
     		}
     	});
@@ -184,21 +205,29 @@ public class UserPage extends MyBoxGUI
     			//if there is no new msgs, you will get "No new messages"
     			
     			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+    			
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
+    			messages.setVisible(true);
+    			
     			if((boolean)msg.get(0)){
     				ArrayList<Messages> temp = new ArrayList<>();
     				for(int i=1;i<msg.size()+1;i++){
     					temp.add((Messages)msg.get(i));
         				ListModel.addElement(temp.get(i).toString());
         			}
+    				/**Show message gif icon**/
     				lblNewMSG.setVisible(false);
-        			userpage.setVisible(false);
-        			messages.setVisible(true);
     			}
-    			else{
+    			else
+    			{
     				JOptionPane.showMessageDialog(frmMyBox,"No new messages","Message",JOptionPane.INFORMATION_MESSAGE);
     			}
 
-    			
     		}
     	});
     	btnMessages.setBounds(330, 300, 99, 36);

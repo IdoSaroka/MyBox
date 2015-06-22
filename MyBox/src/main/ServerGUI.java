@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -33,6 +34,10 @@ public class ServerGUI extends MyBoxGUI
 	
 	protected static JTextField textConnection;
 	protected static String portNumber = "5555";
+	
+	protected static JTextField textUserName;
+	protected static JTextField textPort;
+	protected static JPasswordField textPassword;
 	
 	protected static JList listServer;
 	public static DefaultListModel listModelServer = new DefaultListModel();//for GOI

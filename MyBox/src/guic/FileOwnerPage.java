@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -14,12 +16,15 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
+import controllers.UserController;
+
 public class FileOwnerPage extends MyBoxGUI
 {
-	private JButton btnBack;
 	private JButton btnHelp;
 	private JButton btnsignout;
 
+	UserController temp= new UserController();
+	
     public FileOwnerPage() 
     {
     	setLayout(null);
@@ -29,7 +34,13 @@ public class FileOwnerPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
-
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
+    			searchgoipage.setVisible(true);
     		}
     	});
     	btnSearchgoi.setBounds(115, 140, 122, 42);
@@ -50,18 +61,80 @@ public class FileOwnerPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0) 
     		{
-    			
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
+    			sharedfilesrspage.setVisible(true);
     		}
     	});
     	btnSharedFiles.setBounds(315, 87, 123, 42);
     	add(btnSharedFiles);
+    	
+    	
+    	JButton btnMessages = new JButton("Messages");
+    	btnMessages.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{
+
+    			try {
+					temp.getMSG();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+    			//if there is no new msgs, you will get "No new messages"
+    			
+    			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+    			
+    			
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
+    			messages.setVisible(true);
+    			
+    			
+    			if((boolean)msg.get(0)){
+    				ArrayList<Messages> temp = new ArrayList<>();
+    				for(int i=1;i<msg.size()+1;i++){
+    					temp.add((Messages)msg.get(i));
+        				ListModel.addElement(temp.get(i).toString());
+        			}
+    				/**Show message gif icon**/
+    				lblNewMSG.setVisible(false);
+    			}
+    			
+    			
+    			
+    			else
+    			{
+    				JOptionPane.showMessageDialog(frmMyBox,"No new messages","Message",JOptionPane.INFORMATION_MESSAGE);
+    			}
+
+    		}
+    	});
+    	btnMessages.setBounds(330, 300, 99, 36);
+    	add(btnMessages);
+    	
     	
     	JButton btnUploadAFile = new JButton("Upload a File");
     	btnUploadAFile.addActionListener(new ActionListener() 
     	{
     		public void actionPerformed(ActionEvent arg0) 
     		{
-    			
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
+    			uploadfilepage.setVisible(true);
     		}
     	});
     	btnUploadAFile.setBounds(315, 140, 123, 42);
@@ -82,6 +155,13 @@ public class FileOwnerPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
+    			folderspage.setVisible(true);
     		}
     	});
     	btnFolders.setBounds(534, 140, 123, 42);
@@ -134,19 +214,12 @@ public class FileOwnerPage extends MyBoxGUI
     	separator_6.setBounds(74, 11, 621, 26);
     	add(separator_6);
     	
-    	/*
-    	lblNewMSG = new JLabel("");
-    	lblNewMSG.setIcon(new ImageIcon(UserPage.class.getResource("/guic/NewMSG.gif")));
-    	lblNewMSG.setBounds(422, 300, 31, 14);
-    	add(lblNewMSG);
-    	lblNewMSG.setVisible(false);
-    	*/
-    	
+
        	btnHelp = new JButton("Help");
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    			JOptionPane.showMessageDialog(frmMyBox,"Show all your options","Help",JOptionPane.INFORMATION_MESSAGE);
     		}
     	});
     	btnHelp.setBounds(81, 381, 99, 36);
@@ -161,7 +234,12 @@ public class FileOwnerPage extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-        			userpage.setVisible(false);
+    	        	if(user.getrole().equals("User"))
+    	        		userpage.setVisible(false);
+    	        	else if (user.getrole().equals("SystemAdmin"))
+    	        		adminpage.setVisible(false);
+    	        	else if (user.getrole().equals("FileOwner"))
+    	        		fileownerpage.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			
@@ -170,17 +248,11 @@ public class FileOwnerPage extends MyBoxGUI
     	btnsignout.setBounds(595, 381, 99, 36);
     	add(btnsignout);
     	
-    	btnBack = new JButton("Back");
-    	btnBack.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) 
-    		{
-    			uploadfilepage.setVisible(false);
-    			userpage.setVisible(true);
-    			
-    		}
-    	});
-    	btnBack.setBounds(3, 2, 68, 23);
-    	add(btnBack);
+    	lblNewMSG = new JLabel("");
+    	lblNewMSG.setIcon(new ImageIcon(UserPage.class.getResource("/guic/NewMSG.gif")));
+    	lblNewMSG.setBounds(422, 300, 31, 14);
+    	add(lblNewMSG);
+    	lblNewMSG.setVisible(false);
     	
     	JLabel lblBackGround = new JLabel("");
     	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));

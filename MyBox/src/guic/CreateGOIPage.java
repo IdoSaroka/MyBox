@@ -102,8 +102,6 @@ public class CreateGOIPage extends MyBoxGUI
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			uploadfilepage.setVisible(false);
-    			userpage.setVisible(true);
     			
     		}
     	});

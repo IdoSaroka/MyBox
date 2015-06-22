@@ -93,7 +93,7 @@ public class ShowSearchedGOI extends MyBoxGUI
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    			JOptionPane.showMessageDialog(frmMyBox,"Show all you GOI youre in","Help",JOptionPane.INFORMATION_MESSAGE);
     		}
     	});
     	btnHelp.setBounds(81, 381, 99, 36);
@@ -108,7 +108,12 @@ public class ShowSearchedGOI extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-        			userpage.setVisible(false);
+    	        	if(user.getrole().equals("User"))
+    	        		userpage.setVisible(false);
+    	        	else if (user.getrole().equals("SystemAdmin"))
+    	        		adminpage.setVisible(false);
+    	        	else if (user.getrole().equals("FileOwner"))
+    	        		fileownerpage.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			
@@ -121,8 +126,8 @@ public class ShowSearchedGOI extends MyBoxGUI
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			uploadfilepage.setVisible(false);
-    			userpage.setVisible(true);
+    			showsearchgoi.setVisible(false);
+    			searchgoipage.setVisible(true);
     			
     		}
     	});

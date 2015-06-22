@@ -154,17 +154,14 @@ public class LoginPage extends MyBoxGUI
     							
     							if(MyBoxGUI.getIsMsg())
     	    			        	lblNewMSG.setVisible(true);
-    							
+    							/**Connect Via correct user**/
     							loginpage.setVisible(false);
-    							userpage.setVisible(true);
-    							/*
     							if(user.getrole().equals("User"))
     								userpage.setVisible(true);
     							else if (user.getrole().equals("SystemAdmin"))
     								adminpage.setVisible(true);
     							else if (user.getrole().equals("FileOwner"))
     								fileownerpage.setVisible(true);
-    	    					*/
     						}
     						else{
     							String str = (String)message.get(0);

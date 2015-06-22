@@ -16,6 +16,7 @@ import javax.swing.tree.TreePath;
 import main.MyBoxGUI;
 import files.Country;
 import files.CountryTreeCellRenderer;
+import java.awt.Font;
         
         
 public class FoldersPage extends MyBoxGUI
@@ -37,11 +38,12 @@ public class FoldersPage extends MyBoxGUI
 	public FoldersPage() 
 	{
 		setLayout(null);
+		MyBoxTree.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		
 		MyBoxTree.setCellRenderer(new CountryTreeCellRenderer());
 		
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(60, 94, 497, 289);
+        scrollPane.setBounds(81, 93, 613, 277);
         add(scrollPane);
         scrollPane.setColumnHeaderView(MyBoxTree);
         
@@ -187,7 +189,7 @@ public class FoldersPage extends MyBoxGUI
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    			JOptionPane.showMessageDialog(frmMyBox,"Shows all your filed and folders","Help",JOptionPane.INFORMATION_MESSAGE);
     		}
     	});
     	btnHelp.setBounds(81, 381, 99, 36);
@@ -202,7 +204,12 @@ public class FoldersPage extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-        			userpage.setVisible(false);
+    	        	if(user.getrole().equals("User"))
+    	        		userpage.setVisible(false);
+    	        	else if (user.getrole().equals("SystemAdmin"))
+    	        		adminpage.setVisible(false);
+    	        	else if (user.getrole().equals("FileOwner"))
+    	        		fileownerpage.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			
@@ -215,8 +222,13 @@ public class FoldersPage extends MyBoxGUI
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			uploadfilepage.setVisible(false);
-    			userpage.setVisible(true);
+    			folderspage.setVisible(false);
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(true);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(true);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(true);
     			
     		}
     	});

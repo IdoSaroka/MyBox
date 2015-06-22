@@ -82,7 +82,7 @@ public class UploadFilePage extends MyBoxGUI
     		public void actionPerformed(ActionEvent e) 
     			{
     			/**Check field not null**/
-    			if(textPane.getText().equals("") || textPane.getText().contains(" ") )
+    			if(textPane.getText().equals(""))
     			{
     				JOptionPane.showMessageDialog(frmMyBox,"No input inserted", "Wrong input",JOptionPane.WARNING_MESSAGE);
     				return;
@@ -95,7 +95,10 @@ public class UploadFilePage extends MyBoxGUI
 					txtPath.setText("");
 					textPane.setText("");
 					uploadfilepage.setVisible(false);
-	    			userpage.setVisible(true);
+					if(user.getrole().equals("User"))
+						userpage.setVisible(true);
+					else if (user.getrole().equals("FileOwner"))
+						fileownerpage.setVisible(true);
 	    			/**Clear to Deafult Selection Radio Button**/
 	    			rdbtnEveryOneShare.setSelected(true);
 	    			privelege = 3;
@@ -201,7 +204,7 @@ public class UploadFilePage extends MyBoxGUI
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    			JOptionPane.showMessageDialog(frmMyBox,"Upload a file from local drive","Help",JOptionPane.INFORMATION_MESSAGE);
     		}
     	});
     	btnHelp.setBounds(81, 381, 99, 36);
@@ -216,7 +219,10 @@ public class UploadFilePage extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-        			userpage.setVisible(false);
+    	        	if(user.getrole().equals("User"))
+    	        		userpage.setVisible(false);
+    	        	else if (user.getrole().equals("FileOwner"))
+    	        		fileownerpage.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			
@@ -230,8 +236,12 @@ public class UploadFilePage extends MyBoxGUI
     		public void actionPerformed(ActionEvent e) 
     		{
     			uploadfilepage.setVisible(false);
-    			userpage.setVisible(true);
-    			
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(true);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(true);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(true);
     		}
     	});
     	btnBack.setBounds(3, 2, 68, 23);

@@ -20,7 +20,6 @@ import java.awt.Font;
 
 public class AdminPage extends MyBoxGUI
 {
-	private JButton btnBack;
 	private JButton btnHelp;
 	private JButton btnsignout;
 
@@ -33,6 +32,13 @@ public class AdminPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
+    			searchgoipage.setVisible(true);
 
     		}
     	});
@@ -54,7 +60,13 @@ public class AdminPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0) 
     		{
-    			
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
+    			sharedfilesrspage.setVisible(true);
     		}
     	});
     	btnSharedFiles.setBounds(315, 87, 123, 42);
@@ -65,6 +77,13 @@ public class AdminPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0) 
     		{
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
+    			uploadfilepage.setVisible(true);
     			
     		}
     	});
@@ -86,6 +105,13 @@ public class AdminPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
+    			if(user.getrole().equals("User"))
+    				userpage.setVisible(false);
+    			else if (user.getrole().equals("SystemAdmin"))
+    				adminpage.setVisible(false);
+    			else if (user.getrole().equals("FileOwner"))
+    				fileownerpage.setVisible(false);
+    			folderspage.setVisible(true);
     		}
     	});
     	btnFolders.setBounds(534, 140, 123, 42);
@@ -150,11 +176,13 @@ public class AdminPage extends MyBoxGUI
     	btnPendingRequest.setBounds(114, 193, 122, 42);
     	add(btnPendingRequest);
     	
-    	JButton button_1 = new JButton("Search a GOI");
-    	button_1.setBounds(114, 243, 122, 42);
-    	add(button_1);
-    	
     	JButton btnMyFiles = new JButton("My Files");
+    	btnMyFiles.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			
+    		}
+    	});
     	btnMyFiles.setBounds(315, 193, 122, 42);
     	add(btnMyFiles);
     	
@@ -185,18 +213,6 @@ public class AdminPage extends MyBoxGUI
     	});
     	btnsignout.setBounds(595, 381, 99, 36);
     	add(btnsignout);
-    	
-    	btnBack = new JButton("Back");
-    	btnBack.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) 
-    		{
-    			uploadfilepage.setVisible(false);
-    			userpage.setVisible(true);
-    			
-    		}
-    	});
-    	btnBack.setBounds(3, 2, 68, 23);
-    	add(btnBack);
     	
     	JLabel lblBackGround = new JLabel("");
     	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
