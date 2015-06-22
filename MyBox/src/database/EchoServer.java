@@ -90,6 +90,9 @@ public class EchoServer extends AbstractServer implements Serializable
 			e1.printStackTrace();
 		}
     	break;
+    case "RetreiveMessages":
+    	
+    	break;
     	
     	  //GOIBasic - is responsible for handling all of the GOI "Basic" functions (i.e. those that are available to all of MyBox users )
     case "GOIBasic":
@@ -102,14 +105,10 @@ public class EchoServer extends AbstractServer implements Serializable
 		}
         break;
         
-        
-        
-    	 //Admin - will contain all of MyBox Administrative functions - accessible only for the systems Admin
-    	
+
+    //Admin - will contain all of MyBox Administrative functions - accessible only for the systems Admin	
     case "Admin":
-    	
-    	 //This condition is a security check in case a user which is not a admin tries to access the system
-    	 
+    	 //This condition is a security check in case a user which is not a admin tries to access the system   	 
     	if(("SystemAdmin").equals((String)message.get(1))){
     		LogHandling.logging("Admin: " + (String)message.get(3) + " is logged in the system");
     		GoiAdmin AdminHandler = new GoiAdmin(msg,client,conn); 
@@ -296,7 +295,7 @@ protected void serverStarted()
 	        if ((login.getUserName().equals(rs.getString(1)))){ /*User Name appears in the Database*/
 	        	if(login.getPassword().equals(rs.getString(2))){/*Password is correct*/
 	        	
-	        		  if(rs.getBoolean(5)== false){  /*loggedIn == false -> user is not logged in*/
+	        		  if(rs.getBoolean(5)== false){  // loggedIn == false -> user is not logged in
 	        		    /*add the data to the log file*/
 	      
 	        		    preparedStatement = conn.prepareStatement(query);
@@ -306,14 +305,10 @@ protected void serverStarted()
 	        		    /*
 	        		     * The function will return a "User object" to the logged in user this is to better help with security issues 
 	        		     * Description:
-	        		     * rs.getString(1) - userName
-	        		     * rs.getString(2) - email
-	        		     * rs.getString(3) - password
-	        		     * rs.getString(4) - role
+	        		     * rs.getString(1) - userName   rs.getString(2) - email   rs.getString(3) - password  rs.getString(4) - role
 	        		     * */
 	        		    Object detailsToSend = new User(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
 	        		    
-		
 	        		    LogHandling.logging("User: " + login.getUserName() +" logged in");
 	        	    	returnMsg.add(detailsToSend);
 	        	    	returnMsg.add(userHasMessages(rs.getString(1),conn));
@@ -323,14 +318,14 @@ protected void serverStarted()
 	        		    client.sendToClient(returnMsg);
 	        		     return;
 	                	}
-	        	   else{ /*loggedIn == true -> user is already logged in*/
+	        	   else{ //loggedIn == true -> user is already logged in
 		        		returnMsg.add("Error:User is allready logged in to the system");
 		        		rs.close();
 		        		client.sendToClient(returnMsg);
 		        		return;
 	        	     }
 	        	}
-	        	else{/*Password is incorrect*/
+	        	else{//Password is incorrect
         		    returnMsg.add("Error:The password you have entered is incorrect");
         		    rs.close();
         		    client.sendToClient(returnMsg);
@@ -369,6 +364,7 @@ protected void serverStarted()
    * @return boolean - the function will return true or false depending if the user has any messages or not
    * **/
 	public static boolean userHasMessages(String userName, Connection conn){
+		
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try{
@@ -388,33 +384,47 @@ protected void serverStarted()
 	   * @author Ido Saroka 300830973
 	   * @param userName - the function will receive the user's name
 	   * @param conn - the function will receive a connection to the database
+	   * @param client - the connection to the client used to send messages back to the client
 	   * <p>
-	   * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+	   * @throws IOException - the function will throw an IOException in case there will be a problem sending the data back to the user
 	   * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
-	   * @exception IOException e -
-	   * @return boolean - the function will return true or false depending if the user has any messages or not
+	   * @exception IOException e - the function will throw an IOException in case there will be a problem writing to the log file
 	   * **/
-	public static void returnUserMessages(String userName, Connection conn){
+	public static void returnUserMessages(String userName, Connection conn,ConnectionToClient client) throws IOException{
+		ArrayList<Object> returnMsg = new ArrayList();
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		Messages userMessage;
 		try{
+			//Retrieving all the user's messages from the server
 			statement = conn.prepareStatement("SELECT * From usermessages WHERE userName = ?");
 			statement.setString(1,userName);
 			rs=statement.executeQuery();
 			if(!rs.isBeforeFirst()){
-				System.out.println("You have no new messages");
-				return;
+				returnMsg.add(false);
+				returnMsg.add("You have no new messages");
+				client.sendToClient(returnMsg);
+				rs.close();
 			}
+			returnMsg.add(true);
+			//adding all the user's message to the returned message
 			while(rs.next()){
 				//return message.add
-				userMessage = new Messages(rs.getString(4),rs.getString(2));
-	
+			    userMessage = new Messages(rs.getString(4),rs.getString(2));
+			    returnMsg.add( userMessage);
 			}
-			/**Important add deletion from the database**/
-		}catch(SQLException e){
-			
-		}
+			statement = conn.prepareStatement("DELETE FROM usermessages WHERE userName = ?");
+			statement.setString(1,userName);
+			statement.executeQuery();
+			rs.close();
+			client.sendToClient(returnMsg);
+		}catch(SQLException | IOException e){
+			LogHandling.logging("Error: " + userName +" Encountered an error while trying to receive his messages");
+ 			LogHandling.logging(e.getMessage());
+ 			returnMsg.add("Error: Could not retrieve messages please contact technical support!");
+    		returnMsg.add("Please Contact Technical Support");
+    		client.sendToClient(returnMsg);
+		} 
 	}
   
   
@@ -469,7 +479,7 @@ public static void signOutUser(String userName, Connection conn, ConnectionToCli
 			*                                              2. Sending a message to the user informing him of the problem and how to handle it
 			*/
    } catch (SQLException | IOException e) {
- 			LogHandling.logging("Error: " + userName +"Is not logged in yet tried to sign out");
+ 			LogHandling.logging("Error: " + userName +" is not logged in yet tried to sign out");
  			LogHandling.logging(e.getMessage());
  			returnMsg.add("Error: Could not sign out from MyBox!");
     		returnMsg.add("Please Contact Technical Support");

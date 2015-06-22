@@ -1,34 +1,21 @@
 package guic;
 
-import main.MyBoxGUI;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
-import javax.swing.JScrollBar;
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
+import main.MyBoxGUI;
 import files.Country;
 import files.CountryTreeCellRenderer;
-import guic.*;
         
         
 public class FoldersPage extends MyBoxGUI

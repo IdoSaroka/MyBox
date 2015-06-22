@@ -495,9 +495,8 @@ public class GoiBasic implements Serializable{
      * @param searchParameter - the parameter by which to perform the search
      * <p>
      * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
-     * @exception SQLException e 
+     * @exception SQLException e - the function will throw an SQLException in case there will be a problem writing to the database
      * @exception IOException e - the function will throw an IOException in case there will be a problem writing to the log file
-     * @return  
      * **/
 	public static void removeUserFromGOI(User userName, GOI goiName) throws IOException{
 		PreparedStatement statement = null;
@@ -515,7 +514,7 @@ public class GoiBasic implements Serializable{
 				 return;
 			 } 
 			 	 
-			//this statement will check that the user is indeed a memeber in the mentioned GOI
+			//this statement will check that the user is indeed a member in the mentioned GOI
 			 statement = conn.prepareStatement("SELECT * From UsersInGOI WHERE GOI_id = ? AND user_Name = ?");
 			 statement.setInt(1, goiName.getID());
 			 statement.setString(2, userName.getUserName());
@@ -583,10 +582,16 @@ public class GoiBasic implements Serializable{
 	    }
 	}
   
-  
- 	public static void editSharedFile(){
- 		/**Important add message to all relevant users(the one the file is shared with**/
+  /*
+ 	public static void editSharedFile(GOI goiShared, User userName, FileToView sharedFile){
+ 		String path = sharedFile.getVirtualPath();
+ 		try{
+ 			
+ 		}catch(IOException e){
+ 			
+ 		}
  	}
+ 	*/
  	
     /**isMemberOfGOI - will check if the user is a member of a specific GOI
      * @author Ido Saroka 300830973
@@ -643,4 +648,8 @@ public class GoiBasic implements Serializable{
  			return false;
  		}
  	}
+	
+	private static boolean isAvilableToEdit(FileToView sharedFile){
+		return true;
+	}
 }

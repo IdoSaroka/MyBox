@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 import ocsf.server.ConnectionToClient;
 import entities.GOI;
@@ -201,9 +202,14 @@ public class GoiAdmin implements Serializable{
 		
 		
 		public static void deleteAGOI(GOI newGOI){
-			/**should user deleteAUserFromAGOI() for the removal of all the users in the goi**/
 			PreparedStatement statement = null;
 			ResultSet rs = null;
+			HashSet<String> usersToInform = new HashSet<String>();
+			/*try{
+				
+			}catch(){
+				
+			}*/
 	
 		}
 		

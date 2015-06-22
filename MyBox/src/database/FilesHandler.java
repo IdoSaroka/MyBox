@@ -153,7 +153,7 @@ public class FilesHandler implements Serializable {
 	
 	public static void uploadAFile(User userName, MyFile file) throws IOException{
 		
-		System.out.println(file.getName()+"\n");
+		
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		File newFile;	
