@@ -182,7 +182,7 @@ public class FilesHandler implements Serializable {
 			 rs.close();
 		}
 		 
-		 statement = conn.prepareStatement("SELECT file_Name,suffix,file_Owner From Files WHERE file_Name = ? AND suffix = ? AND file_Owner = ? AND virtual_path = ?");
+		 statement = conn.prepareStatement("SELECT * WHERE file_Name = ? AND suffix = ? AND file_Owner = ? AND virtual_path = ?");
 		 statement.setString(1, file.getName()); 
 		 statement.setString(2, file.getSuffix());
 		 statement.setString(3, file.getOwner());
@@ -202,7 +202,6 @@ public class FilesHandler implements Serializable {
 		
 		 Save save=new Save(file,path+"\\");
 	
-		 
 		 /*Adding the file to the database and copying it to the user directory*/
 		 statement = conn.prepareStatement("INSERT INTO Files (file_Name,suffix,file_Owner,virtual_path,privilege_level,description) VALUES (?,?,?,?,?,?)");
 		 statement.setString(1, file.getName());
@@ -224,6 +223,7 @@ public class FilesHandler implements Serializable {
 			 rs = statement.executeQuery();
 			 temp=new User(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
 		 }
+		 rs.close();
 		 //if the files privilege is 3 then make the file available to all the users in the system
 		 if(file.getPrivelege() == 3){
 			 statement = conn.prepareStatement("SELECT * FROM Files WHERE file_Name =? AND suffix = ? AND file_Owner = ? AND virtual_path = ?");
@@ -240,6 +240,7 @@ public class FilesHandler implements Serializable {
 				 connection.sendToClient(returnMsg);
 				 rs.close();
 			 }
+			 rs.next();
 			 int fileId = rs.getInt(1);
 			 statement = conn.prepareStatement("INSERT INTO FilesInGOI (GOI_id,file_id,file_Name,suffix,file_Owner,virtual_path,description,canEdit) VALUES (?,?,?,?,?,?,?,?)");
 			 statement.setInt(1, 0);
@@ -250,7 +251,7 @@ public class FilesHandler implements Serializable {
 			 statement.setString(6, path);
 			 statement.setString(7, file.getDescription());
 			 statement.setInt(8, 0);
-			 statement.executeQuery(); 
+			 statement.executeUpdate(); 
 		 }
 		 returnMsg.clear();
 		 returnMsg.add(true);

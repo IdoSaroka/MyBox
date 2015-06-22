@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 import ocsf.server.ConnectionToClient;
@@ -290,7 +291,6 @@ public class GoiBasic implements Serializable{
     			 *                                2. Sending a message to the user informing him of the problem and how to handle it
     			 * */
     			catch (SQLException e) {
-    				//search
     				   LogHandling.logging("Error:"+ userName +"trying to make a request to join GOI" + goiName);
     				   LogHandling.logging(e.getMessage());
     				   e.printStackTrace(); 
@@ -322,9 +322,8 @@ public class GoiBasic implements Serializable{
 		try {
 			stmt = conn.createStatement();
 			switch(option){
-			/*
-			 * AllFiles - will return all the files currently shared with the user from all the groups of interests he is a member in
-			 */
+			
+			 //AllFiles - will return all the files currently shared with the user from all the groups of interests he is a member in
 			case "AllFiles":
 				/*
 				* This loop will print all the files currently associated will all of MyBox Users
@@ -336,14 +335,9 @@ public class GoiBasic implements Serializable{
 				while(rs.next()){
 					/*
 					 * Description:
-					 * rs.getInt(1) - GOI ID
-					 * rs.getInt(2) - File ID
-					 * rs.getString(3) - File Name
-					 * rs.getString(4) - File's Suffix
-					 * rs.getString(5) - File Owner
-					 * rs.getString(6) - Virtual Path (Where is the file located in the server)
-					 * rs.getString(7) - File's Description
-					 * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
+					 * rs.getInt(1) - GOI ID  * rs.getInt(2) - File ID  * rs.getString(3) - File Name  * rs.getString(4) - File's Suffix
+					 * rs.getString(5) - File Owner  * rs.getString(6) - Virtual Path (Where is the file located in the server)
+					 * rs.getString(7) - File's Description * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
 					 * */
 					newFileToView = new FileToView(rs.getInt(1),rs.getInt(2),rs.getString(3),
 							rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),
@@ -354,22 +348,13 @@ public class GoiBasic implements Serializable{
 				statement = conn.prepareStatement("SELECT GOI_id From usersingoi WHERE user_Name = ?");
 				statement.setString(1, userName.getUserName()); 
 				rs=statement.executeQuery();
-				/*
-				 * Receive all the groups the user appears in
-				 */
+				
+				 // Receive all the groups the user appears in
 				while(rs.next()){
 					groupIds.add(rs.getInt(1));
 					flag = true;
-				}
-				/*if(!flag){
-					rs.close();
-					returnMsg.add("You are currently not a member in any Group Of Interests!\n");
-					client.sendToClient(returnMsg);
-					return;
-				}*/
-				/*
-				 * This loop will print all the files associated with the groups the user is a member 
-				 */
+				}		
+				 //This loop will print all the files associated with the groups the user is a member 
 				for (int var : groupIds){
 					statement = conn.prepareStatement("SELECT * From FilesInGOI Where GOI_id = ?");
 				    statement.setInt(1, var); 
@@ -377,14 +362,9 @@ public class GoiBasic implements Serializable{
 					 while(rs.next()){
 							/*
 							 * Description:
-							 * rs.getInt(1) - GOI ID
-							 * rs.getInt(2) - File ID
-							 * rs.getString(3) - File Name
-							 * rs.getString(4) - File's Suffix
-							 * rs.getString(5) - File Owner
-							 * rs.getString(6) - Virtual Path (Where is the file located in the server)
-							 * rs.getString(7) - File's Description
-							 * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
+							 * rs.getInt(1) - GOI ID * rs.getInt(2) - File ID  * rs.getString(3) - File Name
+							 * rs.getString(4) - File's Suffix  * rs.getString(5) - File Owner  * rs.getString(6) - Virtual Path (Where is the file located in the server)
+							 * rs.getString(7) - File's Description  * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
 							 * */
 						     newFileToView = new FileToView(rs.getInt(1),rs.getInt(2),rs.getString(3),
 							 rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),
@@ -392,10 +372,8 @@ public class GoiBasic implements Serializable{
 							 returnMsg.add(newFileToView);
 						     flag = true;
 						} 
-				 }
-				/*
-				 * If the groups of interest the user is a member in have no fies in them
-				 */
+				 }			
+				//If the groups of interest the user is a member in have no fies in them
 				 if(flag == false){
 					    rs.close();
 					    returnMsg.add(false);
@@ -406,9 +384,7 @@ public class GoiBasic implements Serializable{
 				 rs.close();
 				 client.sendToClient(returnMsg);
 				 break;
-			/*
-			 * Group - will be used should the user wants to only search inside the shared files of a specific group
-			*/	
+			 //Group - will be used should the user wants to only search inside the shared files of a specific group
 			case "Group":
 				statement = conn.prepareStatement("SELECT GOI_id,GOI_Name From GOI WHERE GOI_Name = ?");
 				statement.setString(1, searchParameter); 
@@ -439,22 +415,14 @@ public class GoiBasic implements Serializable{
 				statement = conn.prepareStatement("SELECT * From FilesInGOI Where GOI_id = ?");
 				    statement.setInt(1, groupNumber); 
 					rs=statement.executeQuery();
-					/*
-					 * This while loop will print all the files currently shared with this group
-					 */
+					 //This while loop will print all the files currently shared with this group			
 					while(rs.next()){
 						/*
 						 * Description:
-						 * rs.getInt(1) - GOI ID
-						 * rs.getInt(2) - File ID
-						 * rs.getString(3) - File Name
-						 * rs.getString(4) - File's Suffix
-						 * rs.getString(5) - File Owner
-						 * rs.getString(6) - Virtual Path (Where is the file located in the server)
-						 * rs.getString(7) - File's Description
-						 * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
+						 * rs.getInt(1) - GOI ID * rs.getInt(2) - File ID * rs.getString(3) - File Name * rs.getString(4) - File's Suffix
+						 * rs.getString(5) - File Owner * rs.getString(6) - Virtual Path (Where is the file located in the server)
+						 * rs.getString(7) - File's Description * rs.getString(8) - Does this Group have an edit permission for the file from the File's Owner? (boolean)
 						 * */
-				
 						newFileToView = new FileToView(rs.getInt(1),rs.getInt(2),rs.getString(3),
 						                               rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),
 								                       rs.getBoolean(8));
@@ -538,7 +506,7 @@ public class GoiBasic implements Serializable{
 			  *                                              2. Sending a message to the user informing him of the problem and how to handle it
 			  **/
 		}catch (SQLException | IOException e){
-		  LogHandling.logging("Error:"+ userName +"Encountered a problem while trying to remove himself from GOI: " + goiName);
+		  LogHandling.logging("Error:"+ userName.getUserName() +"Encountered a problem while trying to remove himself from GOI: " + goiName.getName());
 		  LogHandling.logging(e.getMessage());
 		  returnMsg.add("MyBox Encountered an Error!");
 		  returnMsg.add("Please Contact Technical Support");
@@ -555,8 +523,7 @@ public class GoiBasic implements Serializable{
      * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
      * @exception IOException e - the function will throw an IOException if there is a problem creating a File Object to send back to the user
      * **/
-  public static void downloadSharedFile(GOI goiShared, User userName, FileToView sharedFile) throws IOException{
-	  
+  public static void downloadSharedFile(GOI goiShared, User userName, FileToView sharedFile) throws IOException{	  
 	String fullPath=sharedFile.getVirtualPath()+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix();
 	File f = new File(fullPath);
 	
@@ -575,6 +542,7 @@ public class GoiBasic implements Serializable{
 		returnMsg.add(true);
 		MyFile down = newBrowse.getFile(); 
 	    }catch(IOException e){
+		LogHandling.logging("Error:"+ userName.getUserName() +"Encountered a problem while trying to retrieve his GOIs");
 		returnMsg.add(false);
 		returnMsg.add("MyBox Encountered an Error!");
 	    returnMsg.add("Please Contact Technical Support");
@@ -582,16 +550,56 @@ public class GoiBasic implements Serializable{
 	    }
 	}
   
-  /*
- 	public static void editSharedFile(GOI goiShared, User userName, FileToView sharedFile){
+ 
+ 	/*public static void editSharedFile(GOI goiShared, User userName, FileToView sharedFile){
  		String path = sharedFile.getVirtualPath();
  		try{
  			
  		}catch(IOException e){
  			
  		}
- 	}
- 	*/
+ 	}*/
+ 	
+  /**returnUserGois - will return the user the GOIs he is currentliy a member in
+   * @author Ido Saroka 300830973
+   * @param userName - the user's user name in the MyBox system
+   * <p>
+   * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+   * @exception IOException e - the function will throw an IOException if there is a problem sending back the GOIs to the user
+   * **/
+  public static void returnUserGois(User userName) throws IOException{
+	  ArrayList<Integer> gois= new ArrayList<>();
+	  PreparedStatement statement = null;
+	  ResultSet rs = null;
+	  GOI goiToSend;
+	  try{
+		  statement = conn.prepareStatement("SELECT * FROM UsersInGOI WHERE user_Name = ?");
+		  statement.setString(1, userName.getUserName());
+		  rs = statement.executeQuery();
+		  if(!rs.isBeforeFirst()){
+			  returnMsg.add(false);
+			  returnMsg.add("You are currentliy not a member in any Group Of Intreset");
+			  client.sendToClient(returnMsg);
+		  }
+		  returnMsg.add(true); 
+		  while(rs.next()){
+			  gois.add(rs.getInt(1));
+		  }
+		  for (int var : gois){
+			  statement = conn.prepareStatement("SELECT * FROM GOI WHERE GOI_id = ?");
+			  statement.setInt(1, var);
+			  rs = statement.executeQuery();
+			  goiToSend = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
+			  returnMsg.add(goiToSend);
+		  }
+		  client.sendToClient(returnMsg);
+	  }catch(SQLException | IOException e){	  
+		  returnMsg.add(false);
+		  returnMsg.add("MyBox Encountered an Error!");
+		  returnMsg.add("Please Contact Technical Support");
+		  client.sendToClient(returnMsg);
+	  }
+  }
  	
     /**isMemberOfGOI - will check if the user is a member of a specific GOI
      * @author Ido Saroka 300830973
@@ -633,7 +641,7 @@ public class GoiBasic implements Serializable{
 		PreparedStatement statement = null;
  		ResultSet rs = null;
  		try{
- 			statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE GOI_id = ? AND user_Name = ?");
+ 			statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE GOI_id = ? AND file_id = ?");
  			statement.setInt(1, goiShared.getID());
  			statement.setInt(2, sharedFile.getFileID());
  			rs = statement.executeQuery();
@@ -649,7 +657,33 @@ public class GoiBasic implements Serializable{
  		}
  	}
 	
-	private static boolean isAvilableToEdit(FileToView sharedFile){
-		return true;
+	  /**isAvilableToEdit - will check if a specific file is available for editing
+     * @author Ido Saroka 300830973
+     * @param goiShared - the name of the group of interest 
+     * @param sharedFile - the details of the requested file
+     * <p>
+     * @throws SQLException - the function will throw an SQLException in case there is a problem searching the database 
+     * @return boolean - the function will return true or false depending on the result
+     * **/
+	private static boolean isAvilableToEdit(GOI goiShared, FileToView sharedFile) throws IOException{
+		PreparedStatement statement = null;
+ 		ResultSet rs = null;
+ 		try{
+ 			statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE GOI_id = ? AND user_Name = ?");
+ 			rs = statement.executeQuery();
+ 			if(!rs.isBeforeFirst()){
+ 				LogHandling.logging("File: "+ sharedFile.getFileName()+sharedFile.getFileSuffix()+" is not shared with group: " + goiShared.getName());
+ 				rs.close();
+ 				return false;
+ 			}
+ 			if(rs.getInt(8)==0){
+ 				LogHandling.logging("File: "+ sharedFile.getFileName()+sharedFile.getFileSuffix()+" is not avilable for editing for group: "+goiShared.getName());
+ 				return false;
+ 			}
+ 			return true;
+ 		}catch(SQLException | IOException e){
+ 			LogHandling.logging("Error: My Box Encountered a problem Performing security checks for file: "+ sharedFile.getFileName()+sharedFile.getFileSuffix());
+ 			return false;
+ 		}		
 	}
 }
