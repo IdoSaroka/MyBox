@@ -121,8 +121,7 @@ public class GoiBasic implements Serializable{
 		boolean flag = false;
 		ResultSet rs = null;
 		try {
-			//stmt = conn.createStatement();
-			//ResultSet rs = stmt.executeQuery("SELECT * From goi");	
+			
 			switch(option){
 			/*
 	    	    * Columns Description:
@@ -131,7 +130,6 @@ public class GoiBasic implements Serializable{
 	    	    * **/
 			 
 		     //"Name" - Handles a search by name in the GOI database
-		     
 			case "Name":
 				stmt = conn.prepareStatement("SELECT * from GOI WHERE GOI_Name = ?");
 				stmt.setString(1, searchParameter);
@@ -167,11 +165,10 @@ public class GoiBasic implements Serializable{
 				rs.close();
 				client.sendToClient(returnMsg);
 			 break;
-			  /*
-			    * "All" - Returns the user all the GOIs that currently exist in the system
-			    * */
+			   //"All" - Returns the user all the GOIs that currently exist in the system
 			 case "All":
 				   stmt = conn.prepareStatement("SELECT * From goi");
+				   rs = stmt.executeQuery();
 				    if(!rs.isBeforeFirst()){
 				    	rs.close();
 				    	returnMsg.add(false);
@@ -181,17 +178,13 @@ public class GoiBasic implements Serializable{
 				    }
 				    returnMsg.add(true);
 				    while(rs.next()){	   
-				    	  // returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
-				    			//   " "+rs.getString(4)+" "+rs.getString(5)+ " "+rs.getString(6));
 				    	  goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
 						  returnMsg.add(goiToReturn);
 				       }
 				     rs.close();
 				     client.sendToClient(returnMsg);
-			 break;
-			 /*
-			  * Default case - handles all the invalid selections should they occur
-			  * */
+			 break;	 
+			  //Default case - handles all the invalid selections should they occur
 			 default:
 				 LogHandling.logging("Error: "+ userName +" User selected an invalid search option");
 				 returnMsg.add(false);
@@ -565,8 +558,7 @@ public class GoiBasic implements Serializable{
      * @exception IOException e - the function will throw an IOException if there is a problem creating a File Object to send back to the user
      * **/
   public static void downloadSharedFile(GOI goiShared, User userName, FileToView sharedFile) throws IOException{
-    PreparedStatement statement = null;
-	ResultSet rs = null;
+	  
 	String fullPath=sharedFile.getVirtualPath()+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix();
 	File f = new File(fullPath);
 	
