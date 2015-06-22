@@ -101,7 +101,7 @@ public class serverMainPage extends ServerGUI
     				{
     					if(!meth.isUserValid(textUserName.getText()) || textUserName.getText().equals(""))
     						JOptionPane.showMessageDialog(frmServer,"User Name Can Contain Only The Following Characters: ( 0-9 , a-z , A-Z , _ )"
-    								+ " ","Invalid characters",JOptionPane.WARNING_MESSAGE);
+    								+ " ","Invalid charac ters",JOptionPane.WARNING_MESSAGE);
     					else if(!meth.isPasswordValid(textPassword.getText()) || textPassword.getText().equals(""))
     						JOptionPane.showMessageDialog(frmServer,"Invalid characters","Error Message",JOptionPane.WARNING_MESSAGE);
     					else if(!meth.isPortValid(portNumber) || portNumber.equals(""))

@@ -62,7 +62,7 @@ public class LogHandling {
 		  String time = dateFormatH.format(date);
 			
 		  //display the message in the server GUI
-		  guis.ConnectionPage.listModelServer.addElement(" "+dateFormatD+"         " + " "+dateFormatH+"                " +  text);
+		  guis.ConnectionPage.listModelServer.addElement(" "+dateFormatD.toString()+"         " + " "+dateFormatH.toString()+"                " +  text);
 		  
 		  Logger logger = Logger.getLogger("MyLog");  
 		  logger.setLevel(Level.INFO);

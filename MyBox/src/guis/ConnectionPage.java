@@ -58,9 +58,6 @@ public class ConnectionPage extends ServerGUI
 		lblDate = new JLabel(" Date                | Hour                | Message");
 		scrollPane.setColumnHeaderView(lblDate);
 		
-		//listModelServer.addElement(" 22/06/2015         " + " 09:28                 " + " Example for message in list");
-		
-		
 		JLabel lblMyBox = new JLabel("");
 		lblMyBox.setIcon(new ImageIcon(serverMainPage.class.getResource("/guis/MyBox.jpg")));
 		lblMyBox.setBounds(10, 11, 780, 478);

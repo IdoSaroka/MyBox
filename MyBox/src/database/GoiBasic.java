@@ -333,6 +333,7 @@ public class GoiBasic implements Serializable{
 				*/
 				statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE GOI_id = 0");
 				rs=statement.executeQuery();
+				returnMsg.add(true);
 				while(rs.next()){
 					/*
 					 * Description:
@@ -398,6 +399,7 @@ public class GoiBasic implements Serializable{
 				 */
 				 if(flag == false){
 					    rs.close();
+					    returnMsg.add(false);
 					    returnMsg.add("No files are currently shared with you or the group of interests you are a member in!");
 						client.sendToClient(returnMsg);
 						break;
@@ -415,6 +417,7 @@ public class GoiBasic implements Serializable{
 				
 				if(!rs.next()){/**Handles the case where the GOI inputed by the user does not exist**/
 					 rs.close();
+					 returnMsg.add(false);
 					 returnMsg.add("Error: GOI"+ searchParameter +"does not exist!");
 					 client.sendToClient(returnMsg);
 					 return;
@@ -429,6 +432,7 @@ public class GoiBasic implements Serializable{
 				rs=statement.executeQuery();
 				if(!rs.isBeforeFirst()){/**Handles the case where the user is not a member of the group**/
 					rs.close();
+					 returnMsg.add(false);
 					returnMsg.add("Error: User "+ userName +" is not a member of Group " + searchParameter);
 					client.sendToClient(returnMsg);
 					break;
@@ -463,6 +467,8 @@ public class GoiBasic implements Serializable{
 				
 			    default:
 			    	LogHandling.logging("Error: User"+ userName +"selected an invalid search option");
+			    	rs.close();
+			    	returnMsg.add(false);
 					returnMsg.add("Error: Invalid Selection");
 					client.sendToClient(returnMsg);
 			     break;
@@ -476,6 +482,7 @@ public class GoiBasic implements Serializable{
 		 LogHandling.logging("search Parmeter: " + option +"Serach Index: " + searchParameter);
 		 LogHandling.logging(e.getMessage());
 		 e.printStackTrace(); 
+		 returnMsg.add(false);
 		 returnMsg.add("MyBox Encountered an Error!");
 	     returnMsg.add("Please Contact Technical Support");
 	     client.sendToClient(returnMsg);

@@ -22,6 +22,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import ocsf.server.ConnectionToClient;
+
 import entities.User;
 
 
@@ -31,21 +33,57 @@ import entities.User;
 public class Security {
 
 	
-	public static boolean secuirtyCheck(User userToCheck,Connection con){
-		PreparedStatement preparedStatement = null;
-	/*	try{
-		if(userToCheck.getPassword() == ){
-			
+	public static boolean secuirtyCheck(User userToCheck,Connection con) throws IOException{
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		try{
+			statement = con.prepareStatement("SELECT FORM Users * WHERE userName = ?");
+			statement.setString(1, userToCheck.getUserName());
+			rs = statement.executeQuery();
+		//user does not exist	
+		if(!rs.isBeforeFirst()){
+			LogHandling.logging("Error: user " +userToCheck.getUserName() + " does not exist in the system");
+			return false;
 		}
+		//password is not correct - illegal Access 
+		if(!((userToCheck.getPassword()).equals(rs.getString(2)))){
+			LogHandling.logging("Illegal Access was blocked by user: " + userToCheck.getUserName());
+			return false;
+		}
+		//if all the checks are correct
+		    return true;
 		}catch(SQLException | IOException e){
-			
-		}*/
-		return true;
+			LogHandling.logging("Error: "+ userToCheck.getUserName() +" Encountered a problem Performing security checks");
+			LogHandling.logging(e.getMessage());
+			return false;
+		}	
 	}
 	
 	
-	public static boolean checkFileOwner(User userToCheck, String listedOwnerOfTheFile,Connection con){
-		
-		return true;
+	
+	public static boolean checkFileOwner(User userToCheck,int fileId,String listedOwnerOfTheFile,Connection con) throws IOException{
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		try {
+			if(secuirtyCheck(userToCheck,con) == true){
+				statement = con.prepareStatement("SELECT FORM Files * WHERE fileId =? AND file_Owner = ?");
+				statement.setInt(1, fileId);
+				statement.setString(2, listedOwnerOfTheFile);
+				rs = statement.executeQuery();
+				if(!rs.isBeforeFirst()){
+					LogHandling.logging("Encountered a problem while searching for file id: "+ fileId + " FileOwner: " + listedOwnerOfTheFile);
+					return false;
+				}
+				if((rs.getString(4)).equals(userToCheck.getUserName())){
+					LogHandling.logging("Error: Illegal Access from user: " + userToCheck.getUserName() + ", Tried to acces file ID: "+ fileId);
+					return false;
+				}
+				return true;
+			}
+		} catch (SQLException | IOException e) {
+			LogHandling.logging("Error:"+ userToCheck.getUserName() +"Encountered a problem Performing security checks");
+			LogHandling.logging(e.getMessage());
+		}
+		return false; 
 	}
 }

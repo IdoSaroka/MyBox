@@ -168,8 +168,7 @@ public class GoiAdmin implements Serializable{
 			/**should user deleteAUserFromAGOI() for the removal of all the users in the goi**/
 			PreparedStatement statement = null;
 			ResultSet rs = null;
-			
-			
+	
 		}
 		
 		public static void deleteAUserFromAGOI(){
