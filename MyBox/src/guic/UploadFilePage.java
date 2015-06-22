@@ -178,7 +178,7 @@ public class UploadFilePage extends MyBoxGUI
     	txtPath.setColumns(10);
     	
     	JScrollPane scrollPane = new JScrollPane();
-    	scrollPane.setBounds(78, 63, 579, 141);
+    	scrollPane.setBounds(78, 63, 616, 141);
     	add(scrollPane);
     	
     	JTextPane textPane = new JTextPane();
@@ -189,8 +189,34 @@ public class UploadFilePage extends MyBoxGUI
     	lblFileDescription.setFont(new Font("Footlight MT Light", Font.BOLD, 16));
     	scrollPane.setColumnHeaderView(lblFileDescription);
     	
+
+    	JButton btnHelp = new JButton("Help");
+    	btnHelp.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    		}
+    	});
+    	btnHelp.setBounds(81, 381, 99, 36);
+    	add(btnHelp);
     	
     	JButton btnsignout = new JButton("Sign-Out");
+    	btnsignout.addActionListener(new ActionListener()
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{	
+    	        int reply = JOptionPane.showConfirmDialog(frmMyBox, "Are you sure?", "Signing out...", JOptionPane.YES_NO_OPTION);
+    	        if (reply == JOptionPane.YES_OPTION) 
+    	        {
+    	        	byeBye();
+        			userpage.setVisible(false);
+        			loginpage.setVisible(true);
+    	        }
+    			
+    		}
+    	});
+    	btnsignout.setBounds(595, 381, 99, 36);
+    	add(btnsignout);
     	
     	
     	JLabel lblPicMBX = new JLabel("");

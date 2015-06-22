@@ -75,7 +75,7 @@ public class FoldersPage extends MyBoxGUI
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
                 
 
-                Country country =  new Country(TxtAddFld.getText(), "/flags/page_text.gif");
+                Country country =  new Country(TxtAddFld.getText(), "/files/page_text.gif");
                 
                 folder = Arrays.copyOf(folder, folder.length+1);		
                 folder[folder.length-1] = new DefaultMutableTreeNode(country);
@@ -140,7 +140,7 @@ public class FoldersPage extends MyBoxGUI
         			return;
                 }
                 
-                Country country =  new Country(TxtAddFld.getText(), "/flags/folder.gif");
+                Country country =  new Country(TxtAddFld.getText(), "/files/folder.gif");
                 
         		file = Arrays.copyOf(file, file.length+1); 		
             	file[file.length-1] =  new DefaultMutableTreeNode(country);
