@@ -91,7 +91,8 @@ public class EchoServer extends AbstractServer implements Serializable
 		}
     	break;
     case "RetreiveMessages":
-    	
+    	//String userName, Connection conn,ConnectionToClient client)
+    	returnUserMessages((String)message.get(2),conn,client);
     	break;
     	
     	  //GOIBasic - is responsible for handling all of the GOI "Basic" functions (i.e. those that are available to all of MyBox users )
@@ -266,9 +267,7 @@ protected void serverStarted()
     }
   }
   
-  //listModelServer.addElement(" 22/06/2015         " + " 09:28                 " + " Example for message in list");
 
-  
   /**checkLogin - will check the that details (user name and password) inputed by  
    * the users corresponds with the one found inside MyBox Database
    * @author Ido Saroka 300830973
