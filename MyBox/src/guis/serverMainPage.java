@@ -42,41 +42,30 @@ public class serverMainPage extends ServerGUI
 		lblWellcomToMybox.setBounds(91, 11, 699, 37);
 		add(lblWellcomToMybox);
 		
-		JLabel lblEnterDatabasLocation = new JLabel("DB Location:");
-		lblEnterDatabasLocation.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 20));
-		lblEnterDatabasLocation.setBounds(175, 84, 196, 14);
-		add(lblEnterDatabasLocation);
-		
 		JLabel lblEnterUserName = new JLabel("User Name (for DB):");
-		lblEnterUserName.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 20));
-		lblEnterUserName.setBounds(175, 130, 196, 28);
+		lblEnterUserName.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 22));
+		lblEnterUserName.setBounds(163, 77, 226, 28);
 		add(lblEnterUserName);
 		
 		JLabel lblEnterPasswordfor = new JLabel("Password (for DB):");
-		lblEnterPasswordfor.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 20));
-		lblEnterPasswordfor.setBounds(175, 183, 196, 19);
+		lblEnterPasswordfor.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 22));
+		lblEnterPasswordfor.setBounds(163, 144, 226, 19);
 		add(lblEnterPasswordfor);
 		
-		JLabel lblEnterDbPort = new JLabel("DB Port Number:");
-		lblEnterDbPort.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 20));
-		lblEnterDbPort.setBounds(175, 231, 196, 19);
+		JLabel lblEnterDbPort = new JLabel("Streaming Port:");
+		lblEnterDbPort.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 22));
+		lblEnterDbPort.setBounds(163, 202, 226, 30);
 		add(lblEnterDbPort);
 		
 		JLabel label = new JLabel("(0-9999)");
-		label.setFont(new Font("Footlight MT Light", Font.PLAIN, 12));
-		label.setBounds(220, 247, 57, 14);
+		label.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
+		label.setBounds(218, 235, 57, 14);
 		add(label);
-		
-		txtPath = new JTextField();
-		txtPath.setFont(new Font("Footlight MT Light", Font.PLAIN, 20));
-		txtPath.setBounds(381, 75, 224, 37);
-		add(txtPath);
-		txtPath.setColumns(10);
 		
 		textUserName = new JTextField();
 		textUserName.setFont(new Font("Footlight MT Light", Font.PLAIN, 20));
 		textUserName.setColumns(10);
-		textUserName.setBounds(381, 124, 224, 37);
+		textUserName.setBounds(399, 71, 224, 37);
 		add(textUserName);
 		
 		JButton btnOk = new JButton("OK");
@@ -130,37 +119,24 @@ public class serverMainPage extends ServerGUI
 				}
 			}
 		});
-		btnOk.setBounds(310, 290, 82, 37);
+		btnOk.setBounds(285, 295, 82, 37);
 		add(btnOk);
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
-		btnCancel.setBounds(394, 290, 82, 37);
+		btnCancel.setBounds(369, 295, 82, 37);
 		add(btnCancel);
-		
-
-		
-		JButton btnBrowse = new JButton("...");
-		btnBrowse.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				browse = new Browse();
-			}
-		});
-		btnBrowse.setBounds(617, 78, 38, 28);
-		add(btnBrowse);
 		
 		textPort = new JTextField();
 		textPort.setFont(new Font("Footlight MT Light", Font.PLAIN, 20));
 		textPort.setColumns(10);
-		textPort.setBounds(381, 220, 224, 37);
-		textPort.setText(portNumber);
+		textPort.setBounds(399, 200, 224, 37);
+		textPort.setText("1254");
 		add(textPort);
 		
 		textPassword = new JPasswordField();
 		textPassword.setFont(new Font("Footlight MT Light", Font.PLAIN, 20));
-		textPassword.setBounds(381, 172, 224, 37);
+		textPassword.setBounds(399, 133, 224, 37);
 		add(textPassword);
 		
 		JLabel lblMyBox = new JLabel("");
