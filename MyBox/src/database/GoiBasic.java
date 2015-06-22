@@ -116,67 +116,62 @@ public class GoiBasic implements Serializable{
     * @retrun  
     * **/   
      public static void searchAGOI(String userName, String option,String searchParameter) throws IOException{
-		Statement stmt = null;
+    	PreparedStatement stmt = null;
 		GOI goiToReturn;
 		boolean flag = false;
+		ResultSet rs = null;
 		try {
-			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * From goi");	
+			//stmt = conn.createStatement();
+			//ResultSet rs = stmt.executeQuery("SELECT * From goi");	
 			switch(option){
 			/*
 	    	    * Columns Description:
-	    	    * rs.getString(1) - GOI ID
-	    	    * rs.getString(2) - GOI Name
-	    	    * rs.getString(3) - GOI Subject
-	    	    * rs.getString(4) - Date Created
-	    	    * rs.getString(5) - Total Number Of Users
-	    	    * rs.getString(6) - Current Number Of Users
+	    	    * rs.getString(1) - GOI IDnn * rs.getString(2) - GOI Namec* rs.getString(3) - GOI Subject
+	    	    * rs.getString(4) - Date Created * rs.getString(5) - Total Number Of Users  * rs.getString(6) - Current Number Of Users
 	    	    * **/
-	
-			  /*
-		       * "Name" - Handles a search by name in the GOI database
-		       * */
+			 
+		     //"Name" - Handles a search by name in the GOI database
+		     
 			case "Name":
-			    while(rs.next()){ 
-				   if( searchParameter.equals(rs.getString(2)) ){ /**GOI Name**/
-					  /* goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3)+
-			    			   ,rs.getString(4),rs.getInt(5),rs.getInt(6));  */
-					   goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
-                 //  returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
-			    	//		   " "+rs.getString(4)+" "+rs.getString(5)+ " "+rs.getString(6)); 
-					   returnMsg.add(goiToReturn);
-                       rs.close();
-                       client.sendToClient(returnMsg);
-				 	   break;
-				 }
-			    }
-			    rs.close();
-			    returnMsg.add(false);
-				returnMsg.add("No Such GOI in the system");
-				client.sendToClient(returnMsg);
-				break;
-			    /*
-			     * "Subject" - Handles a search by subject in the GOI database
-			     * */
+				stmt = conn.prepareStatement("SELECT * from GOI WHERE GOI_Name = ?");
+				stmt.setString(1, searchParameter);
+				rs = stmt.executeQuery();
+				if(!rs.isBeforeFirst()){
+					 returnMsg.add(false);
+					 returnMsg.add("There is currentliy no GOI: "+ searchParameter+ " in MyBox");
+					 break;
+				}
+				returnMsg.add(true);
+				goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
+				returnMsg.add(goiToReturn);
+                rs.close();
+                client.sendToClient(returnMsg);
+			    break;
+				 
+			    
+			 //"Subject" - Handles a search by subject in the GOI database    
 			 case "Subject":
-				while(rs.next()){ 
-					if( searchParameter.equals(rs.getString(3)) ){ /**GOI Subject**/
-						goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
-						returnMsg.add(goiToReturn);
-						 flag = true;
+				 stmt = conn.prepareStatement("SELECT * From goi WHERE subject = ?");
+				 stmt.setString(1, searchParameter);
+					rs = stmt.executeQuery();
+					if(!rs.isBeforeFirst()){
+						 returnMsg.add(false);
+						 returnMsg.add("There Are currentliy No Goi's with the subject: "+ searchParameter +" in MyBox!");
+						 break;
 					}
+			    returnMsg.add(true);
+				while(rs.next()){ 		    
+					goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
+					returnMsg.add(goiToReturn);
 				}
 				rs.close();
-				if(!flag){
-					returnMsg.add(false);
-					returnMsg.add("There Are currentliy No Goi's with this subject in MyBox!");
-				}
 				client.sendToClient(returnMsg);
 			 break;
 			  /*
 			    * "All" - Returns the user all the GOIs that currently exist in the system
 			    * */
 			 case "All":
+				   stmt = conn.prepareStatement("SELECT * From goi");
 				    if(!rs.isBeforeFirst()){
 				    	rs.close();
 				    	returnMsg.add(false);
@@ -192,7 +187,6 @@ public class GoiBasic implements Serializable{
 						  returnMsg.add(goiToReturn);
 				       }
 				     rs.close();
-				     
 				     client.sendToClient(returnMsg);
 			 break;
 			 /*
