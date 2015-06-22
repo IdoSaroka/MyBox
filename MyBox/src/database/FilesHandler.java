@@ -34,6 +34,7 @@ import files.Browse;
 import files.MyFile;
 import files.Save;
 import ocsf.server.ConnectionToClient;
+import database.*;
 
 /**This Class contains MyBox functions responsible for the
  * creation and the sharing of the files stored on the server
@@ -227,6 +228,7 @@ public class FilesHandler implements Serializable {
 			 rs = statement.executeQuery();
 			 temp=new User(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
 		 }
+		 //if the files privilege is 3 then make the file available to all the users in the system
 		 if(file.getPrivelege() == 3){
 			 statement = conn.prepareStatement("SELECT * FROM Files WHERE file_Name =? AND suffix = ? AND file_Owner = ? AND virtual_path = ?");
 			 statement.setString(1, file.getName());
