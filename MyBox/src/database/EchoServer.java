@@ -414,8 +414,8 @@ protected void serverStarted()
 			statement = conn.prepareStatement("DELETE FROM usermessages WHERE userName = ?");
 			statement.setString(1,userName);
 			statement.executeQuery();
-			rs.close();
 			client.sendToClient(returnMsg);
+			rs.close();
 		}catch(SQLException | IOException e){
 			LogHandling.logging("Error: " + userName +" Encountered an error while trying to receive his messages");
  			LogHandling.logging(e.getMessage());

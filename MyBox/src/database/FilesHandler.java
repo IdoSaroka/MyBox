@@ -343,12 +343,14 @@ public class FilesHandler implements Serializable {
 		
 	}
 	
-/*	public static void changeFilePrivelge(User userName, FileOwnerViewer fileToChange,int newPrivelgeLevel) throws IOException{
+	/*public static void changeFilePrivelge(User userName, FileOwnerViewer fileToChange,int newPrivelgeLevel) throws IOException{
 		ArrayList<Integer> groupIdsToInform = new ArrayList<>();
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try{
-			statement = conn.prepareStatement("SELECT FROM ");
+			 statement= conn.prepareStatement("SELECT FROM Files Where file_id = ?");
+			 statement.setInt(1, fileToChange.getFileID());
+			 
 			if(fileToChange.getPrivilege() == newPrivelgeLevel){
 			    LogHandling.logging("Error - User: "+ fileToChange.getFileOwner()+"Ecnounterd a problem Changing the file: "+fileToChange.getFileName()+fileToChange.getFileSuffix()+ " Privelge level");
 			    LogHandling.logging("Reason: Privelge level is the current file privelge level");
@@ -356,7 +358,7 @@ public class FilesHandler implements Serializable {
 				returnMsg.add("Error: File is allready at the requested privelge level");
 				connection.sendToClient(returnMsg);
 			}
-			 statement= conn.prepareStatement("SELECT FROM Files Where file_id = ?");
+			 
 			 if((Security.checkFileOwner(userName, fileToChange.getFileID(), fileToChange.getFileOwner(), conn))==false){
 				 LogHandling.logging("Illegal Access was trying by user :" + userName.getUserName());
 				    returnMsg.add(false);
@@ -365,8 +367,10 @@ public class FilesHandler implements Serializable {
 					connection.sendToClient(returnMsg);
 					rs.close();
 			 }
-			
-			
+			 
+			 //update the new value in the table
+			 
+			 
 		}catch(SQLException | IOException e){
 			 LogHandling.logging("Error: "+ userName +" Encountered a problem while trying to change the file: " + fileToChange.getFileName() + fileToChange.getFileSuffix()+" Privelge level");
 			 LogHandling.logging(e.getMessage());
