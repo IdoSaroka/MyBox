@@ -9,13 +9,19 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
+import entities.GOI;
+
 import java.awt.Label;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.util.ArrayList;
 
 public class ShowSearchedGOI extends MyBoxGUI
 {
+	
+	static ArrayList<GOI> gois;
+	
 	public ShowSearchedGOI()
 	{
 		setLayout(null);
@@ -65,8 +71,11 @@ public class ShowSearchedGOI extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	int i = list2.getSelectedIndex();
+    	        	gois=SearchGOIPage.getGOIS();
     	        	System.out.println(i + ": is the seleced index");
-    	        	JOptionPane.showConfirmDialog(frmMyBox, "Done", "Deleted From GOI", JOptionPane.OK_OPTION);
+    	        	ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+    	        	System.out.println(msg.get(0));
+    	        	//JOptionPane.showConfirmDialog(frmMyBox, "Done", JOptionPane.OK_OPTION);
     	        }
 			}
 		});

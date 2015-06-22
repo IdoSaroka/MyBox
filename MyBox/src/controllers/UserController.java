@@ -19,10 +19,12 @@ import java.io.File;
 
 
 
+
 import javax.swing.JOptionPane;
 
 import main.MyBoxGUI;
 import entities.FileToView;
+import entities.GOI;
 import entities.User;
 import files.*;
 import guic.SharedFilessPage;
@@ -103,6 +105,17 @@ public class UserController {
 		message.add("requestToJoinGOI");
 		message.add(GOIID);
 		MyBoxGUI.getClient().sendToServer(message);
+	}
+	
+	
+	public void LeaveGOI(GOI goi) throws IOException{
+		message.clear();
+		message.add("GOIBasic");
+		message.add("RemoveAUserFromGOI");
+		message.add(MyBoxGUI.getUser());
+		message.add(goi);
+		MyBoxGUI.getClient().sendToServer(message);
+		
 	}
 	
 	/**

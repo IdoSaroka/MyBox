@@ -37,6 +37,8 @@ public class SearchGOIPage extends MyBoxGUI
 	private String option;
 	private String param;
 	
+	static ArrayList<GOI> gois;
+	
 	
 	public SearchGOIPage(){
 		setLayout(null);
@@ -165,13 +167,9 @@ public class SearchGOIPage extends MyBoxGUI
 					}
 					
 	    			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
-	    			ArrayList<GOI> gois = new ArrayList<>();
+	    			gois = new ArrayList<>();
 	    			
 	    			int size=msg.size();
-	    			
-	    			for(int i=0;i<size;i++){
-	    				System.out.println("This is whats in index "+i+": "+msg.get(i));
-	    			}
 	    			
 	    			if((boolean)msg.get(0)==true){
 	    				for(int i=1;i<size;i++){
@@ -223,5 +221,9 @@ public class SearchGOIPage extends MyBoxGUI
     	lblBackGround.setBounds(10, 11, 780, 478);
     	add(lblBackGround);
     	
+	}
+	
+	protected static ArrayList<GOI> getGOIS(){
+		return gois;
 	}
 }
