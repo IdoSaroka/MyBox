@@ -17,7 +17,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -27,6 +30,7 @@ import entities.GOI;
 import entities.User;
 import files.Browse;
 import files.MyFile;
+import files.Save;
 
 /**This Class contains MyBox basic functions that are responsible for
  * accessing and searching inside the "Groups Of Interests" in the system.
@@ -523,10 +527,16 @@ public class GoiBasic implements Serializable{
      * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
      * @exception IOException e - the function will throw an IOException if there is a problem creating a File Object to send back to the user
      * **/
-  public static void downloadSharedFile(GOI goiShared, User userName, FileToView sharedFile) throws IOException{	  
+  public static void downloadSharedFile(GOI goiShared, User userName, FileToView sharedFile) throws IOException{
+	PreparedStatement statement = null;  
+	ResultSet rs = null;
 	String fullPath=sharedFile.getVirtualPath()+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix();
 	File f = new File(fullPath);
-	
+	ArrayList<Integer> groupIdsToInform = new ArrayList<>();
+	HashSet<String> usersToInform = new HashSet<String>();
+	DateFormat dateFormat;
+	Date date = new Date();
+	String time;
 	try{
 		//check if the user is a member in this GOI
 		if((isMemberOfGOI(goiShared,userName)==false)||(isFileSharedWithGOI(goiShared,sharedFile)== false)){
@@ -539,28 +549,78 @@ public class GoiBasic implements Serializable{
 		}
 		//send the file back to the user
 		Browse newBrowse = new Browse(f, sharedFile.getFileName(),sharedFile.getFileSuffix());
-		returnMsg.add(true);
 		MyFile down = newBrowse.getFile(); 
-	    }catch(IOException e){
+		
+		 statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE file_id = ?");// <- change
+		 statement.setInt(1, sharedFile.getFileID());
+		 rs = statement.executeQuery();
+		 while(rs.next()){
+			 groupIdsToInform.add(rs.getInt(1)); // get all the id's of the GOI the file is shared with
+		 }
+		//find all the users that the file is associated with 
+		 //Note that in case the file is shared with the same user from two different groups he will only be notified once 
+		 for (int var : groupIdsToInform){
+			 statement = conn.prepareStatement("SELECT * From UsersInGOI Where GOI_id = ?");
+			 statement.setInt(1, var); 
+			 rs = statement.executeQuery();
+			 while(rs.next()){
+				  usersToInform.add(rs.getString(2));
+			 }
+		 }
+			 //Receives the current date in order to save inside the message
+			 dateFormat = new SimpleDateFormat("HH:mm  dd-MM-yyyy");	 
+			 time=dateFormat.format(date);
+			//Insert the message about the file changes to all relevant users
+				for (String user : usersToInform) {
+					 statement = conn.prepareStatement("INSERT INTO UserMessages (message_Date,userName,description) VALUES (?,?,?)");	
+					 statement.setString(1, time);
+					 statement.setString(2, user);
+					 statement.setString(3, "File: "+ sharedFile.getFileName() +" Was Changed by: "+userName.getUserName()+"\n "
+					 		+ "From GOI: "+ goiShared.getName());
+					 statement.executeQuery();
+				}
+		returnMsg.add(true);
+		returnMsg.add("You have succesfuliy Changed the file: "+ sharedFile.getFileName());
+	    }catch(SQLException |IOException e){
 		LogHandling.logging("Error:"+ userName.getUserName() +"Encountered a problem while trying to retrieve his GOIs");
 		returnMsg.add(false);
 		returnMsg.add("MyBox Encountered an Error!");
 	    returnMsg.add("Please Contact Technical Support");
 	    client.sendToClient(returnMsg);
-	    }
+	    } 
 	}
   
  
- 	/*public static void editSharedFile(GOI goiShared, User userName, FileToView sharedFile){
+ 	public static void editSharedFile(GOI goiShared, User userName, FileToView sharedFile){
  		String path = sharedFile.getVirtualPath();
+ 		File f = new File(path+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix());
  		try{
+ 			if(isMemberOfGOI(goiShared, userName)== false || isFileSharedWithGOI(goiShared, sharedFile)== false 
+ 					|| isAvilableToEdit(goiShared, sharedFile) == false || Security.secuirtyCheck(userName, conn) == false){
+ 				returnMsg.add(false);
+ 				returnMsg.add("MyBox Encountered an Error!");
+ 			    returnMsg.add("Please Contact Technical Support");
+ 			    client.sendToClient(returnMsg);
+ 			}
+ 			Browse newBrowse = new Browse(f, sharedFile.getFileName(),sharedFile.getFileSuffix());
+ 			MyFile changedFile = newBrowse.getFile();
+ 			Save save=new Save(changedFile,path+"\\");
+ 			
+ 			
+ 			
+ 			
+ 			returnMsg.add(true);
+ 			returnMsg.add("File: "+sharedFile.getFileName()+" was succesfuliy updated!");
+ 			client.sendToClient(returnMsg);
+ 			
+
  			
  		}catch(IOException e){
  			
  		}
- 	}*/
+ 	}
  	
-  /**returnUserGois - will return the user the GOIs he is currentliy a member in
+  /**returnUserGois - will return the user the GOIs he is currently a member in
    * @author Ido Saroka 300830973
    * @param userName - the user's user name in the MyBox system
    * <p>

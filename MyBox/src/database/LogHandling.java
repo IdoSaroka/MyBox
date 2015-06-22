@@ -71,6 +71,7 @@ public class LogHandling {
 		  FileHandler fh; 
 		 
 		   try{
+			   boolean success = (new File("C:\\MyBox\\")).mkdirs();
 			   File file =new File("C:\\MyBox\\logFile.txt");
 			   
 	    		//if file doesnt exists, then create it

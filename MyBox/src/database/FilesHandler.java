@@ -90,14 +90,14 @@ public class FilesHandler implements Serializable {
 		
 	}
 	
-	   /**returnUseFile - this function will return the user all the files he currently 
+	   /**returnUseFile - this function will return the user all the files he currently has 
 	    * @author Ido Saroka 300830973
 		* @param userName - a User Object used to determine the user is actually the file owner
 	    * <p>
 	    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
-	    * @throws SQLException - the function will throw an IOException in case there will be a problem writing to the the Database: "Users"
+	    * @throws SQLException - the function will throw an IOException in case there will be a problem writing to the the Database
 	    * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
-	    * @exception IOException e - the function will throw an INExpcetion in case there will be a problem saving the file in the server
+	    * @exception IOException e - the function will throw an INExpcetion in case there will be a problem  returning the file to the user
 	    * **/ 
 	public static void returnUseFile(User userName) throws IOException{
 		PreparedStatement statement = null;
@@ -151,9 +151,17 @@ public class FilesHandler implements Serializable {
 		 }
 	}
 	
-	public static void uploadAFile(User userName, MyFile file) throws IOException{
-		
-		
+	   /**uploadAFile - this function will be used by the user to upload a file into the MyBox System
+	    * @author Ido Saroka 300830973
+		* @param userName - a User Object used to determine the user is actually the file owner
+		* @param file - the file the user wishes to upload
+	    * <p>
+	    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+	    * @throws SQLException - the function will throw an IOException in case there will be a problem writing to the the Database
+	    * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
+	    * @exception IOException e - the function will throw an INExpcetion in case there will be a problem saving the file in the server
+	    * **/ 
+	public static void uploadAFile(User userName, MyFile file) throws IOException{		
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		File newFile;	
@@ -461,10 +469,11 @@ public class FilesHandler implements Serializable {
 				 statement = conn.prepareStatement("INSERT INTO UserMessages (message_Date,userName,description) VALUES (?,?,?)");	
 				 statement.setString(1, time);
 				 statement.setString(2, user);
-				 statement.setString(3, "File: "+ fileToDelete +" Was deleted by his file Owner: "+userName.getUserName()+"\n "
+				 statement.setString(3, "File: "+ fileToDelete.getFileName() +" Was deleted by his file Owner: "+userName.getUserName()+"\n "
 				 		+ "Please Delete the file from you virtual MyBox Workspace");
+				 statement.executeQuery();
 				}
-			    statement.executeQuery();
+			    
 			//Remove the file listings from the "FilesInGOI" Database
 			 for (int var : groupIdsToInform){
 					statement = conn.prepareStatement("DELETE FROM FilesInGOI Where GOI_id = ? AND file_id = ?");
