@@ -19,6 +19,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.FlowLayout;
+import java.io.IOException;
+
+import database.EchoServer;
 
 public class ServerGUI extends MyBoxGUI
 {
@@ -29,7 +32,7 @@ public class ServerGUI extends MyBoxGUI
 	protected static ConnectionPage connectionpage;
 	
 	protected static JTextField textConnection;
-	protected static String portNumber = "3306";
+	protected static String portNumber = "5555";
 	
 	protected static JList listServer;
 	protected static DefaultListModel listModelServer = new DefaultListModel();//for GOI
@@ -68,7 +71,7 @@ public class ServerGUI extends MyBoxGUI
 	
 
 
-	public static void main(String[] args) 
+public static void main(String[] args) 
 	{
 		
         SwingUtilities.invokeLater(new Runnable()
@@ -76,6 +79,7 @@ public class ServerGUI extends MyBoxGUI
             public void run()
             {
                 createAndShowGUI();
+
             }
         });
         

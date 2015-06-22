@@ -40,13 +40,19 @@ import entities.Login;
  * <p>
  * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
  * @exception IOException -
- * @return returnMsg - the function will return a message to the user if the log in process was successfull or not
+ * @return returnMsg - the function will return a message to the user if the log in process was successful or not
  * **/
 public class EchoServer extends AbstractServer implements Serializable
 {
   public static final int DEFAULT_PORT = 3306;
   
   private Connection DBConn;
+  
+  public static String serverUserName;
+  
+  public static String serverUserPassword;
+  
+  public static int serverPort = 1254 ;
   
   public EchoServer(int port, Connection DBConn)
   {
@@ -186,27 +192,16 @@ protected void serverStarted()
    * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
    * @exception IOException e -
    * **/   
-  public static void main(String[] args) throws IOException
+  //public static void main(String[] args) throws IOException
+  public static void createConnection() throws IOException
   {
-	  
-	/*
-      SwingUtilities.invokeLater(new Runnable()
-      {
-          public void run()
-          {
-        	  ServerGUI.createAndShowGUI();
-          }
-      });
-	  */
-	  
-	  
+	  	  
 	ArrayList<String> returnMsg = new ArrayList();
     Connection conn = null;
     int port = 0;
     DbAdapter adapter = new DbAdapter();
-    /**
-     * setUp - create the necessary folders used by MyBox
-     * **/
+    
+     //setUp - create the necessary folders used by MyBox
     LogHandling.setUp(); 
     try
     {
@@ -217,8 +212,8 @@ protected void serverStarted()
     }
     try
     {
-      conn = DriverManager.getConnection("jdbc:mysql://localhost/myboxdatabase", "root", "Braude");
-      //conn = DriverManager.getConnection("jdbc:mysql://localhost/myboxdatabase", "root", "123456"); <- need to remove connection to Ido's DataBase
+       conn = DriverManager.getConnection("jdbc:mysql://localhost/myboxdatabase", serverUserName, serverUserPassword);
+      //conn = DriverManager.getConnection("jdbc:mysql://localhost/myboxdatabase", "root", "123456"); //<- need to remove connection to Ido's DataBase
       
       /**insert GUI OBJECT that recives user name and password for a DataBase**/
       //conn = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName + '"',dbUserName,dbPassword);
@@ -248,13 +243,18 @@ protected void serverStarted()
     	
       /*add a GUI elemnet that recives a port from the user*/
     	
-      port = Integer.parseInt(args[0]);
+      //port = ();
+    	port = serverPort;
+    	
+    	System.out.println(" Server port is: " + serverPort);
+      
     }
     catch (Throwable t)
     {
       port = 1254;
     }
-    EchoServer sv = new EchoServer(port, conn);
+    //EchoServer sv = new EchoServer(port, conn);
+    EchoServer sv = new EchoServer(serverPort, conn);
     try
     {
       sv.listen();
@@ -267,6 +267,8 @@ protected void serverStarted()
     }
   }
   
+  //listModelServer.addElement(" 22/06/2015         " + " 09:28                 " + " Example for message in list");
+
   
   /**checkLogin - will check the that details (user name and password) inputed by  
    * the users corresponds with the one found inside MyBox Database
@@ -446,7 +448,7 @@ public static void signOutUser(String userName, Connection conn, ConnectionToCli
 			 rs.close();
 			 return;
 		 }
-		 //this condition handles the situation where a user who is not logged in tries to perfrom a logout
+		 //this condition handles the situation where a user who is not logged in tries to perform a logout
 		 if(rs.getBoolean(5) == false){
 			 LogHandling.logging("Error - User: " + userName +"Is not logged in yet tried to sign out");
    		 returnMsg.add("Error: Could not sign out from MyBox!");

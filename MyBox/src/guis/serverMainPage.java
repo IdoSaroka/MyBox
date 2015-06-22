@@ -20,7 +20,11 @@ import files.Browse;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+
 import javax.swing.JPasswordField;
+
+import database.EchoServer;
 
 public class serverMainPage extends ServerGUI
 {
@@ -81,6 +85,13 @@ public class serverMainPage extends ServerGUI
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				database.EchoServer.serverUserName = textUserName.getText();
+				database.EchoServer.serverUserPassword = textPassword.getText();
+				//database.EchoServer.serverPort = textConnection.getText();
+				System.out.println(textPort.getText());
+				database.EchoServer.serverPort = Integer.parseInt(textPort.getText());
+				
+				
 				ok = false;
 				portNumber = textPort.getText();
 				if( (meth.isUserValid(textUserName.getText()) && meth.isPasswordValid(textPassword.getText()) && meth.isPortValid(portNumber))
@@ -96,8 +107,22 @@ public class serverMainPage extends ServerGUI
     					else if(!meth.isPortValid(portNumber) || portNumber.equals(""))
     						JOptionPane.showMessageDialog(frmServer,"Port Can Contain Only Numbers","Invalid characters",JOptionPane.WARNING_MESSAGE);
     				}
+				
+				
+				
+				
+				
 				if(ok)
 				{
+	                try {
+	                	
+						database.EchoServer.createConnection();
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	                
 					textConnection.setText("Server now listing for connections on port: "+portNumber);
 					servermainpage.setVisible(false);
 					connectionpage.setVisible(true);
