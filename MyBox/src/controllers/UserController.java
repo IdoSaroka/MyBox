@@ -282,5 +282,12 @@ public class UserController {
 		//if file doesnt exist, an appropriate msg appears
 		//if the file updated, the user will note it
 	}
+	
+	public void getMSG() throws IOException{
+		message.clear();
+		message.add("RetreiveMessages");
+		message.add(MyBoxGUI.getUserName());		
+		MyBoxGUI.getClient().sendToServer(message);
+	}
 
 }

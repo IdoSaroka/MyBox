@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 import controllers.FileOwnerController;
+import controllers.UserController;
 import entities.FileToView;
 
 import java.awt.event.MouseAdapter;
@@ -28,6 +29,8 @@ import java.awt.event.MouseEvent;
 
 public class UserPage extends MyBoxGUI
 {
+	
+	UserController temp= new UserController();
 
     public UserPage() 
     {
@@ -173,7 +176,7 @@ public class UserPage extends MyBoxGUI
     		{
 
     			try {
-					MyBoxGUI.getClient().sendToServer("Messages");
+					temp.getMSG();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -187,14 +190,15 @@ public class UserPage extends MyBoxGUI
     					temp.add((Messages)msg.get(i));
         				ListModel.addElement(temp.get(i).toString());
         			}
+    				lblNewMSG.setVisible(false);
+        			userpage.setVisible(false);
+        			messages.setVisible(true);
     			}
     			else{
     				JOptionPane.showMessageDialog(frmMyBox,"No new messages","Message",JOptionPane.INFORMATION_MESSAGE);
     			}
 
-    			lblNewMSG.setVisible(false);
-    			userpage.setVisible(false);
-    			messages.setVisible(true);
+    			
     		}
     	});
     	btnMessages.setBounds(330, 300, 99, 36);
