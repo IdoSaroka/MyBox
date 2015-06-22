@@ -509,59 +509,50 @@ public class GoiBasic implements Serializable{
      * **/
 	public static void removeUserFromGOI(User userName, GOI goiName) throws IOException{
 		PreparedStatement statement = null;
+		PreparedStatement statement2 = null;
 		ResultSet rs = null;
 		try{
 			//this statement will check that the GOI received does indeed exist
 			 statement = conn.prepareStatement("SELECT GOI_id,GOI_Name From GOI WHERE GOI_Name = ?");
 			 statement.setString(1, goiName.getName()); 
-			 rs=statement.executeQuery();
-			 
+			 rs=statement.executeQuery();	 
 			 if(!rs.isBeforeFirst()){	//this condition will return the appropriate message to the user	 
 				 returnMsg.add("Error: Goi does not exist");
 				 client.sendToClient(returnMsg);
 				 rs.close();
 				 return;
-			 }
-			 
+			 } 
 			 rs.next();
 			 int goiId = rs.getInt(1);
 			//this statement will check that the user is indeed a memeber in the mentioned GOI
-			 statement = conn.prepareStatement("SELECT * From usersingoi WHERE GOI_id = ?");
-			 statement.setInt(1, goiId);
+			 statement = conn.prepareStatement("SELECT * From usersingoi WHERE GOI_id = ? AND user_Name = ?");
+			 statement.setInt(1, goiName.getID());
+			 statement.setString(2, userName.getUserName());
 			 rs=statement.executeQuery();
-			 while(rs.next()){
-				 if(userName.equals(rs.getString(2))){
-					 statement = conn.prepareStatement("DELETE FROM usersingoi WHERE GOI_id = ? AND user_Name = ?");
-					 statement.setInt(1, goiId);
-					 statement.setString(2, userName.getUserName());
-					 statement.executeUpdate();
-					 returnMsg.add("You have been succesfulliy removed from GOI: "+ goiName);
+			 if(rs.isBeforeFirst()){
+					 statement2 = conn.prepareStatement("DELETE FROM usersingoi WHERE GOI_id = ? AND user_Name = ?");
+					 statement2.setInt(1, goiName.getID());
+					 statement2.setString(2, userName.getUserName());
+					 statement2.executeUpdate();
+					 returnMsg.add("You have been succesfulliy removed from GOI: "+ goiName.getName());
 					 client.sendToClient(returnMsg);
 					 rs.close();
 					 return;
-				 }
-				 System.out.println("Error: You are not a member of GOI: " + goiName);
-				 rs.close();
-				 return;
-			 }
+			}
+		     System.out.println("Error: You are not a member of GOI: " + goiName.getName());
+			 rs.close();
+			 return;
 			 /*
 			  * Handling of the SQLException | IOException - 1.saving the appropriate data in the Log
 			  *                                              2. Sending a message to the user informing him of the problem and how to handle it
-			  * */
-		}catch (SQLException e){
+			  **/
+		}catch (SQLException | IOException e){
 		  LogHandling.logging("Error:"+ userName +"Encountered a problem while trying to remove himself from GOI: " + goiName);
 		  LogHandling.logging(e.getMessage());
 		  returnMsg.add("MyBox Encountered an Error!");
 		  returnMsg.add("Please Contact Technical Support");
 		  client.sendToClient(returnMsg);  
-		} catch (IOException e) {
-			LogHandling.logging("Error:"+ userName +"Encountered a problem while trying to remove himself from GOI: " + goiName);
-			LogHandling.logging(e.getMessage());
-			e.printStackTrace();
-			returnMsg.add("MyBox Encountered an Error!");
-		    returnMsg.add("Please Contact Technical Support");
-		    client.sendToClient(returnMsg);
-		}
+		} 
 	}
 
     /**downloadSharedFile - will allow a user in a GOI to download a file that is shared with him
