@@ -89,7 +89,7 @@ public class CreateGOIPage extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-        			userpage.setVisible(false);
+        			creategoipage.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			

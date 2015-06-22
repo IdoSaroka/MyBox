@@ -219,10 +219,7 @@ public class UploadFilePage extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-    	        	if(user.getrole().equals("User"))
-    	        		userpage.setVisible(false);
-    	        	else if (user.getrole().equals("FileOwner"))
-    	        		fileownerpage.setVisible(false);
+    	        	uploadfilepage.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			
