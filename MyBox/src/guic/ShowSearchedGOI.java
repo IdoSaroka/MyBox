@@ -64,6 +64,8 @@ public class ShowSearchedGOI extends MyBoxGUI
     	        int reply = JOptionPane.showConfirmDialog(frmMyBox, "Are you sure?", "Delete From GOI...", JOptionPane.YES_NO_OPTION);
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
+    	        	int i = list2.getSelectedIndex();
+    	        	System.out.println(i + ": is the seleced index");
     	        	JOptionPane.showConfirmDialog(frmMyBox, "Done", "Deleted From GOI", JOptionPane.OK_OPTION);
     	        }
 			}

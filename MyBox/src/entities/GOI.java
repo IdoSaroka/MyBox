@@ -1,6 +1,7 @@
 
 package entities;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,8 +18,11 @@ import java.util.Date;
     *@author Sagi Sulimani 300338878
 */
 
-public class GOI 
-{
+public class GOI implements Serializable{
+	/**
+	 * allows GOI Object to be send via server-client communication
+	 */
+	private static final long serialVersionUID = 1L;
 	private String Name; 
 	private int ID;
 	private String Subject;
@@ -33,6 +37,8 @@ public class GOI
 	* @param String subject
 	* @param int numberOfUsers
 */
+	
+	
 	public GOI (String name, String subject, int numberOfUsers)
 	{
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm  dd-MM-yyyy");
@@ -54,7 +60,7 @@ public class GOI
  	 * @param String numberOfUsers
  	 * @param int current
 	 */
-	public GOI (int id, String name, String subject, int numberOfUsers, String creation,int current)
+	public GOI (int id, String name, String subject, String creation, int numberOfUsers,int current)
 	{
 		this.Name = name;
 		this.Subject = subject;

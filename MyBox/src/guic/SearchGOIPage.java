@@ -162,7 +162,7 @@ public class SearchGOIPage extends MyBoxGUI
 						System.out.println("Unable to send search terms in Search GOI Page");
 						e1.printStackTrace();
 					}
-	    			
+					ListModel2.clear();
 	    			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
 	    			for(int i=0;i<msg.size();i++){
 	    				ListModel2.addElement(msg.get(i));
