@@ -7,6 +7,7 @@ package database;
  *@author Sagi Sulimani 300338878
  *@author Shimon Ben Alol 201231818
 **/
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
@@ -138,15 +139,17 @@ public class GoiBasic implements Serializable{
 				   if( searchParameter.equals(rs.getString(2)) ){ /**GOI Name**/
 					  /* goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3)+
 			    			   ,rs.getString(4),rs.getInt(5),rs.getInt(6));  */
-                     returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
-			    			   " "+rs.getString(4)+" "+rs.getString(5)+ " "+rs.getString(6)); 
-					   
+					   goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
+                 //  returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
+			    	//		   " "+rs.getString(4)+" "+rs.getString(5)+ " "+rs.getString(6)); 
+					   returnMsg.add(goiToReturn);
                        rs.close();
                        client.sendToClient(returnMsg);
 				 	   break;
 				 }
 			    }
 			    rs.close();
+			    returnMsg.add(false);
 				returnMsg.add("No Such GOI in the system");
 				client.sendToClient(returnMsg);
 				break;
@@ -156,13 +159,14 @@ public class GoiBasic implements Serializable{
 			 case "Subject":
 				while(rs.next()){ 
 					if( searchParameter.equals(rs.getString(3)) ){ /**GOI Subject**/
-						 returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
-				    			   " "+rs.getString(4)+" "+rs.getString(5)+ " "+rs.getString(6)); 
+						goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
+						returnMsg.add(goiToReturn);
 						 flag = true;
 					}
 				}
 				rs.close();
 				if(!flag)
+					returnMsg.add(false);
 					returnMsg.add("There Are currentliy No Goi's with this subject in MyBox!");
 				client.sendToClient(returnMsg);
 			 break;
@@ -172,13 +176,16 @@ public class GoiBasic implements Serializable{
 			 case "All":
 				    if(!rs.isBeforeFirst()){
 				    	rs.close();
+				    	returnMsg.add(false);
 				    	returnMsg.add("There are currentliy no GOIs in the system!");
 				    	client.sendToClient(returnMsg);
 				    	break;
 				    }
 				    while(rs.next()){	   
-				    	   returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
-				    			   " "+rs.getString(4)+" "+rs.getString(5)+ " "+rs.getString(6));
+				    	  // returnMsg.add(rs.getString(1) +" "+ rs.getString(2) +" "+rs.getString(3)+
+				    			//   " "+rs.getString(4)+" "+rs.getString(5)+ " "+rs.getString(6));
+				    	  goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
+						  returnMsg.add(goiToReturn);
 				       }
 				     rs.close();
 				     client.sendToClient(returnMsg);
@@ -557,8 +564,17 @@ public class GoiBasic implements Serializable{
 		}
 	}
     //Encountered
- 	public static void downloadSharedFile(FileToView sharedFile){
- 		
+ 	public static void downloadSharedFile(User username, FileToView sharedFile){
+ 		PreparedStatement statement = null;
+		ResultSet rs = null;
+		String fullPath=sharedFile.getVirtualPath()+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix();
+		File f = new File(fullPath);
+		/*try{
+			
+		}catch(SQLException | IOException e){
+			
+		}*/
+		
  	}
  	
  	public static void editSharedFile(){

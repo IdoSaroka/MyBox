@@ -199,7 +199,7 @@ protected void serverStarted()
 	ArrayList<String> returnMsg = new ArrayList();
     Connection conn = null;
     int port = 0;
-    DbAdapter adapter = new DbAdapter();
+    //DbAdapter adapter = new DbAdapter();
     
      //setUp - create the necessary folders used by MyBox
     LogHandling.setUp(); 

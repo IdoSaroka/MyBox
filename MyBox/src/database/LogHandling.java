@@ -56,13 +56,15 @@ public class LogHandling {
 	  
 	  static public void logging(String text) throws IOException {
 		  
-		  Date date = new Date();
-		  SimpleDateFormat dateFormatH = new SimpleDateFormat("HH:mm");	 
+		  SimpleDateFormat dateFormatH = new SimpleDateFormat("HH:mm");	
+		  Date dateH = new Date();
+		  String time = dateFormatH.format(dateH);
 		  SimpleDateFormat dateFormatD = new SimpleDateFormat("dd-MM-yyyy");
-		  String time = dateFormatH.format(date);
+		  Date dateD = new Date();
+		  String date = dateFormatD.format(dateD);
 			
 		  //display the message in the server GUI
-		  guis.ConnectionPage.listModelServer.addElement(" "+dateFormatD.toString()+"         " + " "+dateFormatH.toString()+"                " +  text);
+		  guis.ConnectionPage.listModelServer.addElement(" "+date+"         " + "  "+time+"                " +  text);
 		  
 		  Logger logger = Logger.getLogger("MyLog");  
 		  logger.setLevel(Level.INFO);

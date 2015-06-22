@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import ocsf.server.ConnectionToClient;
 import entities.GOI;
+import entities.User;
 
 public class GoiAdmin implements Serializable{
 
@@ -54,7 +55,10 @@ public class GoiAdmin implements Serializable{
 			   
 			   break;
 			   
-		   
+		   case "ReturnCurrentGOIs":
+			   returnAllGoiToAdmin();
+			   break;
+			   
 		   // "RetriveCurrentRequests" - will be used to retrieve all the current users requests to join GOIs
 		   case "RetriveCurrentRequests":
 			   getRequests();
@@ -163,6 +167,38 @@ public class GoiAdmin implements Serializable{
 			}
 		}
 
+		public static void returnAllGoiToAdmin() throws IOException{
+			PreparedStatement statement = null;
+			ResultSet rs = null;
+			GOI goiToSend;
+			try{
+				statement = conn.prepareStatement("SELECT * FROM GOI");
+				rs = statement.executeQuery();
+				if(!rs.isBeforeFirst()){
+					returnMsg.add(false);
+					returnMsg.add("Error: There are currentliy no GOIs in the system");
+					client.sendToClient(returnMsg);
+					rs.close();
+				}
+				returnMsg.add(true);
+				while(rs.next()){
+					//(int id, String name, String subject, int numberOfUsers, String creation,int current)
+					goiToSend = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
+					returnMsg.add(goiToSend);
+				}
+				client.sendToClient(returnMsg);
+				rs.close();
+			}catch(SQLException | IOException e){
+				 LogHandling.logging("Error: Admin ecnounterd a problme while trying retrieve the current GOIs in the system");
+				 LogHandling.logging(e.getMessage());
+				 e.printStackTrace(); 
+				 returnMsg.add(false);
+				 returnMsg.add("MyBox Encounterd an Error!");
+				 returnMsg.add("Please Contact Technical Support");
+				 client.sendToClient(returnMsg);
+			}
+		}
+		
 		
 		public static void deleteAGOI(GOI newGOI){
 			/**should user deleteAUserFromAGOI() for the removal of all the users in the goi**/
@@ -171,8 +207,31 @@ public class GoiAdmin implements Serializable{
 	
 		}
 		
-		public static void deleteAUserFromAGOI(){
-			/**Important add a message to this user in the message database**/
+		public static void deleteAUserFromAGOI(GOI goi, String userToDelete) throws IOException{
+			PreparedStatement statement = null;
+			ResultSet rs = null;
+			try{
+				statement = conn.prepareStatement("SELECT * From Users Where userName = ?");
+				statement.setString(1,userToDelete);
+				rs = statement.executeQuery();
+				if(!rs.isBeforeFirst()){
+					 LogHandling.logging("Admin encountered an error while trying to delete the user: " + userToDelete + "from GOI: " + goi.getName());
+					 returnMsg.add(false);
+					 returnMsg.add("Error - the user: " + userToDelete + " is not a registered user in MyBox");
+					 client.sendToClient(returnMsg);
+					 rs.close();
+				}
+				
+				
+			}catch(SQLException | IOException e){
+				LogHandling.logging("Error: Admin ecnounterd a problme while trying to create GOI: "+ goi.getName());
+				LogHandling.logging(e.getMessage());
+				e.printStackTrace(); 
+				returnMsg.add("MyBox Encounterd an Error!");
+				returnMsg.add("Please Contact Technical Support");
+				client.sendToClient(returnMsg);
+			}
+			
 		}
 		
 		/**decideAboutARequest - this function will be used by the Admin in order to handle the systems users to join different Groups Of Interest
