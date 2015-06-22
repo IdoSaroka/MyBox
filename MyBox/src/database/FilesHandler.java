@@ -352,7 +352,7 @@ public class FilesHandler implements Serializable {
 		
 	}
 	
-	/*public static void changeFilePrivelge(User userName, FileOwnerViewer fileToChange,int newPrivelgeLevel) throws IOException{
+	public static void changeFilePrivelge(User userName, FileOwnerViewer fileToChange,int newPrivelgeLevel) throws IOException{
 		ArrayList<Integer> groupIdsToInform = new ArrayList<>();
 		PreparedStatement statement = null;
 		ResultSet rs = null;
@@ -367,7 +367,7 @@ public class FilesHandler implements Serializable {
 				returnMsg.add("Error: File is allready at the requested privelge level");
 				connection.sendToClient(returnMsg);
 			}
-			 
+			 //check that the user is the owner of the file - otherwise it is an unauthorized access
 			 if((Security.checkFileOwner(userName, fileToChange.getFileID(), fileToChange.getFileOwner(), conn))==false){
 				 LogHandling.logging("Illegal Access was trying by user :" + userName.getUserName());
 				    returnMsg.add(false);
@@ -376,7 +376,9 @@ public class FilesHandler implements Serializable {
 					connection.sendToClient(returnMsg);
 					rs.close();
 			 }
-			 
+			 if(fileToChange.getPrivilege() == 1){
+				 
+			 }
 			 //update the new value in the table
 			 
 			 
@@ -388,7 +390,7 @@ public class FilesHandler implements Serializable {
 			 returnMsg.add("Please Contact Technical Support");
 			 connection.sendToClient(returnMsg);
 		}
-	}*/
+	}
 	
 	
 	public static void deleteAFile(User userName,FileOwnerViewer fileToDelete) throws IOException{
