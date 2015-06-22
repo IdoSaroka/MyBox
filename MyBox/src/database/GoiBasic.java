@@ -24,6 +24,8 @@ import ocsf.server.ConnectionToClient;
 import entities.FileToView;
 import entities.GOI;
 import entities.User;
+import files.Browse;
+import files.MyFile;
 
 /**This Class contains MyBox basic functions that are responsible for
  * accessing and searching inside the "Groups Of Interests" in the system.
@@ -165,9 +167,10 @@ public class GoiBasic implements Serializable{
 					}
 				}
 				rs.close();
-				if(!flag)
+				if(!flag){
 					returnMsg.add(false);
 					returnMsg.add("There Are currentliy No Goi's with this subject in MyBox!");
+				}
 				client.sendToClient(returnMsg);
 			 break;
 			  /*
@@ -566,21 +569,102 @@ public class GoiBasic implements Serializable{
 		    client.sendToClient(returnMsg);
 		}
 	}
-    //Encountered
- 	public static void downloadSharedFile(User username, FileToView sharedFile){
- 		PreparedStatement statement = null;
-		ResultSet rs = null;
-		String fullPath=sharedFile.getVirtualPath()+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix();
-		File f = new File(fullPath);
-		/*try{
-			
-		}catch(SQLException | IOException e){
-			
-		}*/
-		
- 	}
- 	
+
+    /**downloadSharedFile - will allow a user in a GOI to download a file that is shared with him
+     * @author Ido Saroka 300830973
+     * @param goiShared - the group of interest the file is shared with
+     * @param userName - the user's user name in the MyBox system
+     * @param sharedFile - the details of the file the user wishes to download
+     * <p>
+     * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+     * @exception IOException e - the function will throw an IOException if there is a problem creating a File Object to send back to the user
+     * **/
+  public static void downloadSharedFile(GOI goiShared, User userName, FileToView sharedFile) throws IOException{
+    PreparedStatement statement = null;
+	ResultSet rs = null;
+	String fullPath=sharedFile.getVirtualPath()+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix();
+	File f = new File(fullPath);
+	
+	try{
+		//check if the user is a member in this GOI
+		if((isMemberOfGOI(goiShared,userName)==false)||(isFileSharedWithGOI(goiShared,sharedFile)== false)){
+			LogHandling.logging("User: "+userName +" encountered a problem while trying to download file: "+sharedFile.getFileName()+sharedFile.getFileSuffix());
+			LogHandling.logging("Authentication Problem");
+			returnMsg.add(false);
+			returnMsg.add("MyBox Encountered an Error!");
+		    returnMsg.add("Please Contact Technical Support");
+		    client.sendToClient(returnMsg);
+		}
+		//send the file back to the user
+		Browse newBrowse = new Browse(f, sharedFile.getFileName(),sharedFile.getFileSuffix());
+		returnMsg.add(true);
+		MyFile down = newBrowse.getFile(); 
+	    }catch(IOException e){
+		returnMsg.add(false);
+		returnMsg.add("MyBox Encountered an Error!");
+	    returnMsg.add("Please Contact Technical Support");
+	    client.sendToClient(returnMsg);
+	    }
+	}
+  
+  
  	public static void editSharedFile(){
  		/**Important add message to all relevant users(the one the file is shared with**/
+ 	}
+ 	
+    /**isMemberOfGOI - will check if the user is a member of a specific GOI
+     * @author Ido Saroka 300830973
+     * @param goiShared - the name of the group of interest 
+     * @param userName - the user's user name in MyBox
+     * <p>
+     * @throws SQLException - the function will throw an SQLException in case there is a problem searching the database 
+     * @return boolean - the function will return true or false depending on the result
+     * **/
+	private static boolean isMemberOfGOI(GOI goiShared, User userName) throws IOException{
+ 		PreparedStatement statement = null;
+ 		ResultSet rs = null;
+ 		try{
+ 		    statement = conn.prepareStatement("SELECT * From UsersInGOI WHERE GOI_id = ? AND user_Name = ?");
+		    statement.setInt(1, goiShared.getID());
+		    statement.setString(2,userName.getUserName());
+		     rs = statement.executeQuery();
+		 if(!rs.isBeforeFirst()){
+			rs.close();
+		 	return false;
+		 }
+		 return true;
+ 		}	
+ 		catch(SQLException e){
+ 			LogHandling.logging("Error:"+ userName.getUserName() +"Encountered a problem Performing security checks");
+ 			return false;
+ 		}
+ 	}
+	
+	   /**isFileSharedWithGOI - will check if a specific file is shared with a group of interest
+     * @author Ido Saroka 300830973
+     * @param goiShared - the name of the group of interest 
+     * @param sharedFile - the details of the requested file
+     * <p>
+     * @throws SQLException - the function will throw an SQLException in case there is a problem searching the database 
+     * @return boolean - the function will return true or false depending on the result
+     * **/
+	private static boolean isFileSharedWithGOI(GOI goiShared,FileToView sharedFile) throws IOException{
+		PreparedStatement statement = null;
+ 		ResultSet rs = null;
+ 		try{
+ 			statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE GOI_id = ? AND user_Name = ?");
+ 			statement.setInt(1, goiShared.getID());
+ 			statement.setInt(2, sharedFile.getFileID());
+ 			rs = statement.executeQuery();
+ 			if(!rs.isBeforeFirst()){
+ 				LogHandling.logging("File: "+ sharedFile.getFileName()+sharedFile.getFileSuffix()+" is not shared with group: " + goiShared.getName());
+ 				rs.close();
+ 				return false;
+ 			}
+ 			return true;
+ 		}catch(SQLException e){
+ 			LogHandling.logging("Error: My Box Encountered a problem Performing security checks for file: "+ sharedFile.getFileName()+sharedFile.getFileSuffix());
+ 			return false;
+ 		}
  	}
 }

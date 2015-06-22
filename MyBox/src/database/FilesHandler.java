@@ -321,8 +321,9 @@ public class FilesHandler implements Serializable {
 		}
 
 		Browse newBrowse = new Browse(f, file.getFileName(),file.getFileSuffix());
-		MyFile down = newBrowse.getFile();
 		returnMsg.add(true);
+		MyFile down = newBrowse.getFile();
+	
 		returnMsg.add(down);
 		connection.sendToClient(returnMsg);
 		

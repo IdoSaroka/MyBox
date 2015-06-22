@@ -314,7 +314,7 @@ protected void serverStarted()
 	        		    Object detailsToSend = new User(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
 	        		    
 		
-	        		    LogHandling.logging("User: " + login +" logged in");
+	        		    LogHandling.logging("User: " + login.getUserName() +" logged in");
 	        	    	returnMsg.add(detailsToSend);
 	        	    	returnMsg.add(userHasMessages(rs.getString(1),conn));
 	        		    
@@ -349,7 +349,7 @@ protected void serverStarted()
 	    */
 	    catch (SQLException | IOException e)
 	    {
-	      LogHandling.logging("User: " + login +" could not log in due to a system failure");
+	      LogHandling.logging("User: " + login.getUserName() +" could not log in due to a system failure");
 	      LogHandling.logging(e.getMessage());
 	      returnMsg.add("Error Logging in");
 	      returnMsg.add("Please Contact Technical Support");
