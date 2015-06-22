@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 
 import entities.GOI;
+import entities.User;
 import main.MyBoxGUI;
 
 
@@ -98,11 +99,12 @@ public class SysAdminController extends FileOwnerController {
 	 * @param goi
 	 * @throws IOException
 	 */
-	public void removeUser(String user, String goi) throws IOException{
+	public void removeUser(User user, GOI goi) throws IOException{
 		message.clear();
-		message.add("removeUser");
-		message.add(user);
+		message.add("Admin");
+		message.add("DeleteUserFromGOI");
 		message.add(goi);
+		message.add(user);		
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 	

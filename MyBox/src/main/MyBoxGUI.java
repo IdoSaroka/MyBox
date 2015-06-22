@@ -70,9 +70,6 @@ public class MyBoxGUI extends JPanel
 	////////////////////////
 	
 	
-	
-	
-	
 	protected static String portNumber = "1245";
 	
 	protected static User user;

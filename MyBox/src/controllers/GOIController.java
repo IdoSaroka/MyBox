@@ -88,5 +88,6 @@ public class GOIController {
 		message.add(option);
 		message.add(param);
 		MyBoxGUI.getClient().sendToServer(message);
+		
 	}
 }

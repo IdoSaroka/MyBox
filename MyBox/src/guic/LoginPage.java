@@ -2,8 +2,8 @@ package guic;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.io.File;
+
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -55,6 +55,20 @@ public class LoginPage extends MyBoxGUI
     private String IPAddressVaild;
     int i = 0;
     private JLabel lblPicMBX;
+    
+    /*
+     * Default for shimon's use
+     * 
+     */
+    private String uName="Shimon_Ben_Alul";
+    private String uPass="NoPassword#$@";
+    private String uPort = "1254";
+    
+    
+    /*
+     * End of Shimon's default
+     */
+    
     public LoginPage() 
     {
         init();
@@ -191,6 +205,7 @@ public class LoginPage extends MyBoxGUI
         userNametxt = new JTextField();
         userNametxt.setFont(new Font("Franklin Gothic Book", Font.ITALIC, 18));
         userNametxt.setBounds(363, 102, 197, 20);
+        userNametxt.setText(uName);
         add(userNametxt);
         userNametxt.setColumns(10);
         
@@ -203,6 +218,7 @@ public class LoginPage extends MyBoxGUI
         Porttxt = new JTextField();
         Porttxt.setFont(new Font("Franklin Gothic Book", Font.ITALIC, 18));
         Porttxt.setBounds(363, 183, 197, 20);
+        Porttxt.setText(uPort);
         add(Porttxt);
         Porttxt.setColumns(10);
         
@@ -210,6 +226,7 @@ public class LoginPage extends MyBoxGUI
         passwordField = new JPasswordField();
         passwordField.setFont(new Font("Franklin Gothic Book", Font.ITALIC, 18));
         passwordField.setBounds(363, 142, 197, 20);
+        passwordField.setText(uPass);
         add(passwordField);
         
         

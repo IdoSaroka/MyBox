@@ -131,34 +131,30 @@ public class SearchGOIPage extends MyBoxGUI
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				
 				switch(isPressed)
 				{
 				case 0: 
 					JOptionPane.showMessageDialog(frmMyBox,"Please chose an option to search","Error Message",JOptionPane.WARNING_MESSAGE);
 					break;
 				case 1: 
-					JOptionPane.showMessageDialog(frmMyBox,"Searching for a name","Name",JOptionPane.INFORMATION_MESSAGE);
+				//	JOptionPane.showMessageDialog(frmMyBox,"Searching for a name","Name",JOptionPane.INFORMATION_MESSAGE);
 					option="Name";
 					param=txtSearchName.getText();
 					break;
 				case 2: 
-					JOptionPane.showMessageDialog(frmMyBox,"Searching for a subject","subject",JOptionPane.INFORMATION_MESSAGE);
+				//	JOptionPane.showMessageDialog(frmMyBox,"Searching for a subject","subject",JOptionPane.INFORMATION_MESSAGE);
 					option="Subject";
 					param=txtSerachSubject.getText();
 					break;
 				case 3: 
-					JOptionPane.showMessageDialog(frmMyBox,"Seraching in all GOI","Entire GOI",JOptionPane.INFORMATION_MESSAGE);
+				//	JOptionPane.showMessageDialog(frmMyBox,"Seraching in all GOI","Entire GOI",JOptionPane.INFORMATION_MESSAGE);
 					option="All";
 					param=null;
 					break;
 			
 				}
-				if(isPressed!=0)
-				{
-					/*
-					 * For Client Server Only!!
- 
-					 
+				if(isPressed!=0){
 					GOIController send = new GOIController();
 					try {
 						send.searchGOI(param, option);
@@ -166,13 +162,11 @@ public class SearchGOIPage extends MyBoxGUI
 						System.out.println("Unable to send search terms in Search GOI Page");
 						e1.printStackTrace();
 					}
-					//if there is no new msgs, you will get "No new messages"
 	    			
 	    			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
 	    			for(int i=0;i<msg.size();i++){
-	    				ListModel2.addElement((String)msg.get(i));
+	    				ListModel2.addElement(msg.get(i));
 	    			}
-	    			*/
 					searchgoipage.setVisible(false);
 					showsearchgoi.setVisible(true);
 				}
@@ -192,13 +186,14 @@ public class SearchGOIPage extends MyBoxGUI
 		add(btnHelp);
 		
 		btnSignOut = new JButton("Sign-Out");
-		btnSignOut.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				JOptionPane.showMessageDialog(frmMyBox,"ByeBye","signout",JOptionPane.INFORMATION_MESSAGE);
-				searchgoipage.setVisible(false);
-				loginpage.setVisible(true);
+		btnSignOut.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				int reply = JOptionPane.showConfirmDialog(frmMyBox, "Are you sure?", "Signing out...", JOptionPane.YES_NO_OPTION);
+    	        if(reply == JOptionPane.YES_OPTION){
+    	        	byeBye();
+    	        	searchgoipage.setVisible(false);
+        			loginpage.setVisible(true);
+    	        }
 			}
 		});
 		btnSignOut.setBounds(595, 381, 99, 36);
