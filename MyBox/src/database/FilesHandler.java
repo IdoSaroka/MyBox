@@ -29,6 +29,7 @@ import java.util.Scanner;
 
 import entities.FileToView;
 import entities.FileOwnerViewer;
+import entities.GOI;
 import entities.User;
 import files.Browse;
 import files.MyFile;
@@ -70,8 +71,11 @@ public class FilesHandler implements Serializable {
 			 returnUseFile((User)msg.get(2));
 			 break;
 			 
-		 case "ChangeFilePermission":
+		 case "AddSharedFileToGOI":
+			 break;
 			 
+		 case "ChangeFilePermission":
+			 changeFilePrivelge((User)msg.get(2), (FileOwnerViewer)msg.get(3),(int)msg.get(4));
 			 break;
 	     
 		 case "DeleteAFile":
@@ -86,10 +90,14 @@ public class FilesHandler implements Serializable {
 		 }
 	}
 
-	public static void serachUserFile(){
+	public static void serachUserFile(User userName, MyFile file, GOI goi){
 		
 	}
 	
+	
+	public static void addSharedFileToGOI(){
+		
+	}
 	   /**returnUseFile - this function will return the user all the files he currently has 
 	    * @author Ido Saroka 300830973
 		* @param userName - a User Object used to determine the user is actually the file owner
@@ -356,6 +364,10 @@ public class FilesHandler implements Serializable {
 		ArrayList<Integer> groupIdsToInform = new ArrayList<>();
 		PreparedStatement statement = null;
 		ResultSet rs = null;
+		HashSet<String> usersToInform = new HashSet<String>();
+		DateFormat dateFormat;
+		Date date = new Date();
+		String time;
 		try{
 			 statement= conn.prepareStatement("SELECT FROM Files Where file_id = ?");
 			 statement.setInt(1, fileToChange.getFileID());
@@ -376,14 +388,95 @@ public class FilesHandler implements Serializable {
 					connection.sendToClient(returnMsg);
 					rs.close();
 			 }
-			 if(fileToChange.getPrivilege() == 1){
-				 
+			 statement = conn.prepareStatement("UPDATE Files SET privilege_level =? WHERE file_id=?");
+			 statement.setInt(1, newPrivelgeLevel);
+			 statement.setInt(2, fileToChange.getFileID());
+			 if(fileToChange.getPrivilege() == 1){			 
+				 //Add the file to FilesInGOI as available to read by all users
+				 if(newPrivelgeLevel == 3){
+					 statement = conn.prepareStatement("INSERT INTO FilesInGOI (GOI_id,file_id,file_Name,suffix,file_Owner,virtual_path,description,canEdit) VALUES (?,?,?,?,?,?,?,?)");
+					 statement.setInt(1, 0);
+					 statement.setInt(2, fileToChange.getFileID());
+					 statement.setString(3, fileToChange.getFileName());
+					 statement.setString(4, fileToChange.getFileSuffix());
+					 statement.setString(5, fileToChange.getFileOwner());
+					 statement.setString(6, fileToChange.getVirtualPath());
+					 statement.setString(7, fileToChange.getFileDescription());
+					 statement.setInt(8, 0);
+					 statement.executeUpdate(); 
+				 }
 			 }
-			 //update the new value in the table
-			 
-			 
-		}catch(SQLException | IOException e){
-			 LogHandling.logging("Error: "+ userName +" Encountered a problem while trying to change the file: " + fileToChange.getFileName() + fileToChange.getFileSuffix()+" Privelge level");
+			 if(fileToChange.getPrivilege() == 2){
+				 if(newPrivelgeLevel == 3){
+					 statement = conn.prepareStatement("INSERT INTO FilesInGOI (GOI_id,file_id,file_Name,suffix,file_Owner,virtual_path,description,canEdit) VALUES (?,?,?,?,?,?,?,?)");
+					 statement.setInt(1, 0);
+					 statement.setInt(2, fileToChange.getFileID());
+					 statement.setString(3, fileToChange.getFileName());
+					 statement.setString(4, fileToChange.getFileSuffix());
+					 statement.setString(5, fileToChange.getFileOwner());
+					 statement.setString(6, fileToChange.getVirtualPath());
+					 statement.setString(7, fileToChange.getFileDescription());
+					 statement.setInt(8, 0);
+					 statement.executeUpdate(); 
+				 }
+				 if(newPrivelgeLevel == 1){
+					//find all the users that the file is associated with 
+					 //Note that in case the file is shared with the same user from two different groups he will only be notified once 
+					 for (int var : groupIdsToInform){
+						  statement = conn.prepareStatement("SELECT * From UsersInGOI Where GOI_id = ?");
+						  statement.setInt(1, var); 
+						  rs = statement.executeQuery();  
+						  //add all the users (Only unique names will added - in order to avoid duplicate messages to the same user)
+						  while(rs.next()){
+							  usersToInform.add(rs.getString(2));
+						  }	  
+					 }
+					 //Receives the current date in order to save inside the message
+					 dateFormat = new SimpleDateFormat("HH:mm  dd-MM-yyyy");	 
+					 time=dateFormat.format(date);
+					 //Insert the message about deletion to all relevant users
+					 for (String user : usersToInform) {
+						 statement = conn.prepareStatement("INSERT INTO UserMessages (message_Date,userName,description) VALUES (?,?,?)");	
+						 statement.setString(1, time);
+						 statement.setString(2, user);
+						 statement.setString(3, "File: "+ fileToChange.getFileName() +" Is now a private File , Access is now limitd to it:\n "
+							 		+ "Please Delete the file from you virtual MyBox Workspace");
+						 statement.executeQuery();
+						}
+						//Delete the file listing from FilesInGOI (File will only appear once if he is shared will all the Groups in the system
+						statement = conn.prepareStatement("DELETE FROM FilesInGOI Where file_id = ?");
+						statement.setInt(1, fileToChange.getFileID());
+						statement.executeQuery();
+					    //End of if statement (Privilege level == 3)
+			     	 }
+				 }//end of handling for old privilege level = 2
+			 if(fileToChange.getPrivilege() == 3){
+				 if(newPrivelgeLevel == 1){
+					 statement = conn.prepareStatement("SELECT * From Users");
+						statement.executeQuery();
+						//save all the users in MyBox
+						while(rs.next()){
+							  usersToInform.add(rs.getString(1));
+						  }	
+					   //Receives the current date in order to save inside the message
+					    dateFormat = new SimpleDateFormat("HH:mm  dd-MM-yyyy");	 
+						time=dateFormat.format(date);
+						//Insert the message about deletion to all relevant users
+						for (String user : usersToInform) {
+							 statement = conn.prepareStatement("INSERT INTO UserMessages (message_Date,userName,description) VALUES (?,?,?)");	
+							 statement.setString(1, time);
+							 statement.setString(2, user);
+							 statement.setString(3, "File: "+ fileToChange.getFileName()+ fileToChange.getFileSuffix()+" Is now a private File , Access is now limitd to it:\n "
+								 		+ "Please Delete the file from you virtual MyBox Workspace");
+						}
+						//Delete the file listing from FilesInGOI (File will only appear once if he is shared will all the Groups in the system
+						statement = conn.prepareStatement("DELETE FROM FilesInGOI Where GOI_id = 0 AND file_id = ?");
+						statement.setInt(1, fileToChange.getFileID());
+						statement.executeQuery();
+					}//End of if statement (Privilege level == 3) 
+		     }
+			 } catch(SQLException | IOException e){
+			 LogHandling.logging("Error: "+ userName.getUserName() +" Encountered a problem while trying to change the file: " + fileToChange.getFileName() + fileToChange.getFileSuffix()+" Privelge level");
 			 LogHandling.logging(e.getMessage());
 			 e.printStackTrace(); 
 			 returnMsg.add("MyBox Encountered an Error!");

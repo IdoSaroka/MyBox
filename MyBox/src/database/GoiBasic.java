@@ -69,7 +69,7 @@ public class GoiBasic implements Serializable{
 	               //"Search" - Should the user chooses perform a search in the GOI database
 	   
 	              case "Search":
-	            	  searchAGOI((String)msg.get(2),(String)msg.get(3),(String)msg.get(4));
+	            	  searchAGOI((User)msg.get(2),(String)msg.get(3),(String)msg.get(4));
 	              break;
 		          
 	       
@@ -81,13 +81,16 @@ public class GoiBasic implements Serializable{
 	          
 	               //MakeARequestToJoin - Handles the case where the user wishes to make a request to join a GOI
 	              case "MakeARequestToJoin": 
-	            	  makeARequest((String)msg.get(2),(String)msg.get(3),(String)msg.get(4));
+	            	  makeARequest((User)msg.get(2),(GOI)msg.get(3),(String)msg.get(4));
 			      break; 
 	              
-			
+	              case "ReturnUserGois":
+	            	  returnUserGois((User)msg.get(2));
+	            	  break;
+	            	  
 	               //DownloadSharedFile - Handles the case where the user wishes to download a shared file
 	              case "DownloadSharedFile":
-	           	      //downloadSharedFile();
+	            	  downloadSharedFile((User)msg.get(2) , (GOI)msg.get(3),  (FileToView)msg.get(4));
 	              break;
 	              
 	              
@@ -119,7 +122,7 @@ public class GoiBasic implements Serializable{
     * @exception SQLException e 
     * @exception IOException e  
     * **/   
-     public static void searchAGOI(String userName, String option,String searchParameter) throws IOException{
+     public static void searchAGOI(User userName, String option,String searchParameter) throws IOException{
     	PreparedStatement stmt = null;
 		GOI goiToReturn;
 		boolean flag = false;
@@ -190,7 +193,7 @@ public class GoiBasic implements Serializable{
 			 break;	 
 			  //Default case - handles all the invalid selections should they occur
 			 default:
-				 LogHandling.logging("Error: "+ userName +" User selected an invalid search option");
+				 LogHandling.logging("Error: "+ userName.getUserName() +" User selected an invalid search option");
 				 returnMsg.add(false);
 				 returnMsg.add("Error: Invalid Selection");
 				 client.sendToClient(returnMsg);
@@ -203,9 +206,8 @@ public class GoiBasic implements Serializable{
 		 *                                2. Sending a message to the user informing him of the problem and how to handle it
 		 * */
 		 catch (SQLException e) {
-			 LogHandling.logging("Error:"+userName +"Encountered a problem while searching in the GOI Database");
+			 LogHandling.logging("Error:"+userName.getUserName() +"Encountered a problem while searching in the GOI Database");
 			 LogHandling.logging("Serach Parmeter: " + option +"Serach Index: " + searchParameter);
-			 LogHandling.logging(e.getMessage());
 			 e.printStackTrace(); 
 			 returnMsg.add("MyBox Encountered an Error!");
 		     returnMsg.add("Please Contact Technical Support");
@@ -225,7 +227,7 @@ public class GoiBasic implements Serializable{
       * @exception SQLException e 
       * @exception IOException e  
       * **/  
-     public static void makeARequest(String userName,String goiName,String description) throws IOException{
+     public static void makeARequest(User userName,GOI goiName,String description) throws IOException{
     			PreparedStatement statement = null;
     			ResultSet rs = null;
     			try {
@@ -234,7 +236,7 @@ public class GoiBasic implements Serializable{
     				 * not an appropriate message will be sent to the user
     				 * */
     				 statement = conn.prepareStatement("SELECT GOI_id,GOI_Name From GOI WHERE GOI_Name = ?");
-    				 statement.setString(1, goiName); 
+    				 statement.setString(1, goiName.getName()); 
     				 rs=statement.executeQuery();
     				 if(!rs.isBeforeFirst()){
     					 rs.close();
@@ -251,7 +253,7 @@ public class GoiBasic implements Serializable{
      				 * */		 
     				 statement = conn.prepareStatement("SELECT * From usersingoi WHERE GOI_id = ? AND user_Name = ?");
     				 statement.setInt(1, goiId);
-    				 statement.setString(2, userName);
+    				 statement.setString(2, userName.getUserName());
     				 rs=statement.executeQuery();
     				 if(rs.isBeforeFirst()){
     					 rs.close();
@@ -265,8 +267,8 @@ public class GoiBasic implements Serializable{
       				 * If the user has already sent a request the system will send him a message stating so.
       				 * */	
     				 statement = conn.prepareStatement("SELECT * From request WHERE userName = ? AND GOI_Name = ?");
-    				 statement.setString(1, userName); 
-    				 statement.setString(2, goiName);
+    				 statement.setString(1, userName.getUserName()); 
+    				 statement.setString(2, goiName.getName());
     				 rs=statement.executeQuery();
     				 if(rs.isBeforeFirst()){
     					 rs.close();
@@ -281,8 +283,8 @@ public class GoiBasic implements Serializable{
        				 * if all the previous checks were passed successfully.
        				 * */	
     				 statement = conn.prepareStatement("INSERT INTO Request (userName,GOI_Name,description) VALUES (?,?,?)");
-    				 statement.setString(1, userName);
-    			     statement.setString(2, goiName);	
+    				 statement.setString(1, userName.getUserName());
+    			     statement.setString(2, goiName.getName());	
     			     statement.setString(3, description);
     			     statement.executeUpdate();
     			     returnMsg.add("Request was sent successfully");
@@ -312,9 +314,8 @@ public class GoiBasic implements Serializable{
       * @param searchParameter - the parameter by which to perform the search
       * <p>
       * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
-      * @exception SQLException e 
-      * @exception IOException e 
-      * @return 
+      * @exception SQLException e - the function will throw an SQLException in case there will be a problem searching the database
+      * @exception IOException e - the function will throw an IOException in case there is a problem sending the data back to the user
       * **/  
  	public static void searchSharedFiles(User userName,String option, String searchParameter) throws IOException{
  		FileToView newFileToView = null;
@@ -526,7 +527,7 @@ public class GoiBasic implements Serializable{
      * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
      * @exception IOException e - the function will throw an IOException if there is a problem creating a File Object to send back to the user
      * **/
-  public static void downloadSharedFile(GOI goiShared, User userName, FileToView sharedFile) throws IOException{
+  public static void downloadSharedFile( User userName,GOI goiShared, FileToView sharedFile) throws IOException{
 	
 	String fullPath=sharedFile.getVirtualPath()+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix();
 	File f = new File(fullPath);
