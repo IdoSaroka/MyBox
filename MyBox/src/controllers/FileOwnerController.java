@@ -40,11 +40,15 @@ public class FileOwnerController extends UserController {
 	 * @param filePath String to represent file path
 	 * @throws IOException
 	 */
-	public void deleteFile(String filePath) throws IOException{
+	public void deleteFile(FileOwnerViewer fileToDelete) throws IOException{
 		message.clear();
-		message.add("deleteFile");
-		message.add(filePath);
+		message.add("File");
+		message.add("DeleteAFile");
+		message.add(MyBoxGUI.getUser());
+		message.add(fileToDelete);
 		MyBoxGUI.getClient().sendToServer(message);
+		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+		System.out.println((String)msg.get(0));
 	}
 	
 	/**

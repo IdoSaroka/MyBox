@@ -190,6 +190,7 @@ public class UserController {
 		message.clear();
 		message.add("GoiBasic");
 		message.add("DownloadSharedFile");
+		message.add(MyBoxGUI.getUser());
 		message.add(fileSend);
 		MyBoxGUI.getClient().sendToServer(message);
 		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
