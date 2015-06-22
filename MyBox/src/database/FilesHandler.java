@@ -160,11 +160,8 @@ public class FilesHandler implements Serializable {
 		User temp=null;
 		String path = "C:\\MyBox\\Files\\"+userName.getUserName();
 		try{
-		/*Check that the path the user inputed exists and it is a folder (User can not save a file on another file..)*/
-	 
-		if(!(userName.getUserName()).equals(file.getOwner())){
-			
-		}
+		//Check that the path the user inputed exists and it is a folder (User can not save a file on another file..)
+
 		File f = new File(path+"\\"+file.getName()+"."+file.getSuffix());
 		if( f.isDirectory() ){
 			 LogHandling.logging("Error - User: "+ file.getOwner() +" Ecnounterd a problem saving file: "+file.getName()+"."+file.getSuffix()+" to path: "+path);
@@ -202,7 +199,6 @@ public class FilesHandler implements Serializable {
 			 rs.close();
 			 return;
 		 }
-		 
 		
 		 Save save=new Save(file,path+"\\");
 	
@@ -319,7 +315,15 @@ public class FilesHandler implements Serializable {
 			rs.close();
 			return;
 		}
-
+		//check that it is a file owner trying to access the file
+		if((Security.checkFileOwner(userName,file.getFileID(),file.getFileOwner() ,conn)) == false){
+			LogHandling.logging("Illegal Access was trying by user :" + userName.getUserName());
+			returnMsg.add(false);
+			returnMsg.add("MyBox Encountered an Error!");
+			returnMsg.add("Please Contact Technical Support");
+			connection.sendToClient(returnMsg);
+			rs.close();
+		}
 		Browse newBrowse = new Browse(f, file.getFileName(),file.getFileSuffix());
 		returnMsg.add(true);
 		MyFile down = newBrowse.getFile();
@@ -339,10 +343,12 @@ public class FilesHandler implements Serializable {
 		
 	}
 	
-	public static void changeFilePrivelge(User userName, FileOwnerViewer fileToChange,int newPrivelgeLevel) throws IOException{
+/*	public static void changeFilePrivelge(User userName, FileOwnerViewer fileToChange,int newPrivelgeLevel) throws IOException{
 		ArrayList<Integer> groupIdsToInform = new ArrayList<>();
 		PreparedStatement statement = null;
+		ResultSet rs = null;
 		try{
+			statement = conn.prepareStatement("SELECT FROM ");
 			if(fileToChange.getPrivilege() == newPrivelgeLevel){
 			    LogHandling.logging("Error - User: "+ fileToChange.getFileOwner()+"Ecnounterd a problem Changing the file: "+fileToChange.getFileName()+fileToChange.getFileSuffix()+ " Privelge level");
 			    LogHandling.logging("Reason: Privelge level is the current file privelge level");
@@ -350,8 +356,16 @@ public class FilesHandler implements Serializable {
 				returnMsg.add("Error: File is allready at the requested privelge level");
 				connection.sendToClient(returnMsg);
 			}
-			 statement= conn.prepareStatement("");
-			//fileToChange.
+			 statement= conn.prepareStatement("SELECT FROM Files Where file_id = ?");
+			 if((Security.checkFileOwner(userName, fileToChange.getFileID(), fileToChange.getFileOwner(), conn))==false){
+				 LogHandling.logging("Illegal Access was trying by user :" + userName.getUserName());
+				    returnMsg.add(false);
+					returnMsg.add("MyBox Encountered an Error!");
+					returnMsg.add("Please Contact Technical Support");
+					connection.sendToClient(returnMsg);
+					rs.close();
+			 }
+			
 			
 		}catch(SQLException | IOException e){
 			 LogHandling.logging("Error: "+ userName +" Encountered a problem while trying to change the file: " + fileToChange.getFileName() + fileToChange.getFileSuffix()+" Privelge level");
@@ -361,7 +375,7 @@ public class FilesHandler implements Serializable {
 			 returnMsg.add("Please Contact Technical Support");
 			 connection.sendToClient(returnMsg);
 		}
-	}
+	}*/
 	
 	
 	public static void deleteAFile(User userName,FileOwnerViewer fileToDelete) throws IOException{

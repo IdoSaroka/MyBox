@@ -92,13 +92,13 @@ public class EchoServer extends AbstractServer implements Serializable
     	break;
     case "RetreiveMessages":
     	//String userName, Connection conn,ConnectionToClient client)
-    	returnUserMessages((String)message.get(2),conn,client);
+    	returnUserMessages((String)message.get(1),conn,client);
     	break;
     	
     	  //GOIBasic - is responsible for handling all of the GOI "Basic" functions (i.e. those that are available to all of MyBox users )
     case "GOIBasic":
     	GoiBasic handler = new GoiBasic(msg,client,conn); 
-    	try { handler.options(); } 
+    	try { GoiBasic.options(); } 
     	catch (IOException e1) {
     		LogHandling.logging(e1.getMessage());
 			e1.printStackTrace();
@@ -106,14 +106,13 @@ public class EchoServer extends AbstractServer implements Serializable
 		}
         break;
         
-
     //Admin - will contain all of MyBox Administrative functions - accessible only for the systems Admin	
     case "Admin":
     	 //This condition is a security check in case a user which is not a admin tries to access the system   	 
     	if(("SystemAdmin").equals((String)message.get(1))){
     		LogHandling.logging("Admin: " + (String)message.get(3) + " is logged in the system");
     		GoiAdmin AdminHandler = new GoiAdmin(msg,client,conn); 
-    		try { AdminHandler.options(); } 
+    		try { GoiAdmin.options(); } 
         	catch (IOException e1) {
         		LogHandling.logging(e1.getMessage());
     			e1.printStackTrace();
@@ -129,7 +128,7 @@ public class EchoServer extends AbstractServer implements Serializable
         
     	
         
-         //File - used when a file owner chooses to access his files 
+     //File - used when a file owner chooses to access and change his files 
     case "File":
     	FilesHandler fileHandler = new FilesHandler(msg,client,conn); 
     	FilesHandler.options();
