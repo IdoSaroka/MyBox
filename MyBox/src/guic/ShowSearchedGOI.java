@@ -25,33 +25,13 @@ public class ShowSearchedGOI extends MyBoxGUI
 	static ArrayList<GOI> gois;
 	UserController temp=new UserController();
 	static GOI goiToJoin;
+	private JButton btnBack;
+	private JButton btnHelp;
+	private JButton btnsignout;
 	
 	public ShowSearchedGOI()
 	{
 		setLayout(null);
-		
-		JButton btnBack = new JButton("Back");
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				showsearchgoi.setVisible(false);
-				searchgoipage.setVisible(true);
-			}
-		});
-		btnBack.setBounds(10, 21, 89, 23);
-		add(btnBack);
-		
-		JButton btnHelp = new JButton("Help");
-		btnHelp.setBounds(81, 381, 99, 36);
-		add(btnHelp);
-		
-		JButton btnSignout = new JButton("Sign-out");
-		btnSignout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnSignout.setBounds(595, 381, 99, 36);
-		add(btnSignout);
 		
 		JButton btnJoinGoi = new JButton(" Join");
 		btnJoinGoi.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
@@ -103,11 +83,51 @@ public class ShowSearchedGOI extends MyBoxGUI
 		
 		list2 = new JList(ListModel2);
 		scrollPane.setViewportView(list2);
-		
-		/////////////
 		Label lblNameGOI = new Label("Name Of GOI");
 		lblNameGOI.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 14));
 		scrollPane.setColumnHeaderView(lblNameGOI);
+		
+		
+		
+    	btnHelp = new JButton("Help");
+    	btnHelp.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    		}
+    	});
+    	btnHelp.setBounds(81, 381, 99, 36);
+    	add(btnHelp);
+
+    	btnsignout = new JButton("Sign-Out");
+    	btnsignout.addActionListener(new ActionListener()
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{	
+    	        int reply = JOptionPane.showConfirmDialog(frmMyBox, "Are you sure?", "Signing out...", JOptionPane.YES_NO_OPTION);
+    	        if (reply == JOptionPane.YES_OPTION) 
+    	        {
+    	        	byeBye();
+        			userpage.setVisible(false);
+        			loginpage.setVisible(true);
+    	        }
+    			
+    		}
+    	});
+    	btnsignout.setBounds(595, 381, 99, 36);
+    	add(btnsignout);
+    	
+    	btnBack = new JButton("Back");
+    	btnBack.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			uploadfilepage.setVisible(false);
+    			userpage.setVisible(true);
+    			
+    		}
+    	});
+    	btnBack.setBounds(3, 2, 68, 23);
+    	add(btnBack);
 		
     	JLabel lblBackGround = new JLabel("");
     	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));

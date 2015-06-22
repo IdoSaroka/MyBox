@@ -24,21 +24,12 @@ public class JoinGOIPage extends MyBoxGUI
 	private JTextField textField;
 	UserController temp=new UserController();
 	GOI goi=ShowSearchedGOI.getGoiToJoin();
-	
+	private JButton btnBack;
+	private JButton btnHelp;
+	private JButton btnsignout;
 	public JoinGOIPage()
 	{
 		setLayout(null);
-		
-		JButton btnBack = new JButton("Back");
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				joingoipage.setVisible(false);
-				showsearchgoi.setVisible(true);
-			}
-		});
-		btnBack.setBounds(10, 11, 89, 23);
-		add(btnBack);
 		
 		JLabel lblAskToJoin = new JLabel("   Join a Group Of Interest");
 		lblAskToJoin.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 28));
@@ -54,30 +45,6 @@ public class JoinGOIPage extends MyBoxGUI
 		textField.setBounds(279, 89, 389, 32);
 		add(textField);
 		textField.setColumns(10);
-		
-		JButton btnHelp = new JButton("Help");
-		btnHelp.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				JOptionPane.showMessageDialog(frmMyBox,"Here you send a request to the system administrator for joining a specific GOI (Group of Interest).\n"
-				+" In the blank text field you need to explain to the system administrator why you want to join to the GOI.\n"
-				+ "Please give resonable reasons to convice the system administrator that you deserved to be a part of the GOI.","Help",JOptionPane.INFORMATION_MESSAGE);
-				
-			}
-		});
-		btnHelp.setBounds(81, 381, 99, 36);
-		add(btnHelp);
-		
-		JButton btnSignout = new JButton("Sign-Out");
-		btnSignout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				//TODO add ByeBye
-			}
-		});
-		btnSignout.setBounds(595, 381, 99, 36);
-		add(btnSignout);
 		
 		JButton btnDone = new JButton("Done");
 		btnDone.addActionListener(new ActionListener() {
@@ -96,6 +63,46 @@ public class JoinGOIPage extends MyBoxGUI
 		});
 		btnDone.setBounds(579, 132, 89, 32);
 		add(btnDone);
+		
+	   	btnHelp = new JButton("Help");
+    	btnHelp.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    		}
+    	});
+    	btnHelp.setBounds(81, 381, 99, 36);
+    	add(btnHelp);
+
+    	btnsignout = new JButton("Sign-Out");
+    	btnsignout.addActionListener(new ActionListener()
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{	
+    	        int reply = JOptionPane.showConfirmDialog(frmMyBox, "Are you sure?", "Signing out...", JOptionPane.YES_NO_OPTION);
+    	        if (reply == JOptionPane.YES_OPTION) 
+    	        {
+    	        	byeBye();
+        			userpage.setVisible(false);
+        			loginpage.setVisible(true);
+    	        }
+    			
+    		}
+    	});
+    	btnsignout.setBounds(595, 381, 99, 36);
+    	add(btnsignout);
+    	
+    	btnBack = new JButton("Back");
+    	btnBack.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			uploadfilepage.setVisible(false);
+    			userpage.setVisible(true);
+    			
+    		}
+    	});
+    	btnBack.setBounds(3, 2, 68, 23);
+    	add(btnBack);
 		
     	JLabel lblBackGround = new JLabel("");
     	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));

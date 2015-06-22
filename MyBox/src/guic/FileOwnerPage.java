@@ -16,38 +16,13 @@ import javax.swing.JButton;
 
 public class FileOwnerPage extends MyBoxGUI
 {
-
+	private JButton btnBack;
+	private JButton btnHelp;
+	private JButton btnsignout;
 
     public FileOwnerPage() 
     {
     	setLayout(null);
-    	
-    	JButton btnsignout = new JButton("Sign-Out");
-    	btnsignout.addActionListener(new ActionListener()
-    	{
-    		public void actionPerformed(ActionEvent e) 
-    		{
-    	        int reply = JOptionPane.showConfirmDialog(null, "Are you sure?", "Signing out...", JOptionPane.YES_NO_OPTION);
-    	        if (reply == JOptionPane.YES_OPTION) 
-    	        {
-    	        	//byeBye();
-    	        	fileownerpage.setVisible(false);
-        			loginpage.setVisible(true);
-    	        }
-    			
-    		}
-    	});
-    	btnsignout.setBounds(595, 381, 99, 36);
-    	add(btnsignout);
-    	JButton btnHelp = new JButton("Help");
-    	btnHelp.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) 
-    		{
-    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
-    		}
-    	});
-    	btnHelp.setBounds(81, 381, 99, 36);
-    	add(btnHelp);
     	
     	JButton btnSearchgoi = new JButton("Search a GOI");
     	btnSearchgoi.addActionListener(new ActionListener()
@@ -166,6 +141,46 @@ public class FileOwnerPage extends MyBoxGUI
     	add(lblNewMSG);
     	lblNewMSG.setVisible(false);
     	*/
+    	
+       	btnHelp = new JButton("Help");
+    	btnHelp.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    		}
+    	});
+    	btnHelp.setBounds(81, 381, 99, 36);
+    	add(btnHelp);
+
+    	btnsignout = new JButton("Sign-Out");
+    	btnsignout.addActionListener(new ActionListener()
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{	
+    	        int reply = JOptionPane.showConfirmDialog(frmMyBox, "Are you sure?", "Signing out...", JOptionPane.YES_NO_OPTION);
+    	        if (reply == JOptionPane.YES_OPTION) 
+    	        {
+    	        	byeBye();
+        			userpage.setVisible(false);
+        			loginpage.setVisible(true);
+    	        }
+    			
+    		}
+    	});
+    	btnsignout.setBounds(595, 381, 99, 36);
+    	add(btnsignout);
+    	
+    	btnBack = new JButton("Back");
+    	btnBack.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			uploadfilepage.setVisible(false);
+    			userpage.setVisible(true);
+    			
+    		}
+    	});
+    	btnBack.setBounds(3, 2, 68, 23);
+    	add(btnBack);
     	
     	JLabel lblBackGround = new JLabel("");
     	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));

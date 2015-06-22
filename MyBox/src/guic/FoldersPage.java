@@ -30,6 +30,10 @@ public class FoldersPage extends MyBoxGUI
 	int i = 1;
 	private JTextField TxtAddFld;
 	private JTextField txtFilename;
+	
+	private JButton btnBack;
+	private JButton btnHelp;
+	private JButton btnsignout;
 	public FoldersPage() 
 	{
 		setLayout(null);
@@ -74,7 +78,7 @@ public class FoldersPage extends MyBoxGUI
         		
         	}
         });
-        btnAdd.setBounds(60, 24, 107, 23);
+        btnAdd.setBounds(60, 60, 107, 23);
         add(btnAdd);
         
         JButton btnRemove = new JButton("Delete");
@@ -141,7 +145,7 @@ public class FoldersPage extends MyBoxGUI
         add(btnAddFolder);
         
         TxtAddFld = new JTextField();
-        TxtAddFld.setBounds(70, 58, 115, 23);
+        TxtAddFld.setBounds(179, 58, 115, 23);
         add(TxtAddFld);
         TxtAddFld.setColumns(10);
         
@@ -178,6 +182,46 @@ public class FoldersPage extends MyBoxGUI
         txtFilename.setBounds(478, 58, 107, 23);
         add(txtFilename);
         txtFilename.setColumns(10);
+        
+       	btnHelp = new JButton("Help");
+    	btnHelp.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    		}
+    	});
+    	btnHelp.setBounds(81, 381, 99, 36);
+    	add(btnHelp);
+
+    	btnsignout = new JButton("Sign-Out");
+    	btnsignout.addActionListener(new ActionListener()
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{	
+    	        int reply = JOptionPane.showConfirmDialog(frmMyBox, "Are you sure?", "Signing out...", JOptionPane.YES_NO_OPTION);
+    	        if (reply == JOptionPane.YES_OPTION) 
+    	        {
+    	        	byeBye();
+        			userpage.setVisible(false);
+        			loginpage.setVisible(true);
+    	        }
+    			
+    		}
+    	});
+    	btnsignout.setBounds(595, 381, 99, 36);
+    	add(btnsignout);
+    	
+    	btnBack = new JButton("Back");
+    	btnBack.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			uploadfilepage.setVisible(false);
+    			userpage.setVisible(true);
+    			
+    		}
+    	});
+    	btnBack.setBounds(3, 2, 68, 23);
+    	add(btnBack);
 	}
 }
 

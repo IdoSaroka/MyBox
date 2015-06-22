@@ -44,34 +44,22 @@ import javax.swing.JScrollPane;
 public class UploadFilePage extends MyBoxGUI
 {
 	UserController local=new UserController();
-	JRadioButton rdbtnEveryOneShare;
-	JRadioButton rdbtnGroupShare;
-	JRadioButton rdbtnPrivate;
-	JButton btnBack;
-	JButton btnBrowse;
-	JButton btnDone;
-	JScrollPane scrollPane;
-	JLabel lblFileDescription;
-	JButton btnHelp;
-	JButton btnsignout;
-	JLabel lblPicMBX;
+	private JRadioButton rdbtnEveryOneShare;
+	private JRadioButton rdbtnGroupShare;
+	private JRadioButton rdbtnPrivate;
+	private JButton btnBack;
+	private JButton btnHelp;
+	private JButton btnsignout;
+	private JButton btnBrowse;
+	private JButton btnDone;
+	private JScrollPane scrollPane;
+	private JLabel lblFileDescription;
+	private JLabel lblPicMBX;
 	private int privelege=3;
 	static JTextPane textPane;
     public UploadFilePage() 
     {
     	setLayout(null);      
-    	btnBack = new JButton("Back");
-    	btnBack.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) 
-    		{
-    			uploadfilepage.setVisible(false);
-    			userpage.setVisible(true);
-    			
-    		}
-    	});
-    	btnBack.setBounds(3, 2, 68, 23);
-    	add(btnBack);
-    	
     	btnBrowse = new JButton("Browse");
     	btnBrowse.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnBrowse.addActionListener(new ActionListener() {
@@ -236,6 +224,19 @@ public class UploadFilePage extends MyBoxGUI
     	});
     	btnsignout.setBounds(595, 381, 99, 36);
     	add(btnsignout);
+    	
+    	btnBack = new JButton("Back");
+    	btnBack.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			uploadfilepage.setVisible(false);
+    			userpage.setVisible(true);
+    			
+    		}
+    	});
+    	btnBack.setBounds(3, 2, 68, 23);
+    	add(btnBack);
+    	
     	
     	lblPicMBX = new JLabel("");
         lblPicMBX.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));

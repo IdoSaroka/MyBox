@@ -14,21 +14,12 @@ import java.awt.event.ActionEvent;
 
 public class SharedFilessPage extends MyBoxGUI
 {
+	private JButton btnBack;
+	private JButton btnHelp;
+	private JButton btnsignout;
 	public SharedFilessPage()
 	{
 		setLayout(null);
-		
-		JButton btnBack = new JButton("Back");
-    	btnBack.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) 
-    		{
-    			sharedfilesrspage.setVisible(false);
-    			userpage.setVisible(true);
-    			
-    		}
-    	});
-    	btnBack.setBounds(3, 2, 55, 23);
-    	add(btnBack);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(58, 87, 663, 235);
@@ -72,6 +63,48 @@ public class SharedFilessPage extends MyBoxGUI
 		});
 		btnAddFile.setBounds(285, 22, 200, 50);
 		add(btnAddFile);
+		
+		
+	   	btnHelp = new JButton("Help");
+    	btnHelp.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			JOptionPane.showMessageDialog(frmMyBox,"Here comes the help options","Help",JOptionPane.INFORMATION_MESSAGE);
+    		}
+    	});
+    	btnHelp.setBounds(81, 381, 99, 36);
+    	add(btnHelp);
+
+    	btnsignout = new JButton("Sign-Out");
+    	btnsignout.addActionListener(new ActionListener()
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{	
+    	        int reply = JOptionPane.showConfirmDialog(frmMyBox, "Are you sure?", "Signing out...", JOptionPane.YES_NO_OPTION);
+    	        if (reply == JOptionPane.YES_OPTION) 
+    	        {
+    	        	byeBye();
+        			userpage.setVisible(false);
+        			loginpage.setVisible(true);
+    	        }
+    			
+    		}
+    	});
+    	btnsignout.setBounds(595, 381, 99, 36);
+    	add(btnsignout);
+    	
+    	btnBack = new JButton("Back");
+    	btnBack.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			uploadfilepage.setVisible(false);
+    			userpage.setVisible(true);
+    			
+    		}
+    	});
+    	btnBack.setBounds(3, 2, 68, 23);
+    	add(btnBack);
+		
 		
     	JLabel lblBackGround = new JLabel("");
     	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
