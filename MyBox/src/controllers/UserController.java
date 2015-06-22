@@ -100,10 +100,13 @@ public class UserController {
 	 * 
 	 * 
 	 */
-	public void requestToJoinGOI(String GOIID) throws IOException{
+	public void requestToJoinGOI(GOI goi,String description) throws IOException{
 		message.clear();
-		message.add("requestToJoinGOI");
-		message.add(GOIID);
+		message.add("GOIBasic");
+		message.add("MakeARequestToJoin");
+		message.add(MyBoxGUI.getUserName());
+		message.add(goi.getName());
+		message.add(description);
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 	

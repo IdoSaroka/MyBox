@@ -11,12 +11,19 @@ import java.awt.Font;
 
 import javax.swing.JTextField;
 
+import controllers.UserController;
+import entities.GOI;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class JoinGOIPage extends MyBoxGUI
 {
 	private JTextField textField;
+	UserController temp=new UserController();
+	GOI goi=ShowSearchedGOI.getGoiToJoin();
 	
 	public JoinGOIPage()
 	{
@@ -65,12 +72,28 @@ public class JoinGOIPage extends MyBoxGUI
 		JButton btnSignout = new JButton("Sign-Out");
 		btnSignout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				//TODO add ByeBye
 			}
 		});
 		btnSignout.setBounds(595, 381, 99, 36);
 		add(btnSignout);
 		
 		JButton btnDone = new JButton("Done");
+		btnDone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String decription = textField.getText();
+				try {
+					goi=ShowSearchedGOI.getGoiToJoin();
+					temp.requestToJoinGOI(goi, decription);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+	        	JOptionPane.showMessageDialog(frmMyBox, msg.get(0));
+			}
+		});
 		btnDone.setBounds(579, 132, 89, 32);
 		add(btnDone);
 		

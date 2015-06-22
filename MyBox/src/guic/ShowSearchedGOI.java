@@ -9,18 +9,22 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
+import controllers.UserController;
 import entities.GOI;
 
 import java.awt.Label;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ShowSearchedGOI extends MyBoxGUI
 {
 	
 	static ArrayList<GOI> gois;
+	UserController temp=new UserController();
+	static GOI goiToJoin;
 	
 	public ShowSearchedGOI()
 	{
@@ -55,6 +59,10 @@ public class ShowSearchedGOI extends MyBoxGUI
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				int i = list2.getSelectedIndex();
+				System.out.println(i + ": is the seleced index");
+				gois=SearchGOIPage.getGOIS();
+				goiToJoin=gois.get(i);
 				showsearchgoi.setVisible(false);
 				joingoipage.setVisible(true);
 			}
@@ -73,9 +81,15 @@ public class ShowSearchedGOI extends MyBoxGUI
     	        	int i = list2.getSelectedIndex();
     	        	gois=SearchGOIPage.getGOIS();
     	        	System.out.println(i + ": is the seleced index");
+    	        	
+    	        	try {
+						temp.LeaveGOI(gois.get(i));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
     	        	ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
-    	        	System.out.println(msg.get(0));
-    	        	//JOptionPane.showConfirmDialog(frmMyBox, "Done", JOptionPane.OK_OPTION);
+    	        	JOptionPane.showMessageDialog(frmMyBox, msg.get(0));
     	        }
 			}
 		});
@@ -100,5 +114,9 @@ public class ShowSearchedGOI extends MyBoxGUI
     	lblBackGround.setBounds(10, 11, 780, 478);
     	add(lblBackGround);
     	
+	}
+	
+	protected static GOI getGoiToJoin(){
+		return goiToJoin;
 	}
 }
