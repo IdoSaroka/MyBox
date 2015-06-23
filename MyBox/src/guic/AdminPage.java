@@ -28,6 +28,7 @@ public class AdminPage extends MyBoxGUI
     	setLayout(null);
     	
     	JButton btnSearchgoi = new JButton("Search a GOI");
+    	btnSearchgoi.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnSearchgoi.addActionListener(new ActionListener()
     	{
     		public void actionPerformed(ActionEvent e)
@@ -42,122 +43,41 @@ public class AdminPage extends MyBoxGUI
 
     		}
     	});
-    	btnSearchgoi.setBounds(114, 140, 122, 42);
+    	btnSearchgoi.setBounds(327, 87, 122, 42);
     	add(btnSearchgoi);
     	
-    	JButton btnYourGoi = new JButton("Your GOIs");
+    	JButton btnYourGoi = new JButton("Create GOI");
+    	btnYourGoi.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnYourGoi.addActionListener(new ActionListener() 
     	{
     		public void actionPerformed(ActionEvent arg0)
     		{
     		}
     	});
-    	btnYourGoi.setBounds(114, 87, 123, 42);
+    	btnYourGoi.setBounds(119, 87, 123, 42);
     	add(btnYourGoi);
     	
-    	JButton btnSharedFiles = new JButton("Shared Files");
-    	btnSharedFiles.addActionListener(new ActionListener() 
-    	{
-    		public void actionPerformed(ActionEvent arg0) 
-    		{
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
-    			sharedfilesrspage.setVisible(true);
-    		}
-    	});
-    	btnSharedFiles.setBounds(315, 87, 123, 42);
-    	add(btnSharedFiles);
-    	
-    	JButton btnUploadAFile = new JButton("Upload a File");
-    	btnUploadAFile.addActionListener(new ActionListener() 
-    	{
-    		public void actionPerformed(ActionEvent arg0) 
-    		{
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
-    			uploadfilepage.setVisible(true);
-    			
-    		}
-    	});
-    	btnUploadAFile.setBounds(315, 140, 123, 42);
-    	add(btnUploadAFile);
-    	
-    	JButton btnCreateAFolder = new JButton("Create a Folder");
-    	btnCreateAFolder.addActionListener(new ActionListener() 
-    	{
-    		public void actionPerformed(ActionEvent e) 
-    		{
-    		}
-    	});
-    	btnCreateAFolder.setBounds(534, 87, 123, 42);
-    	add(btnCreateAFolder);
-    	
-    	JButton btnFolders = new JButton("Folders");
-    	btnFolders.addActionListener(new ActionListener() 
-    	{
-    		public void actionPerformed(ActionEvent e)
-    		{
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
-    			folderspage.setVisible(true);
-    		}
-    	});
-    	btnFolders.setBounds(534, 140, 123, 42);
-    	add(btnFolders);
-    	
-    	JLabel lblGoi = new JLabel("GOI");
-    	lblGoi.setFont(new Font("Arial", Font.PLAIN, 36));
-    	lblGoi.setBounds(136, 26, 89, 34);
+    	JLabel lblGoi = new JLabel("Group Of Interest");
+    	lblGoi.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 36));
+    	lblGoi.setBounds(239, 18, 400, 34);
     	add(lblGoi);
-    	
-    	JLabel lblFolders = new JLabel("Folders");
-    	lblFolders.setFont(new Font("Arial", Font.PLAIN, 36));
-    	lblFolders.setBounds(534, 26, 123, 34);
-    	add(lblFolders);
-    	
-    	JLabel lblFiles = new JLabel("Files");
-    	lblFiles.setFont(new Font("Arial", Font.PLAIN, 36));
-    	lblFiles.setBounds(339, 27, 89, 33);
-    	add(lblFiles);
     	
     	JSeparator separator = new JSeparator();
     	separator.setBounds(74, 63, 621, 26);
     	add(separator);
     	
-    	JSeparator separator_1 = new JSeparator();
-    	separator_1.setOrientation(SwingConstants.VERTICAL);
-    	separator_1.setBounds(265, 11, 17, 285);
-    	add(separator_1);
-    	
     	JSeparator separator_2 = new JSeparator();
     	separator_2.setOrientation(SwingConstants.VERTICAL);
-    	separator_2.setBounds(74, 11, 17, 285);
+    	separator_2.setBounds(74, 11, 17, 154);
     	add(separator_2);
     	
     	JSeparator separator_3 = new JSeparator();
     	separator_3.setOrientation(SwingConstants.VERTICAL);
-    	separator_3.setBounds(483, 11, 17, 285);
+    	separator_3.setBounds(695, 11, 17, 154);
     	add(separator_3);
     	
-    	JSeparator separator_4 = new JSeparator();
-    	separator_4.setOrientation(SwingConstants.VERTICAL);
-    	separator_4.setBounds(694, 11, 17, 285);
-    	add(separator_4);
-    	
     	JSeparator separator_5 = new JSeparator();
-    	separator_5.setBounds(74, 296, 621, 26);
+    	separator_5.setBounds(74, 164, 621, 26);
     	add(separator_5);
     	
     	JSeparator separator_6 = new JSeparator();
@@ -173,20 +93,18 @@ public class AdminPage extends MyBoxGUI
     	*/
     	
     	JButton btnPendingRequest = new JButton("Pending Request");
-    	btnPendingRequest.setBounds(114, 193, 122, 42);
-    	add(btnPendingRequest);
-    	
-    	JButton btnMyFiles = new JButton("My Files");
-    	btnMyFiles.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) 
+    	btnPendingRequest.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
+    	btnPendingRequest.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e)
     		{
     			
     		}
     	});
-    	btnMyFiles.setBounds(315, 193, 122, 42);
-    	add(btnMyFiles);
+    	btnPendingRequest.setBounds(531, 87, 122, 42);
+    	add(btnPendingRequest);
     	
        	btnHelp = new JButton("Help");
+       	btnHelp.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
@@ -197,6 +115,7 @@ public class AdminPage extends MyBoxGUI
     	add(btnHelp);
 
     	btnsignout = new JButton("Sign-Out");
+    	btnsignout.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnsignout.addActionListener(new ActionListener()
     	{
     		public void actionPerformed(ActionEvent e) 
@@ -205,12 +124,7 @@ public class AdminPage extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-    	        	if(user.getrole().equals("User"))
-    	        		userpage.setVisible(false);
-    	        	else if (user.getrole().equals("SystemAdmin"))
-    	        		adminpage.setVisible(false);
-    	        	else if (user.getrole().equals("FileOwner"))
-    	        		fileownerpage.setVisible(false);
+    	        	userpage.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			

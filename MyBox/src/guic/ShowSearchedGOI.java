@@ -90,6 +90,7 @@ public class ShowSearchedGOI extends MyBoxGUI
 		
 		
     	btnHelp = new JButton("Help");
+    	btnHelp.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
@@ -100,6 +101,7 @@ public class ShowSearchedGOI extends MyBoxGUI
     	add(btnHelp);
 
     	btnsignout = new JButton("Sign-Out");
+    	btnsignout.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnsignout.addActionListener(new ActionListener()
     	{
     		public void actionPerformed(ActionEvent e) 
@@ -118,6 +120,7 @@ public class ShowSearchedGOI extends MyBoxGUI
     	add(btnsignout);
     	
     	btnBack = new JButton("Back");
+    	btnBack.setFont(new Font("Footlight MT Light", Font.PLAIN, 11));
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{

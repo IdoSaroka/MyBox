@@ -30,6 +30,7 @@ public class FileOwnerPage extends MyBoxGUI
     	setLayout(null);
     	
     	JButton btnSearchgoi = new JButton("Search a GOI");
+    	btnSearchgoi.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnSearchgoi.addActionListener(new ActionListener()
     	{
     		public void actionPerformed(ActionEvent e)
@@ -47,6 +48,7 @@ public class FileOwnerPage extends MyBoxGUI
     	add(btnSearchgoi);
     	
     	JButton btnYourGoi = new JButton("Your GOIs");
+    	btnYourGoi.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnYourGoi.addActionListener(new ActionListener() 
     	{
     		public void actionPerformed(ActionEvent arg0)
@@ -57,6 +59,7 @@ public class FileOwnerPage extends MyBoxGUI
     	add(btnYourGoi);
     	
     	JButton btnSharedFiles = new JButton("Shared Files");
+    	btnSharedFiles.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnSharedFiles.addActionListener(new ActionListener() 
     	{
     		public void actionPerformed(ActionEvent arg0) 
@@ -75,6 +78,7 @@ public class FileOwnerPage extends MyBoxGUI
     	
     	
     	JButton btnMessages = new JButton("Messages");
+    	btnMessages.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnMessages.addActionListener(new ActionListener() 
     	{
     		public void actionPerformed(ActionEvent e) 
@@ -124,6 +128,7 @@ public class FileOwnerPage extends MyBoxGUI
     	
     	
     	JButton btnUploadAFile = new JButton("Upload a File");
+    	btnUploadAFile.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnUploadAFile.addActionListener(new ActionListener() 
     	{
     		public void actionPerformed(ActionEvent arg0) 
@@ -141,6 +146,7 @@ public class FileOwnerPage extends MyBoxGUI
     	add(btnUploadAFile);
     	
     	JButton btnCreateAFolder = new JButton("Create a Folder");
+    	btnCreateAFolder.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnCreateAFolder.addActionListener(new ActionListener() 
     	{
     		public void actionPerformed(ActionEvent e) 
@@ -151,6 +157,7 @@ public class FileOwnerPage extends MyBoxGUI
     	add(btnCreateAFolder);
     	
     	JButton btnFolders = new JButton("Folders");
+    	btnFolders.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnFolders.addActionListener(new ActionListener() 
     	{
     		public void actionPerformed(ActionEvent e)
@@ -168,17 +175,17 @@ public class FileOwnerPage extends MyBoxGUI
     	add(btnFolders);
     	
     	JLabel lblGoi = new JLabel("GOI");
-    	lblGoi.setFont(new Font("Arial", Font.PLAIN, 36));
+    	lblGoi.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 36));
     	lblGoi.setBounds(136, 26, 89, 34);
     	add(lblGoi);
     	
     	JLabel lblFolders = new JLabel("Folders");
-    	lblFolders.setFont(new Font("Arial", Font.PLAIN, 36));
+    	lblFolders.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 36));
     	lblFolders.setBounds(534, 26, 123, 34);
     	add(lblFolders);
     	
     	JLabel lblFiles = new JLabel("Files");
-    	lblFiles.setFont(new Font("Arial", Font.PLAIN, 36));
+    	lblFiles.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 36));
     	lblFiles.setBounds(339, 27, 89, 33);
     	add(lblFiles);
     	
@@ -216,6 +223,7 @@ public class FileOwnerPage extends MyBoxGUI
     	
 
        	btnHelp = new JButton("Help");
+       	btnHelp.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
@@ -226,6 +234,7 @@ public class FileOwnerPage extends MyBoxGUI
     	add(btnHelp);
 
     	btnsignout = new JButton("Sign-Out");
+    	btnsignout.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnsignout.addActionListener(new ActionListener()
     	{
     		public void actionPerformed(ActionEvent e) 
@@ -253,6 +262,19 @@ public class FileOwnerPage extends MyBoxGUI
     	lblNewMSG.setBounds(422, 300, 31, 14);
     	add(lblNewMSG);
     	lblNewMSG.setVisible(false);
+
+    	JButton btnMyFiles = new JButton("My Files");
+    	btnMyFiles.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
+    	btnMyFiles.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			fileownerpage.setVisible(false);
+    			myfiles.setVisible(true);
+    		}
+    	});
+    	btnMyFiles.setBounds(315, 193, 123, 42);
+    	add(btnMyFiles);
     	
     	JLabel lblBackGround = new JLabel("");
     	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));

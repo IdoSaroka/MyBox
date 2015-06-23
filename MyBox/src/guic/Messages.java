@@ -35,6 +35,7 @@ public class Messages extends MyBoxGUI
 		
 		
 		JButton btnOpen = new JButton("Open");
+		btnOpen.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		btnOpen.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -46,6 +47,7 @@ public class Messages extends MyBoxGUI
 		add(btnOpen);
 		
 		JButton btnDelete = new JButton("Delete");
+		btnDelete.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		btnDelete.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -64,10 +66,11 @@ public class Messages extends MyBoxGUI
 		scrollPane.setViewportView(list);
 		
 		Label lblMessage = new Label(" Sender                                | Date");
-		lblMessage.setFont(new Font("Footlight MT Light", Font.PLAIN, 16));
+		lblMessage.setFont(new Font("Footlight MT Light", Font.PLAIN, 18));
 		scrollPane.setColumnHeaderView(lblMessage);
 		
 	   	btnHelp = new JButton("Help");
+	   	btnHelp.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
@@ -78,6 +81,7 @@ public class Messages extends MyBoxGUI
     	add(btnHelp);
 
     	btnsignout = new JButton("Sign-Out");
+    	btnsignout.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnsignout.addActionListener(new ActionListener()
     	{
     		public void actionPerformed(ActionEvent e) 
@@ -96,6 +100,7 @@ public class Messages extends MyBoxGUI
     	add(btnsignout);
     	
     	btnBack = new JButton("Back");
+    	btnBack.setFont(new Font("Footlight MT Light", Font.PLAIN, 11));
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{

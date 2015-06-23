@@ -4,8 +4,6 @@ import java.awt.Font;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,27 +14,15 @@ import javax.swing.JScrollPane;
 
 import main.MyBoxGUI;
 
-public class YourGOIs extends MyBoxGUI
+public class UsersInGOI extends MyBoxGUI
 {
 	private JButton btnBack;
 	private JButton btnHelp;
 	private JButton btnsignout;
 	
-	public YourGOIs()
+	public UsersInGOI()
 	{
 		setLayout(null);
-		
-		JButton btnJoinGoi = new JButton(" Files in GOI");
-		btnJoinGoi.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
-		btnJoinGoi.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				
-			}
-		});
-		btnJoinGoi.setBounds(466, 104, 105, 37);
-		add(btnJoinGoi);
 		
 		
 		JButton btnRemoveYourself = new JButton("Remove");
@@ -49,7 +35,7 @@ public class YourGOIs extends MyBoxGUI
 			}
 		});
 		btnRemoveYourself.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
-		btnRemoveYourself.setBounds(573, 104, 105, 37);
+		btnRemoveYourself.setBounds(456, 103, 92, 37);
 		add(btnRemoveYourself);
 
 
@@ -57,9 +43,9 @@ public class YourGOIs extends MyBoxGUI
 		scrollPane.setBounds(39, 104, 407, 169);
 		add(scrollPane);
 		
-		list3 = new JList(ListModel3);
-		scrollPane.setViewportView(list3);
-		Label lblNameGOI = new Label("Name Of GOI");
+		list4 = new JList(ListModel4);
+		scrollPane.setViewportView(list4);
+		Label lblNameGOI = new Label("User Name");
 		lblNameGOI.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 14));
 		scrollPane.setColumnHeaderView(lblNameGOI);
 		
@@ -85,7 +71,7 @@ public class YourGOIs extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-    	        	yourgois.setVisible(false);
+    	        	usersingoi.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			
@@ -111,5 +97,6 @@ public class YourGOIs extends MyBoxGUI
     	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
     	lblBackGround.setBounds(10, 11, 780, 478);
     	add(lblBackGround);
+	
 	}
 }
