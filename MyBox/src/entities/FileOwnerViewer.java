@@ -114,6 +114,7 @@ public class FileOwnerViewer implements Serializable {
 		 */
 		@Override
 		public String toString(){
-			return "File name: "+ fileName+"."+fileSuffix+ ", Location in the server: "+virtualPath; 
+			return "File name: "+ fileName+"."+fileSuffix+ "\nLocation in the server: "+virtualPath+",\n"
+					+ "file descripion: "+fileDescription+"\nfile privilege: "+privilege; 
 		}
 }

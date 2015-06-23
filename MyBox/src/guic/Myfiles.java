@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,6 +14,10 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
+import controllers.FileOwnerController;
+import controllers.UserController;
+import entities.FileOwnerViewer;
+import entities.FileToView;
 import main.MyBoxGUI;
 
 public class Myfiles extends MyBoxGUI
@@ -19,6 +25,8 @@ public class Myfiles extends MyBoxGUI
 	private JButton btnBack;
 	private JButton btnHelp;
 	private JButton btnsignout;
+	
+	private ArrayList<FileOwnerViewer> fileOwnerViewer = new ArrayList<>();
 	
 	public Myfiles()
 	{
@@ -29,6 +37,16 @@ public class Myfiles extends MyBoxGUI
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				int i = list4.getSelectedIndex();
+				fileOwnerViewer=FileOwnerPage.getFilesOwnerViewer();
+				FileOwnerViewer Selectedfile = fileOwnerViewer.get(i);				
+				FileOwnerController moshe = new FileOwnerController();
+				try {
+					moshe.deleteFile(Selectedfile);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+			}
 
     	        
 			}
@@ -42,16 +60,24 @@ public class Myfiles extends MyBoxGUI
 		scrollPane.setBounds(39, 104, 407, 169);
 		add(scrollPane);
 
-		Label lblNameGOI = new Label("File Name");
+		list4 = new JList(ListModel4);
+		scrollPane.setViewportView(list4);
+		Label lblNameGOI = new Label("File name");
 		lblNameGOI.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 14));
 		scrollPane.setColumnHeaderView(lblNameGOI);
 		
+		/*
+		Label lblNameGOI = new Label("File Name");
+		lblNameGOI.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 14));
+		scrollPane.setColumnHeaderView(lblNameGOI);
+		*/
 		
     	btnHelp = new JButton("Help");
     	btnHelp.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
+    			
     			JOptionPane.showMessageDialog(frmMyBox,"Show all of your Files youre in","Help",JOptionPane.INFORMATION_MESSAGE);
     		}
     	});
@@ -98,21 +124,39 @@ public class Myfiles extends MyBoxGUI
     	JButton btnRetrive = new JButton("Retrieve");
     	btnRetrive.addActionListener(new ActionListener() 
     	{
-    		public void actionPerformed(ActionEvent e)
-    		{
-    		}
+    		public void actionPerformed(ActionEvent e) 
+			{
+				int i = list4.getSelectedIndex();
+				fileOwnerViewer=FileOwnerPage.getFilesOwnerViewer();
+				FileOwnerViewer Selectedfile = fileOwnerViewer.get(i);	
+				JOptionPane.showMessageDialog(frmMyBox,Selectedfile.toString() );
+				
+			}
     	});
     	btnRetrive.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnRetrive.setBounds(558, 103, 92, 37);
     	add(btnRetrive);
     	
     	JButton btnUpdate = new JButton("Update");
+    	/*
     	btnUpdate.addActionListener(new ActionListener()
     	{
-    		public void actionPerformed(ActionEvent e)
-    		{
-    		}
+    		
+    		public void actionPerformed(ActionEvent e) 
+			{
+				int i = list4.getSelectedIndex();
+				fileOwnerViewer=FileOwnerPage.getFilesOwnerViewer();
+				FileOwnerViewer Selectedfile = fileOwnerViewer.get(i);				
+				FileOwnerController moshe = new FileOwnerController();
+				try {
+					moshe.up(Selectedfile);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+			}
+			
     	});
+    	*/
     	btnUpdate.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnUpdate.setBounds(456, 151, 92, 37);
     	add(btnUpdate);

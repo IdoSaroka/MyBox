@@ -1,10 +1,4 @@
-/client/
-/common/
+/guic/
 /controllers/
 /database/
 /entities/
-/files/
-/guic/
-/guis/
-/main/
-/ocsf/

@@ -86,7 +86,7 @@ public class FileOwnerController extends UserController {
 	 * @param file
 	 * @throws IOException
 	 */
-	public void retrieveFile(String file) throws IOException{
+	public void retrieveFile(FileOwnerViewer file) throws IOException{
 		message.clear();
 		message.add("retrieveFile");
 		message.add(file);
@@ -125,7 +125,8 @@ public class FileOwnerController extends UserController {
 	public void myFiles(){
 		message.clear();
 		message.add("File");
-		message.add("MyFiles");
+		message.add("ReturnFileOwnerFiles");
+		message.add(MyBoxGUI.getUser());
 		try {
 			MyBoxGUI.getClient().sendToServer(message);
 		} catch (IOException e) {
@@ -138,7 +139,7 @@ public class FileOwnerController extends UserController {
 	/***************
 	 * This is just for testing!!!!!
 	 */
-	
+	/*
 	public void testDown(){
 		message.clear();
 		message.add("File");
@@ -164,5 +165,5 @@ public class FileOwnerController extends UserController {
 			System.out.println("Unable to save file");
 		}
 	}
-	
+	*/
 }

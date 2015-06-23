@@ -18,6 +18,7 @@ import javax.swing.JButton;
 
 import controllers.FileOwnerController;
 import controllers.UserController;
+import entities.FileOwnerViewer;
 import entities.FileToView;
 
 public class FileOwnerPage extends MyBoxGUI
@@ -27,6 +28,7 @@ public class FileOwnerPage extends MyBoxGUI
 
 	private FileOwnerController temp= new FileOwnerController();
 	static ArrayList<FileToView> filesToView = new ArrayList<>();
+	static ArrayList<FileOwnerViewer> fileOwnerViewer = new ArrayList<>();
 	
     public FileOwnerPage() 
     {
@@ -274,11 +276,35 @@ public class FileOwnerPage extends MyBoxGUI
     	btnMyFiles.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnMyFiles.addActionListener(new ActionListener() 
     	{
-    		public void actionPerformed(ActionEvent e) 
+    		public void actionPerformed(ActionEvent arg0) 
     		{
-    			fileownerpage.setVisible(false);
-    			myfiles.setVisible(true);
+    			temp.myFiles();;
+				fileOwnerViewer.clear();
+				ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+				
+				for(int i=0;i<msg.size();i++){
+					System.out.println(msg.get(i));
+				}
+				
+				if((boolean)msg.get(0)==true){
+					for(int i=1; i<msg.size();i++)
+						fileOwnerViewer.add((FileOwnerViewer)msg.get(i)); 
+					
+					for(int i=0;i<fileOwnerViewer.size();i++){
+						ListModel4.addElement(fileOwnerViewer.get(i).getFileName());
+					}
+					
+					fileownerpage.setVisible(false);
+					myfiles.setVisible(true);
+				}
+				else{
+					String str = (String)msg.get(1);
+					JOptionPane.showMessageDialog(frmMyBox,str);
+				}
+    			
     		}
+    			
+    			
     	});
     	btnMyFiles.setBounds(315, 193, 123, 42);
     	add(btnMyFiles);
@@ -291,5 +317,9 @@ public class FileOwnerPage extends MyBoxGUI
     
     public static ArrayList<FileToView> getFilesToView(){
 		return filesToView;
+	}
+    
+    public static ArrayList<FileOwnerViewer> getFilesOwnerViewer(){
+		return fileOwnerViewer;
 	}
 }
