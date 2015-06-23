@@ -7,6 +7,7 @@ package database;
  *@author Sagi Sulimani 300338878
  *@author Shimon Ben Alol 201231818
 **/
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
@@ -62,6 +63,9 @@ public class FolderHandler implements Serializable{
 		 String str = (String)msg.get(1);
 		   switch(str){
 		   
+		   case "DisplayCurrentDirectories":
+			   break;
+		   
 		   default:
 			   LogHandling.logging("Error: User"+(String)msg.get(2)+ "selected an invalid search option");
 			   returnMsg.add("Error: Invalid Selection");
@@ -75,17 +79,50 @@ public class FolderHandler implements Serializable{
 	}
 	
 	public static void deleteAFolder(User userName , Folder folderToDelete){
-		/**Important add a condition about deleting the user's folder in MyBox**/
-		
-	}
-	
-	public static void returnFilesAndFolders(User userName){
 		
 	}
 	
 	
-	private static void isFOlderExist(){
-		
+	  /**returnFilesAndFolders - this function will be used by the file owner to reterive his \ hers files and folders in MyBox
+	    * @author Ido Saroka 300830973
+		* @param userName - a User Object used to determine the user is actually the file owner
+	    * <p>
+	    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+	    * @throws SQLException - the function will throw an IOException in case there will be a problem writing to the the Database: "Users"
+	    * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
+	    * @exception IOException e - the function will throw an IOException in case there will be a problem sending the file back to the user
+	    * **/ 
+	public static void returnFilesAndFolders(User userName) throws IOException{
+		File currentDir = new File("C:\\MyBox\\Files\\" + userName + "\\");
+		displayDirectoryContents(currentDir);
+		try {
+			client.sendToClient(returnMsg);
+		} catch (IOException e) {
+			 LogHandling.logging("Error: "+ userName.getUserName() +" Encountered a problem while trying to Retrieve his file");
+			e.printStackTrace();
+		}
+	}
+	
+	private static void displayDirectoryContents(File usersDirectory){
+		try {
+			File[] files = usersDirectory.listFiles();
+			for (File file : files) {
+				if (file.isDirectory()) {
+					returnMsg.add("directory:" + file.getCanonicalPath());
+					displayDirectoryContents(file);
+				} else {
+					returnMsg.add("     file:" + file.getCanonicalPath());
+				}
+			}
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//returns to the user if a folder allready exist
+	private static boolean isFOlderExist(File usersDirectory){
+		return (usersDirectory.isDirectory());
 	}
 	
 

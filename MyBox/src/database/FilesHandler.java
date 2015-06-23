@@ -72,6 +72,7 @@ public class FilesHandler implements Serializable {
 			 break;
 			 
 		 case "AddSharedFileToGOI":
+			 addSharedFileToGOI((User)msg.get(2),(int)msg.get(3) ,(FileOwnerViewer)msg.get(4), (int)msg.get(5));
 			 break;
 			 
 		 case "ChangeFilePermission":
@@ -90,14 +91,64 @@ public class FilesHandler implements Serializable {
 		 }
 	}
 
-	public static void serachUserFile(User userName, MyFile file, GOI goi){
-		
+
+	   /**addSharedFileToGOI - this function will be used by the file owner in order to share one of his file with a specific GOI
+	    * @author Ido Saroka 300830973
+		* @param userName - a User Object used to determine the user is actually the file owner
+		* @param goiId - the id of the requested GOI
+		* @param fileToShare - the requested file to share
+		* @param canEdit - 0 or 1 depending if the GOI will receive editing privileges
+	    * <p>
+	    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+	    * @throws SQLException - the function will throw an IOException in case there will be a problem writing to the the Database
+	    * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
+	    * @exception IOException e - the function will throw an INExpcetion in case there will be a problem  returning the file to the user
+	    * **/ 
+	private static void addSharedFileToGOI(User userName,int goiId ,FileOwnerViewer fileToShare, int canEdit) throws IOException{
+		PreparedStatement statement = null;
+		FileOwnerViewer fileToReturn;
+		ResultSet rs = null;
+		try{
+			statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE GOI_id = ? AND file_id = ?");
+			statement.setInt(1, goiId);
+			statement.setInt(2, fileToShare.getFileID());
+			rs = statement.executeQuery();
+			 if(rs.isBeforeFirst()){
+				 LogHandling.logging("Error: File is allready shared with the GOI");
+				 returnMsg.add(false);
+				 returnMsg.add("Error: the file: "+ fileToShare.getFileName()+fileToShare.getFileSuffix()+" is allready shared with group: "+ goiId);				 
+				 connection.sendToClient(returnMsg);
+				 rs.close();
+			 }	
+			 if(fileToShare.getPrivilege() != 2){
+				 LogHandling.logging("Error: file: "+ fileToShare.getFileName()+fileToShare.getFileSuffix()+" Privilege level is not 2");
+				 returnMsg.add(false);
+				 returnMsg.add("Error: the file: "+ fileToShare.getFileName()+fileToShare.getFileSuffix()+" Privelge level is not set to share with groups (2)\n" +
+				 		"please change the file privelge level and try again");	
+			 }
+			 //add the listing to FilesInGOI
+			 statement = conn.prepareStatement("INSERT INTO FilesInGOI (GOI_id,file_id,file_Name,suffix,file_Owner,virtual_path,description,canEdit) VALUES (?,?,?,?,?,?,?,?)");
+			 statement.setInt(1, goiId);
+			 statement.setInt(2, fileToShare.getFileID());
+			 statement.setString(3, fileToShare.getFileName());
+			 statement.setString(4, fileToShare.getFileSuffix());
+			 statement.setString(5, fileToShare.getFileOwner());
+			 statement.setString(6, fileToShare.getVirtualPath());
+			 statement.setString(7, fileToShare.getFileDescription());
+			 statement.setInt(8, canEdit);
+			 statement.executeUpdate(); 
+			 returnMsg.add(true);
+			 returnMsg.add("File: "+ fileToShare.getFileName()+fileToShare.getFileSuffix()+" is now shared with group: "+ goiId);
+		}catch(SQLException | IOException e){
+			 LogHandling.logging("Error: "+ userName.getUserName() +" Encountered a problem while trying to share a file with GOI: "+ goiId);
+			 LogHandling.logging(e.getMessage());
+			 e.printStackTrace(); 
+			 returnMsg.add("MyBox Encountered an Error!");
+			 returnMsg.add("Please Contact Technical Support");
+			 connection.sendToClient(returnMsg);
+		}
 	}
 	
-	
-	public static void addSharedFileToGOI(){
-		
-	}
 	   /**returnUseFile - this function will return the user all the files he currently has 
 	    * @author Ido Saroka 300830973
 		* @param userName - a User Object used to determine the user is actually the file owner
@@ -107,7 +158,7 @@ public class FilesHandler implements Serializable {
 	    * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
 	    * @exception IOException e - the function will throw an INExpcetion in case there will be a problem  returning the file to the user
 	    * **/ 
-	public static void returnUseFile(User userName) throws IOException{
+	private static void returnUseFile(User userName) throws IOException{
 		PreparedStatement statement = null;
 		FileOwnerViewer fileToReturn;
 		ResultSet rs = null;
@@ -153,7 +204,7 @@ public class FilesHandler implements Serializable {
 			 rs.close();
 			
 		 }catch(SQLException | IOException e){
-			 LogHandling.logging("Error: "+ userName +" Encountered a problem while trying to retrieve his files");
+			 LogHandling.logging("Error: "+ userName.getUserName() +" Encountered a problem while trying to retrieve his files");
 			   LogHandling.logging(e.getMessage());
 			   e.printStackTrace(); 
 			   returnMsg.add("MyBox Encountered an Error!");
@@ -172,7 +223,7 @@ public class FilesHandler implements Serializable {
 	    * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
 	    * @exception IOException e - the function will throw an INExpcetion in case there will be a problem saving the file in the server
 	    * **/ 
-	public static void uploadAFile(User userName, MyFile file) throws IOException{		
+	private static void uploadAFile(User userName, MyFile file) throws IOException{		
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		File newFile;	
@@ -292,11 +343,6 @@ public class FilesHandler implements Serializable {
 		}
 	
 	
-	public static void retriveAFile(User userName,int fileID){
-		/**Do we want the function to receive an int or a MyFile Object **/
-		
-	}
-	
 	  /**downloadUserFile - this function will be used by the file owner to download his \ hers files
 	    * @author Ido Saroka 300830973
 		* @param userName - a User Object used to determine the user is actually the file owner
@@ -307,7 +353,7 @@ public class FilesHandler implements Serializable {
 	    * @exception SQLException e - the function will throw an SQLException in case there will be a problem accessing MyBox Database
 	    * @exception IOException e - the function will throw an IOException in case there will be a problem sending the file back to the user
 	    * **/ 
-	public static void downloadUserFile(User userName, FileOwnerViewer file) throws IOException{
+	private static void downloadUserFile(User userName, FileOwnerViewer file) throws IOException{
 		
 		PreparedStatement statement = null;
 		ResultSet rs = null;
@@ -363,7 +409,7 @@ public class FilesHandler implements Serializable {
 		
 	}
 	
-	public static void changeFilePrivelge(User userName, FileOwnerViewer fileToChange,int newPrivelgeLevel) throws IOException{
+	private static void changeFilePrivelge(User userName, FileOwnerViewer fileToChange,int newPrivelgeLevel) throws IOException{
 		ArrayList<Integer> groupIdsToInform = new ArrayList<>();
 		PreparedStatement statement = null;
 		ResultSet rs = null;
@@ -489,7 +535,7 @@ public class FilesHandler implements Serializable {
 	}
 	
 	
-	public static void deleteAFile(User userName,FileOwnerViewer fileToDelete) throws IOException{
+	private static void deleteAFile(User userName,FileOwnerViewer fileToDelete) throws IOException{
 		
 		String fullPath=fileToDelete.getVirtualPath()+"\\"+fileToDelete.getFileName()+"."+fileToDelete.getFileSuffix();
 		String time;

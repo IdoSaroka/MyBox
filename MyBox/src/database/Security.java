@@ -37,7 +37,7 @@ public class Security {
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try{
-			statement = con.prepareStatement("SELECT FORM Users * WHERE userName = ?");
+			statement = con.prepareStatement("SELECT * FROM Users WHERE userName = ?");
 			statement.setString(1, userToCheck.getUserName());
 			rs = statement.executeQuery();
 		//user does not exist	
@@ -66,7 +66,7 @@ public class Security {
 		ResultSet rs = null;
 		try {
 			if(secuirtyCheck(userToCheck,con) == true){
-				statement = con.prepareStatement("SELECT FORM Files * WHERE fileId =? AND file_Owner = ?");
+				statement = con.prepareStatement("SELECT * FROM Files WHERE file_id =? AND file_Owner = ?");
 				statement.setInt(1, fileId);
 				statement.setString(2, listedOwnerOfTheFile);
 				rs = statement.executeQuery();

@@ -97,6 +97,7 @@ public class GoiBasic implements Serializable{
 	              case "EditSharedFile":
 	            	  break;
 	            	  
+	               //RemoveAUserFromGOI - will be used by a user when he wishes to remove himself from a GOI
 	              case "RemoveAUserFromGOI":
 	            	  removeUserFromGOI((User)msg.get(2),(GOI)msg.get(3));
 	            	  break;
@@ -121,7 +122,7 @@ public class GoiBasic implements Serializable{
     * @exception SQLException e 
     * @exception IOException e  
     * **/   
-     public static void searchAGOI(User userName, String option,String searchParameter) throws IOException{
+     private static void searchAGOI(User userName, String option,String searchParameter) throws IOException{
     	PreparedStatement stmt = null;
 		GOI goiToReturn;
 		boolean flag = false;
@@ -226,7 +227,7 @@ public class GoiBasic implements Serializable{
       * @exception SQLException e 
       * @exception IOException e  
       * **/  
-     public static void makeARequest(User userName,GOI goiName,String description) throws IOException{
+     private static void makeARequest(User userName,GOI goiName,String description) throws IOException{
     			PreparedStatement statement = null;
     			ResultSet rs = null;
     			try {
@@ -316,7 +317,7 @@ public class GoiBasic implements Serializable{
       * @exception SQLException e - the function will throw an SQLException in case there will be a problem searching the database
       * @exception IOException e - the function will throw an IOException in case there is a problem sending the data back to the user
       * **/  
- 	public static void searchSharedFiles(User userName,String option, String searchParameter) throws IOException{
+ 	private static void searchSharedFiles(User userName,String option, String searchParameter) throws IOException{
  		FileToView newFileToView = null;
 		Statement stmt = null;
 		PreparedStatement statement = null;
@@ -469,7 +470,7 @@ public class GoiBasic implements Serializable{
      * @exception SQLException e - the function will throw an SQLException in case there will be a problem writing to the database
      * @exception IOException e - the function will throw an IOException in case there will be a problem writing to the log file
      * **/
-	public static void removeUserFromGOI(User userName, GOI goiName) throws IOException{
+	private static void removeUserFromGOI(User userName, GOI goiName) throws IOException{
 		PreparedStatement statement = null;
 		PreparedStatement statement2 = null;
 		ResultSet rs = null;
@@ -526,7 +527,7 @@ public class GoiBasic implements Serializable{
      * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
      * @exception IOException e - the function will throw an IOException if there is a problem creating a File Object to send back to the user
      * **/
-  public static void downloadSharedFile( User userName,int goiShared, FileToView sharedFile) throws IOException{
+  private static void downloadSharedFile( User userName,int goiShared, FileToView sharedFile) throws IOException{
 	PreparedStatement statement = null;
 	ResultSet rs = null;
 	String fullPath=sharedFile.getVirtualPath()+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix();
@@ -578,7 +579,7 @@ public class GoiBasic implements Serializable{
      * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
      * @exception IOException e - the function will throw an IOException if there is a problem uploading the file to the server
      * **/
- 	public static void editSharedFile(int goiShared, User userName, FileToView sharedFile) throws IOException{
+ 	private static void editSharedFile(int goiShared, User userName, FileToView sharedFile) throws IOException{
  		String path = sharedFile.getVirtualPath();
  		File f = new File(path+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix());
  		PreparedStatement statement = null;  
@@ -650,7 +651,7 @@ public class GoiBasic implements Serializable{
    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
    * @exception IOException e - the function will throw an IOException if there is a problem sending back the GOIs to the user
    * **/
-  public static void returnUserGois(User userName) throws IOException{
+  private static void returnUserGois(User userName) throws IOException{
 	  ArrayList<Integer> gois= new ArrayList<>();
 	  PreparedStatement statement = null;
 	  ResultSet rs = null;

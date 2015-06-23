@@ -62,10 +62,19 @@ public class GoiAdmin implements Serializable{
 		   case "DeleteAGOI":
 			   deleteAGOI((GOI)msg.get(3));
 			   break;
+		
+		  //"returnAllUsersToAdmin" - will be used by the admin in order to find all the current users in the system    
+		   case "ReturnSystemUsers":   
+			   returnAllUsersToAdmin();
+			   break;
 			   
-		   //"ReturnCurrentGOIs" - will be used by the admin in order to find all the GOIs currentliy in the system
+		   //"ReturnCurrentGOIs" - will be used by the admin in order to find all the GOIs currently in the system
 		   case "ReturnCurrentGOIs":
 			   returnAllGoiToAdmin();
+			   break;
+			   
+		   case "AddUserToGOINoRequest": 
+			   addUserToGOINoRequest((GOI)msg.get(3), (String)msg.get(4));
 			   break;
 			   
 		   // "RetriveCurrentRequests" - will be used to retrieve all the current users requests to join GOIs
@@ -99,7 +108,7 @@ public class GoiAdmin implements Serializable{
 	    * @exception SQLException e 
 	    * @exception IOException e  
 	    * **/   
-		public static void getRequests() throws IOException{
+		private static void getRequests() throws IOException{
 			 Statement stmt;
 			 Request requestToSend;
 			   try{
@@ -146,7 +155,7 @@ public class GoiAdmin implements Serializable{
 		    * @exception SQLException e 
 		    * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
 		    * **/  
-		public static void createAGOI(GOI newGOI) throws IOException{
+		private static void createAGOI(GOI newGOI) throws IOException{
 			PreparedStatement statement = null;
 			ResultSet rs = null;
 			
@@ -183,11 +192,20 @@ public class GoiAdmin implements Serializable{
 			}
 		}
 		
-		/*public static void returnAllUsersToAdmin() throws IOException{
+		
+		 /**returnAllUsersToAdmin - will be used by the admin in order to retrieve all the current users in the system
+		    * @author Ido Saroka 300830973
+		    * <p>
+		    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+		    * @exception SQLException e - the function will throw an IOException in case there will be a problem searching the database users
+		    * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
+		    * **/ 
+		private static void returnAllUsersToAdmin() throws IOException{
 			PreparedStatement statement = null;
 			ResultSet rs = null;
+			ArrayList<String> systemUsers = new ArrayList<>();
 			try{
-				statement = conn.prepareStatement("SELECT * FROM GOI");
+				statement = conn.prepareStatement("SELECT * FROM Users");
 				rs = statement.executeQuery();
 				if(!rs.isBeforeFirst()){
 					returnMsg.add(false);
@@ -195,11 +213,15 @@ public class GoiAdmin implements Serializable{
 					client.sendToClient(returnMsg);
 					rs.close();
 				}
-				while(){
-					
+				returnMsg.add(true);
+				while(rs.next()){
+					systemUsers.add(rs.getString(1));
 				}
-			}(SQLException | IOException e){
-				 LogHandling.logging("Error: Admin ecnounterd a problem while trying retrieve the current GOIs in the system");
+				returnMsg.add(systemUsers);
+				client.sendToClient(returnMsg);
+				rs.close();
+			}catch (SQLException | IOException e){
+				 LogHandling.logging("Error: Admin ecnounterd a problem while trying retrieve the current users in the system");
 				 LogHandling.logging(e.getMessage());
 				 e.printStackTrace(); 
 				 returnMsg.add(false);
@@ -207,7 +229,7 @@ public class GoiAdmin implements Serializable{
 				 returnMsg.add("Please Contact Technical Support");
 				 client.sendToClient(returnMsg);
 			}
-		}*/
+		}
 		
 		
 		 /**returnAllGoiToAdmin - will be responsible for retrieving all of the current GOIs in the system
@@ -217,7 +239,7 @@ public class GoiAdmin implements Serializable{
 		    * @exception SQLException e - the function will throw an SQLException in case there is a problem searching the database
 		    * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
 		    * **/  
-		public static void returnAllGoiToAdmin() throws IOException{
+		private static void returnAllGoiToAdmin() throws IOException{
 			PreparedStatement statement = null;
 			ResultSet rs = null;
 			GOI goiToSend;
@@ -257,7 +279,7 @@ public class GoiAdmin implements Serializable{
 		  * @exception SQLException e - the function will throw an SQLException in case there is a problem searching the database
 		  * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
 		  * **/  
-		public static void deleteAGOI(GOI goiToDelete) throws IOException{
+		private static void deleteAGOI(GOI goiToDelete) throws IOException{
 			PreparedStatement statement = null;
 			ResultSet rs = null;
 			HashSet<String> usersToInform = new HashSet<String>();
@@ -295,6 +317,67 @@ public class GoiAdmin implements Serializable{
 	
 		}
 		
+		 /**addUserToGOI - will be used by the admin when he wishes to add a user to a GOI without the user having made the request to join
+		  * @author Ido Saroka 300830973
+		  * @param goi - the details of the requested GOI
+		  * @param userToAdd - the name of the user which will be added to the GOI
+		  * <p>
+		  * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+		  * @exception SQLException e - the function will throw an SQLException in case there is a problem searching the database
+		  * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
+		  * **/ 
+		private static void addUserToGOINoRequest(GOI goi, String userToAdd) throws IOException{
+			PreparedStatement statement = null;
+			ResultSet rs = null;
+			DateFormat dateFormat;
+	 		Date date = new Date();
+	 		String time;
+	 		try{
+				statement = conn.prepareStatement("SELECT * From Users Where userName = ?");
+				statement.setString(1,userToAdd);
+				rs = statement.executeQuery();
+				if(!rs.isBeforeFirst()){
+					 LogHandling.logging("Admin encountered an error while trying to delete the user: " + userToAdd + "from GOI: " + goi.getName());
+					 returnMsg.add(false);
+					 returnMsg.add("Error - the user: " + userToAdd + " is not a registered user in MyBox");
+					 client.sendToClient(returnMsg);
+					 rs.close();
+				}
+				statement = conn.prepareStatement("SELECT * From UsersInGOI Where GOI_id = ? AND user_Name = ?");
+				statement.setString(1,goi.getName());
+				statement.setString(2,userToAdd);
+				rs = statement.executeQuery();
+				if(rs.isBeforeFirst()){	
+					LogHandling.logging("Admin encountered an error while trying to delete the user: " + userToAdd + "from GOI: " + goi.getName());
+					returnMsg.add(false);
+					returnMsg.add("Error - the user: " + userToAdd + " is allready a member in GOI: " + goi.getName());
+					client.sendToClient(returnMsg);
+				}
+				 //Add the user to the requested GOI 
+				 statement = conn.prepareStatement("INSERT INTO UsersInGoi (GOI_id,user_Name) VALUES (?,?)");
+				 statement.setString(1, userToAdd);
+			     statement.setString(2, goi.getName());			
+			     statement.executeQuery();
+			     
+			    //insert the appropriate message into the user messages
+				 statement = conn.prepareStatement("INSERT INTO UserMessages (message_Date,userName,description) VALUES (?,?,?)");
+				 statement.setString(1, userToAdd);
+			     statement.setString(2, goi.getName());	
+			     statement.setString(3, "The Sytsem Admin has accepted your request to join GOI: " + goi.getName()); 
+			     statement.executeQuery();
+		}catch(SQLException | IOException e){
+			LogHandling.logging("Error: Admin ecnounterd a problme while trying to Add the user: "+ userToAdd +" from GOI: " +
+		    goi.getName());
+			LogHandling.logging(e.getMessage());
+			e.printStackTrace(); 
+			returnMsg.add(false);
+			returnMsg.add("MyBox Encounterd an Error!");
+			returnMsg.add("Please Contact Technical Support");
+			client.sendToClient(returnMsg);
+	     	}
+		}
+		
+		
 		 /**returnAllGoiToAdmin - will be responsible for the deletion of a GOI, the function will use the function: "deleteAUserFromAGOI"
 		  * in order to delete each user
 		  * @author Ido Saroka 300830973
@@ -303,7 +386,7 @@ public class GoiAdmin implements Serializable{
 		  * @exception SQLException e - the function will throw an SQLException in case there is a problem searching the database
 		  * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
 		  * **/  
-		public static void deleteAUserFromAGOI(GOI goi, String userToDelete) throws IOException{
+		private static void deleteAUserFromAGOI(GOI goi, String userToDelete) throws IOException{
 			PreparedStatement statement = null;
 			ResultSet rs = null;
 			DateFormat dateFormat;
@@ -359,7 +442,7 @@ public class GoiAdmin implements Serializable{
 		 * @return 
 		 * **/  
 		 @SuppressWarnings("resource")
-	     public static void decideAboutARequest(Request requestId,String decision) throws IOException{
+	     private static void decideAboutARequest(Request requestId,String decision) throws IOException{
 				String userName,goiName;
 				
 				PreparedStatement statement = null;
