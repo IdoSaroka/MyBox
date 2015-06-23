@@ -544,7 +544,9 @@ public class GoiBasic implements Serializable{
 		//send the file back to the user
 		Browse newBrowse = new Browse(f, sharedFile.getFileName(),sharedFile.getFileSuffix());
 		MyFile down = newBrowse.getFile(); 
-			 
+		returnMsg.add(true);
+		returnMsg.add(down);
+		client.sendToClient(returnMsg);
 	    }catch(IOException e){
 		LogHandling.logging("Error:"+ userName.getUserName() +"Encountered a problem while trying to retrieve his GOIs");
 		returnMsg.add(false);
