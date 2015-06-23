@@ -84,7 +84,7 @@ public class GOIController {
 		message.clear();
 		message.add("GOIBasic");
 		message.add("Search");
-		message.add(MyBoxGUI.getUserName());
+		message.add(MyBoxGUI.getUser());
 		message.add(option);
 		message.add(param);
 		MyBoxGUI.getClient().sendToServer(message);
