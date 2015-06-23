@@ -166,6 +166,19 @@ public class Myfiles extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e) 
     		{
+    			int i = list4.getSelectedIndex();
+				fileOwnerViewer=FileOwnerPage.getFilesOwnerViewer();
+				FileOwnerViewer Selectedfile = fileOwnerViewer.get(i);
+    			FileOwnerController moshe = new FileOwnerController();
+    			try {
+					moshe.deleteFile(Selectedfile);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+    			ArrayList<Object> msg =  (ArrayList) MyBoxGUI.getClient().getMessage();
+    			JOptionPane.showMessageDialog(frmMyBox, (String)msg.get(0));
+    			
     		}
     	});
     	btnDelete.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
@@ -180,8 +193,25 @@ public class Myfiles extends MyBoxGUI
     		}
     	});
     	btnShare.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
-    	btnShare.setBounds(456, 199, 92, 37);
+    	btnShare.setBounds(456, 190, 92, 37);
     	add(btnShare);
+    	
+    	JButton btnOpen = new JButton("Open");
+    	btnOpen.addActionListener(new ActionListener() 
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			int i = list4.getSelectedIndex();
+				fileOwnerViewer=FileOwnerPage.getFilesOwnerViewer();
+				FileOwnerViewer Selectedfile = fileOwnerViewer.get(i);
+    			FileOwnerController moshe = new FileOwnerController();
+    			moshe.openHisFile(Selectedfile);
+    			
+    		}
+    	});
+    	btnOpen.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
+    	btnOpen.setBounds(558, 191, 92, 37);
+    	add(btnOpen);
     	
     	JLabel lblBackGround = new JLabel("");
     	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));

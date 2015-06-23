@@ -33,6 +33,7 @@ public class AdminPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
+    			
     			if(user.getrole().equals("User"))
     				userpage.setVisible(false);
     			else if (user.getrole().equals("SystemAdmin"))
@@ -52,6 +53,8 @@ public class AdminPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0)
     		{
+    			adminpage.setVisible(false);
+    			creategoipage.setVisible(true);
     		}
     	});
     	btnYourGoi.setBounds(119, 87, 123, 42);

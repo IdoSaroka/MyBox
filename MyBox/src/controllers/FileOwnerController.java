@@ -1,5 +1,7 @@
 package controllers;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -47,8 +49,8 @@ public class FileOwnerController extends UserController {
 		message.add(MyBoxGUI.getUser());
 		message.add(fileToDelete);
 		MyBoxGUI.getClient().sendToServer(message);
-		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
-		System.out.println((String)msg.get(0));
+		//ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+		//System.out.println((String)msg.get(0));
 	}
 	
 	/**
@@ -134,6 +136,47 @@ public class FileOwnerController extends UserController {
 			e.printStackTrace();
 		}
 	}
+
+
+	public void openHisFile(FileOwnerViewer selectedfile) {
+		message.clear();
+		message.add("File");
+		message.add("DownloadAFile");
+		message.add(MyBoxGUI.getUser());
+		message.add(selectedfile);
+		try {
+			MyBoxGUI.getClient().sendToServer(message);
+		} catch (IOException e) {
+			System.out.println("Could not ask server to get owner's file");
+			e.printStackTrace();
+		}
+		ArrayList<Object> msg =  (ArrayList) MyBoxGUI.getClient().getMessage();
+		for(int i=0;i<msg.size();i++){
+			System.out.println(msg.get(i));
+		}
+		if((boolean)msg.get(0)==true){
+			MyFile file = (MyFile)msg.get(1);
+			System.out.println(file.getName());
+			String path="C:\\MyBox\\Downloaded Files\\";
+			Save save=new Save(file,path);
+			 try {  
+				    File fileOpen = new File(path+"\\"+file.getName()+"."+file.getSuffix());  
+				    if (fileOpen.exists()) {  		     
+				     if (Desktop.isDesktopSupported()) {  
+				      Desktop.getDesktop().open(fileOpen);  
+				     } 
+				     else  
+				      System.out.println("Awt Desktop is not supported!");  
+				    } else  
+				     System.out.println("File is not exists!");  
+				    System.out.println("Done");  
+			   } catch (Exception ex) {  
+				    ex.printStackTrace();  
+			   } 
+		}
+		else
+			System.out.println("Unable to open file");
+	}	
 	
 	
 	/***************

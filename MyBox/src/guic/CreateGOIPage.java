@@ -11,8 +11,12 @@ import java.awt.Font;
 
 import javax.swing.JTextField;
 
+import controllers.SysAdminController;
+import entities.GOI;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class CreateGOIPage extends MyBoxGUI
 {
@@ -54,7 +58,7 @@ public class CreateGOIPage extends MyBoxGUI
 		add(txtGOISubject);
 		txtGOISubject.setColumns(10);
 		
-		JLabel lblGoiDescription = new JLabel("GOI Description");
+		JLabel lblGoiDescription = new JLabel("Maximum users:");
 		lblGoiDescription.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 14));
 		lblGoiDescription.setBounds(134, 205, 125, 14);
 		add(lblGoiDescription);
@@ -67,6 +71,22 @@ public class CreateGOIPage extends MyBoxGUI
 		
 		JButton btnDone = new JButton("Done");
 		btnDone.setFont(new Font("Footlight MT Light", Font.PLAIN, 16));
+		btnDone.addActionListener(new ActionListener()
+    	{
+    		public void actionPerformed(ActionEvent e) 
+    		{
+    			GOI temp=new GOI(txtGOIName.getText(),txtGOISubject.getText(),Integer.parseInt(txtGOIDescription.getText()));
+        		SysAdminController sys=new SysAdminController();
+        		try {
+					sys.addGOI(temp);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+    			creategoipage.setVisible(false);
+        		adminpage.setVisible(true);
+    	    }
+    	});
 		btnDone.setBounds(336, 264, 79, 25);
 		add(btnDone);
 		
