@@ -46,7 +46,7 @@ public class SharedFilessPage extends MyBoxGUI
 			public void actionPerformed(ActionEvent e) 
 			{
 				int i = listSharedFls.getSelectedIndex();
-				System.out.println(i + ": is the seleced index");
+				//System.out.println(i + ": is the seleced index");
 				if(MyBoxGUI.getUser().getrole().equals("User"))
 					filesToView=UserPage.getFilesToView();
 				else
@@ -64,7 +64,7 @@ public class SharedFilessPage extends MyBoxGUI
 		});
 		btnOpenFile.setBounds(58, 22, 200, 50);
 		add(btnOpenFile);
-		
+		/*
 		JButton btnRemoveFile = new JButton("Remove File");
 		btnRemoveFile.addActionListener(new ActionListener() 
 		{
@@ -86,7 +86,7 @@ public class SharedFilessPage extends MyBoxGUI
 		});
 		btnAddFile.setBounds(285, 22, 200, 50);
 		add(btnAddFile);
-		
+		*/
 		
 	   	btnHelp = new JButton("Help");
 	   	btnHelp.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));

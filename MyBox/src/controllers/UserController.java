@@ -192,7 +192,7 @@ public class UserController {
 	 */
 	public void getSharedFile(FileToView fileSend) throws IOException{
 		message.clear();
-		message.add("GoiBasic");
+		message.add("GOIBasic");
 		message.add("DownloadSharedFile");
 		message.add(MyBoxGUI.getUser());
 		message.add(fileSend);
@@ -216,17 +216,20 @@ public class UserController {
 	 */
 	public void openSharedFile(FileToView fileSend) throws IOException{
 		message.clear();
-		message.add("GoiBasic");
+		message.add("GOIBasic");
 		message.add("DownloadSharedFile");
 		message.add(MyBoxGUI.getUser());
 		message.add(fileSend.getGoiID());
 		message.add(fileSend);
 		MyBoxGUI.getClient().sendToServer(message);
 		ArrayList<Object> msg =  (ArrayList) MyBoxGUI.getClient().getMessage();
+		for(int i=0;i<msg.size();i++){
+			System.out.println(msg.get(i));
+		}
 		if((boolean)msg.get(0)==true){
 			file = (MyFile)msg.get(1);
 			System.out.println(file.getName());
-			String path="C:\\MyBox\\Downloaded Files";
+			String path="C:\\MyBox\\Downloaded Files\\";
 			Save save=new Save(file,path);
 			 try {  
 				    File fileOpen = new File(path+"\\"+file.getName()+"."+file.getSuffix());  
