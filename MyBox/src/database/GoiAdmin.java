@@ -182,6 +182,34 @@ public class GoiAdmin implements Serializable{
 				   client.sendToClient(returnMsg);
 			}
 		}
+		
+		/*public static void returnAllUsersToAdmin() throws IOException{
+			PreparedStatement statement = null;
+			ResultSet rs = null;
+			try{
+				statement = conn.prepareStatement("SELECT * FROM GOI");
+				rs = statement.executeQuery();
+				if(!rs.isBeforeFirst()){
+					returnMsg.add(false);
+					returnMsg.add("Error: There are currentliy no listed users in MyBox");
+					client.sendToClient(returnMsg);
+					rs.close();
+				}
+				while(){
+					
+				}
+			}(SQLException | IOException e){
+				 LogHandling.logging("Error: Admin ecnounterd a problem while trying retrieve the current GOIs in the system");
+				 LogHandling.logging(e.getMessage());
+				 e.printStackTrace(); 
+				 returnMsg.add(false);
+				 returnMsg.add("MyBox Encounterd an Error!");
+				 returnMsg.add("Please Contact Technical Support");
+				 client.sendToClient(returnMsg);
+			}
+		}*/
+		
+		
 		 /**returnAllGoiToAdmin - will be responsible for retrieving all of the current GOIs in the system
 		    * @author Ido Saroka 300830973
 		    * <p>
@@ -211,7 +239,7 @@ public class GoiAdmin implements Serializable{
 				client.sendToClient(returnMsg);
 				rs.close();
 			}catch(SQLException | IOException e){
-				 LogHandling.logging("Error: Admin ecnounterd a problme while trying retrieve the current GOIs in the system");
+				 LogHandling.logging("Error: Admin ecnounterd a problem while trying retrieve the current GOIs in the system");
 				 LogHandling.logging(e.getMessage());
 				 e.printStackTrace(); 
 				 returnMsg.add(false);

@@ -198,7 +198,7 @@ public class FilesHandler implements Serializable {
 			 rs.close();
 		}
 		 
-		 statement = conn.prepareStatement("SELECT * WHERE file_Name = ? AND suffix = ? AND file_Owner = ? AND virtual_path = ?");
+		 statement = conn.prepareStatement("SELECT * FROM Files WHERE file_Name = ? AND suffix = ? AND file_Owner = ? AND virtual_path = ?");
 		 statement.setString(1, file.getName()); 
 		 statement.setString(2, file.getSuffix());
 		 statement.setString(3, file.getOwner());
