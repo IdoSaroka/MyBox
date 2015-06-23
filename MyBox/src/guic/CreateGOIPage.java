@@ -125,7 +125,8 @@ public class CreateGOIPage extends MyBoxGUI
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			
+    			creategoipage.setVisible(false);
+        		adminpage.setVisible(true);
     		}
     	});
     	btnBack.setBounds(3, 2, 68, 23);

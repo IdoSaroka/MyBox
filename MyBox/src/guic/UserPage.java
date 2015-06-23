@@ -72,12 +72,7 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
+    			userpage.setVisible(false);
     			searchgoipage.setVisible(true);
     		}
     	});
@@ -118,7 +113,7 @@ public class UserPage extends MyBoxGUI
 							listSharedFlsModel.addElement(filesToView.get(i).getFileName());
 						}
 						
-						fileownerpage.setVisible(false);
+						userpage.setVisible(false);
 		    			sharedfilesrspage.setVisible(true);
 					}
 					else{
@@ -142,12 +137,7 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0) 
     		{
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
+    			userpage.setVisible(false);
     			uploadfilepage.setVisible(true);
     			
     		}
@@ -173,12 +163,7 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
+    			userpage.setVisible(false);
     			folderspage.setVisible(true);
     		}
     	});
@@ -217,12 +202,7 @@ public class UserPage extends MyBoxGUI
     			
     			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
     			
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
+    			userpage.setVisible(false);
     			messages.setVisible(true);
     			
     			if((boolean)msg.get(0)){

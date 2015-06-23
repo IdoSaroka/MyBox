@@ -40,12 +40,7 @@ public class FileOwnerPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
+    			fileownerpage.setVisible(false);
     			searchgoipage.setVisible(true);
     		}
     	});
@@ -118,13 +113,7 @@ public class FileOwnerPage extends MyBoxGUI
     			
     			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
     			
-    			
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
+    			fileownerpage.setVisible(false);
     			messages.setVisible(true);
     			
     			

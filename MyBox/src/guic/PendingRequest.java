@@ -75,7 +75,7 @@ public class PendingRequest extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-    	        	usersingoi.setVisible(false);
+    	        	pendingrequest.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			
@@ -89,7 +89,7 @@ public class PendingRequest extends MyBoxGUI
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			showsearchgoi.setVisible(false);
+    			pendingrequest.setVisible(false);
     			searchgoipage.setVisible(true);
     			
     		}

@@ -33,13 +33,7 @@ public class AdminPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
-    			
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
+    			adminpage.setVisible(false);
     			searchgoipage.setVisible(true);
 
     		}
@@ -100,7 +94,7 @@ public class AdminPage extends MyBoxGUI
     	btnPendingRequest.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e)
     		{
-    			
+    			JOptionPane.showMessageDialog(frmMyBox,"This button not set yet","Help",JOptionPane.INFORMATION_MESSAGE);
     		}
     	});
     	btnPendingRequest.setBounds(531, 87, 122, 42);
@@ -127,7 +121,7 @@ public class AdminPage extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-    	        	userpage.setVisible(false);
+    	        	adminpage.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			
