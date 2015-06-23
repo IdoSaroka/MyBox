@@ -527,11 +527,24 @@ public class GoiBasic implements Serializable{
      * @exception IOException e - the function will throw an IOException if there is a problem creating a File Object to send back to the user
      * **/
   public static void downloadSharedFile( User userName,int goiShared, FileToView sharedFile) throws IOException{
-	
+	PreparedStatement statement = null;
+	ResultSet rs = null;
 	String fullPath=sharedFile.getVirtualPath()+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix();
 	File f = new File(fullPath);
 	
 	try{
+		//check if the file is shared with all the users in the system
+		statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE GOI_id = 0 AND file_id = ?");
+		statement.setInt(1, sharedFile.getFileID());
+		rs =statement.executeQuery();
+		if(rs.isBeforeFirst()){
+			Browse newBrowse = new Browse(f, sharedFile.getFileName(),sharedFile.getFileSuffix());
+			MyFile down = newBrowse.getFile(); 
+			returnMsg.add(true);
+			returnMsg.add(down);
+			client.sendToClient(returnMsg);
+			rs.close();
+		}		
 		//check if the user is a member in this GOI
 		if((isMemberOfGOI(goiShared,userName)==false)||(isFileSharedWithGOI(goiShared,sharedFile)== false)){
 			LogHandling.logging("User: "+userName +" encountered a problem while trying to download file: "+sharedFile.getFileName()+sharedFile.getFileSuffix());
@@ -547,13 +560,13 @@ public class GoiBasic implements Serializable{
 		returnMsg.add(true);
 		returnMsg.add(down);
 		client.sendToClient(returnMsg);
-	    }catch(IOException e){
+	    }catch(SQLException |IOException e){
 		LogHandling.logging("Error:"+ userName.getUserName() +"Encountered a problem while trying to retrieve his GOIs");
 		returnMsg.add(false);
 		returnMsg.add("MyBox Encountered an Error!");
 	    returnMsg.add("Please Contact Technical Support");
 	    client.sendToClient(returnMsg);
-	    } 
+	    }  
 	}
   
     /**editSharedFile - will be used by a user in order to update a file 

@@ -70,7 +70,7 @@ public class FolderHandler implements Serializable{
 		   }
 	}
 	
-	public static void createAFolder(User userName){
+	public static void createAFolder(User userName, Folder folderToCreate){
 		
 	}
 	
@@ -83,6 +83,10 @@ public class FolderHandler implements Serializable{
 		
 	}
 	
+	
+	private static void isFOlderExist(){
+		
+	}
 	
 
 }
