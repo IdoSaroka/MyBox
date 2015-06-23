@@ -89,7 +89,7 @@ public class GoiBasic implements Serializable{
 	            	  
 	               //DownloadSharedFile - Handles the case where the user wishes to download a shared file
 	              case "DownloadSharedFile":
-	            	  downloadSharedFile((User)msg.get(2) , (GOI)msg.get(3),  (FileToView)msg.get(4));
+	            	  downloadSharedFile((User)msg.get(2) , (int)msg.get(3),  (FileToView)msg.get(4));
 	              break;
 	              
 	              
@@ -526,7 +526,7 @@ public class GoiBasic implements Serializable{
      * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
      * @exception IOException e - the function will throw an IOException if there is a problem creating a File Object to send back to the user
      * **/
-  public static void downloadSharedFile( User userName,GOI goiShared, FileToView sharedFile) throws IOException{
+  public static void downloadSharedFile( User userName,int goiShared, FileToView sharedFile) throws IOException{
 	
 	String fullPath=sharedFile.getVirtualPath()+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix();
 	File f = new File(fullPath);
@@ -563,7 +563,7 @@ public class GoiBasic implements Serializable{
      * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
      * @exception IOException e - the function will throw an IOException if there is a problem uploading the file to the server
      * **/
- 	public static void editSharedFile(GOI goiShared, User userName, FileToView sharedFile) throws IOException{
+ 	public static void editSharedFile(int goiShared, User userName, FileToView sharedFile) throws IOException{
  		String path = sharedFile.getVirtualPath();
  		File f = new File(path+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix());
  		PreparedStatement statement = null;  
@@ -610,7 +610,7 @@ public class GoiBasic implements Serializable{
  						 statement.setString(1, time);
  						 statement.setString(2, user);
  						 statement.setString(3, "File: "+ sharedFile.getFileName() +" Was Changed by: "+userName.getUserName()+"\n "
- 						 		+ "From GOI: "+ goiShared.getName());
+ 						 		+ "From GOI: "+ goiShared);
  						 statement.executeQuery();
  					}
 		
@@ -620,7 +620,7 @@ public class GoiBasic implements Serializable{
  			
  		}catch(SQLException |IOException e){
  			LogHandling.logging("Error:"+ userName.getUserName() +"Encountered a problem while trying to update file: "+ sharedFile.getFileName()+sharedFile.getFileSuffix());
- 			LogHandling.logging("GOI: "+goiShared.getName());
+ 			LogHandling.logging("GOI: "+goiShared);
  			returnMsg.add(false);
  			returnMsg.add("MyBox Encountered an Error!");
  		    returnMsg.add("Please Contact Technical Support");
@@ -677,12 +677,12 @@ public class GoiBasic implements Serializable{
      * @throws SQLException - the function will throw an SQLException in case there is a problem searching the database 
      * @return boolean - the function will return true or false depending on the result
      * **/
-	private static boolean isMemberOfGOI(GOI goiShared, User userName) throws IOException{
+	private static boolean isMemberOfGOI(int goiShared, User userName) throws IOException{
  		PreparedStatement statement = null;
  		ResultSet rs = null;
  		try{
  		    statement = conn.prepareStatement("SELECT * From UsersInGOI WHERE GOI_id = ? AND user_Name = ?");
-		    statement.setInt(1, goiShared.getID());
+		    statement.setInt(1, goiShared);
 		    statement.setString(2,userName.getUserName());
 		     rs = statement.executeQuery();
 		 if(!rs.isBeforeFirst()){
@@ -705,16 +705,16 @@ public class GoiBasic implements Serializable{
      * @throws SQLException - the function will throw an SQLException in case there is a problem searching the database 
      * @return boolean - the function will return true or false depending on the result
      * **/
-	private static boolean isFileSharedWithGOI(GOI goiShared,FileToView sharedFile) throws IOException{
+	private static boolean isFileSharedWithGOI(int goiShared,FileToView sharedFile) throws IOException{
 		PreparedStatement statement = null;
  		ResultSet rs = null;
  		try{
  			statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE GOI_id = ? AND file_id = ?");
- 			statement.setInt(1, goiShared.getID());
+ 			statement.setInt(1, goiShared);
  			statement.setInt(2, sharedFile.getFileID());
  			rs = statement.executeQuery();
  			if(!rs.isBeforeFirst()){
- 				LogHandling.logging("File: "+ sharedFile.getFileName()+sharedFile.getFileSuffix()+" is not shared with group: " + goiShared.getName());
+ 				LogHandling.logging("File: "+ sharedFile.getFileName()+sharedFile.getFileSuffix()+" is not shared with group: " + goiShared);
  				rs.close();
  				return false;
  			}
@@ -733,19 +733,19 @@ public class GoiBasic implements Serializable{
      * @throws SQLException - the function will throw an SQLException in case there is a problem searching the database 
      * @return boolean - the function will return true or false depending on the result
      * **/
-	private static boolean isAvilableToEdit(GOI goiShared, FileToView sharedFile) throws IOException{
+	private static boolean isAvilableToEdit(int goiShared, FileToView sharedFile) throws IOException{
 		PreparedStatement statement = null;
  		ResultSet rs = null;
  		try{
  			statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE GOI_id = ? AND user_Name = ?");
  			rs = statement.executeQuery();
  			if(!rs.isBeforeFirst()){
- 				LogHandling.logging("File: "+ sharedFile.getFileName()+sharedFile.getFileSuffix()+" is not shared with group: " + goiShared.getName());
+ 				LogHandling.logging("File: "+ sharedFile.getFileName()+sharedFile.getFileSuffix()+" is not shared with this group");
  				rs.close();
  				return false;
  			}
  			if(rs.getInt(8)==0){
- 				LogHandling.logging("File: "+ sharedFile.getFileName()+sharedFile.getFileSuffix()+" is not avilable for editing for group: "+goiShared.getName());
+ 				LogHandling.logging("File: "+ sharedFile.getFileName()+sharedFile.getFileSuffix()+" is not avilable for editing for this group");
  				return false;
  			}
  			return true;
