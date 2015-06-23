@@ -45,6 +45,7 @@ public class MyBoxGUI extends JPanel
 	protected static YourGOIs yourgois;
 	protected static UsersInGOI usersingoi;
 	protected static Myfiles myfiles;
+	protected static PendingRequest pendingrequest;
 	
 	protected static JFrame frmMyBox;
 	protected Mtds meth = new Mtds();
@@ -66,12 +67,14 @@ public class MyBoxGUI extends JPanel
 	protected static JList list2;
 	protected static JList list3;
 	protected static JList list4;
+	protected static JList listRequest;
 	protected static JList listSharedFls;
 	protected static DefaultListModel ListModel = new DefaultListModel();//for msgs
 	protected static DefaultListModel ListModel2 = new DefaultListModel();//for GOI
 	protected static DefaultListModel ListModel3 = new DefaultListModel();//for YourGOI
 	protected static DefaultListModel ListModel4 = new DefaultListModel();//for UsersInGOi
 	protected static DefaultListModel listSharedFlsModel = new DefaultListModel();//for Folders
+	protected static DefaultListModel ListModelRequest= new DefaultListModel();
 	//protected static ArrayList<String> LsitArray = new ArrayList<String>();
 	////////////////////////
 	
@@ -138,6 +141,10 @@ public class MyBoxGUI extends JPanel
         
         myfiles = new Myfiles();
         contentPane.add(myfiles);
+        
+        pendingrequest = new PendingRequest();
+        contentPane.add(pendingrequest);
+        
         JPanel mainPanel = new JPanel(); 
         
         final JButton previousButton = new JButton("PREVIOUS");
