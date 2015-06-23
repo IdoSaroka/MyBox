@@ -32,8 +32,8 @@ public class JoinGOIPage extends MyBoxGUI
 		setLayout(null);
 		
 		JLabel lblAskToJoin = new JLabel("   Join a Group Of Interest");
-		lblAskToJoin.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 28));
-		lblAskToJoin.setBounds(188, 11, 376, 50);
+		lblAskToJoin.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 36));
+		lblAskToJoin.setBounds(141, 11, 569, 50);
 		add(lblAskToJoin);
 		
 		JLabel lblWhyWouldYou = new JLabel("Why Would You Like To Join");
@@ -47,6 +47,7 @@ public class JoinGOIPage extends MyBoxGUI
 		textField.setColumns(10);
 		
 		JButton btnDone = new JButton("Done");
+		btnDone.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		btnDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String decription = textField.getText();
@@ -65,6 +66,7 @@ public class JoinGOIPage extends MyBoxGUI
 		add(btnDone);
 		
 	   	btnHelp = new JButton("Help");
+	   	btnHelp.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
@@ -75,6 +77,7 @@ public class JoinGOIPage extends MyBoxGUI
     	add(btnHelp);
 
     	btnsignout = new JButton("Sign-Out");
+    	btnsignout.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnsignout.addActionListener(new ActionListener()
     	{
     		public void actionPerformed(ActionEvent e) 
@@ -93,6 +96,7 @@ public class JoinGOIPage extends MyBoxGUI
     	add(btnsignout);
     	
     	btnBack = new JButton("Back");
+    	btnBack.setFont(new Font("Footlight MT Light", Font.PLAIN, 11));
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{

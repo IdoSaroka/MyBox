@@ -77,7 +77,7 @@ public class LoginPage extends MyBoxGUI
     private void init() 
     {
         final JButton btnLogin = new JButton("Login");
-        btnLogin.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
+        btnLogin.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 18));
         btnLogin.setBounds(347, 298, 80, 36);
         action = new ActionListener()
         {

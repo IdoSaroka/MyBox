@@ -28,8 +28,8 @@ public class CreateGOIPage extends MyBoxGUI
 		setLayout(null);
 		
 		JLabel lblCreateNewGoi = new JLabel("Create New GOI");
-		lblCreateNewGoi.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 28));
-		lblCreateNewGoi.setBounds(248, 11, 268, 43);
+		lblCreateNewGoi.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 36));
+		lblCreateNewGoi.setBounds(221, 11, 314, 43);
 		add(lblCreateNewGoi);
 		
 		JLabel lblGoiName = new JLabel("GOI Name");
@@ -71,6 +71,7 @@ public class CreateGOIPage extends MyBoxGUI
 		add(btnDone);
 		
 	   	btnHelp = new JButton("Help");
+	   	btnHelp.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
@@ -81,6 +82,7 @@ public class CreateGOIPage extends MyBoxGUI
     	add(btnHelp);
 
     	btnsignout = new JButton("Sign-Out");
+    	btnsignout.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnsignout.addActionListener(new ActionListener()
     	{
     		public void actionPerformed(ActionEvent e) 
@@ -99,6 +101,7 @@ public class CreateGOIPage extends MyBoxGUI
     	add(btnsignout);
     	
     	btnBack = new JButton("Back");
+    	btnBack.setFont(new Font("Footlight MT Light", Font.PLAIN, 11));
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
