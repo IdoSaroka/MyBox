@@ -16,14 +16,17 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
+import controllers.FileOwnerController;
 import controllers.UserController;
+import entities.FileToView;
 
 public class FileOwnerPage extends MyBoxGUI
 {
 	private JButton btnHelp;
 	private JButton btnsignout;
 
-	UserController temp= new UserController();
+	private FileOwnerController temp= new FileOwnerController();
+	static ArrayList<FileToView> filesToView = new ArrayList<>();
 	
     public FileOwnerPage() 
     {
@@ -64,13 +67,32 @@ public class FileOwnerPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0) 
     		{
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
-    			sharedfilesrspage.setVisible(true);
+    			try {
+					temp.serachSharedFiles("AllFiles", null);
+					filesToView.clear();
+					ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+					if((boolean)msg.get(0)==true){
+						for(int i=1; i<msg.size();i++){
+							filesToView.add((FileToView)msg.get(i)); 
+						}
+						
+						for(int i=0;i<filesToView.size();i++){
+							listSharedFlsModel.addElement(filesToView.get(i).getFileName());
+						}
+						
+						fileownerpage.setVisible(false);
+		    			sharedfilesrspage.setVisible(true);
+					}
+					else{
+						String str = (String)msg.get(1);
+						JOptionPane.showMessageDialog(frmMyBox,str);
+					}	
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			
     		}
     	});
     	btnSharedFiles.setBounds(315, 87, 123, 42);
@@ -133,12 +155,7 @@ public class FileOwnerPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0) 
     		{
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
+    			fileownerpage.setVisible(false);
     			uploadfilepage.setVisible(true);
     		}
     	});
@@ -162,12 +179,7 @@ public class FileOwnerPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
-    			if(user.getrole().equals("User"))
-    				userpage.setVisible(false);
-    			else if (user.getrole().equals("SystemAdmin"))
-    				adminpage.setVisible(false);
-    			else if (user.getrole().equals("FileOwner"))
-    				fileownerpage.setVisible(false);
+    			fileownerpage.setVisible(false);
     			folderspage.setVisible(true);
     		}
     	});
@@ -243,12 +255,7 @@ public class FileOwnerPage extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-    	        	if(user.getrole().equals("User"))
-    	        		userpage.setVisible(false);
-    	        	else if (user.getrole().equals("SystemAdmin"))
-    	        		adminpage.setVisible(false);
-    	        	else if (user.getrole().equals("FileOwner"))
-    	        		fileownerpage.setVisible(false);
+    	        	fileownerpage.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			
@@ -280,5 +287,9 @@ public class FileOwnerPage extends MyBoxGUI
     	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
     	lblBackGround.setBounds(10, 11, 780, 478);
     	add(lblBackGround);
+	}
+    
+    public static ArrayList<FileToView> getFilesToView(){
+		return filesToView;
 	}
 }

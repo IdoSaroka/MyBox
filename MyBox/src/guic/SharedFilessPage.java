@@ -9,15 +9,22 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 
+import controllers.UserController;
+import entities.FileToView;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class SharedFilessPage extends MyBoxGUI
 {
 	private JButton btnBack;
 	private JButton btnHelp;
 	private JButton btnsignout;
+	private ArrayList<FileToView> filesToView = new ArrayList<>();
+	
 	public SharedFilessPage()
 	{
 		setLayout(null);
@@ -38,7 +45,21 @@ public class SharedFilessPage extends MyBoxGUI
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				JOptionPane.showMessageDialog(frmMyBox,"Open message: "+listSharedFlsModel.getElementAt(listSharedFls.getSelectedIndex()),null, JOptionPane.YES_NO_CANCEL_OPTION);
+				int i = listSharedFls.getSelectedIndex();
+				System.out.println(i + ": is the seleced index");
+				if(MyBoxGUI.getUser().getrole().equals("User"))
+					filesToView=UserPage.getFilesToView();
+				else
+					filesToView=FileOwnerPage.getFilesToView();
+				FileToView fileToOpen = filesToView.get(i);
+				
+				UserController moshe = new UserController();
+				try {
+					moshe.openSharedFile(fileToOpen);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnOpenFile.setBounds(58, 22, 200, 50);

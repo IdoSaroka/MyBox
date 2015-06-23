@@ -66,7 +66,7 @@ public class UserController {
 	 * @param userpage
 	 * @throws IOException
 	 */
-	public void serachSharedFiles(String option, String GOI,UserPage userpage) throws IOException{
+	public void serachSharedFiles(String option, String GOI) throws IOException{
 		message.clear();
 		message.add("GOIBasic");
 		message.add("ShowGoiFiles");
@@ -74,19 +74,7 @@ public class UserController {
 		message.add(option);
 		message.add(GOI);//parameter for search
 		MyBoxGUI.getClient().sendToServer(message);
-		filesToView.clear();
-		ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
-		if((boolean)msg.get(0)==true){
-			String str = (String)msg.get(1);
-			JOptionPane.showMessageDialog(userpage,str);
-			for(int i=1; i<msg.size();i++){
-				filesToView.add((FileToView)msg.get(i)); 
-			}
-		}
-		else{
-			String str = (String)msg.get(1);
-			JOptionPane.showMessageDialog(userpage,str);
-		}		
+			
 	}
 	
 	public ArrayList<FileToView> getFilesToView(){
@@ -230,6 +218,8 @@ public class UserController {
 		message.clear();
 		message.add("GoiBasic");
 		message.add("DownloadSharedFile");
+		message.add(MyBoxGUI.getUser());
+		message.add(fileSend.getGoiID());
 		message.add(fileSend);
 		MyBoxGUI.getClient().sendToServer(message);
 		ArrayList<Object> msg =  (ArrayList) MyBoxGUI.getClient().getMessage();
