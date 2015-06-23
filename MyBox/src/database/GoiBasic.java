@@ -41,7 +41,6 @@ public class GoiBasic implements Serializable{
    static ArrayList<Object> returnMsg = new ArrayList<>();
   
    static ConnectionToClient client;
-   
    static Connection conn;
  		
    public GoiBasic(Object message, ConnectionToClient client,Connection con) {

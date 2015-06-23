@@ -16,12 +16,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Scanner;
 import ocsf.server.ConnectionToClient;
 import entities.GOI;
 import entities.User;
+import entities.Request;
 
 public class GoiAdmin implements Serializable{
 
@@ -44,18 +48,22 @@ public class GoiAdmin implements Serializable{
 	   }
 	   
 	   public static void options() throws IOException{
+		   returnMsg =  new ArrayList<>();
 		   Scanner sc = new Scanner(System.in);
-		   String str = (String)msg.get(1);
+		   String str = (String)msg.get(2);
 		   switch(str){
 		   
+		   //"CreateGOI" - will be used by the admin in order to create a new goi in the system
 		   case "CreateGOI":
-			   createAGOI((GOI)msg.get(2));
+			   createAGOI((GOI)msg.get(3));
 			   break;
 			   
+			 //"DeleteAGOI" - will be used by the admin in delete a goi in the system  
 		   case "DeleteAGOI":
-			   
+			   deleteAGOI((GOI)msg.get(3));
 			   break;
 			   
+		   //"ReturnCurrentGOIs" - will be used by the admin in order to find all the GOIs currentliy in the system
 		   case "ReturnCurrentGOIs":
 			   returnAllGoiToAdmin();
 			   break;
@@ -65,8 +73,14 @@ public class GoiAdmin implements Serializable{
 			   getRequests();
 			   break;
 			   
+		   //DecideAboutRequest - will be used by the Admin in order to decide about the current requests avilable in the system   
 		   case "DecideAboutRequest":
-			   decideAboutARequest((String)msg.get(2), (String)msg.get(3));
+			   decideAboutARequest((Request)msg.get(3), (String)msg.get(4));
+			   break;
+			   
+		   //"RemoveAUserFromAGOI" - will be used by the admin in order to remove a user from a specific GOI
+		   case "RemoveAUserFromAGOI":
+			   deleteAUserFromAGOI((GOI)msg.get(3), (String)msg.get(4));
 			   break;
 		   
 		   default:
@@ -87,24 +101,25 @@ public class GoiAdmin implements Serializable{
 	    * **/   
 		public static void getRequests() throws IOException{
 			 Statement stmt;
+			 Request requestToSend;
 			   try{
 			       stmt = conn.createStatement();
 			       ResultSet rs = stmt.executeQuery("SELECT * FROM request;");
-			       while(rs.next()){
-			    	   /*
-			    	    * Description:
-			    	    * rs.getString(1) - Request ID
-			    	    * rs.getString(2) - User Name
-			    	    * rs.getString(3) - GOI Name
-			    	    * rs.getString(4) - Description
-			    	    * */
-			    	   returnMsg.add(rs.getString(1) +
-			    			               " "+rs.getString(2) +
-			    			                  " "+rs.getString(3) +
-			    			                    " "+rs.getString(4));
+			       if(!rs.isBeforeFirst()){
+			    	   returnMsg.add(false);
+			    	   returnMsg.add("There are currentliy no request in the system!");
+			    	   client.sendToClient(returnMsg);
 			       }
-			       rs.close();
+			       returnMsg.add(true);
+			       while(rs.next()){
+			    	   
+			    	    //Description:
+			    	    //rs.getString(1) - Request ID  * rs.getString(2) - User Name * rs.getString(3) - GOI Name * rs.getString(4) - Description
+			    	   requestToSend = new Request(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4));
+			    	   returnMsg.add(requestToSend);
+			       }
 			       client.sendToClient(returnMsg);
+			       rs.close();
 			   }
 				/*
 				 * Handling of the SQLException | IOException - 1. Saving the appropriate data in the Log
@@ -167,7 +182,13 @@ public class GoiAdmin implements Serializable{
 				   client.sendToClient(returnMsg);
 			}
 		}
-
+		 /**returnAllGoiToAdmin - will be responsible for retrieving all of the current GOIs in the system
+		    * @author Ido Saroka 300830973
+		    * <p>
+		    * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+		    * @exception SQLException e - the function will throw an SQLException in case there is a problem searching the database
+		    * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
+		    * **/  
 		public static void returnAllGoiToAdmin() throws IOException{
 			PreparedStatement statement = null;
 			ResultSet rs = null;
@@ -200,22 +221,66 @@ public class GoiAdmin implements Serializable{
 			}
 		}
 		
-		
-		public static void deleteAGOI(GOI newGOI){
+		 /**returnAllGoiToAdmin - will be responsible for the deletion of a GOI, the function will use the function: "deleteAUserFromAGOI"
+		  * in order to delete each user
+		  * @author Ido Saroka 300830973
+		  * <p>
+		  * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+		  * @exception SQLException e - the function will throw an SQLException in case there is a problem searching the database
+		  * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
+		  * **/  
+		public static void deleteAGOI(GOI goiToDelete) throws IOException{
 			PreparedStatement statement = null;
 			ResultSet rs = null;
 			HashSet<String> usersToInform = new HashSet<String>();
-			/*try{
-				
-			}catch(){
-				
-			}*/
+			try{
+				statement = conn.prepareStatement("SELECT * From GOI WHERE GOI_Name = ?");
+				statement.setString(1, goiToDelete.getName());
+				rs = statement.executeQuery();
+				if(!rs.isBeforeFirst()){
+					returnMsg.add(false);
+					returnMsg.add("Error - GOI: "+goiToDelete.getName()+" does not exist in the system");
+				}
+				statement = conn.prepareStatement("SELECT * From UsersInGO WHERE GOI_Name = ?");
+				statement.setString(1, goiToDelete.getName());
+				rs = statement.executeQuery();
+				while(rs.next()){
+					usersToInform.add(rs.getString(2));
+				}
+				for(String user : usersToInform){
+					deleteAUserFromAGOI(goiToDelete, user);
+				}
+				LogHandling.logging("Admin has deleted the GOI: "+goiToDelete.getName()+" all the relevent users have been notified");
+				returnMsg.add(true);
+				returnMsg.add("You have succesfuliy deleted GOI: "+goiToDelete.getName());
+				client.sendToClient(returnMsg);
+			}catch(SQLException | IOException e){
+				LogHandling.logging("Error: Admin ecnounterd a problme while trying to Delete GOI: " +
+						goiToDelete.getName());
+				LogHandling.logging(e.getMessage());
+				e.printStackTrace(); 
+				returnMsg.add(false);
+				returnMsg.add("MyBox Encounterd an Error!");
+				returnMsg.add("Please Contact Technical Support");
+				client.sendToClient(returnMsg);
+			}
 	
 		}
 		
+		 /**returnAllGoiToAdmin - will be responsible for the deletion of a GOI, the function will use the function: "deleteAUserFromAGOI"
+		  * in order to delete each user
+		  * @author Ido Saroka 300830973
+		  * <p>
+		  * @throws IOException - the function will throw an IOException in case there will be a problem writing to the log file
+		  * @exception SQLException e - the function will throw an SQLException in case there is a problem searching the database
+		  * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
+		  * **/  
 		public static void deleteAUserFromAGOI(GOI goi, String userToDelete) throws IOException{
 			PreparedStatement statement = null;
 			ResultSet rs = null;
+			DateFormat dateFormat;
+	 		Date date = new Date();
+	 		String time;
 			try{
 				statement = conn.prepareStatement("SELECT * From Users Where userName = ?");
 				statement.setString(1,userToDelete);
@@ -227,12 +292,25 @@ public class GoiAdmin implements Serializable{
 					 client.sendToClient(returnMsg);
 					 rs.close();
 				}
+				statement = conn.prepareStatement("DELETE FROM UsersInGOI WHERE GOI_id = ? AND user_Name = ?");
+				statement.setString(1,goi.getName());
+				statement.setString(2,userToDelete);
+				statement.executeQuery();
 				
+				dateFormat = new SimpleDateFormat("HH:mm  dd-MM-yyyy");	 
+ 				time=dateFormat.format(date);
+				statement = conn.prepareStatement("INSERT INTO UserMessages (message_Date,userName,description) VALUES (?,?,?)");	
+				statement.setString(1, time);
+				statement.setString(2, userToDelete);
+				statement.setString(3, "You have been reomved from GOI: "+goi.getName()+" By the system Admin");
+				statement.executeQuery();
 				
 			}catch(SQLException | IOException e){
-				LogHandling.logging("Error: Admin ecnounterd a problme while trying to create GOI: "+ goi.getName());
+				LogHandling.logging("Error: Admin ecnounterd a problme while trying to Delete the user: "+ userToDelete +" from GOI: " +
+						goi.getName());
 				LogHandling.logging(e.getMessage());
 				e.printStackTrace(); 
+				returnMsg.add(false);
 				returnMsg.add("MyBox Encounterd an Error!");
 				returnMsg.add("Please Contact Technical Support");
 				client.sendToClient(returnMsg);
@@ -253,7 +331,7 @@ public class GoiAdmin implements Serializable{
 		 * @return 
 		 * **/  
 		 @SuppressWarnings("resource")
-	     public static void decideAboutARequest(String requestId,String decision) throws IOException{
+	     public static void decideAboutARequest(Request requestId,String decision) throws IOException{
 				String userName,goiName;
 				
 				PreparedStatement statement = null;
@@ -262,7 +340,7 @@ public class GoiAdmin implements Serializable{
 				 //The following statement will Check to see that a request was indeed made by this specific user
 				 try{
 					 statement = conn.prepareStatement("SELECT * From request WHERE request_id = ?");
-					 statement.setString(1, requestId);
+					 statement.setInt(1, requestId.getRequestID());
 					 rs = statement.executeQuery();
 					 if(!rs.isBeforeFirst()){
 						 LogHandling.logging("Error: Admin ecnounterd a problme while Deciding about request : "+ requestId+" request does not exist");
@@ -292,7 +370,7 @@ public class GoiAdmin implements Serializable{
 					     
 					     //Deleting the message from the request database
 					     statement = conn.prepareStatement("DELETE FROM Request WHERE request_id = ?");
-					     statement.setString(1, requestId);
+					     statement.setInt(1, requestId.getRequestID());
 					     statement.executeQuery();
 					     rs.close();
 					     LogHandling.logging("user: " + userName+ " was added to GOI: "+ goiName +" by Admin");
