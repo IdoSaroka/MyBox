@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 
 import entities.GOI;
+import entities.Request;
 import entities.User;
 import main.MyBoxGUI;
 
@@ -34,13 +35,13 @@ public class SysAdminController extends FileOwnerController {
 	 * answer if to accept or decline
 	 * @throws IOException 
 	 */
-	public void approveRequest(boolean answer) throws IOException{
+	public void approveRequest(Request req, String decision) throws IOException{
 		message.clear();
-		message.add("approveRequest");
-		if(answer==true)
-			message.add("Approve");
-		else
-			message.add("Decline");
+		message.add("Admin");
+		message.add(MyBoxGUI.getUser().getrole());
+		message.add("DecideAboutRequest");
+		message.add(req.getRequestID());
+		message.add(decision);//accept OR reject
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 	

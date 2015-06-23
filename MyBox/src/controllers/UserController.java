@@ -69,7 +69,7 @@ public class UserController {
 	public void serachSharedFiles(String option, String GOI,UserPage userpage) throws IOException{
 		message.clear();
 		message.add("GOIBasic");
-		message.add("ShoeGoiFiles");
+		message.add("ShowGoiFiles");
 		message.add(MyBoxGUI.getUser());
 		message.add(option);
 		message.add(GOI);//parameter for search

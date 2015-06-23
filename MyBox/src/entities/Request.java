@@ -23,7 +23,7 @@ public class Request implements Serializable
 	private String userName;
 	private String goiName;
 	private String description;
-	private int goiID;
+	private int requestID;
 	
 /**
 	* Constructor of the Request class
@@ -31,11 +31,11 @@ public class Request implements Serializable
 	* @param String goiName
 	* @param String description
 */
-	public Request(String userName, String goiName, String description, int id){
+	public Request(int id, String userName, String goiName, String description){
 		this.userName = userName;
 		this.goiName = goiName;
 		this.description = description;
-		this.goiID=id;
+		this.requestID=id;
 	}
 	
 	/**
@@ -63,8 +63,8 @@ public class Request implements Serializable
 	/**
 	* @return int of goiID
 	*/	
-	public int getGoiID() {
-		return goiID;
+	public int getRequestID() {
+		return requestID;
 	}
 
 }
