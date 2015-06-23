@@ -119,12 +119,15 @@ public class FilesHandler implements Serializable {
 			 //check that the user exists in the system
 			 if(!rs.isBeforeFirst()){
 				 LogHandling.logging("Authorization Violation: Illegal Access was blocked!");
+				 returnMsg.add(false);
 				 returnMsg.add("MyBox Encountered an error, Please Contact Technical Support!");
 				 rs.close();
 				 connection.sendToClient(returnMsg);
 			 }	 
+			 rs.next();
 			 if(!(userName.getPassword().equals(rs.getString(2)))){
 				 LogHandling.logging("Authorization Violation: Illegal Access was blocked! - Incorrect Password");
+				 returnMsg.add(false);
 				 returnMsg.add("MyBox Encountered an error, Please Contact Technical Support!");
 				 rs.close();
 				 connection.sendToClient(returnMsg);
