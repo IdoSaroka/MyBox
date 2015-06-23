@@ -68,9 +68,16 @@ public class GoiBasic implements Serializable{
 	               //"Search" - Should the user chooses perform a search in the GOI database
 	   
 	              case "Search":
+	            	  
+	          	    /**Test**/
+	            	    System.out.println("\nReached GOI Basic - searchAGOI \n");
+	            	    System.out.println(((User)msg.get(2)).getUserName()+"\n");
+	            	    System.out.println((String)msg.get(3)+"\n");
+	            	    System.out.println((String)msg.get(4)+"\n");
 	            	  searchAGOI((User)msg.get(2),(String)msg.get(3),(String)msg.get(4));
 	              break;
 		          
+	              
 	       
 	              //ShowGoiFiles - will be used should the user wishes to search the shared files currently available in the system
 	              case "ShowGoiFiles":
@@ -80,7 +87,13 @@ public class GoiBasic implements Serializable{
 	          
 	               //MakeARequestToJoin - Handles the case where the user wishes to make a request to join a GOI
 	              case "MakeARequestToJoin": 
-	            	  makeARequest((User)msg.get(2),(GOI)msg.get(3),(String)msg.get(4));
+	            	  
+	            	    /**Test**/
+	            	    System.out.println("\nReached GOI Basic - makeARequest \n");
+	            	    System.out.println(((User)msg.get(2)).getUserName()+"\n");
+	            	    System.out.println((String)msg.get(3)+"\n");
+	            	    System.out.println((String)msg.get(4)+"\n");
+	            	  makeARequest((User)msg.get(2),(String)msg.get(3),(String)msg.get(4));
 			      break; 
 	              
 	              case "ReturnUserGois":
@@ -144,13 +157,15 @@ public class GoiBasic implements Serializable{
 				if(!rs.isBeforeFirst()){
 					 returnMsg.add(false);
 					 returnMsg.add("There is currentliy no GOI: "+ searchParameter+ " in MyBox");
+					 client.sendToClient(returnMsg);
 					 break;
 				}
+				rs.next();
 				returnMsg.add(true);
 				goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
 				returnMsg.add(goiToReturn);
-                rs.close();
-                client.sendToClient(returnMsg);
+				client.sendToClient(returnMsg);
+                rs.close();      
 			    break;
 				 
 			    
@@ -162,6 +177,7 @@ public class GoiBasic implements Serializable{
 					if(!rs.isBeforeFirst()){
 						 returnMsg.add(false);
 						 returnMsg.add("There Are currentliy No Goi's with the subject: "+ searchParameter +" in MyBox!");
+						 client.sendToClient(returnMsg);
 						 break;
 					}
 			    returnMsg.add(true);
@@ -174,7 +190,11 @@ public class GoiBasic implements Serializable{
 			 break;
 			   //"All" - Returns the user all the GOIs that currently exist in the system
 			 case "All":
-				   stmt = conn.prepareStatement("SELECT * From goi");
+				 
+                 /**Test**/
+				 System.out.println("Reached All statement\n");
+				 
+				   stmt = conn.prepareStatement("SELECT * From GOI");
 				   rs = stmt.executeQuery();
 				    if(!rs.isBeforeFirst()){
 				    	rs.close();
@@ -183,13 +203,16 @@ public class GoiBasic implements Serializable{
 				    	client.sendToClient(returnMsg);
 				    	break;
 				    }
+				    /**Test**/
+				    System.out.println("Ended rs statement\n");
+				    
 				    returnMsg.add(true);
 				    while(rs.next()){	   
 				    	  goiToReturn = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
 						  returnMsg.add(goiToReturn);
 				       }
-				     rs.close();
 				     client.sendToClient(returnMsg);
+				     rs.close();
 			 break;	 
 			  //Default case - handles all the invalid selections should they occur
 			 default:
@@ -227,16 +250,23 @@ public class GoiBasic implements Serializable{
       * @exception SQLException e 
       * @exception IOException e  
       * **/  
-     private static void makeARequest(User userName,GOI goiName,String description) throws IOException{
+     private static void makeARequest(User userName,String goiName,String description) throws IOException{
     			PreparedStatement statement = null;
     			ResultSet rs = null;
+    			
+    			/**TEst**/
+    			System.out.println("reached the function makeARequest\n");
+    			System.out.println(userName.getUserName()+"\n");
+    			System.out.println(goiName+"\n");
+    			System.out.println(description+"\n");
+    			
     			try {
     				/*
     				 * The following statement checks if the GOI that the user is requesting to join actually exist, if
     				 * not an appropriate message will be sent to the user
     				 * */
     				 statement = conn.prepareStatement("SELECT GOI_id,GOI_Name From GOI WHERE GOI_Name = ?");
-    				 statement.setString(1, goiName.getName()); 
+    				 statement.setString(1, goiName); 
     				 rs=statement.executeQuery();
     				 if(!rs.isBeforeFirst()){
     					 rs.close();
@@ -246,29 +276,31 @@ public class GoiBasic implements Serializable{
     				 }
     				 rs.next();
     				 int goiId = rs.getInt(1);
-    				 
+    				 System.out.println("GOI Id: "+goiId+"\n");
     				 /*
      				 * The following statement checks if the user is already a member in the group of interest (GOI) he is requesting to join
      				 * If the user is already a member the system will sent him a message stating so
      				 * */		 
-    				 statement = conn.prepareStatement("SELECT * From usersingoi WHERE GOI_id = ? AND user_Name = ?");
+    				 statement = conn.prepareStatement("SELECT * FROM UsersInGOI WHERE GOI_id = ? AND user_Name = ?");
     				 statement.setInt(1, goiId);
     				 statement.setString(2, userName.getUserName());
     				 rs=statement.executeQuery();
     				 if(rs.isBeforeFirst()){
+    					 System.out.println("Entered this loop");
     					 rs.close();
     					 returnMsg.add("Error: You are allready a memeber in this Group Of Interest");
-    					
+    					 client.sendToClient(returnMsg);
     					 return;
     				 }
-    				 
+    				 				 
+    				 System.out.println("Passed the check - use is not a member in this goi");
     				 /*
       				 * The following statement checks if the user has already made a request to join this GOI.
       				 * If the user has already sent a request the system will send him a message stating so.
       				 * */	
     				 statement = conn.prepareStatement("SELECT * From request WHERE userName = ? AND GOI_Name = ?");
     				 statement.setString(1, userName.getUserName()); 
-    				 statement.setString(2, goiName.getName());
+    				 statement.setString(2, goiName);
     				 rs=statement.executeQuery();
     				 if(rs.isBeforeFirst()){
     					 rs.close();
@@ -282,9 +314,11 @@ public class GoiBasic implements Serializable{
        				 * The following statement will insert the user's request to the appropriate mySQL table (request)
        				 * if all the previous checks were passed successfully.
        				 * */	
+    				 System.out.println("Recehed the request insert statement \n");
+    				 
     				 statement = conn.prepareStatement("INSERT INTO Request (userName,GOI_Name,description) VALUES (?,?,?)");
     				 statement.setString(1, userName.getUserName());
-    			     statement.setString(2, goiName.getName());	
+    			     statement.setString(2, goiName);	
     			     statement.setString(3, description);
     			     statement.executeUpdate();
     			     returnMsg.add("Request was sent successfully");

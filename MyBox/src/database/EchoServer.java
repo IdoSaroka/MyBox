@@ -77,7 +77,12 @@ public class EchoServer extends AbstractServer implements Serializable
     returnMsg =  new ArrayList<>();
     String str = (String)message.get(0);
     
+    //Test
+    System.out.println((String)message.get(0));
+    
     switch(str){
+    
+    
     
      //Login - check the case the user wish to perform a login operation
     case "Login": 

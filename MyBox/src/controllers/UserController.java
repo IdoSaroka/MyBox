@@ -92,7 +92,7 @@ public class UserController {
 		message.clear();
 		message.add("GOIBasic");
 		message.add("MakeARequestToJoin");
-		message.add(MyBoxGUI.getUserName());
+		message.add(MyBoxGUI.getUser());
 		message.add(goi.getName());
 		message.add(description);
 		MyBoxGUI.getClient().sendToServer(message);

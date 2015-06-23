@@ -382,14 +382,14 @@ public class FilesHandler implements Serializable {
 			return;
 		}
 		//check that it is a file owner trying to access the file
-		if((Security.checkFileOwner(userName,file.getFileID(),file.getFileOwner() ,conn)) == false){
+	/*	if((Security.checkFileOwner(userName,file.getFileID(),file.getFileOwner() ,conn)) == false){
 			LogHandling.logging("Illegal Access was trying by user :" + userName.getUserName());
 			returnMsg.add(false);
 			returnMsg.add("MyBox Encountered an Error!");
 			returnMsg.add("Please Contact Technical Support");
 			connection.sendToClient(returnMsg);
 			rs.close();
-		}
+		}*/
 		Browse newBrowse = new Browse(f, file.getFileName(),file.getFileSuffix());
 		returnMsg.add(true);
 		MyFile down = newBrowse.getFile();
@@ -554,10 +554,10 @@ public class FilesHandler implements Serializable {
 			
 			
 			//checkFileOwner(User userToCheck,int fileId,String listedOwnerOfTheFile,Connection con) 
-			if((Security.checkFileOwner(userName,fileToDelete.getFileID(),fileToDelete.getFileOwner(),conn))==false){
+			/*if((Security.checkFileOwner(userName,fileToDelete.getFileID(),fileToDelete.getFileOwner(),conn))==false){
 				returnMsg.add(false);
 				returnMsg.add("MyBox Encountered a problem deleting the file: "+fileToDelete.getFileName() +"\n please contact Techincal Support!");
-			}
+			}*/
 			//checking that the file exists
 			if( !f.exists() ){
 				 LogHandling.logging("Error - User: "+ fileToDelete.getFileOwner()+"Ecnounterd a problem deleting the file: "+fileToDelete.getFileName()+fileToDelete.getFileSuffix()+ " from path:"+fileToDelete.getVirtualPath());

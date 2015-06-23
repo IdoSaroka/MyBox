@@ -161,6 +161,9 @@ public class SearchGOIPage extends MyBoxGUI
 	    			
 	    			int size=msg.size();
 	    			
+	    			System.out.println("Returned value Value: " + msg.get(0));
+	    			System.out.println("Returned GOI is: " + ((GOI)msg.get(1)).getName());
+	    			
 	    			if((boolean)msg.get(0)==true){
 	    				for(int i=1;i<size;i++){
 	    					gois.add((GOI)msg.get(i));
