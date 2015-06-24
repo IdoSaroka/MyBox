@@ -50,17 +50,18 @@ public class GoiAdmin implements Serializable{
 	   public static void options() throws IOException{
 		   returnMsg =  new ArrayList<>();
 		   Scanner sc = new Scanner(System.in);
-		   String str = (String)msg.get(2);
+		   String str = (String)msg.get(3);
+		   System.out.println("Got to GOI controller: "+(String)msg.get(3)+"\n");
 		   switch(str){
 		   
 		   //"CreateGOI" - will be used by the admin in order to create a new goi in the system
 		   case "CreateGOI":
-			   createAGOI((GOI)msg.get(3));
+			   createAGOI((GOI)msg.get(4));
 			   break;
 			   
 			 //"DeleteAGOI" - will be used by the admin in delete a goi in the system  
 		   case "DeleteAGOI":
-			   deleteAGOI((GOI)msg.get(3));
+			   deleteAGOI((GOI)msg.get(4));
 			   break;
 		
 		  //"returnAllUsersToAdmin" - will be used by the admin in order to find all the current users in the system    
@@ -74,7 +75,7 @@ public class GoiAdmin implements Serializable{
 			   break;
 			   
 		   case "AddUserToGOINoRequest": 
-			   addUserToGOINoRequest((GOI)msg.get(3), (String)msg.get(4));
+			   addUserToGOINoRequest((GOI)msg.get(4), (String)msg.get(5));
 			   break;
 			   
 		   // "RetriveCurrentRequests" - will be used to retrieve all the current users requests to join GOIs
@@ -84,12 +85,12 @@ public class GoiAdmin implements Serializable{
 			   
 		   //DecideAboutRequest - will be used by the Admin in order to decide about the current requests avilable in the system   
 		   case "DecideAboutRequest":
-			   decideAboutARequest((Request)msg.get(3), (String)msg.get(4));
+			   decideAboutARequest((Request)msg.get(4), (String)msg.get(5));
 			   break;
 			   
 		   //"RemoveAUserFromAGOI" - will be used by the admin in order to remove a user from a specific GOI
 		   case "RemoveAUserFromAGOI":
-			   deleteAUserFromAGOI((GOI)msg.get(3), (String)msg.get(4));
+			   deleteAUserFromAGOI((GOI)msg.get(4), (String)msg.get(5));
 			   break;
 		   
 		   default:
@@ -109,16 +110,18 @@ public class GoiAdmin implements Serializable{
 	    * @exception IOException e  
 	    * **/   
 		private static void getRequests() throws IOException{
-			 Statement stmt;
+			 PreparedStatement stmt;
 			 Request requestToSend;
+			 System.out.println("Got to get requests..\n");
 			   try{
-			       stmt = conn.createStatement();
-			       ResultSet rs = stmt.executeQuery("SELECT * FROM request;");
+			       stmt = conn.prepareStatement("SELECT * FROM request");
+			       ResultSet rs = stmt.executeQuery();
 			       if(!rs.isBeforeFirst()){
 			    	   returnMsg.add(false);
 			    	   returnMsg.add("There are currentliy no request in the system!");
 			    	   client.sendToClient(returnMsg);
 			       }
+			       //rs.next(); //<- check if needed
 			       returnMsg.add(true);
 			       while(rs.next()){
 			    	   
@@ -127,6 +130,10 @@ public class GoiAdmin implements Serializable{
 			    	   requestToSend = new Request(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4));
 			    	   returnMsg.add(requestToSend);
 			       }
+			       System.out.println("Ended get Reqeusts\n");
+			       System.out.println("Returned Value is"+returnMsg.get(0)+"\n");
+			       System.out.println(((Request)returnMsg.get(1)).getRequestID()+"\n");
+			       System.out.println("Returned Message size is: "+returnMsg.size()+"\n");
 			       client.sendToClient(returnMsg);
 			       rs.close();
 			   }

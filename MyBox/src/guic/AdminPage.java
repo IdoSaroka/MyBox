@@ -13,9 +13,16 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import controllers.FileOwnerController;
+import controllers.SysAdminController;
+import entities.GOI;
+import entities.Request;
+
 import main.MyBoxGUI;
 
 import java.awt.Font;
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class AdminPage extends MyBoxGUI
@@ -95,8 +102,41 @@ public class AdminPage extends MyBoxGUI
     		public void actionPerformed(ActionEvent e)
     		{
     			//JOptionPane.showMessageDialog(frmMyBox,"This button not set yet","Help",JOptionPane.INFORMATION_MESSAGE);
-    			pendingrequest.setVisible(true);
-    			adminpage.setVisible(false);			
+    			SysAdminController send = new SysAdminController();
+				try {
+					send.getCurrentRequests();
+				} catch (IOException e1) {
+					System.out.println("Unable to send search terms in Search GOI Page");
+					e1.printStackTrace();
+				}
+				
+    			ArrayList<Object> msg = (ArrayList)MyBoxGUI.getClient().getMessage();
+    			//gois = new ArrayList<>();
+    			
+    			int size=msg.size();
+    			
+    			System.out.println("Got to get Admin Requests\n");
+    			
+    			System.out.println("GOT to YOUR GOIs , Returned value Value: " + msg.get(0));
+    			//System.out.println("Returned GOI is: " + ((GOI)msg.get(1)).getName());
+    			ArrayList<Request> temp = new ArrayList<>();
+    			if((boolean)msg.get(0)==true){
+    				for(int i=1;i<size;i++){
+    					temp.add((Request)msg.get(i));
+    				}
+    				ListModel.clear();
+    				for(int i=0;i<size-1;i++){
+	    				ListModel.addElement(temp.get(i));
+	    			}
+    				pendingrequest.setVisible(true);
+        			adminpage.setVisible(false);
+    			}
+    			else{
+    				JOptionPane.showMessageDialog(frmMyBox,(String)msg.get(1));
+    			}
+    			
+    			//pendingrequest.setVisible(true);
+    			//adminpage.setVisible(false);			
     		}
     	});
     	btnPendingRequest.setBounds(531, 87, 122, 42);

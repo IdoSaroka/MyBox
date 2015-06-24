@@ -115,7 +115,7 @@ public class EchoServer extends AbstractServer implements Serializable
     case "Admin":
     	 //This condition is a security check in case a user which is not a admin tries to access the system   	 
     	if(("SystemAdmin").equals((String)message.get(1))){
-    		LogHandling.logging("Admin: " + (String)message.get(3) + " is logged in the system");
+    		LogHandling.logging("Admin: " + ((User)message.get(2)).getUserName() + " is logged in the system");
     		GoiAdmin AdminHandler = new GoiAdmin(msg,client,conn); 
     		try { GoiAdmin.options(); } 
         	catch (IOException e1) {

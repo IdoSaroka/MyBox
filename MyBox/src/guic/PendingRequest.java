@@ -90,8 +90,7 @@ public class PendingRequest extends MyBoxGUI
     		public void actionPerformed(ActionEvent e) 
     		{
     			pendingrequest.setVisible(false);
-    			searchgoipage.setVisible(true);
-    			
+    			adminpage.setVisible(true);	
     		}
     	});
     	btnBack.setBounds(3, 2, 68, 23);
