@@ -94,7 +94,9 @@ public class AdminPage extends MyBoxGUI
     	btnPendingRequest.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e)
     		{
-    			JOptionPane.showMessageDialog(frmMyBox,"This button not set yet","Help",JOptionPane.INFORMATION_MESSAGE);
+    			//JOptionPane.showMessageDialog(frmMyBox,"This button not set yet","Help",JOptionPane.INFORMATION_MESSAGE);
+    			adminpage.setVisible(false);
+    					
     		}
     	});
     	btnPendingRequest.setBounds(531, 87, 122, 42);

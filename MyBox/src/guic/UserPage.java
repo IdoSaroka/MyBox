@@ -85,10 +85,8 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0)
     		{
-    			/**
-    			 * TODO
-    			 * ask Ido how to get my own GOIs
-    			 */
+    			userpage.setVisible(false);
+    			yourgois.setVisible(true);
     		}
     	});
     	btnYourGoi.setBounds(114, 87, 123, 42);

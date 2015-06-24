@@ -53,6 +53,8 @@ public class FileOwnerPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0)
     		{
+    			fileownerpage.setVisible(false);
+    			yourgois.setVisible(true);
     		}
     	});
     	btnYourGoi.setBounds(114, 87, 123, 42);
