@@ -27,8 +27,19 @@ public class SysAdminController extends FileOwnerController {
 	 */
 	public SysAdminController(){
 		super();
+		message.add("Admin");
 	}
 	
+	/**returns the current requests**/
+    public void getCurrentRequests() throws IOException{
+    	message.clear();
+    	message.add("Admin");
+    	message.add(MyBoxGUI.getUser().getrole());
+    	message.add(MyBoxGUI.getUser());
+    	message.add("RetriveCurrentRequests");
+    	MyBoxGUI.getClient().sendToServer(message);
+    }
+    
 	/**
 	 * System administrator chooses weather to allow or deny a request from users
 	 * @param boolean 
