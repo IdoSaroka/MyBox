@@ -239,11 +239,13 @@ public class UserPage extends MyBoxGUI
     			userpage.setVisible(false);
     			messages.setVisible(true);
     			
+    			
+    			/**Importent need to fix**/
     			if((boolean)msg.get(0)){
     				ArrayList<Messages> temp = new ArrayList<>();
     				for(int i=1;i<msg.size()+1;i++){
     					temp.add((Messages)msg.get(i));
-        				ListModel.addElement(temp.get(i).toString());
+        				ListModel.addElement(temp.get(i));
         			}
     				/**Show message gif icon**/
     				lblNewMSG.setVisible(false);

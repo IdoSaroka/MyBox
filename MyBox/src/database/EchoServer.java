@@ -409,17 +409,21 @@ protected void serverStarted()
 				client.sendToClient(returnMsg);
 				rs.close();
 			}
+			//rs.next();
 			returnMsg.add(true);
 			//adding all the user's message to the returned message
+			System.out.println("Start of while loop\n");
 			while(rs.next()){
 				//return message.add
 			    userMessage = new Messages(rs.getString(4),rs.getString(2));
 			    returnMsg.add( userMessage);
 			}
+			System.out.println("End of while loop\n");
 			statement = conn.prepareStatement("DELETE FROM usermessages WHERE userName = ?");
 			statement.setString(1,userName);
-			statement.executeQuery();
+			statement.executeUpdate();
 			client.sendToClient(returnMsg);
+			System.out.println("End of Deletion condition\n");
 			rs.close();
 		}catch(SQLException | IOException e){
 			LogHandling.logging("Error: " + userName +" Encountered an error while trying to receive his messages");
