@@ -79,7 +79,7 @@ public class FileOwnerPage extends MyBoxGUI
     					temp.add((GOI)msg.get(i));
     				}
     				ListModel.clear();
-    				for(int i=1;i<size-1;i++){
+    				for(int i=0;i<size-1;i++){
 	    				ListModel.addElement(temp.get(i));
 	    			}
     				fileownerpage.setVisible(false);
