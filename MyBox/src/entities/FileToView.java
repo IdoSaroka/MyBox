@@ -12,7 +12,7 @@ import java.io.Serializable;
 */
 
 /**
-*Class xxxx: 
+*Class FileToView: Shows files that the user is not the owner of them
 *@author Shimon Ben-Alul 201231818
 */
 public class FileToView implements Serializable {

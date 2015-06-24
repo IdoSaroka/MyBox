@@ -32,7 +32,7 @@ public class FileOwnerPage extends MyBoxGUI
 	static ArrayList<FileOwnerViewer> fileOwnerViewer = new ArrayList<>();
 	
 	//added by ido
-	static ArrayList<GOI> gois;
+	static ArrayList<GOI> gois = new ArrayList<>();
 	
     public FileOwnerPage() 
     {
@@ -69,18 +69,15 @@ public class FileOwnerPage extends MyBoxGUI
     			//gois = new ArrayList<>();
     			
     			int size=msg.size();
-    			
-    			
-    			System.out.println("GOT to YOUR GOIs , Returned value Value: " + msg.get(0));
-    			//System.out.println("Returned GOI is: " + ((GOI)msg.get(1)).getName());
-    			ArrayList<GOI> temp = new ArrayList<>();
+
+
     			if((boolean)msg.get(0)==true){
     				for(int i=1;i<size;i++){
-    					temp.add((GOI)msg.get(i));
+    					gois.add((GOI)msg.get(i));
     				}
     				ListModel.clear();
     				for(int i=0;i<size-1;i++){
-	    				ListModel.addElement(temp.get(i));
+	    				ListModel.addElement(gois.get(i));
 	    			}
     				fileownerpage.setVisible(false);
 					//showsearchgoi.setVisible(true);
@@ -102,6 +99,7 @@ public class FileOwnerPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0) 
     		{
+    			listSharedFlsModel.clear();
     			try {
 					temp.serachSharedFiles("AllFiles", null);
 					filesToView.clear();
@@ -152,24 +150,30 @@ public class FileOwnerPage extends MyBoxGUI
     			
     			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
     			
-    			fileownerpage.setVisible(false);
-    			messages.setVisible(true);
-    			
-    			
-    			if((boolean)msg.get(0)){
-    				ArrayList<Messages> temp = new ArrayList<>();
-    				for(int i=1;i<msg.size()+1;i++){
-    					temp.add((Messages)msg.get(i));
+    			/*for(int j=0;j<msg.size();j++)
+					System.out.println(msg.get(j));
+    			*/
+    			if((boolean)msg.get(0)==true){
+    				int size=msg.size();
+    				
+    				for(int j=0;j<size;j++)
+    					System.out.println(msg.get(j));
+    				
+    				ListModel.clear();
+    				ArrayList<entities.Messages> temp = new ArrayList<>();
+    				
+    				for(int i=1;i<size;i++)
+    					temp.add((entities.Messages)msg.get(i));
+        			
+    				for(int i=0;i<temp.size();i++)
         				ListModel.addElement(temp.get(i).toString());
-        			}
+        			
+    				fileownerpage.setVisible(false);
+        			messages.setVisible(true);
     				/**Show message gif icon**/
     				lblNewMSG.setVisible(false);
     			}
-    			
-    			
-    			
-    			else
-    			{
+    			else{
     				JOptionPane.showMessageDialog(frmMyBox,"No new messages","Message",JOptionPane.INFORMATION_MESSAGE);
     			}
 
@@ -309,7 +313,7 @@ public class FileOwnerPage extends MyBoxGUI
     			temp.myFiles();;
 				fileOwnerViewer.clear();
 				ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
-				
+				ListModel4.clear();
 				for(int i=0;i<msg.size();i++){
 					System.out.println(msg.get(i));
 				}
@@ -349,5 +353,9 @@ public class FileOwnerPage extends MyBoxGUI
     
     public static ArrayList<FileOwnerViewer> getFilesOwnerViewer(){
 		return fileOwnerViewer;
+	}
+    
+    public static ArrayList<GOI> getGOIs(){
+		return gois;
 	}
 }

@@ -14,6 +14,9 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
+import controllers.UserController;
+import entities.FileToView;
+import entities.GOI;
 import main.MyBoxGUI;
 
 public class YourGOIs extends MyBoxGUI
@@ -21,10 +24,13 @@ public class YourGOIs extends MyBoxGUI
 	private JButton btnBack;
 	private JButton btnHelp;
 	private JButton btnsignout;
+	static ArrayList<GOI> gois;
+	static GOI selectedGoi;
 	
 	public YourGOIs()
 	{
 		setLayout(null);
+		
 		
 		JButton btnJoinGoi = new JButton(" Files in GOI");
 		btnJoinGoi.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
@@ -34,6 +40,49 @@ public class YourGOIs extends MyBoxGUI
 			{
 				//added by ido - shimon continue 
 				int i = list.getSelectedIndex();
+				System.out.println(i+" is selected");
+				gois=new ArrayList<>();
+				if(MyBoxGUI.getUser().getrole().equals("User"))
+					gois=UserPage.getGOIs();				
+				else
+					gois=FileOwnerPage.getGOIs();
+				selectedGoi=gois.get(i);
+				UserController moshe = new UserController();
+				try {
+					moshe.serachSharedFiles("Group",selectedGoi.getName());
+				} catch (IOException e1) {
+					System.out.println("Unable to send search from yourGOIs");
+					e1.printStackTrace();
+				}
+				ArrayList<FileToView> filesToView=new ArrayList<>();
+				filesToView.clear();
+				ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+				
+				int size=msg.size();
+				
+				System.out.println("msg size="+size);
+				
+				for(int i1=0; i1<size;i1++){
+					System.out.println(msg.get(i1)); 
+				}
+				
+				if((boolean)msg.get(0)==true){
+					listSharedFlsModel.clear();
+					for(int i1=1; i1<size;i1++){
+						filesToView.add((FileToView)msg.get(i1)); 
+					}
+					for(int i1=0;i1<filesToView.size();i1++){
+						listSharedFlsModel.addElement(filesToView.get(i1).getFileName());
+					}
+					
+					yourgois.setVisible(false);
+	    			sharedfilesrspage.setVisible(true);
+				}
+				else{
+					String str = (String)msg.get(1);
+					JOptionPane.showMessageDialog(frmMyBox,str);
+				}
+				
 			}
 		});
 		btnJoinGoi.setBounds(466, 104, 105, 37);
@@ -47,7 +96,23 @@ public class YourGOIs extends MyBoxGUI
 			{
 				//added by ido - shimon continue 
 				int i = list.getSelectedIndex();
-   	        
+				gois=new ArrayList<>();
+				if(MyBoxGUI.getUser().getrole().equals("User")){
+					gois=UserPage.getGOIs();
+				}
+				else
+					gois=FileOwnerPage.getGOIs();
+				selectedGoi=gois.get(i);
+				UserController moshe = new UserController();
+				try {
+					moshe.LeaveGOI(selectedGoi);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+				String str = (String)msg.get(0);
+				JOptionPane.showMessageDialog(frmMyBox,str);
 			}
 		});
 		btnRemoveYourself.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
@@ -101,8 +166,12 @@ public class YourGOIs extends MyBoxGUI
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			showsearchgoi.setVisible(false);
-    			searchgoipage.setVisible(true);
+    			yourgois.setVisible(false);
+    			if(MyBoxGUI.getUser().getrole().equals("User")){
+					userpage.setVisible(true);
+				}
+				else
+					fileownerpage.setVisible(true);
     		}
     	});
     	btnBack.setBounds(3, 2, 68, 23);

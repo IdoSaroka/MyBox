@@ -33,7 +33,7 @@ public class Messages extends MyBoxGUI
 	{
 		setLayout(null);
 		
-		
+		/*
 		JButton btnOpen = new JButton("Open");
 		btnOpen.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		btnOpen.addActionListener(new ActionListener() 
@@ -45,7 +45,8 @@ public class Messages extends MyBoxGUI
 		});
 		btnOpen.setBounds(564, 299, 74, 36);
 		add(btnOpen);
-		
+		*/
+		/*
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		btnDelete.addActionListener(new ActionListener() 
@@ -57,6 +58,7 @@ public class Messages extends MyBoxGUI
 		});
 		btnDelete.setBounds(648, 299, 74, 36);
 		add(btnDelete);
+		*/
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(59, 57, 663, 235);
@@ -65,7 +67,7 @@ public class Messages extends MyBoxGUI
 	    list = new JList(ListModel);
 		scrollPane.setViewportView(list);
 		
-		Label lblMessage = new Label(" Sender                                | Date");
+		Label lblMessage = new Label(" Messages ");
 		lblMessage.setFont(new Font("Footlight MT Light", Font.PLAIN, 18));
 		scrollPane.setColumnHeaderView(lblMessage);
 		

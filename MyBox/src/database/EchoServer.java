@@ -408,12 +408,15 @@ protected void serverStarted()
 				returnMsg.add("You have no new messages");
 				client.sendToClient(returnMsg);
 				rs.close();
+				return;
 			}
 			//rs.next();
 			returnMsg.add(true);
 			//adding all the user's message to the returned message
 			System.out.println("Start of while loop\n");
+			int i=0;
 			while(rs.next()){
+				System.out.println("This is run #"+i);
 				//return message.add
 			    userMessage = new Messages(rs.getString(4),rs.getString(2));
 			    returnMsg.add( userMessage);
@@ -425,6 +428,7 @@ protected void serverStarted()
 			client.sendToClient(returnMsg);
 			System.out.println("End of Deletion condition\n");
 			rs.close();
+			return;
 		}catch(SQLException | IOException e){
 			LogHandling.logging("Error: " + userName +" Encountered an error while trying to receive his messages");
  			LogHandling.logging(e.getMessage());

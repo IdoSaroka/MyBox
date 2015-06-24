@@ -111,18 +111,17 @@ public class UserPage extends MyBoxGUI
     				for(int i=1;i<size;i++){
     					gois.add((GOI)msg.get(i));
     				}
-    				ListModel2.clear();
+    				ListModel.clear();
     				for(int i=0;i<size-1;i++){
-	    				ListModel2.addElement(gois.get(i).getName());
+	    				ListModel.addElement(gois.get(i).getName());
 	    			}
-    				searchgoipage.setVisible(false);
-					showsearchgoi.setVisible(true);
+    				userpage.setVisible(false);
+        			yourgois.setVisible(true);
     			}
     			else{
     				JOptionPane.showMessageDialog(frmMyBox,(String)msg.get(1));
     			}
-    			userpage.setVisible(false);
-    			yourgois.setVisible(true);
+    			
     		}
     	});
     	btnYourGoi.setBounds(114, 87, 123, 42);
@@ -139,7 +138,7 @@ public class UserPage extends MyBoxGUI
 					filesToView.clear();
 					ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
 					if((boolean)msg.get(0)==true){
-						
+						listSharedFlsModel.clear();
 						for(int i=1; i<msg.size();i++){
 							filesToView.add((FileToView)msg.get(i)); 
 						}
@@ -236,22 +235,21 @@ public class UserPage extends MyBoxGUI
     			
     			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
     			
-    			userpage.setVisible(false);
-    			messages.setVisible(true);
-    			
-    			
-    			/**Importent need to fix**/
-    			if((boolean)msg.get(0)){
-    				ArrayList<Messages> temp = new ArrayList<>();
-    				for(int i=1;i<msg.size()+1;i++){
-    					temp.add((Messages)msg.get(i));
-        				ListModel.addElement(temp.get(i));
-        			}
+    			if((boolean)msg.get(0)==true){
+    				ListModel.clear();
+    				ArrayList<entities.Messages> temp = new ArrayList<>();
+    				int size=msg.size();
+    				for(int i=1;i<size;i++)
+    					temp.add((entities.Messages)msg.get(i));
+        			
+    				for(int i=0;i<temp.size();i++)
+        				ListModel.addElement(temp.get(i).toString());
+    				userpage.setVisible(false);
+        			messages.setVisible(true);
     				/**Show message gif icon**/
     				lblNewMSG.setVisible(false);
     			}
-    			else
-    			{
+    			else{
     				JOptionPane.showMessageDialog(frmMyBox,"No new messages","Message",JOptionPane.INFORMATION_MESSAGE);
     			}
 
@@ -307,5 +305,9 @@ public class UserPage extends MyBoxGUI
     }
     public static ArrayList<FileToView> getFilesToView(){
 		return filesToView;
+	}
+	public static ArrayList<GOI> getGOIs() {
+		// TODO Auto-generated method stub
+		return gois;
 	}
 }

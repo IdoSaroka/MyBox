@@ -139,18 +139,18 @@ public class LoginPage extends MyBoxGUI
     					}
     			        LoginController login = new LoginController(txtUserName,txtPassword);
     			        try {
-    						System.out.println("sending: "+login.toString());
+    						//System.out.println("sending: "+login.toString());
     						login.sendLogin();
     						ArrayList<Object> message = (ArrayList) client.getMessage();
     						if(message.get(0) instanceof User)
     						{
     							boolean success = (new File("C:\\MyBox\\Downloaded Files")).mkdirs();
-    							if(!success){
-    								System.out.println("User already have this folder");
-    							}
+    							//if(!success){
+    								//System.out.println("User already have this folder");
+    							//}
     							user=(User)message.get(0);
     							MyBoxGUI.setIsMsg((boolean)message.get(1));
-    							System.out.println(user.toString()+" is connected");
+    							//System.out.println(user.toString()+" is connected");
     							
     							if(MyBoxGUI.getIsMsg())
     	    			        	lblNewMSG.setVisible(true);

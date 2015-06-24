@@ -438,6 +438,7 @@ public class GoiBasic implements Serializable{
 					 client.sendToClient(returnMsg);
 					 return;
 				}
+				rs.next();
 			    int groupNumber = rs.getInt(1); /**groupNumber - will hold the groups identification number as it appears in the database**/
 			    
 			     //Checks that the user is a member in this Group of Interests 

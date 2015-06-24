@@ -67,5 +67,10 @@ public class Messages implements Serializable{
 		return this.time;
 	}
 	
+	@Override
+	public String toString(){
+		return "msg: "+content + ", at "+time;
+	}
+	
 	
 }
