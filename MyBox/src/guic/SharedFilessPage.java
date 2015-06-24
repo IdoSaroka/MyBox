@@ -45,12 +45,15 @@ public class SharedFilessPage extends MyBoxGUI
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				int i = list4.getSelectedIndex();
+				int i = listSharedFls.getSelectedIndex();
+				
 				if(MyBoxGUI.getUser().getrole().equals("User"))
 					filesToView=UserPage.getFilesToView();
 				else
 					filesToView=FileOwnerPage.getFilesToView();
 				FileToView fileToOpen = filesToView.get(i);
+				
+				System.out.println(fileToOpen.getFileName()+"."+fileToOpen.getFileSuffix());
 				
 				UserController moshe = new UserController();
 				try {

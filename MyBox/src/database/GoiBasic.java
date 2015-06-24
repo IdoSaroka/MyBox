@@ -588,7 +588,19 @@ public class GoiBasic implements Serializable{
 			returnMsg.add(down);
 			client.sendToClient(returnMsg);
 			rs.close();
+			return;
 		}		
+		//check if the file is shared with everyone
+		if(goiShared == 0){
+			//send the file back to the user
+			Browse newBrowse = new Browse(f, sharedFile.getFileName(),sharedFile.getFileSuffix());
+			MyFile down = newBrowse.getFile(); 
+			returnMsg.add(true);
+			returnMsg.add(down);
+			client.sendToClient(returnMsg);
+			return;
+		}
+		
 		//check if the user is a member in this GOI
 		if((isMemberOfGOI(goiShared,userName)==false)||(isFileSharedWithGOI(goiShared,sharedFile)== false)){
 			LogHandling.logging("User: "+userName +" encountered a problem while trying to download file: "+sharedFile.getFileName()+sharedFile.getFileSuffix());
@@ -597,6 +609,7 @@ public class GoiBasic implements Serializable{
 			returnMsg.add("MyBox Encountered an Error!");
 		    returnMsg.add("Please Contact Technical Support");
 		    client.sendToClient(returnMsg);
+		    return;
 		}
 		//send the file back to the user
 		Browse newBrowse = new Browse(f, sharedFile.getFileName(),sharedFile.getFileSuffix());
@@ -604,12 +617,14 @@ public class GoiBasic implements Serializable{
 		returnMsg.add(true);
 		returnMsg.add(down);
 		client.sendToClient(returnMsg);
+		return;
 	    }catch(SQLException |IOException e){
 		LogHandling.logging("Error:"+ userName.getUserName() +"Encountered a problem while trying to retrieve his GOIs");
 		returnMsg.add(false);
 		returnMsg.add("MyBox Encountered an Error!");
 	    returnMsg.add("Please Contact Technical Support");
 	    client.sendToClient(returnMsg);
+	    return;
 	    }  
 	}
   

@@ -18,6 +18,7 @@ import controllers.FileOwnerController;
 import controllers.UserController;
 import entities.FileOwnerViewer;
 import entities.FileToView;
+import entities.User;
 import main.MyBoxGUI;
 
 public class Myfiles extends MyBoxGUI
@@ -31,7 +32,7 @@ public class Myfiles extends MyBoxGUI
 	public Myfiles()
 	{
 		setLayout(null);
-		
+		/*
 		JButton btnRemoveYourself = new JButton("Remove");
 		btnRemoveYourself.addActionListener(new ActionListener() 
 		{
@@ -54,7 +55,7 @@ public class Myfiles extends MyBoxGUI
 		btnRemoveYourself.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		btnRemoveYourself.setBounds(456, 103, 92, 37);
 		add(btnRemoveYourself);
-
+		 */
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(39, 104, 407, 169);
@@ -109,7 +110,10 @@ public class Myfiles extends MyBoxGUI
     		public void actionPerformed(ActionEvent e) 
     		{
     			myfiles.setVisible(false);
-    			fileownerpage.setVisible(true);
+    			if(MyBoxGUI.getUser().getrole().equals("User"))
+    				userpage.setVisible(true);
+    			else
+    				fileownerpage.setVisible(true);
     			
     		}
     	});
@@ -181,7 +185,13 @@ public class Myfiles extends MyBoxGUI
 					e1.printStackTrace();
 				}
     			ArrayList<Object> msg =  (ArrayList) MyBoxGUI.getClient().getMessage();
-    			JOptionPane.showMessageDialog(frmMyBox, (String)msg.get(0));
+    			if(msg.get(0) instanceof User){
+    				MyBoxGUI.setUser((User)msg.get(0));
+    				JOptionPane.showMessageDialog(frmMyBox, (String)msg.get(1));
+    				myfiles.setVisible(false);
+        			userpage.setVisible(true);
+    			}
+    			else JOptionPane.showMessageDialog(frmMyBox, (String)msg.get(0));
     			
     		}
     	});

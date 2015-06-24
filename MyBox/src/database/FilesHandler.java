@@ -80,6 +80,8 @@ public class FilesHandler implements Serializable {
 			 break;
 	     
 		 case "DeleteAFile":
+			 System.out.println("Got to delete a file");
+			 //deleteAFile(User userName,FileOwnerViewer fileToDelete)
 			 deleteAFile((User)msg.get(2),(FileOwnerViewer)msg.get(3));
 			 break;
 			 
@@ -174,6 +176,7 @@ public class FilesHandler implements Serializable {
 				 returnMsg.add("MyBox Encountered an error, Please Contact Technical Support!");
 				 rs.close();
 				 connection.sendToClient(returnMsg);
+				 return;
 			 }	 
 			 rs.next();
 			 if(!(userName.getPassword().equals(rs.getString(2)))){
@@ -182,8 +185,9 @@ public class FilesHandler implements Serializable {
 				 returnMsg.add("MyBox Encountered an error, Please Contact Technical Support!");
 				 rs.close();
 				 connection.sendToClient(returnMsg);
+				 return;
 			 }
-			 statement = conn.prepareStatement("SELECT * From files WHERE file_Owner = ?");
+			 statement = conn.prepareStatement("SELECT * From Files WHERE file_Owner = ?");
 			 statement.setString(1, userName.getUserName());
 			 rs = statement.executeQuery();
 			 if(!rs.isBeforeFirst()){
@@ -199,10 +203,11 @@ public class FilesHandler implements Serializable {
 				 fileToReturn = new FileOwnerViewer(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(6),
 						 rs.getString(7));
 				 returnMsg.add(fileToReturn);
-				 connection.sendToClient(returnMsg);
-			 } 
+				 
+			 } 	
+			 connection.sendToClient(returnMsg);
 			 rs.close();
-			
+			 return;
 		 }catch(SQLException | IOException e){
 			 LogHandling.logging("Error: "+ userName.getUserName() +" Encountered a problem while trying to retrieve his files");
 			   LogHandling.logging(e.getMessage());
@@ -210,6 +215,7 @@ public class FilesHandler implements Serializable {
 			   returnMsg.add("MyBox Encountered an Error!");
 			   returnMsg.add("Please Contact Technical Support");
 			   connection.sendToClient(returnMsg);
+			   return;
 		 }
 	}
 	
@@ -250,6 +256,7 @@ public class FilesHandler implements Serializable {
 			 returnMsg.add("Error: Invalid privilege level");
 			 connection.sendToClient(returnMsg);
 			 rs.close();
+			 return;
 		}
 		 
 		 statement = conn.prepareStatement("SELECT * FROM Files WHERE file_Name = ? AND suffix = ? AND file_Owner = ? AND virtual_path = ?");
@@ -286,14 +293,15 @@ public class FilesHandler implements Serializable {
 		 if(userName.getrole().equals("User")){
 			 statement = conn.prepareStatement("UPDATE Users SET role = 'FileOwner' WHERE userName = ?");
 			 statement.setString(1, userName.getUserName()); 
-			 statement.executeQuery();
+			 statement.executeUpdate();
 			 //return the new user object to the user
-			 statement = conn.prepareStatement("SELECT * FROM  Users WHERE userName= ?");
+			 /*statement = conn.prepareStatement("SELECT * FROM  Users WHERE userName= ?");
 			 statement.setString(1, userName.getUserName()); 
-			 rs = statement.executeQuery();
-			 temp=new User(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
+			 rs = statement.executeQuery();*/
+			 temp=new User(userName.getUserName(),userName.getPassword(),userName.getEmail(),"FileOwner");
 		 }
-		 rs.close();
+		 //rs.next();
+		 //rs.close();
 		 //if the files privilege is 3 then make the file available to all the users in the system
 		 if(file.getPrivelege() == 3){
 			 statement = conn.prepareStatement("SELECT * FROM Files WHERE file_Name =? AND suffix = ? AND file_Owner = ? AND virtual_path = ?");
@@ -309,9 +317,11 @@ public class FilesHandler implements Serializable {
 				 returnMsg.add("File was not successfuliy uploaded to MyBox, Please contact Techincal Supoort");			
 				 connection.sendToClient(returnMsg);
 				 rs.close();
+				 return;
 			 }
 			 rs.next();
 			 int fileId = rs.getInt(1);
+			 System.out.println("Got Here "+rs.getInt(1));
 			 statement = conn.prepareStatement("INSERT INTO FilesInGOI (GOI_id,file_id,file_Name,suffix,file_Owner,virtual_path,description,canEdit) VALUES (?,?,?,?,?,?,?,?)");
 			 statement.setInt(1, 0);
 			 statement.setInt(2, fileId);
@@ -329,6 +339,7 @@ public class FilesHandler implements Serializable {
 		 returnMsg.add(temp);
 		 LogHandling.logging("User: "+ file.getOwner() +" Added the file: "+file.getName()+"."+file.getSuffix()+" to path: "+path);
 		 connection.sendToClient(returnMsg);
+		 return;
 		 
 		}
 		 catch(SQLException | IOException e){
@@ -336,6 +347,7 @@ public class FilesHandler implements Serializable {
 			   LogHandling.logging("Error: given path is: " + path );
 			   LogHandling.logging(e.getMessage());
 			   e.printStackTrace(); 
+			   returnMsg.add(false);
 			   returnMsg.add("MyBox Encountered an Error! \n Please Contact Technical Support");
 			   connection.sendToClient(returnMsg);
 		 }
@@ -536,7 +548,7 @@ public class FilesHandler implements Serializable {
 	
 	
 	private static void deleteAFile(User userName,FileOwnerViewer fileToDelete) throws IOException{
-		
+		System.out.println("Got to delete a file");
 		String fullPath=fileToDelete.getVirtualPath()+"\\"+fileToDelete.getFileName()+"."+fileToDelete.getFileSuffix();
 		String time;
 		File f = new File(fullPath);
@@ -559,10 +571,12 @@ public class FilesHandler implements Serializable {
 				returnMsg.add("MyBox Encountered a problem deleting the file: "+fileToDelete.getFileName() +"\n please contact Techincal Support!");
 			}*/
 			//checking that the file exists
+			
+		    System.out.println("if f.exists - test");
 			if( !f.exists() ){
 				 LogHandling.logging("Error - User: "+ fileToDelete.getFileOwner()+"Ecnounterd a problem deleting the file: "+fileToDelete.getFileName()+fileToDelete.getFileSuffix()+ " from path:"+fileToDelete.getVirtualPath());
 				 LogHandling.logging("Error:  File does not exist");
-				 returnMsg.add(false);
+				 //returnMsg.add(false);
 				 returnMsg.add("Error: Cann't Delete the file "+ fileToDelete.getFileName() +" specified does not exist");
 				 connection.sendToClient(returnMsg);
 				 rs.close();
@@ -572,36 +586,42 @@ public class FilesHandler implements Serializable {
 			if(f.isDirectory()){
 				LogHandling.logging("Error - User: "+ fileToDelete.getFileOwner()+"Ecnounterd a problem deleting the file: "+fileToDelete.getFileName()+fileToDelete.getFileSuffix()+ " from path:"+fileToDelete.getVirtualPath());
 				LogHandling.logging("Error: User tried to delete a Direcotry using 'deleteAFile'");
-				returnMsg.add(false);
+				//returnMsg.add(false);
 				returnMsg.add("Error: Cann't delete a folder using this button, please use the delete a folder option.");
 				connection.sendToClient(returnMsg);
 				rs.close();
 				return;
 			}
 			//delete the file and handle the case where a problem occurred during the deletion 
-			if(f.delete() == false){
+			boolean temp=f.delete();
+			if(temp==false){
 				LogHandling.logging("Error - User: "+ fileToDelete.getFileOwner()+"Ecnounterd a problem deleting the file: "+fileToDelete.getFileName()+fileToDelete.getFileSuffix()+ " from path:"+fileToDelete.getVirtualPath());
 				LogHandling.logging("Error: System failed to delete the file - f.delete encounterd a problem");
-				returnMsg.add(false);
+				//returnMsg.add(false);
 				returnMsg.add("Error: Could not Delete the file "+ fileToDelete.getFileName() +" MyBox encounterd an internal Error!\n "
 						+ "Please Contact Technical Support");
 				connection.sendToClient(returnMsg);
+				return;
 			}
+			System.out.println("File is deleted");
 			if(fileToDelete.getPrivilege() == 2){ //Handling the case where the file is shared with some of the Group of interests but not all of them (Privilege level = 2) 
 			 statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE file_id = ?");// <- change
 			 statement.setInt(1, fileToDelete.getFileID());
 			 rs = statement.executeQuery();
 			 while(rs.next()){
+				 System.out.println("Group to inform: ");
 				 groupIdsToInform.add(rs.getInt(1)); // get all the id's of the GOI the file is shared with
 			 }
+			 
 			 //find all the users that the file is associated with 
 			 //Note that in case the file is shared with the same user from two different groups he will only be notified once 
-			 for (int var : groupIdsToInform){
+			 for (Integer var : groupIdsToInform){
 				  statement = conn.prepareStatement("SELECT * From UsersInGOI Where GOI_id = ?");
 				  statement.setInt(1, var); 
 				  rs = statement.executeQuery();  
 				  //add all the users (Only unique names will added - in order to avoid duplicate messages to the same user)
 				  while(rs.next()){
+					  System.out.println(rs.getString(2));
 					  usersToInform.add(rs.getString(2));
 				  }	  
 			 }
@@ -609,31 +629,34 @@ public class FilesHandler implements Serializable {
 			 dateFormat = new SimpleDateFormat("HH:mm  dd-MM-yyyy");	 
 			 time=dateFormat.format(date);
 			 //Insert the message about deletion to all relevant users
+			 
 			 for (String user : usersToInform) {
 				 statement = conn.prepareStatement("INSERT INTO UserMessages (message_Date,userName,description) VALUES (?,?,?)");	
 				 statement.setString(1, time);
 				 statement.setString(2, user);
 				 statement.setString(3, "File: "+ fileToDelete.getFileName() +" Was deleted by his file Owner: "+userName.getUserName()+"\n "
 				 		+ "Please Delete the file from you virtual MyBox Workspace");
-				 statement.executeQuery();
+				 statement.executeUpdate();
 				}
 			    
 			//Remove the file listings from the "FilesInGOI" Database
-			 for (int var : groupIdsToInform){
+			 for (Integer var : groupIdsToInform){
 					statement = conn.prepareStatement("DELETE FROM FilesInGOI Where GOI_id = ? AND file_id = ?");
 					statement.setInt(1, var);
 					statement.setInt(2, fileToDelete.getFileID());
-					statement.executeQuery();
+					statement.executeUpdate();
 				  }
 			}//End of if statement (Privilege level == 2)
 			
 			if(fileToDelete.getPrivilege() == 3){//Handling the case where the file is shared with all the users in MyBox
 				statement = conn.prepareStatement("SELECT * From Users");
-				statement.executeQuery();
+				System.out.println("Insert priv 3");
+				rs = statement.executeQuery();
 				//save all the users in MyBox
 				while(rs.next()){
 					  usersToInform.add(rs.getString(1));
 				  }	
+				System.out.println("Ended the while");
 			   //Receives the current date in order to save inside the message
 			    dateFormat = new SimpleDateFormat("HH:mm  dd-MM-yyyy");	 
 				time=dateFormat.format(date);
@@ -642,27 +665,46 @@ public class FilesHandler implements Serializable {
 					 statement = conn.prepareStatement("INSERT INTO UserMessages (message_Date,userName,description) VALUES (?,?,?)");	
 					 statement.setString(1, time);
 					 statement.setString(2, user);
-					 statement.setString(3, "File: "+ fileToDelete +" Was deleted by his file Owner: "+userName.getUserName()+"\n "
+					 statement.setString(3, "File: "+ fileToDelete.getFileName() +" Was deleted by his file Owner: "+userName.getUserName()+"\n "
 					 		+ "Please Delete the file from you virtual MyBox Workspace");
+					 statement.executeUpdate();
 				}
+				System.out.println("ended the for loop");
 				//Delete the file listing from FilesInGOI (File will only appear once if he is shared will all the Groups in the system
 				statement = conn.prepareStatement("DELETE FROM FilesInGOI Where GOI_id = 0 AND file_id = ?");
 				statement.setInt(1, fileToDelete.getFileID());
-				statement.executeQuery();
+				statement.executeUpdate();
 			}//End of if statement (Privilege level == 3)
-			
+			 System.out.println("Reached the deletion condition");
+
 			//Remove the file listings from the "Files" Database
 			statement = conn.prepareStatement("DELETE FROM Files Where file_id = ? AND file_Name = ? AND suffix = ? AND file_Owner = ?");
 			statement.setInt(1, fileToDelete.getFileID());
 			statement.setString(2, fileToDelete.getFileName());
 			statement.setString(3, fileToDelete.getFileSuffix());
 			statement.setString(4, fileToDelete.getFileOwner());
-			statement.executeQuery();
+			statement.executeUpdate();
+			 System.out.println("Ended the deletion condition");
+			//check if user has more files
+			statement = conn.prepareStatement("SELECT * From Files Where file_Owner = ?");
+			statement.setString(1, userName.getUserName());
+			rs = statement.executeQuery();
+			
+			System.out.println("check if no files condition");
+			if(!rs.isBeforeFirst()){
+				User user=new User(userName.getUserName(),userName.getPassword(),userName.getEmail(),"User");
+				returnMsg.add(user);
+				statement = conn.prepareStatement("UPDATE Users SET role = 'User' WHERE userName = ?");
+				statement.setString(1, userName.getUserName());
+				statement.executeUpdate();
+				System.out.println("end upadATE user");
+			}
 			
 			//return the message to the file owner
-			returnMsg.add(true);
+			//returnMsg.add(true);
 			returnMsg.add("File: "+fileToDelete.getFileName() +" Was successfully removed from your virtual MyBox Space");
 			connection.sendToClient(returnMsg);
+			return;
 			
 		}catch(SQLException | IOException e){
 			 LogHandling.logging("Error: "+ userName +" Encountered a problem while trying to delete a file: " + fileToDelete.getFileName());

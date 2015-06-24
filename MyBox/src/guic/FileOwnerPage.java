@@ -313,18 +313,22 @@ public class FileOwnerPage extends MyBoxGUI
     			temp.myFiles();;
 				fileOwnerViewer.clear();
 				ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
-				ListModel4.clear();
-				for(int i=0;i<msg.size();i++){
+				
+				for(int i=0;i<msg.size();i++)
 					System.out.println(msg.get(i));
-				}
+				
+				ListModel4.clear();
+				for(int i=0;i<msg.size();i++)
+					System.out.println(msg.get(i));
+				
 				
 				if((boolean)msg.get(0)==true){
 					for(int i=1; i<msg.size();i++)
 						fileOwnerViewer.add((FileOwnerViewer)msg.get(i)); 
 					
-					for(int i=0;i<fileOwnerViewer.size();i++){
+					for(int i=0;i<fileOwnerViewer.size();i++)
 						ListModel4.addElement(fileOwnerViewer.get(i).getFileName());
-					}
+					
 					
 					fileownerpage.setVisible(false);
 					myfiles.setVisible(true);
