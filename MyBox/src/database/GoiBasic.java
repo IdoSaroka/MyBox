@@ -430,9 +430,8 @@ public class GoiBasic implements Serializable{
 			case "Group":
 				statement = conn.prepareStatement("SELECT GOI_id,GOI_Name From GOI WHERE GOI_Name = ?");
 				statement.setString(1, searchParameter); 
-				rs=statement.executeQuery();
-				
-				if(!rs.next()){//Handles the case where the GOI inputed by the user does not exist
+				rs=statement.executeQuery();	
+				if(!rs.isBeforeFirst()){//Handles the case where the GOI inputed by the user does not exist
 					 rs.close();
 					 returnMsg.add(false);
 					 returnMsg.add("Error: GOI"+ searchParameter +"does not exist!");
@@ -448,7 +447,7 @@ public class GoiBasic implements Serializable{
 				rs=statement.executeQuery();
 				if(!rs.isBeforeFirst()){/**Handles the case where the user is not a member of the group**/
 					rs.close();
-					 returnMsg.add(false);
+					returnMsg.add(false);
 					returnMsg.add("Error: User "+ userName +" is not a member of Group " + searchParameter);
 					client.sendToClient(returnMsg);
 					break;
@@ -456,6 +455,12 @@ public class GoiBasic implements Serializable{
 				statement = conn.prepareStatement("SELECT * From FilesInGOI Where GOI_id = ?");
 				    statement.setInt(1, groupNumber); 
 					rs=statement.executeQuery();
+					
+					if(!rs.isBeforeFirst()){
+						returnMsg.add(false);
+						returnMsg.add("There are currentliy no Files shared with This group");
+					}
+					returnMsg.add(true);
 					 //This while loop will print all the files currently shared with this group			
 					while(rs.next()){
 						/*
@@ -469,8 +474,8 @@ public class GoiBasic implements Serializable{
 								                       rs.getBoolean(8));
 								 returnMsg.add(newFileToView);
 					}
-					rs.close();
 					client.sendToClient(returnMsg);
+					rs.close();
 				break;
 				
 			    default:
