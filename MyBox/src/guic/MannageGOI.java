@@ -1,11 +1,6 @@
 package guic;
 
-import java.awt.Font;
-import java.awt.Label;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
+import main.MyBoxGUI;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,77 +9,65 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
-import controllers.SysAdminController;
-import entities.Request;
-import main.MyBoxGUI;
+import controllers.UserController;
+import entities.GOI;
 
-public class PendingRequest extends MyBoxGUI
+import java.awt.Label;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class MannageGOI extends MyBoxGUI
 {
-
+	
 	private JButton btnBack;
 	private JButton btnHelp;
 	private JButton btnsignout;
-	static ArrayList<Request> temp;
-	Request selectedRequest;
 	
-	public PendingRequest()
+	public MannageGOI()
 	{
 		setLayout(null);
 		
+		JButton btnJoinGoi = new JButton("User in GOI");
+		btnJoinGoi.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
+		btnJoinGoi.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+
+			}
+		});
+		btnJoinGoi.setBounds(456, 104, 116, 37);
+		add(btnJoinGoi);
 		
-		JButton btnRemoveYourself = new JButton("Open");
+		JButton btnRemoveYourself = new JButton("Delete GOI");
 		btnRemoveYourself.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				SysAdminController sagi = new SysAdminController();
-				int i=listRequest.getSelectedIndex();
-				temp=AdminPage.getRequest();
-				
-				selectedRequest=temp.get(i);//<- java.lang.ArrayIndexOutOfBoundsException:
-				
-    	        int reply = JOptionPane.showConfirmDialog(frmMyBox, "Do you wish to accept the user's request?", "Request", JOptionPane.YES_NO_CANCEL_OPTION);
-    	        if (reply == JOptionPane.YES_OPTION){
-					try {
-						sagi.approveRequest(selectedRequest, "accept");
-						ArrayList<Object> msg =  (ArrayList) MyBoxGUI.getClient().getMessage();
-		    	        JOptionPane.showMessageDialog(frmMyBox, (String)msg.get(1));
-					} catch (IOException e1) {
-						
-						e1.printStackTrace();
-					}
+    	        int reply = JOptionPane.showConfirmDialog(frmMyBox, "Are you sure?", "Delete From GOI...", JOptionPane.YES_NO_OPTION);
+    	        if (reply == JOptionPane.YES_OPTION) 
+    	        {
+    	        	//Here you can use a Yes No Window for question before a delete you can erase it if not necessary 
     	        }
-				else if(reply == JOptionPane.NO_OPTION){
-					try {
-						sagi.approveRequest(selectedRequest, "reject");
-						ArrayList<Object> msg =  (ArrayList) MyBoxGUI.getClient().getMessage();
-		    	        JOptionPane.showMessageDialog(frmMyBox, (String)msg.get(1));
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				
-    	        
-    	        
-    	        
-    	        
 			}
 		});
 		btnRemoveYourself.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
-		btnRemoveYourself.setBounds(456, 103, 92, 37);
+		btnRemoveYourself.setBounds(582, 104, 112, 37);
 		add(btnRemoveYourself);
-
-
+		////////////////
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(39, 104, 407, 169);
 		add(scrollPane);
 		
-		listRequest = new JList(ListModelRequest);
-		scrollPane.setViewportView(listRequest);
-		Label lblNameGOI = new Label("Request");
+		listGoi = new JList(ListModelGoi);
+		scrollPane.setViewportView(listGoi);
+		Label lblNameGOI = new Label("Group of interest");
 		lblNameGOI.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 14));
 		scrollPane.setColumnHeaderView(lblNameGOI);
+		
 		
 		
     	btnHelp = new JButton("Help");
@@ -97,7 +80,7 @@ public class PendingRequest extends MyBoxGUI
     	});
     	btnHelp.setBounds(81, 381, 99, 36);
     	add(btnHelp);
-    	
+
     	btnsignout = new JButton("Sign-Out");
     	btnsignout.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnsignout.addActionListener(new ActionListener()
@@ -108,7 +91,7 @@ public class PendingRequest extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-    	        	pendingrequest.setVisible(false);
+    	        	showsearchgoi.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			
@@ -122,17 +105,17 @@ public class PendingRequest extends MyBoxGUI
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			pendingrequest.setVisible(false);
-    			adminpage.setVisible(true);	
+    			
     		}
     	});
     	btnBack.setBounds(3, 2, 68, 23);
     	add(btnBack);
-    	
-    	
+		
     	JLabel lblBackGround = new JLabel("");
     	lblBackGround.setIcon(new ImageIcon(LoginPage.class.getResource("/guic/MyBox.jpg")));
     	lblBackGround.setBounds(10, 11, 780, 478);
     	add(lblBackGround);
+    	
 	}
+	
 }

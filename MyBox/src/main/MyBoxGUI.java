@@ -46,6 +46,7 @@ public class MyBoxGUI extends JPanel
 	protected static UsersInGOI usersingoi;
 	protected static Myfiles myfiles;
 	protected static PendingRequest pendingrequest;
+	protected static MannageGOI managegoi;
 	
 	protected static JFrame frmMyBox;
 	protected Mtds meth = new Mtds();
@@ -69,6 +70,8 @@ public class MyBoxGUI extends JPanel
 	protected static JList list4;
 	protected static JList listRequest;
 	protected static JList listSharedFls;
+	protected static JList listGoi;
+	protected static DefaultListModel ListModelGoi = new DefaultListModel();
 	protected static DefaultListModel ListModel = new DefaultListModel();//for msgs
 	protected static DefaultListModel ListModel2 = new DefaultListModel();//for GOI
 	protected static DefaultListModel ListModel3 = new DefaultListModel();//for YourGOI

@@ -15,9 +15,9 @@ import javax.swing.SwingConstants;
 
 import controllers.FileOwnerController;
 import controllers.SysAdminController;
+import entities.FileOwnerViewer;
 import entities.GOI;
 import entities.Request;
-
 import main.MyBoxGUI;
 
 import java.awt.Font;
@@ -29,6 +29,7 @@ public class AdminPage extends MyBoxGUI
 {
 	private JButton btnHelp;
 	private JButton btnsignout;
+	static ArrayList<Request> temp;
 
     public AdminPage()
     {
@@ -111,32 +112,31 @@ public class AdminPage extends MyBoxGUI
 				}
 				
     			ArrayList<Object> msg = (ArrayList)MyBoxGUI.getClient().getMessage();
-    			//gois = new ArrayList<>();
+    			
     			
     			int size=msg.size();
     			
-    			System.out.println("Got to get Admin Requests\n");
-    			
-    			System.out.println("GOT to YOUR GOIs , Returned value Value: " + msg.get(0));
-    			//System.out.println("Returned GOI is: " + ((GOI)msg.get(1)).getName());
-    			ArrayList<Request> temp = new ArrayList<>();
+    			for(int i=0; i<size; i++)
+    				System.out.println("msg "+i + ": " + msg.get(i));
+
+    			temp = new ArrayList<>();
     			if((boolean)msg.get(0)==true){
-    				for(int i=1;i<size;i++){
+    				for(int i=1;i<size;i++)
     					temp.add((Request)msg.get(i));
-    				}
-    				ListModel.clear();
-    				for(int i=0;i<size-1;i++){
-	    				ListModel.addElement(temp.get(i));
-	    			}
+    				
+    				ListModelRequest.clear();
+    				for(int i=0;i<temp.size();i++)
+    					ListModelRequest.addElement(temp.get(i).getUserName()+" is asking to join "+temp.get(i).getGoiName()+
+    							"\nReason: "+temp.get(i).getDescription());
+	    			
+    				adminpage.setVisible(false);
     				pendingrequest.setVisible(true);
-        			adminpage.setVisible(false);
+        			
     			}
     			else{
     				JOptionPane.showMessageDialog(frmMyBox,(String)msg.get(1));
     			}
-    			
-    			//pendingrequest.setVisible(true);
-    			//adminpage.setVisible(false);			
+		
     		}
     	});
     	btnPendingRequest.setBounds(531, 87, 122, 42);
@@ -179,4 +179,7 @@ public class AdminPage extends MyBoxGUI
     }
 
 
+    public static ArrayList<Request> getRequest(){
+    	return temp;
+    }
 }

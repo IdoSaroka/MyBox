@@ -173,7 +173,10 @@ public class SearchGOIPage extends MyBoxGUI
 		    				ListModel2.addElement(gois.get(i).getName());
 		    			}
 	    				searchgoipage.setVisible(false);
-						showsearchgoi.setVisible(true);
+	    				if(! ( MyBoxGUI.getUser().getrole().equals("SystemAdmin") ) )
+	    					showsearchgoi.setVisible(true);
+	    				else
+	    					managegoi.setVisible(true);
 	    			}
 	    			else{
 	    				JOptionPane.showMessageDialog(frmMyBox,(String)msg.get(1));

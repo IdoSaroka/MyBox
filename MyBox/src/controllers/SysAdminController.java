@@ -50,8 +50,9 @@ public class SysAdminController extends FileOwnerController {
 		message.clear();
 		message.add("Admin");
 		message.add(MyBoxGUI.getUser().getrole());
+		message.add(MyBoxGUI.getUser());
 		message.add("DecideAboutRequest");
-		message.add(req.getRequestID());
+		message.add(req);
 		message.add(decision);//accept OR reject
 		MyBoxGUI.getClient().sendToServer(message);
 	}
@@ -66,6 +67,7 @@ public class SysAdminController extends FileOwnerController {
 		message.clear();
 		message.add("Admin");
 		message.add(MyBoxGUI.getUser().getrole());
+		message.add(MyBoxGUI.getUser().getUserName());
 		message.add("DeleteAGOI");
 		message.add(GOI);
 		MyBoxGUI.getClient().sendToServer(message);
@@ -80,6 +82,7 @@ public class SysAdminController extends FileOwnerController {
 		message.clear();
 		message.add("Admin");
 		message.add(MyBoxGUI.getUser().getrole());
+		message.add(MyBoxGUI.getUser().getUserName());
 		message.add("CreateGOI");
 		message.add(goi);
 		MyBoxGUI.getClient().sendToServer(message);
@@ -90,20 +93,23 @@ public class SysAdminController extends FileOwnerController {
 	 * @param goi String that represent the GOI
 	 * @throws IOException 
 	 */
+	/*
 	public void editGOI(GOI goi) throws IOException{
 		message.clear();
 		message.add("Admin");
 		message.add(MyBoxGUI.getUser().getrole());
+		message.add(MyBoxGUI.getUser().getUserName());
 		message.add("DecideAboutRequest");
 		message.add(goi);
 		MyBoxGUI.getClient().sendToServer(message);
 	}
-	
+	*/
 	/**
 	 * System administrator wants to search for a specific user
 	 * @param user String that represent the user
 	 * @throws IOException 
 	 */
+	/*
 	public void searchUser(String user) throws IOException{
 		message.clear();
 		message.add("Admin");
@@ -112,7 +118,7 @@ public class SysAdminController extends FileOwnerController {
 		message.add(user);
 		MyBoxGUI.getClient().sendToServer(message);
 	}
-	
+	*/
 	/**
 	 * System administrator wants to remove for a specific user from GOI
 	 * @param user
@@ -122,6 +128,8 @@ public class SysAdminController extends FileOwnerController {
 	public void removeUser(User user, GOI goi) throws IOException{
 		message.clear();
 		message.add("Admin");
+		message.add(MyBoxGUI.getUser().getrole());
+		message.add(MyBoxGUI.getUser().getUserName());
 		message.add("DeleteUserFromGOI");
 		message.add(goi);
 		message.add(user);		
@@ -135,6 +143,9 @@ public class SysAdminController extends FileOwnerController {
 	 */
 	public void filesInGOI(String GOI) throws IOException{
 		message.clear();
+		message.add("Admin");
+		message.add(MyBoxGUI.getUser().getrole());
+		message.add(MyBoxGUI.getUser().getUserName());
 		message.add("filesInGOI");
 		message.add(GOI);
 		MyBoxGUI.getClient().sendToServer(message);

@@ -78,7 +78,10 @@ public class EchoServer extends AbstractServer implements Serializable
     String str = (String)message.get(0);
     
     //Test
-    System.out.println((String)message.get(0));
+    for(int i=0; i<message.size();i++)
+    	System.out.println(message.get(i));
+    
+    
     
     switch(str){
     

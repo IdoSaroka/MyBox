@@ -448,69 +448,101 @@ public class GoiAdmin implements Serializable{
 		 * @exception IOException e 
 		 * @return 
 		 * **/  
-		 @SuppressWarnings("resource")
+		 //@SuppressWarnings("resource")
 	     private static void decideAboutARequest(Request requestId,String decision) throws IOException{
 				String userName,goiName;
 				
 				PreparedStatement statement = null;
 				ResultSet rs = null;
 				
+				String time;
+				DateFormat dateFormat;
+				Date date = new Date();
+				 dateFormat = new SimpleDateFormat("HH:mm  dd-MM-yyyy");	 
+				 time=dateFormat.format(date);
+				 System.out.println("Got to decide about");
 				 //The following statement will Check to see that a request was indeed made by this specific user
 				 try{
 					 statement = conn.prepareStatement("SELECT * From request WHERE request_id = ?");
 					 statement.setInt(1, requestId.getRequestID());
 					 rs = statement.executeQuery();
 					 if(!rs.isBeforeFirst()){
-						 LogHandling.logging("Error: Admin ecnounterd a problme while Deciding about request : "+ requestId+" request does not exist");
+						 LogHandling.logging("Error: Admin ecnounterd a problem while Deciding about request : "+ requestId+" request does not exist");
 						 returnMsg.add(false);
 						 returnMsg.add("Error: No such Request exist in the database!");
 						 client.sendToClient(returnMsg);
+						 rs.close();
 						 return;
 					 }
+					 System.out.println("End first if condition");
 					 //rs.getString(2) = userName , rs.getString(3) = GOI_Name
 					 userName = rs.getString(2);
 					 goiName = rs.getString(3);
-					 
+					 statement = conn.prepareStatement("SELECT * From GOI WHERE GOI_Name = ?");
+					 statement.setString(1, goiName);
+					 rs = statement.executeQuery();
+					 if(!rs.isBeforeFirst()){
+						 returnMsg.add(false);
+						 returnMsg.add("Error: No such Group exist in the database!");
+						 client.sendToClient(returnMsg);
+						 rs.close();
+						 return;
+					 }
+					 System.out.println("End Seconed if condition");
+
+                     int goi_id = rs.getInt(1);
+					 System.out.println("GOI ID: "+ goi_id);
+					// rs.close();
 					 //This condition handles the situation where the Admin choose to Accept the user request to  join  a GOI
 					 if(decision.equals("accept")){//Request Approved	 
 						 //Add the user to the requested GOI 
+						 System.out.println("Got to accept");
 						 statement = conn.prepareStatement("INSERT INTO UsersInGoi (GOI_id,user_Name) VALUES (?,?)");
-						 statement.setString(1, userName);
-					     statement.setString(2, goiName);			
-					     statement.executeQuery();
+						 statement.setInt(1, goi_id);
+					     statement.setString(2, userName);			
+					     statement.executeUpdate();
 					     
 					    //insert the appropriate message into the user messages
 						 statement = conn.prepareStatement("INSERT INTO UserMessages (message_Date,userName,description) VALUES (?,?,?)");
-						 statement.setString(1, userName);
-					     statement.setString(2, goiName);	
+						 statement.setString(1, time);
+					     statement.setString(2, userName);	
 					     statement.setString(3, "The Sytsem Admin has accepted your request to join GOI: " + goiName); 
-					     statement.executeQuery();
+					     statement.executeUpdate();
 					     
 					     //Deleting the message from the request database
 					     statement = conn.prepareStatement("DELETE FROM Request WHERE request_id = ?");
 					     statement.setInt(1, requestId.getRequestID());
-					     statement.executeQuery();
-					     rs.close();
+					     statement.executeUpdate();
+
 					     LogHandling.logging("user: " + userName+ " was added to GOI: "+ goiName +" by Admin");
 					     returnMsg.add(true);
 					     returnMsg.add("User request was Approved user: " + userName+ " was added to GOI: "+ goiName);
 					     client.sendToClient(returnMsg);
+					     rs.close();
 					     
+					     return;
 
 					 } //end if statement - Request Approved
 					 
 					 //This condition handles the situation where the Admin choose to decline the user request to  join  a GOI
 					 else if(decision.equals("reject")){//Request Declined
 						 statement = conn.prepareStatement("INSERT INTO UserMessages (message_Date,userName,description) VALUES (?,?,?)");
-						 statement.setString(1, userName);
-					     statement.setString(2, goiName);	
+						 statement.setString(1, time);
+					     statement.setString(2, userName);	
 					     statement.setString(3, "The Sytsem Admin has rejected your request to join GOI: " + goiName); 
-					     statement.executeQuery();
-					     rs.close();
+					     statement.executeUpdate();
+					     
+					     //Deleting the request
+					     statement = conn.prepareStatement("DELETE FROM Request WHERE request_id = ?");
+					     statement.setInt(1, requestId.getRequestID());
+					     statement.executeUpdate();
+					     
 					     LogHandling.logging("Reuqest: " + requestId + " was declined by Admin");
 					     returnMsg.add(true);
 					     returnMsg.add("Request: " + requestId + " by user: "+ userName +" was Rejected");
 					     client.sendToClient(returnMsg);
+					     rs.close();
+					     return;
 					 }
 					 
 					 //Illegal Decision - This condition is meant to handle a situation where the function received an illegal parameter
@@ -522,6 +554,7 @@ public class GoiAdmin implements Serializable{
 						 returnMsg.add(false);
 						 returnMsg.add("Error: Illegal Option was selected");
 						 client.sendToClient(returnMsg);
+						 return;
 					 }
 					 
 				 }
@@ -530,6 +563,7 @@ public class GoiAdmin implements Serializable{
 					    returnMsg.add("MyBox Encounterd an Error!");
 					    returnMsg.add("Please Contact Technical Support");
 					    client.sendToClient(returnMsg); 
+					    return;
 					 } 
 	   }
 		
