@@ -134,6 +134,18 @@ public class UserController {
 		message.add(GOIName);
 		MyBoxGUI.getClient().sendToServer(message);
 	}
+	
+	/**Will be used by the user to return his current GOIS**/
+	public void getYourGOI() throws IOException{
+		message.clear();
+		
+		System.out.println("Got to getYourGOI()\n");
+		
+		message.add("GOIBasic");
+		message.add("ReturnUserGois");
+		message.add(MyBoxGUI.getUser());
+		MyBoxGUI.getClient().sendToServer(message);
+	}
 
 	/**
 	 * Creates the file that will be uploaded
@@ -275,6 +287,7 @@ public class UserController {
 		//if file doesnt exist, an appropriate msg appears
 		//if the file updated, the user will note it
 	}
+	
 	
 	public void getMSG() throws IOException{
 		message.clear();

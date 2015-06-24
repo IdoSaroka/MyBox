@@ -20,6 +20,7 @@ import controllers.FileOwnerController;
 import controllers.UserController;
 import entities.FileOwnerViewer;
 import entities.FileToView;
+import entities.GOI;
 
 public class FileOwnerPage extends MyBoxGUI
 {
@@ -29,6 +30,9 @@ public class FileOwnerPage extends MyBoxGUI
 	private FileOwnerController temp= new FileOwnerController();
 	static ArrayList<FileToView> filesToView = new ArrayList<>();
 	static ArrayList<FileOwnerViewer> fileOwnerViewer = new ArrayList<>();
+	
+	//added by ido
+	static ArrayList<GOI> gois;
 	
     public FileOwnerPage() 
     {
@@ -53,7 +57,38 @@ public class FileOwnerPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0)
     		{
-    			fileownerpage.setVisible(false);
+    			FileOwnerController send = new FileOwnerController();
+				try {
+					send.getYourGOI();
+				} catch (IOException e1) {
+					System.out.println("Unable to send search terms in Search GOI Page");
+					e1.printStackTrace();
+				}
+				
+    			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+    			gois = new ArrayList<>();
+    			
+    			int size=msg.size();
+    			
+    			
+    			System.out.println("GOT to YOUR GOIs , Returned value Value: " + msg.get(0));
+    			//System.out.println("Returned GOI is: " + ((GOI)msg.get(1)).getName());
+    			
+    			if((boolean)msg.get(0)==true){
+    				for(int i=1;i<size;i++){
+    					gois.add((GOI)msg.get(i));
+    				}
+    				ListModel2.clear();
+    				for(int i=0;i<size-1;i++){
+	    				ListModel2.addElement(gois.get(i).getName());
+	    			}
+    				searchgoipage.setVisible(false);
+					showsearchgoi.setVisible(true);
+    			}
+    			else{
+    				JOptionPane.showMessageDialog(frmMyBox,(String)msg.get(1));
+    			}
+    			userpage.setVisible(false);
     			yourgois.setVisible(true);
     		}
     	});

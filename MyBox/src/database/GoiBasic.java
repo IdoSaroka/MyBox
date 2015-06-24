@@ -63,6 +63,7 @@ public class GoiBasic implements Serializable{
 	  
 	   returnMsg =  new ArrayList<>();  //Overwrites any existing messages send to the user 
 	   String str = (String)msg.get(1);
+	   System.out.println("Got to GOIBasic\n");
 	   switch(str){
 	              
 	               //"Search" - Should the user chooses perform a search in the GOI database
@@ -108,6 +109,8 @@ public class GoiBasic implements Serializable{
 	              
 	               //EditSharedFile - Handles the case where the user wishes to edit a file shared with his GOI  
 	              case "EditSharedFile":
+	            	  //editSharedFile(int goiShared, User userName, FileToView sharedFile)
+	            	  editSharedFile((int)msg.get(2), (User)msg.get(3), (FileToView)msg.get(4));
 	            	  break;
 	            	  
 	               //RemoveAUserFromGOI - will be used by a user when he wishes to remove himself from a GOI
@@ -690,6 +693,7 @@ public class GoiBasic implements Serializable{
 	  PreparedStatement statement = null;
 	  ResultSet rs = null;
 	  GOI goiToSend;
+	  System.out.println("got to returnUserGois\n");
 	  try{
 		  statement = conn.prepareStatement("SELECT * FROM UsersInGOI WHERE user_Name = ?");
 		  statement.setString(1, userName.getUserName());
@@ -701,7 +705,7 @@ public class GoiBasic implements Serializable{
 		  }
 		  returnMsg.add(true); 
 		  while(rs.next()){
-			  gois.add(rs.getInt(1));
+			  gois.add(rs.getInt(1));	  
 		  }
 		  for (int var : gois){
 			  statement = conn.prepareStatement("SELECT * FROM GOI WHERE GOI_id = ?");
@@ -710,6 +714,9 @@ public class GoiBasic implements Serializable{
 			  goiToSend = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
 			  returnMsg.add(goiToSend);
 		  }
+		  System.out.println(returnMsg.get(0) + "\n");
+		  System.out.println(((GOI)returnMsg.get(1)).getName());
+		  
 		  client.sendToClient(returnMsg);
 	  }catch(SQLException | IOException e){	  
 		  returnMsg.add(false);

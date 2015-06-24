@@ -48,7 +48,7 @@ public class SearchGOIPage extends MyBoxGUI
 		lblSearchForA.setBounds(219, 11, 349, 41);
 		add(lblSearchForA);
 		
-		rdbtnSerachByName = new JRadioButton("Serach By Name");
+		rdbtnSerachByName = new JRadioButton("Search By Name");
 		rdbtnSerachByName.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		
 		rdbtnSerachByName.addActionListener(new ActionListener() {
@@ -67,7 +67,7 @@ public class SearchGOIPage extends MyBoxGUI
 		rdbtnSerachByName.setBounds(10, 83, 133, 23);
 		add(rdbtnSerachByName);
 		
-		rdbtnSerachBySubject = new JRadioButton("Serach By Subject");
+		rdbtnSerachBySubject = new JRadioButton("Search By Subject");
 		rdbtnSerachBySubject.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		rdbtnSerachBySubject.addActionListener(new ActionListener() 
 		{

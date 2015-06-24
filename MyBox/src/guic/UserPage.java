@@ -21,14 +21,20 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 import controllers.FileOwnerController;
+import controllers.GOIController;
 import controllers.UserController;
 import entities.FileToView;
+import entities.GOI;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+
+
 public class UserPage extends MyBoxGUI
 {
+	//gois - added by ido
+	static ArrayList<GOI> gois;
 	
 	UserController temp= new UserController();
 	static ArrayList<FileToView> filesToView = new ArrayList<>();
@@ -85,6 +91,36 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent arg0)
     		{
+    			UserController send = new UserController();
+				try {
+					send.getYourGOI();
+				} catch (IOException e1) {
+					System.out.println("Unable to send search terms in Search GOI Page");
+					e1.printStackTrace();
+				}
+				
+    			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+    			gois = new ArrayList<>();
+    			
+    			int size=msg.size();
+    			
+    			System.out.println("Returned value Value: " + msg.get(0));
+    			//System.out.println("Returned GOI is: " + ((GOI)msg.get(1)).getName());
+    			
+    			if((boolean)msg.get(0)==true){
+    				for(int i=1;i<size;i++){
+    					gois.add((GOI)msg.get(i));
+    				}
+    				ListModel2.clear();
+    				for(int i=0;i<size-1;i++){
+	    				ListModel2.addElement(gois.get(i).getName());
+	    			}
+    				searchgoipage.setVisible(false);
+					showsearchgoi.setVisible(true);
+    			}
+    			else{
+    				JOptionPane.showMessageDialog(frmMyBox,(String)msg.get(1));
+    			}
     			userpage.setVisible(false);
     			yourgois.setVisible(true);
     		}
