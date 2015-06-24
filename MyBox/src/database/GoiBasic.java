@@ -703,17 +703,25 @@ public class GoiBasic implements Serializable{
 			  returnMsg.add("You are currentliy not a member in any Group Of Intreset");
 			  client.sendToClient(returnMsg);
 		  }
+		  System.out.println("Got to While loop\n");
 		  returnMsg.add(true); 
 		  while(rs.next()){
 			  gois.add(rs.getInt(1));	  
+			  System.out.println("GOIS: "+ rs.getInt(1)+"\n");
 		  }
-		  for (int var : gois){
+		  System.out.println("Exit While loop\n");
+		  for(Integer var : gois){
 			  statement = conn.prepareStatement("SELECT * FROM GOI WHERE GOI_id = ?");
 			  statement.setInt(1, var);
+			  System.out.println("Var values is: "+var+"\n");
 			  rs = statement.executeQuery();
+			  rs.next();
 			  goiToSend = new GOI(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6));
+			  System.out.println(rs.getInt(1));
 			  returnMsg.add(goiToSend);
 		  }
+		  
+		  System.out.println("TEST returnUserGois");
 		  System.out.println(returnMsg.get(0) + "\n");
 		  System.out.println(((GOI)returnMsg.get(1)).getName());
 		  

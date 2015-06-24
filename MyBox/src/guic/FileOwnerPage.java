@@ -65,25 +65,26 @@ public class FileOwnerPage extends MyBoxGUI
 					e1.printStackTrace();
 				}
 				
-    			ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
-    			gois = new ArrayList<>();
+    			ArrayList<Object> msg = (ArrayList)MyBoxGUI.getClient().getMessage();
+    			//gois = new ArrayList<>();
     			
     			int size=msg.size();
     			
     			
     			System.out.println("GOT to YOUR GOIs , Returned value Value: " + msg.get(0));
     			//System.out.println("Returned GOI is: " + ((GOI)msg.get(1)).getName());
-    			
+    			ArrayList<GOI> temp = new ArrayList<>();
     			if((boolean)msg.get(0)==true){
     				for(int i=1;i<size;i++){
-    					gois.add((GOI)msg.get(i));
+    					temp.add((GOI)msg.get(i));
     				}
-    				ListModel2.clear();
-    				for(int i=0;i<size-1;i++){
-	    				ListModel2.addElement(gois.get(i).getName());
+    				ListModel.clear();
+    				for(int i=1;i<size-1;i++){
+	    				ListModel.addElement(temp.get(i));
 	    			}
-    				searchgoipage.setVisible(false);
-					showsearchgoi.setVisible(true);
+    				fileownerpage.setVisible(false);
+					//showsearchgoi.setVisible(true);
+    				yourgois.setVisible(true);
     			}
     			else{
     				JOptionPane.showMessageDialog(frmMyBox,(String)msg.get(1));
@@ -116,6 +117,7 @@ public class FileOwnerPage extends MyBoxGUI
 						
 						fileownerpage.setVisible(false);
 		    			sharedfilesrspage.setVisible(true);
+						//yourgois.setVisible(true);
 					}
 					else{
 						String str = (String)msg.get(1);

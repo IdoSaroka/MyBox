@@ -95,8 +95,8 @@ public class AdminPage extends MyBoxGUI
     		public void actionPerformed(ActionEvent e)
     		{
     			//JOptionPane.showMessageDialog(frmMyBox,"This button not set yet","Help",JOptionPane.INFORMATION_MESSAGE);
-    			adminpage.setVisible(false);
-    					
+    			pendingrequest.setVisible(true);
+    			adminpage.setVisible(false);			
     		}
     	});
     	btnPendingRequest.setBounds(531, 87, 122, 42);

@@ -32,7 +32,8 @@ public class YourGOIs extends MyBoxGUI
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				
+				//added by ido - shimon continue 
+				int i = list.getSelectedIndex();
 			}
 		});
 		btnJoinGoi.setBounds(466, 104, 105, 37);
@@ -44,8 +45,9 @@ public class YourGOIs extends MyBoxGUI
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-
-    	        
+				//added by ido - shimon continue 
+				int i = list.getSelectedIndex();
+   	        
 			}
 		});
 		btnRemoveYourself.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
@@ -57,8 +59,8 @@ public class YourGOIs extends MyBoxGUI
 		scrollPane.setBounds(39, 104, 407, 169);
 		add(scrollPane);
 		
-		list3 = new JList(ListModel3);
-		scrollPane.setViewportView(list3);
+		list = new JList(ListModel);
+		scrollPane.setViewportView(list);
 		Label lblNameGOI = new Label("Name Of GOI");
 		lblNameGOI.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 14));
 		scrollPane.setColumnHeaderView(lblNameGOI);
@@ -101,7 +103,6 @@ public class YourGOIs extends MyBoxGUI
     		{
     			showsearchgoi.setVisible(false);
     			searchgoipage.setVisible(true);
-    			
     		}
     	});
     	btnBack.setBounds(3, 2, 68, 23);
