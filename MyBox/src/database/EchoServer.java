@@ -145,7 +145,8 @@ public class EchoServer extends AbstractServer implements Serializable
         
          //Folder - will be used for the creation and deletion of folders by the users
     case "Folder":
-    	
+    	FolderHandler folderHandler = new FolderHandler(msg,client,conn); 
+    	FolderHandler.options();
     	break;
     	
     	

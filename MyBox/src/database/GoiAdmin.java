@@ -56,6 +56,7 @@ public class GoiAdmin implements Serializable{
 		   
 		   //"CreateGOI" - will be used by the admin in order to create a new goi in the system
 		   case "CreateGOI":
+			   System.out.println("Got to create a goi call to function");
 			   createAGOI((GOI)msg.get(4));
 			   break;
 			   
@@ -163,31 +164,41 @@ public class GoiAdmin implements Serializable{
 		    * @exception IOException e - the function will throw an IOException in case there is a problem sending the message back to the client
 		    * **/  
 		private static void createAGOI(GOI newGOI) throws IOException{
-			PreparedStatement statement = null;
-			ResultSet rs = null;
-			
+			PreparedStatement statement;
+			ResultSet rs;
+			 System.out.println("Got to Create a GOI");
+
 			try{
 				 statement = conn.prepareStatement("SELECT GOI_id,GOI_Name From GOI WHERE GOI_Name = ?");
 				 statement.setString(1, newGOI.getName()); 
 				 rs=statement.executeQuery();
 				 if(rs.isBeforeFirst()){
-					 rs.close();
+					 System.out.println("GoI allready exist");
 					 returnMsg.add("Error:Could not create GOI, There is allready a GOI with this name in the system");
 					 client.sendToClient(returnMsg);
+					 rs.close();
 					 return;
 				 }
+				 System.out.println("Before rs.next()");
+				 rs.next();
+				 System.out.println("After rs.next()");
+				 System.out.println("Got to the first check - GOI does not exist");
 				 statement = conn.prepareStatement("INSERT INTO GOI (GOI_Name,subject,creation_Date,number_Of_Users,current_Num_Of_Users) VALUES (?,?,?,?,?)");
 				 statement.setString(1, newGOI.getName());
 			     statement.setString(2, newGOI.getSubject());	
 			     statement.setString(3, newGOI.getCreationDate());
 			     statement.setInt(4, newGOI.getNumberOfUsers());
 			     statement.setInt(5, 0);
-			     
 			     statement.executeUpdate();
+			     
+			     
+				 System.out.println("The GOI was added to the database");
+
 				 rs.close();
 				 LogHandling.logging("GOI " + newGOI.getName() + " was created by Admin");
 			     returnMsg.add("GOI" + newGOI.getName() + "was successfully created!" );
 			     client.sendToClient(returnMsg);
+			     return;
 				 
 			}catch(SQLException | IOException e){
 				   LogHandling.logging("Error: Admin ecnounterd a problme while trying to create GOI: "+ newGOI.getName());
@@ -196,6 +207,7 @@ public class GoiAdmin implements Serializable{
 				   returnMsg.add("MyBox Encounterd an Error!");
 				   returnMsg.add("Please Contact Technical Support");
 				   client.sendToClient(returnMsg);
+				   return;
 			}
 		}
 		
@@ -452,8 +464,8 @@ public class GoiAdmin implements Serializable{
 	     private static void decideAboutARequest(Request requestId,String decision) throws IOException{
 				String userName,goiName;
 				
-				PreparedStatement statement = null;
-				ResultSet rs = null;
+				PreparedStatement statement;
+				ResultSet rs;
 				
 				String time;
 				DateFormat dateFormat;
@@ -465,8 +477,10 @@ public class GoiAdmin implements Serializable{
 				 try{
 					 statement = conn.prepareStatement("SELECT * From request WHERE request_id = ?");
 					 statement.setInt(1, requestId.getRequestID());
+					 System.out.println("Request ID: "+ requestId.getRequestID());
 					 rs = statement.executeQuery();
 					 if(!rs.isBeforeFirst()){
+						 System.out.println("Entered the if condition - no request");
 						 LogHandling.logging("Error: Admin ecnounterd a problem while Deciding about request : "+ requestId+" request does not exist");
 						 returnMsg.add(false);
 						 returnMsg.add("Error: No such Request exist in the database!");
@@ -474,10 +488,15 @@ public class GoiAdmin implements Serializable{
 						 rs.close();
 						 return;
 					 }
+					 rs.next();//<-check if needed
 					 System.out.println("End first if condition");
 					 //rs.getString(2) = userName , rs.getString(3) = GOI_Name
 					 userName = rs.getString(2);
+					 System.out.println(userName);
+					 
+					 
 					 goiName = rs.getString(3);
+					 System.out.println(goiName);
 					 statement = conn.prepareStatement("SELECT * From GOI WHERE GOI_Name = ?");
 					 statement.setString(1, goiName);
 					 rs = statement.executeQuery();
@@ -488,6 +507,7 @@ public class GoiAdmin implements Serializable{
 						 rs.close();
 						 return;
 					 }
+					 rs.next();
 					 System.out.println("End Seconed if condition");
 
                      int goi_id = rs.getInt(1);
@@ -537,9 +557,9 @@ public class GoiAdmin implements Serializable{
 					     statement.setInt(1, requestId.getRequestID());
 					     statement.executeUpdate();
 					     
-					     LogHandling.logging("Reuqest: " + requestId + " was declined by Admin");
+					     LogHandling.logging("Reuqest: " + requestId.getRequestID() + " was declined by Admin");
 					     returnMsg.add(true);
-					     returnMsg.add("Request: " + requestId + " by user: "+ userName +" was Rejected");
+					     returnMsg.add("Request: " + requestId.getRequestID() + " by user: "+ userName +" was Rejected");
 					     client.sendToClient(returnMsg);
 					     rs.close();
 					     return;

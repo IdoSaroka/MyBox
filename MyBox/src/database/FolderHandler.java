@@ -60,10 +60,12 @@ public class FolderHandler implements Serializable{
 	
 	public static void options() throws IOException{
 	  	 returnMsg =  new ArrayList<>();
+	  	 System.out.println("Got to Folder Handler options");
 		 String str = (String)msg.get(1);
 		   switch(str){
 		   
 		   case "DisplayCurrentDirectories":
+			   returnFilesAndFolders((User)msg.get(2));
 			   break;
 		   
 		   default:
@@ -93,17 +95,30 @@ public class FolderHandler implements Serializable{
 	    * @exception IOException e - the function will throw an IOException in case there will be a problem sending the file back to the user
 	    * **/ 
 	public static void returnFilesAndFolders(User userName) throws IOException{
-		File currentDir = new File("C:\\MyBox\\Files\\" + userName + "\\");
+		System.out.println("got to returnFilesAndFolders");
+		File currentDir = new File("C:\\MyBox\\Files\\" + userName.getUserName() + "\\");
+		
+		System.out.println("The path is: "+ currentDir.getPath());
+		
 		displayDirectoryContents(currentDir);
+		System.out.println("Ended the use of display directory");
 		try {
 			client.sendToClient(returnMsg);
+			return;
 		} catch (IOException e) {
 			 LogHandling.logging("Error: "+ userName.getUserName() +" Encountered a problem while trying to Retrieve his file");
-			e.printStackTrace();
+			 LogHandling.logging(e.getMessage());
+			 e.printStackTrace(); 
+			 returnMsg.add(false);
+			 returnMsg.add("MyBox Encountered an Error!");
+		     returnMsg.add("Please Contact Technical Support");
+		     client.sendToClient(returnMsg);
+		     return;
 		}
 	}
 	
-	private static void displayDirectoryContents(File usersDirectory){
+	private static void displayDirectoryContents(File usersDirectory) throws IOException{
+		System.out.println("got to displayDirectoryContents");
 		try {
 			File[] files = usersDirectory.listFiles();
 			for (File file : files) {
@@ -116,7 +131,14 @@ public class FolderHandler implements Serializable{
 			}
 			return;
 		} catch (IOException e) {
-			e.printStackTrace();
+			 LogHandling.logging("Error: the user has Encountered a problem while trying to Retrieve his file");
+			 LogHandling.logging(e.getMessage());
+			 e.printStackTrace(); 
+			 returnMsg.add(false);
+			 returnMsg.add("MyBox Encountered an Error!");
+		     returnMsg.add("Please Contact Technical Support");
+		     client.sendToClient(returnMsg);
+		     return;
 		}
 	}
 	

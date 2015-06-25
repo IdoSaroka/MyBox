@@ -500,6 +500,7 @@ public class GoiBasic implements Serializable{
 		 returnMsg.add("MyBox Encountered an Error!");
 	     returnMsg.add("Please Contact Technical Support");
 	     client.sendToClient(returnMsg);
+	     return;
 	    }
 	}
  	
