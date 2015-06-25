@@ -82,7 +82,8 @@ public class SysAdminController extends FileOwnerController {
 		message.clear();
 		message.add("Admin");
 		message.add(MyBoxGUI.getUser().getrole());
-		message.add(MyBoxGUI.getUser().getUserName());
+		//message.add(MyBoxGUI.getUser().getUserName());
+		message.add(MyBoxGUI.getUser());
 		message.add("CreateGOI");
 		message.add(goi);
 		MyBoxGUI.getClient().sendToServer(message);
