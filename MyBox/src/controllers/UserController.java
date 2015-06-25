@@ -295,5 +295,14 @@ public class UserController {
 		message.add(MyBoxGUI.getUserName());		
 		MyBoxGUI.getClient().sendToServer(message);
 	}
+	
+	public void getFolders() throws IOException{
+		message.clear();
+		message.add("Folder");
+		message.add("DisplayCurrentDirectories");
+		message.add(MyBoxGUI.getUser());
+		MyBoxGUI.getClient().sendToServer(message);
+		
+	}
 
 }

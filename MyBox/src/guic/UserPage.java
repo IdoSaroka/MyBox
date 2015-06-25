@@ -196,6 +196,34 @@ public class UserPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
+    			
+    			UserController moshe = new UserController();
+    			try {
+					moshe.getFolders();
+					
+					/*
+					 * Sending
+					 * "Folder"
+					 * "DisplayCurrentDirectories"
+					 * User    entity of user
+					 */
+					ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+					int size=msg.size();
+					ArrayList<String> filesAndFolders = new ArrayList<>();
+					for(int i=0; i<size ; i++)
+						filesAndFolders.add((String)msg.get(i));
+					
+					/*
+					 * For Ido And Ran to continue
+					 * 
+					 * Inside this filesAndFolders list you will be able to view all of the
+					 * string the server sent
+					 * 
+					 */
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
     			userpage.setVisible(false);
     			folderspage.setVisible(true);
     		}
