@@ -639,23 +639,28 @@ public class GoiBasic implements Serializable{
      * @exception IOException e - the function will throw an IOException if there is a problem uploading the file to the server
      * **/
  	private static void editSharedFile(int goiShared, User userName, FileToView sharedFile) throws IOException{
+ 		System.out.println("Got to editSharedFile");
  		String path = sharedFile.getVirtualPath();
  		File f = new File(path+"\\"+sharedFile.getFileName()+"."+sharedFile.getFileSuffix());
- 		PreparedStatement statement = null;  
- 		ResultSet rs = null;
+ 		PreparedStatement statement;  
+ 		ResultSet rs;
  		ArrayList<Integer> groupIdsToInform = new ArrayList<>();
  		HashSet<String> usersToInform = new HashSet<String>();
  		DateFormat dateFormat;
  		Date date = new Date();
  		String time;
  		try{
+ 			System.out.println("Got to editSharedFile - before if condition");
  			if(isMemberOfGOI(goiShared, userName)== false || isFileSharedWithGOI(goiShared, sharedFile)== false 
  					|| isAvilableToEdit(goiShared, sharedFile) == false || Security.secuirtyCheck(userName, conn) == false){
  				returnMsg.add(false);
  				returnMsg.add("MyBox Encountered an Error!");
  			    returnMsg.add("Please Contact Technical Support");
  			    client.sendToClient(returnMsg);
+ 			    return;
  			}
+ 			System.out.println("Got to editSharedFile - end if condition");
+ 			
  			Browse newBrowse = new Browse(f, sharedFile.getFileName(),sharedFile.getFileSuffix());
  			MyFile changedFile = newBrowse.getFile();
  			Save save=new Save(changedFile,path+"\\");
@@ -686,13 +691,13 @@ public class GoiBasic implements Serializable{
  						 statement.setString(2, user);
  						 statement.setString(3, "File: "+ sharedFile.getFileName() +" Was Changed by: "+userName.getUserName()+"\n "
  						 		+ "From GOI: "+ goiShared);
- 						 statement.executeQuery();
+ 						 statement.executeUpdate();
  					}
 		
  			returnMsg.add(true);
- 			returnMsg.add("File: "+sharedFile.getFileName()+" was succesfuliy updated!");
+ 			returnMsg.add("File: "+sharedFile.getFileName()+" was successfully updated!");
  			client.sendToClient(returnMsg);
- 			
+ 			return;
  		}catch(SQLException |IOException e){
  			LogHandling.logging("Error:"+ userName.getUserName() +"Encountered a problem while trying to update file: "+ sharedFile.getFileName()+sharedFile.getFileSuffix());
  			LogHandling.logging("GOI: "+goiShared);
@@ -700,6 +705,7 @@ public class GoiBasic implements Serializable{
  			returnMsg.add("MyBox Encountered an Error!");
  		    returnMsg.add("Please Contact Technical Support");
  		    client.sendToClient(returnMsg);
+ 		    return;
  		} 
  	}
  	
@@ -767,15 +773,18 @@ public class GoiBasic implements Serializable{
 	private static boolean isMemberOfGOI(int goiShared, User userName) throws IOException{
  		PreparedStatement statement = null;
  		ResultSet rs = null;
+ 		System.out.println("got to isMemberOfGOI");
  		try{
  		    statement = conn.prepareStatement("SELECT * From UsersInGOI WHERE GOI_id = ? AND user_Name = ?");
 		    statement.setInt(1, goiShared);
 		    statement.setString(2,userName.getUserName());
-		     rs = statement.executeQuery();
+		    rs = statement.executeQuery();
 		 if(!rs.isBeforeFirst()){
+			System.out.println("Enterd to isMemberOfGOI fail condition");
 			rs.close();
 		 	return false;
 		 }
+		 System.out.println("passed the isMemberOfGOI condtion ");
 		 return true;
  		}	
  		catch(SQLException e){
@@ -793,6 +802,8 @@ public class GoiBasic implements Serializable{
      * @return boolean - the function will return true or false depending on the result
      * **/
 	private static boolean isFileSharedWithGOI(int goiShared,FileToView sharedFile) throws IOException{
+		System.out.println("got to isFileSharedWithGOI");
+		System.out.println("goi Shared: "+ goiShared);
 		PreparedStatement statement = null;
  		ResultSet rs = null;
  		try{
@@ -801,10 +812,12 @@ public class GoiBasic implements Serializable{
  			statement.setInt(2, sharedFile.getFileID());
  			rs = statement.executeQuery();
  			if(!rs.isBeforeFirst()){
+ 				System.out.println("Enterd to isFileSharedWithGOI fail condition");
  				LogHandling.logging("File: "+ sharedFile.getFileName()+sharedFile.getFileSuffix()+" is not shared with group: " + goiShared);
  				rs.close();
  				return false;
  			}
+ 			System.out.println("passed the isFileSharedWithGOI condtion ");
  			return true;
  		}catch(SQLException e){
  			LogHandling.logging("Error: My Box Encountered a problem Performing security checks for file: "+ sharedFile.getFileName()+sharedFile.getFileSuffix());
@@ -823,10 +836,14 @@ public class GoiBasic implements Serializable{
 	private static boolean isAvilableToEdit(int goiShared, FileToView sharedFile) throws IOException{
 		PreparedStatement statement = null;
  		ResultSet rs = null;
+ 		System.out.println("got to isAvilableToEdit");
  		try{
- 			statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE GOI_id = ? AND user_Name = ?");
+ 			statement = conn.prepareStatement("SELECT * From FilesInGOI WHERE GOI_id = ? AND file_id = ?");
+ 			statement.setInt(1, goiShared);
+ 			statement.setInt(2, sharedFile.getFileID());
  			rs = statement.executeQuery();
  			if(!rs.isBeforeFirst()){
+ 				System.out.println("Enterd to isAvilableToEdit fail condition");
  				LogHandling.logging("File: "+ sharedFile.getFileName()+sharedFile.getFileSuffix()+" is not shared with this group");
  				rs.close();
  				return false;
@@ -835,6 +852,7 @@ public class GoiBasic implements Serializable{
  				LogHandling.logging("File: "+ sharedFile.getFileName()+sharedFile.getFileSuffix()+" is not avilable for editing for this group");
  				return false;
  			}
+ 			System.out.println("passed the isAvilableToEdit condtion ");
  			return true;
  		}catch(SQLException | IOException e){
  			LogHandling.logging("Error: My Box Encountered a problem Performing security checks for file: "+ sharedFile.getFileName()+sharedFile.getFileSuffix());

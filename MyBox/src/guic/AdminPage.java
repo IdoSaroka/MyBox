@@ -41,9 +41,9 @@ public class AdminPage extends MyBoxGUI
     	{
     		public void actionPerformed(ActionEvent e)
     		{
+    			
     			adminpage.setVisible(false);
-    			searchgoipage.setVisible(true);
-
+    			searchgoipage.setVisible(true);		
     		}
     	});
     	btnSearchgoi.setBounds(327, 87, 122, 42);

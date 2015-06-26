@@ -60,8 +60,8 @@ public class LoginPage extends MyBoxGUI
      * Default for shimon's use
      * 
      */
-    private String uName="Ido_Saroka";
-    private String uPass="passWord1234";
+    private String uName="Ran_Azard";
+    private String uPass="testTesttest";
     private String uPort = "1254";
     
     

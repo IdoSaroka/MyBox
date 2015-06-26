@@ -36,21 +36,28 @@ public class Security {
 	public static boolean secuirtyCheck(User userToCheck,Connection con) throws IOException{
 		PreparedStatement statement = null;
 		ResultSet rs = null;
+		System.out.println("Got to secuirtyCheck");
 		try{
 			statement = con.prepareStatement("SELECT * FROM Users WHERE userName = ?");
 			statement.setString(1, userToCheck.getUserName());
 			rs = statement.executeQuery();
 		//user does not exist	
+			System.out.println("secuirtyCheck - Before checking the rs");
 		if(!rs.isBeforeFirst()){
+			System.out.println("Enterd the secuirtyCheck first fail condtion");
 			LogHandling.logging("Error: user " +userToCheck.getUserName() + " does not exist in the system");
 			return false;
 		}
 		//password is not correct - illegal Access 
+		System.out.println("User to check password"+userToCheck.getPassword());
+		System.out.println("Database password: " + rs.getString(2));
 		if(!((userToCheck.getPassword()).equals(rs.getString(2)))){
+			System.out.println("Enterd the secuirtyCheck seconed fail condtion");
 			LogHandling.logging("Illegal Access was blocked by user: " + userToCheck.getUserName());
 			return false;
 		}
 		//if all the checks are correct
+		     System.out.println("secuirtyCheck - Passed all the condtins returned true");
 		    return true;
 		}catch(SQLException | IOException e){
 			LogHandling.logging("Error: "+ userToCheck.getUserName() +" Encountered a problem Performing security checks");

@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+
 import ocsf.server.ConnectionToClient;
 import entities.GOI;
 import entities.User;
@@ -170,11 +172,20 @@ public class GoiAdmin implements Serializable{
 
 			try{
 				 statement = conn.prepareStatement("SELECT GOI_id,GOI_Name From GOI WHERE GOI_Name = ?");
-				 statement.setString(1, newGOI.getName()); 
+				 statement.setString(1, newGOI.getName());
+				 System.out.println(newGOI.getName());
 				 rs=statement.executeQuery();
 				 if(rs.isBeforeFirst()){
-					 System.out.println("GoI allready exist");
+					 System.out.println("GOI allready exist condition");
+					 LogHandling.logging("GoI allready exist");
 					 returnMsg.add("Error:Could not create GOI, There is allready a GOI with this name in the system");
+					 client.sendToClient(returnMsg);
+					 rs.close();
+					 return;
+				 }
+				 if(newGOI.getNumberOfUsers()>200 || 0>newGOI.getNumberOfUsers()){
+					 LogHandling.logging("Illegal number of users");
+					 returnMsg.add("Error: number of users must be an Integer between 0 and 200");
 					 client.sendToClient(returnMsg);
 					 rs.close();
 					 return;
@@ -195,13 +206,13 @@ public class GoiAdmin implements Serializable{
 				 System.out.println("The GOI was added to the database");
 
 				 rs.close();
-				 LogHandling.logging("GOI " + newGOI.getName() + " was created by Admin");
+				 LogHandling.logging("GOI: " + newGOI.getName() + " was created by Admin");
 			     returnMsg.add("GOI" + newGOI.getName() + "was successfully created!" );
 			     client.sendToClient(returnMsg);
 			     return;
 				 
 			}catch(SQLException | IOException e){
-				   LogHandling.logging("Error: Admin ecnounterd a problme while trying to create GOI: "+ newGOI.getName());
+				   LogHandling.logging("Error: Admin ecnounterd a problem while trying to create GOI: "+ newGOI.getName());
 				   LogHandling.logging(e.getMessage());
 				   e.printStackTrace(); 
 				   returnMsg.add("MyBox Encounterd an Error!");
@@ -496,7 +507,7 @@ public class GoiAdmin implements Serializable{
 					 
 					 
 					 goiName = rs.getString(3);
-					 System.out.println(goiName);
+					 System.out.println(goiName);	 
 					 statement = conn.prepareStatement("SELECT * From GOI WHERE GOI_Name = ?");
 					 statement.setString(1, goiName);
 					 rs = statement.executeQuery();
@@ -514,13 +525,48 @@ public class GoiAdmin implements Serializable{
 					 System.out.println("GOI ID: "+ goi_id);
 					// rs.close();
 					 //This condition handles the situation where the Admin choose to Accept the user request to  join  a GOI
+					 int currentNumOfUsers = rs.getInt(6);
+					 System.out.println("currentNumOfUsers: "+ rs.getInt(6));
+					 int maxNumOfUsers = rs.getInt(5);
+					 System.out.println("maxNumOfUsers: "+ rs.getInt(5));
+					 
+					 
+					 statement = conn.prepareStatement("SELECT * From usersingoi WHERE GOI_id = ? AND user_Name = ?");
+					 statement.setInt(1, goi_id);
+					 statement.setString(2, requestId.getUserName());
+					 rs = statement.executeQuery();
+					 if(rs.isBeforeFirst()){
+						 returnMsg.add(false);
+						 returnMsg.add("Error: The user is allready a member in this Group");
+						 client.sendToClient(returnMsg);
+						 rs.close();
+						 return;
+					 }
+					 
+					 
 					 if(decision.equals("accept")){//Request Approved	 
 						 //Add the user to the requested GOI 
 						 System.out.println("Got to accept");
+						 if(currentNumOfUsers == maxNumOfUsers){
+							 System.out.println("Error: ");
+							 LogHandling.logging("Error: Illegal Operation on request: " +  requestId+ " Group is allready full");	
+							 returnMsg.add(false);
+							 returnMsg.add("Error: Could not add user: "+ userName + " To group: "+ goiName + " the group is allready full");
+							 client.sendToClient(returnMsg);
+							 rs.close();
+							 return;
+						 }						 						 
 						 statement = conn.prepareStatement("INSERT INTO UsersInGoi (GOI_id,user_Name) VALUES (?,?)");
 						 statement.setInt(1, goi_id);
 					     statement.setString(2, userName);			
 					     statement.executeUpdate();
+					     
+					     //update the current number of users
+					     statement = conn.prepareStatement("UPDATE goi SET current_Num_Of_Users = ? WHERE GOI_id = ?");
+					     statement.setInt(1, currentNumOfUsers+1);
+					     statement.setInt(2, goi_id);
+					     statement.executeUpdate();
+					     
 					     
 					    //insert the appropriate message into the user messages
 						 statement = conn.prepareStatement("INSERT INTO UserMessages (message_Date,userName,description) VALUES (?,?,?)");

@@ -17,6 +17,7 @@ import entities.GOI;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class CreateGOIPage extends MyBoxGUI
 {
@@ -83,6 +84,10 @@ public class CreateGOIPage extends MyBoxGUI
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+        		
+        		ArrayList<Object> msg =  (ArrayList) MyBoxGUI.getClient().getMessage();
+    	        JOptionPane.showMessageDialog(frmMyBox, (String)msg.get(0));
+    	        
     			creategoipage.setVisible(false);
         		adminpage.setVisible(true);
     	    }

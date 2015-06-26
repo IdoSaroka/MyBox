@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import entities.FileOwnerViewer;
 import entities.FileToView;
+import entities.User;
 import files.MyFile;
 import files.Save;
 import main.MyBoxGUI;
@@ -64,6 +65,17 @@ public class FileOwnerController extends UserController {
 		message.add("setPath");
 		message.add(file);
 		message.add(newPath);
+		MyBoxGUI.getClient().sendToServer(message);
+	}
+	
+	/**Handles the case where the user want's to share his file with other GOIs**/
+	public void shareFile() throws IOException{
+		/*message.clear();
+		message.add("File");
+		message.add("AddSharedFileToGOI");
+		message.add(MyBoxGUI.getUser());
+		message.add();*/
+		//addSharedFileToGOI((User)msg.get(2),(int)msg.get(3) ,(FileOwnerViewer)msg.get(4), (int)msg.get(5));
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 	
