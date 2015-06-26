@@ -9,8 +9,11 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
+import controllers.SysAdminController;
 import controllers.UserController;
 import entities.GOI;
+import entities.Request;
+import entities.User;
 
 import java.awt.Label;
 import java.awt.event.ActionListener;
@@ -21,6 +24,10 @@ import java.util.ArrayList;
 
 public class MannageGOI extends MyBoxGUI
 {
+
+	static GOI selectedGOI;
+	static ArrayList<GOI> gois;
+	static ArrayList<User> userInGOI;
 	
 	private JButton btnBack;
 	private JButton btnHelp;
@@ -30,12 +37,44 @@ public class MannageGOI extends MyBoxGUI
 	{
 		setLayout(null);
 		
-		JButton btnJoinGoi = new JButton("User in GOI");
+		JButton btnJoinGoi = new JButton("Users in GOI");
 		btnJoinGoi.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
 		btnJoinGoi.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				SysAdminController moshe = new SysAdminController();
+				int i = list2.getSelectedIndex();
+				System.out.println(i + ": is the seleced index");
+				gois=SearchGOIPage.getGOIS();
+				selectedGOI=gois.get(i);
+				
+				try {
+					moshe.UsersInGOI(selectedGOI);
+					ArrayList<Object> msg = (ArrayList)MyBoxGUI.getClient().getMessage();
+					int size=msg.size();
+					ListModel4.clear();
+					for(int j=0; j<size; j++)
+	    				System.out.println("msg "+j + ": " + msg.get(j));
+					userInGOI = new ArrayList<>();
+	    			if((boolean)msg.get(0)==true){
+	    				for(int j=1;j<size;j++)
+	    					userInGOI.add((User)msg.get(j));
+	    				
+	    				ListModelRequest.clear();
+	    				for(int j=0;j<userInGOI.size();j++)
+	    					ListModel4.addElement(userInGOI.get(j).getUserName());
+		    			
+	    				managegoi.setVisible(false);
+	    				usersingoi.setVisible(true);
+	        			
+	    			}
+					
+				} catch (IOException e1) {
+					System.out.println("Catch in mannage goi - users in goi");
+					e1.printStackTrace();
+				}
+				
 
 			}
 		});
@@ -47,10 +86,29 @@ public class MannageGOI extends MyBoxGUI
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				SysAdminController moshe = new SysAdminController();
+				int i = list2.getSelectedIndex();
+				System.out.println(i + ": is the seleced index");
+				gois=SearchGOIPage.getGOIS();
+				selectedGOI=gois.get(i);
+				
     	        int reply = JOptionPane.showConfirmDialog(frmMyBox, "Are you sure?", "Delete From GOI...", JOptionPane.YES_NO_OPTION);
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
-    	        	//Here you can use a Yes No Window for question before a delete you can erase it if not necessary 
+    	        	try {
+						moshe.removeGOI(selectedGOI);
+						
+						ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
+	    	        	JOptionPane.showMessageDialog(frmMyBox, msg.get(1));
+						/*
+						 * in get(0) you have true or false 
+						 * in get(1) you got the string to show
+						 */
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+    	        	
     	        }
 			}
 		});
@@ -62,8 +120,8 @@ public class MannageGOI extends MyBoxGUI
 		scrollPane.setBounds(39, 104, 407, 169);
 		add(scrollPane);
 		
-		listGoi = new JList(ListModelGoi);
-		scrollPane.setViewportView(listGoi);
+		list2 = new JList(ListModel2);
+		scrollPane.setViewportView(list2);
 		Label lblNameGOI = new Label("Group of interest");
 		lblNameGOI.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 14));
 		scrollPane.setColumnHeaderView(lblNameGOI);
@@ -75,6 +133,7 @@ public class MannageGOI extends MyBoxGUI
     	btnHelp.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
+    			
     			JOptionPane.showMessageDialog(frmMyBox,"Show all you GOI youre in","Help",JOptionPane.INFORMATION_MESSAGE);
     		}
     	});
@@ -91,7 +150,7 @@ public class MannageGOI extends MyBoxGUI
     	        if (reply == JOptionPane.YES_OPTION) 
     	        {
     	        	byeBye();
-    	        	showsearchgoi.setVisible(false);
+    	        	managegoi.setVisible(false);
         			loginpage.setVisible(true);
     	        }
     			
