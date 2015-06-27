@@ -288,16 +288,27 @@ protected void serverStarted()
    * @exception IOException e -
    * **/   
   public static void checkLogin(Login login, Connection conn, ConnectionToClient client) throws IOException{
-	    Statement stmt = null;
+	    PreparedStatement stmt = null;
 	    ArrayList<Object> returnMsg = new ArrayList();
 	    PreparedStatement preparedStatement = null;
 	    
-	    String query = "Update users set loggedIn = ? where userName = ?";
+	    if(isUserValid(login.getUserName()) == false){
+	    	returnMsg.add("Error:Invalid Charcters in inputed user name");
+      		client.sendToClient(returnMsg);
+      		return;
+	      }
+	    
+	    if(isPasswordValid(login.getPassword()) == false){
+	    	 returnMsg.add("Error:Invalid Charcters in inputed password");
+	      	 client.sendToClient(returnMsg);
+	      	 return;
+	      }
+	    
 	    try
 	    {
-	      stmt = conn.createStatement();
-	   
-	      ResultSet rs = stmt.executeQuery("SELECT * From users");
+	      stmt = conn.prepareStatement("SELECT * From users");
+	      String query = "Update users set loggedIn = ? where userName = ?";
+	      ResultSet rs = stmt.executeQuery();
 	      while (rs.next()) { /*search the current users in the system*/
 	        if ((login.getUserName().equals(rs.getString(1)))){ /*User Name appears in the Database*/
 	        	if(login.getPassword().equals(rs.getString(2))){/*Password is correct*/
@@ -501,6 +512,27 @@ public static void signOutUser(String userName, Connection conn, ConnectionToCli
     		client.sendToClient(returnMsg);
  			e.printStackTrace();
    }
+}
+
+private static Boolean isUserValid(String str)
+{
+	for(int i = 0;i<str.length();i++)
+	{
+		if( (str.charAt(i)>='0' && str.charAt(i)<='9' ) || ( str.charAt(i)=='_' ) || 
+				(str.charAt(i)>='A' && str.charAt(i)<='Z') ||( str.charAt(i)>='a' && str.charAt(i)<='z' ))
+			continue;
+		else
+			return false;
+	}
+	return true;
+}
+
+private static Boolean isPasswordValid(String str)
+{
+	for(int i = 0;i<str.length();i++)
+		if( str.charAt(i)==' ' || str.charAt(i)=='\\' ||  str.charAt(i)=='/' )
+			return false;
+	return true;
 }
     
   
