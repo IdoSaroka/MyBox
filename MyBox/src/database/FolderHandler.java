@@ -96,20 +96,24 @@ public class FolderHandler implements Serializable{
 	    * **/ 
 	public static void returnFilesAndFolders(User userName) throws IOException{
 		System.out.println("got to returnFilesAndFolders");
-		File currentDir = new File("C:\\MyBox\\Files\\" + userName.getUserName() + "\\");
+		File currentDir = new File("C:\\MyBox\\Files\\" + userName.getUserName() );
 		
-		System.out.println("The path is: "+ currentDir.getPath());
+		System.out.println("The path is: "+ currentDir.getAbsolutePath());
+		System.out.println("The path is: "+ currentDir.getCanonicalPath());
 		
 		displayDirectoryContents(currentDir);
 		System.out.println("Ended the use of display directory");
 		try {
+			for(int i=0;i<returnMsg.size();i++){
+				System.out.println(returnMsg.get(i));
+			}
 			client.sendToClient(returnMsg);
 			return;
 		} catch (IOException e) {
 			 LogHandling.logging("Error: "+ userName.getUserName() +" Encountered a problem while trying to Retrieve his file");
 			 LogHandling.logging(e.getMessage());
 			 e.printStackTrace(); 
-			 returnMsg.add(false);
+			// returnMsg.add(false);
 			 returnMsg.add("MyBox Encountered an Error!");
 		     returnMsg.add("Please Contact Technical Support");
 		     client.sendToClient(returnMsg);
@@ -119,22 +123,35 @@ public class FolderHandler implements Serializable{
 	
 	private static void displayDirectoryContents(File usersDirectory) throws IOException{
 		System.out.println("got to displayDirectoryContents");
+		int i=0;
 		try {
+			System.out.println("before file");
 			File[] files = usersDirectory.listFiles();
+			
+			System.out.println("after file");
+			
 			for (File file : files) {
+				System.out.println("This is run: " + i++ );
 				if (file.isDirectory()) {
-					returnMsg.add("directory:" + file.getCanonicalPath());
+					//in case it is a directory
+					//System.out.print(b);
+					String temp=file.getCanonicalPath();
+					returnMsg.add(temp);
 					displayDirectoryContents(file);
 				} else {
-					returnMsg.add("     file:" + file.getCanonicalPath());
-				}
+					//in case it is a file
+					String temp=file.getCanonicalPath();
+					returnMsg.add(temp);
+							
+				}				
 			}
+			System.out.println("This is before ending run: " + i );
 			return;
 		} catch (IOException e) {
 			 LogHandling.logging("Error: the user has Encountered a problem while trying to Retrieve his file");
 			 LogHandling.logging(e.getMessage());
 			 e.printStackTrace(); 
-			 returnMsg.add(false);
+			// returnMsg.add(false);
 			 returnMsg.add("MyBox Encountered an Error!");
 		     returnMsg.add("Please Contact Technical Support");
 		     client.sendToClient(returnMsg);

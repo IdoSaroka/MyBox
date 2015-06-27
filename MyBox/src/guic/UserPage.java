@@ -35,6 +35,7 @@ public class UserPage extends MyBoxGUI
 {
 	//gois - added by ido
 	static ArrayList<GOI> gois;
+	static ArrayList<String> filesAndFolders;
 	
 	UserController temp= new UserController();
 	static ArrayList<FileToView> filesToView = new ArrayList<>();
@@ -177,7 +178,7 @@ public class UserPage extends MyBoxGUI
     	});
     	btnUploadAFile.setBounds(315, 140, 123, 42);
     	add(btnUploadAFile);
-    	
+    	/*
     	JButton btnCreateAFolder = new JButton("Create a Folder");
     	btnCreateAFolder.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
     	btnCreateAFolder.addActionListener(new ActionListener() 
@@ -206,10 +207,10 @@ public class UserPage extends MyBoxGUI
 					 * "Folder"
 					 * "DisplayCurrentDirectories"
 					 * User    entity of user
-					 */
+					 
 					ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
 					int size=msg.size();
-					ArrayList<String> filesAndFolders = new ArrayList<>();
+					filesAndFolders.clear();
 					for(int i=0; i<size ; i++)
 						filesAndFolders.add((String)msg.get(i));
 					
@@ -219,7 +220,7 @@ public class UserPage extends MyBoxGUI
 					 * Inside this filesAndFolders list you will be able to view all of the
 					 * string the server sent
 					 * 
-					 */
+					 
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -230,17 +231,17 @@ public class UserPage extends MyBoxGUI
     	});
     	btnFolders.setBounds(534, 140, 123, 42);
     	add(btnFolders);
-    	
+    	*/
     	JLabel lblGoi = new JLabel("GOI");
     	lblGoi.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 36));
     	lblGoi.setBounds(136, 26, 89, 34);
     	add(lblGoi);
-    	
+    	/*
     	JLabel lblFolders = new JLabel("Folders");
     	lblFolders.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 36));
     	lblFolders.setBounds(534, 26, 123, 34);
     	add(lblFolders);
-    	
+    	*/
     	JLabel lblFiles = new JLabel("Files");
     	lblFiles.setFont(new Font("Footlight MT Light", Font.BOLD | Font.ITALIC, 36));
     	lblFiles.setBounds(339, 27, 89, 33);
@@ -337,5 +338,9 @@ public class UserPage extends MyBoxGUI
 	public static ArrayList<GOI> getGOIs() {
 		// TODO Auto-generated method stub
 		return gois;
+	}
+	public static ArrayList<String> getFilesAndFoldersList() {
+		// TODO Auto-generated method stub
+		return filesAndFolders;
 	}
 }

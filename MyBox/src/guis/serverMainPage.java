@@ -34,7 +34,7 @@ public class serverMainPage extends ServerGUI
 	{
 		setLayout(null);
 		
-		JLabel lblWellcomToMybox = new JLabel("Welcom to MyBox Server Application");
+		JLabel lblWellcomToMybox = new JLabel("Welcome to MyBox Server Application");
 		lblWellcomToMybox.setFont(new Font("Forte", Font.PLAIN, 36));
 		lblWellcomToMybox.setBounds(91, 11, 699, 37);
 		add(lblWellcomToMybox);

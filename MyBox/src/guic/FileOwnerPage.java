@@ -27,6 +27,8 @@ public class FileOwnerPage extends MyBoxGUI
 	private JButton btnHelp;
 	private JButton btnsignout;
 
+	static ArrayList<String> filesAndFolders;
+	
 	private FileOwnerController temp= new FileOwnerController();
 	static ArrayList<FileToView> filesToView = new ArrayList<>();
 	static ArrayList<FileOwnerViewer> fileOwnerViewer = new ArrayList<>();
@@ -226,9 +228,15 @@ public class FileOwnerPage extends MyBoxGUI
 					
 					ArrayList<Object> msg = (ArrayList) MyBoxGUI.getClient().getMessage();
 					int size=msg.size();
-					ArrayList<String> filesAndFolders = new ArrayList<>();
+					System.out.println("Size="+size);
 					for(int i=0; i<size ; i++)
+						System.out.println((String)msg.get(i));
+					for(int i=0; i<size ; i++){
+						System.out.println("problen at" + msg.get(i));
 						filesAndFolders.add((String)msg.get(i));
+					}
+					for(int j=0;j<filesAndFolders.size();j++)
+						System.out.println(filesAndFolders.get(j));
 					
 					/*
 					 * For Ido And Ran to continue
@@ -390,5 +398,11 @@ public class FileOwnerPage extends MyBoxGUI
     
     public static ArrayList<GOI> getGOIs(){
 		return gois;
+	}
+
+	public static ArrayList<String> getFilesAndFoldersList() {
+		
+		// TODO Auto-generated method stub
+		return filesAndFolders;
 	}
 }
