@@ -321,8 +321,8 @@ public class GoiAdmin implements Serializable{
 					returnMsg.add(false);
 					returnMsg.add("Error - GOI: "+goiToDelete.getName()+" does not exist in the system");
 				}
-				statement = conn.prepareStatement("SELECT * From UsersInGO WHERE GOI_Name = ?");
-				statement.setString(1, goiToDelete.getName());
+				statement = conn.prepareStatement("SELECT * From UsersInGOI WHERE GOI_id = ?");
+				statement.setInt(1, goiToDelete.getID());
 				rs = statement.executeQuery();
 				while(rs.next()){
 					usersToInform.add(rs.getString(2));
@@ -434,9 +434,9 @@ public class GoiAdmin implements Serializable{
 					 rs.close();
 				}
 				statement = conn.prepareStatement("DELETE FROM UsersInGOI WHERE GOI_id = ? AND user_Name = ?");
-				statement.setString(1,goi.getName());
+				statement.setInt(1,goi.getID());
 				statement.setString(2,userToDelete);
-				statement.executeQuery();
+				statement.executeUpdate();
 				
 				dateFormat = new SimpleDateFormat("HH:mm  dd-MM-yyyy");	 
  				time=dateFormat.format(date);
@@ -444,7 +444,7 @@ public class GoiAdmin implements Serializable{
 				statement.setString(1, time);
 				statement.setString(2, userToDelete);
 				statement.setString(3, "You have been reomved from GOI: "+goi.getName()+" By the system Admin");
-				statement.executeQuery();
+				statement.executeUpdate();
 				
 			}catch(SQLException | IOException e){
 				LogHandling.logging("Error: Admin ecnounterd a problme while trying to Delete the user: "+ userToDelete +" from GOI: " +

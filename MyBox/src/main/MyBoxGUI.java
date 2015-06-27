@@ -148,6 +148,9 @@ public class MyBoxGUI extends JPanel
         pendingrequest = new PendingRequest();
         contentPane.add(pendingrequest);
         
+        managegoi = new MannageGOI();
+        contentPane.add(managegoi);
+        
         JPanel mainPanel = new JPanel(); 
         
         final JButton previousButton = new JButton("PREVIOUS");
