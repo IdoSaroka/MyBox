@@ -330,6 +330,12 @@ public class GoiAdmin implements Serializable{
 				for(String user : usersToInform){
 					deleteAUserFromAGOI(goiToDelete, user);
 				}
+				
+				//delete statement
+				statement = conn.prepareStatement("DELETE FROM GOI WHERE GOI_id = ?");
+				statement.setInt(1,goiToDelete.getID());
+				statement.executeUpdate();
+
 				LogHandling.logging("Admin has deleted the GOI: "+goiToDelete.getName()+" all the relevent users have been notified");
 				returnMsg.add(true);
 				returnMsg.add("You have succesfuliy deleted GOI: "+goiToDelete.getName());
