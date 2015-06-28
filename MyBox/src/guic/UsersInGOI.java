@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,6 +14,9 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
+import controllers.SysAdminController;
+import entities.GOI;
+
 import main.MyBoxGUI;
 
 public class UsersInGOI extends MyBoxGUI
@@ -19,6 +24,8 @@ public class UsersInGOI extends MyBoxGUI
 	private JButton btnBack;
 	private JButton btnHelp;
 	private JButton btnsignout;
+	
+	private ArrayList <String> userInGOI;
 	
 	public UsersInGOI()
 	{
@@ -31,7 +38,17 @@ public class UsersInGOI extends MyBoxGUI
 			public void actionPerformed(ActionEvent e) 
 			{
 
-    	        
+				int i= list4.getSelectedIndex();
+				userInGOI=MannageGOI.getUserInGOI();
+				String selectedUser=userInGOI.get(i);
+				GOI selected=MannageGOI.getSelectedGOI();
+				SysAdminController moshe = new SysAdminController();
+    	        try {
+					moshe.removeUser(selectedUser, selected);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnRemoveYourself.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));

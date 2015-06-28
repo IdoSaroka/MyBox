@@ -496,6 +496,7 @@ public class GoiAdmin implements Serializable{
 					 statement.setInt(1, requestId.getRequestID());
 					 System.out.println("Request ID: "+ requestId.getRequestID());
 					 rs = statement.executeQuery();
+					 
 					 if(!rs.isBeforeFirst()){
 						 System.out.println("Entered the if condition - no request");
 						 LogHandling.logging("Error: Admin ecnounterd a problem while Deciding about request : "+ requestId+" request does not exist");
@@ -510,10 +511,21 @@ public class GoiAdmin implements Serializable{
 					 //rs.getString(2) = userName , rs.getString(3) = GOI_Name
 					 userName = rs.getString(2);
 					 System.out.println(userName);
-					 
-					 
+					
 					 goiName = rs.getString(3);
 					 System.out.println(goiName);	 
+					 
+					 statement = conn.prepareStatement("SELECT * From Users WHERE userName = ?");
+					 statement.setString(1, requestId.getUserName());
+					 rs = statement.executeQuery();
+					 if(!rs.isBeforeFirst()){
+						 returnMsg.add(false);
+						 returnMsg.add("Error: No such User exist in the database!");
+						 client.sendToClient(returnMsg);
+						 rs.close();
+						 return;
+					 }
+					 					 
 					 statement = conn.prepareStatement("SELECT * From GOI WHERE GOI_Name = ?");
 					 statement.setString(1, goiName);
 					 rs = statement.executeQuery();

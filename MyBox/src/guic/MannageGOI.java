@@ -27,7 +27,7 @@ public class MannageGOI extends MyBoxGUI
 
 	static GOI selectedGOI;
 	static ArrayList<GOI> gois;
-	static ArrayList<User> userInGOI;
+	static ArrayList<String> userInGOI;
 	
 	private JButton btnBack;
 	private JButton btnHelp;
@@ -59,17 +59,19 @@ public class MannageGOI extends MyBoxGUI
 					userInGOI = new ArrayList<>();
 	    			if((boolean)msg.get(0)==true){
 	    				for(int j=1;j<size;j++)
-	    					userInGOI.add((User)msg.get(j));
+	    					userInGOI.add((String)msg.get(j));
 	    				
 	    				ListModelRequest.clear();
 	    				for(int j=0;j<userInGOI.size();j++)
-	    					ListModel4.addElement(userInGOI.get(j).getUserName());
+	    					ListModel4.addElement(userInGOI.get(j));
 		    			
 	    				managegoi.setVisible(false);
 	    				usersingoi.setVisible(true);
-	        			
+
 	    			}
-					
+	    			else
+	    				JOptionPane.showMessageDialog(frmMyBox, msg.get(1));
+	    			
 				} catch (IOException e1) {
 					System.out.println("Catch in mannage goi - users in goi");
 					e1.printStackTrace();
@@ -175,6 +177,14 @@ public class MannageGOI extends MyBoxGUI
     	lblBackGround.setBounds(10, 11, 780, 478);
     	add(lblBackGround);
     	
+	}
+	
+	public static ArrayList<String> getUserInGOI(){
+		return userInGOI;
+	}
+	
+	public static GOI getSelectedGOI(){
+		return selectedGOI;
 	}
 	
 }

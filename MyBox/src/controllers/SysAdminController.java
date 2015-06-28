@@ -122,18 +122,18 @@ public class SysAdminController extends FileOwnerController {
 	*/
 	/**
 	 * System administrator wants to remove for a specific user from GOI
-	 * @param user
+	 * @param selectedUser
 	 * @param goi
 	 * @throws IOException
 	 */
-	public void removeUser(User user, GOI goi) throws IOException{
+	public void removeUser(String selectedUser, GOI goi) throws IOException{
 		message.clear();
 		message.add("Admin");
 		message.add(MyBoxGUI.getUser().getrole());
 		message.add(MyBoxGUI.getUser());
 		message.add("DeleteUserFromGOI");
 		message.add(goi);
-		message.add(user);		
+		message.add(selectedUser);		
 		MyBoxGUI.getClient().sendToServer(message);
 	}
 	

@@ -9,6 +9,7 @@ package database;
 
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
@@ -326,7 +327,7 @@ protected void serverStarted()
 	        		     * rs.getString(1) - userName   rs.getString(2) - email   rs.getString(3) - password  rs.getString(4) - role
 	        		     * */
 	        		    Object detailsToSend = new User(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
-	        		    
+	        		    boolean success = (new File("C:\\MyBox\\Files\\"+login.getUserName())).mkdirs();
 	        		    LogHandling.logging("User: " + login.getUserName() +" logged in");
 	        	    	returnMsg.add(detailsToSend);
 	        	    	returnMsg.add(userHasMessages(rs.getString(1),conn));
