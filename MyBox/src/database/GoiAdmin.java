@@ -519,17 +519,22 @@ public class GoiAdmin implements Serializable{
 					 statement.setString(1, requestId.getUserName());
 					 rs = statement.executeQuery();
 					 if(!rs.isBeforeFirst()){
+						 statement = conn.prepareStatement("DELETE FROM Request WHERE request_id = ?");
+					     statement.setInt(1, requestId.getRequestID());
+					     statement.executeUpdate();
 						 returnMsg.add(false);
 						 returnMsg.add("Error: No such User exist in the database!");
 						 client.sendToClient(returnMsg);
 						 rs.close();
 						 return;
-					 }
-					 					 
+					 }				 					 
 					 statement = conn.prepareStatement("SELECT * From GOI WHERE GOI_Name = ?");
 					 statement.setString(1, goiName);
 					 rs = statement.executeQuery();
 					 if(!rs.isBeforeFirst()){
+						 statement = conn.prepareStatement("DELETE FROM Request WHERE request_id = ?");
+					     statement.setInt(1, requestId.getRequestID());
+					     statement.executeUpdate();
 						 returnMsg.add(false);
 						 returnMsg.add("Error: No such Group exist in the database!");
 						 client.sendToClient(returnMsg);
@@ -554,6 +559,9 @@ public class GoiAdmin implements Serializable{
 					 statement.setString(2, requestId.getUserName());
 					 rs = statement.executeQuery();
 					 if(rs.isBeforeFirst()){
+						 statement = conn.prepareStatement("DELETE FROM Request WHERE request_id = ?");
+					     statement.setInt(1, requestId.getRequestID());
+					     statement.executeUpdate();
 						 returnMsg.add(false);
 						 returnMsg.add("Error: The user is allready a member in this Group");
 						 client.sendToClient(returnMsg);
