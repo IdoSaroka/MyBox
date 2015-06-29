@@ -166,7 +166,8 @@ public class MannageGOI extends MyBoxGUI
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) 
     		{
-    			
+    			managegoi.setVisible(false);
+    			searchgoipage.setVisible(true);
     		}
     	});
     	btnBack.setBounds(3, 2, 68, 23);

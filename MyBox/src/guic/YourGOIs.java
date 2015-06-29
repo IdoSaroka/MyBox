@@ -85,7 +85,7 @@ public class YourGOIs extends MyBoxGUI
 				
 			}
 		});
-		btnJoinGoi.setBounds(466, 104, 105, 37);
+		btnJoinGoi.setBounds(456, 104, 123, 37);
 		add(btnJoinGoi);
 		
 		
@@ -116,7 +116,7 @@ public class YourGOIs extends MyBoxGUI
 			}
 		});
 		btnRemoveYourself.setFont(new Font("Footlight MT Light", Font.PLAIN, 14));
-		btnRemoveYourself.setBounds(573, 104, 105, 37);
+		btnRemoveYourself.setBounds(589, 104, 117, 37);
 		add(btnRemoveYourself);
 
 

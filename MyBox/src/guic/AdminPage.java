@@ -46,7 +46,7 @@ public class AdminPage extends MyBoxGUI
     			searchgoipage.setVisible(true);		
     		}
     	});
-    	btnSearchgoi.setBounds(327, 87, 122, 42);
+    	btnSearchgoi.setBounds(314, 87, 137, 42);
     	add(btnSearchgoi);
     	
     	JButton btnYourGoi = new JButton("Create GOI");
@@ -59,7 +59,7 @@ public class AdminPage extends MyBoxGUI
     			creategoipage.setVisible(true);
     		}
     	});
-    	btnYourGoi.setBounds(119, 87, 123, 42);
+    	btnYourGoi.setBounds(119, 87, 137, 42);
     	add(btnYourGoi);
     	
     	JLabel lblGoi = new JLabel("Group Of Interest");
@@ -139,7 +139,7 @@ public class AdminPage extends MyBoxGUI
 		
     		}
     	});
-    	btnPendingRequest.setBounds(531, 87, 122, 42);
+    	btnPendingRequest.setBounds(516, 87, 137, 42);
     	add(btnPendingRequest);
     	
        	btnHelp = new JButton("Help");
